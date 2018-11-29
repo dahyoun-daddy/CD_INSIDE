@@ -3,6 +3,6 @@ package com.sist.cd;
 public class Test {
 	
 	public static void main(String[] args) {
-		System.out.println("연깨비");
+		System.out.println("강강강강강강강강");
 	}
 }
