@@ -3,7 +3,7 @@ package com.sist.cd;
 public class Test2 {
 	
 	public static void main(String[] args) {
-		System.out.println("연시오");
+		System.out.println("1");
 
 		
 		
