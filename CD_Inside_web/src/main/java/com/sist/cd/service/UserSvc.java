@@ -1,5 +1,5 @@
 package com.sist.cd.service;
 
-public class UserSvc {
+public interface UserSvc {
 
 }

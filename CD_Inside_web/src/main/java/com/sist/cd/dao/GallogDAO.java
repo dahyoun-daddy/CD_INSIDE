@@ -1,5 +1,5 @@
 package com.sist.cd.dao;
 
-public class MsgDaoImple {
+public interface GallogDAO {
 
 }

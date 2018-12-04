@@ -1,5 +1,5 @@
 package com.sist.cd.service;
 
-public class GallogSvc {
+public interface GallogSvc {
 
 }

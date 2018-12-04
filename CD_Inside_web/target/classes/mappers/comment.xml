@@ -3,6 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.sist.hr.mappers.user">
+<mapper namespace="com.sist.cd.mappers.comment">
+
+	<insert id="add"  parameterType="CommentVO" >
+		INSERT INTO comm (
+		comm_text_num,
+		b_num,
+		comm_cont,
+		user_id,
+		comm_hit,
+		comm_group_no,
+		comm_depth,
+		reg_dt,
+		mod_id,
+		mod_dt
+		) VALUES (
+		COMM_SEQ.nextval,
+		#{bNum},
+		#{commCont},
+		#{userId},
+		0,
+		GROUP_SEQ.nextval,
+		0,
+		sysdate,
+		#{modId},
+		sysdate
+		)
+	</insert>
 	
 </mapper>

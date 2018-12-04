@@ -1,5 +1,5 @@
 package com.sist.cd.dao;
 
-public class MainDAO {
+public interface MainDAO {
 
 }
