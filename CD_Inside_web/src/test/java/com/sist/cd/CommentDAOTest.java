@@ -1,8 +1,12 @@
 package com.sist.cd;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.sql.SQLException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -24,8 +28,7 @@ import com.sist.cd.domain.CommentVO;
 //@ContextConfiguration(locations= {"file:src/main/webapp/WEB-INF/spring/root-context.xml"
 //                               ,"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"		                    
 //})
-@ContextConfiguration( locations = 
-                        {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+@ContextConfiguration( locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
 public class CommentDAOTest {
 	
 	private final Logger LOG= LoggerFactory.getLogger(this.getClass());
@@ -43,9 +46,9 @@ public class CommentDAOTest {
 	
 	@Before
 	public void setUp() {
-		inVO1 = new CommentVO("101","1","댓글1","1","1","1","jamesol@paran.com","2018-11-15","1","1");
-		inVO2 = new CommentVO("102","1","댓글2","1","1","1","jamesol@paran.com","2018-11-15","1","1");
-		inVO3 = new CommentVO("103","1","댓글3","1","1","1","jamesol@paran.com","2018-11-15","1","1");		
+		inVO1 = new CommentVO("43","1","천재냐?","1","0","1","0","2018-11-15","1","1");
+		inVO2 = new CommentVO("44","1","호일","1","0","1","1","2018-11-15","1","1");
+		inVO3 = new CommentVO("45","1","보승","1","1","1","jamesol@paran.com","2018-11-15","1","1");		
 	
 		searchVO = new SearchVO(10,1,"","");
 		  
@@ -55,9 +58,52 @@ public class CommentDAOTest {
 		LOG.info("userDao:"+commentDAO);
 	}
 	
-	@Test
-	public void add() throws SQLException, ClassNotFoundException {
+	@Test(timeout=2000)
+	public void addAndGet() throws SQLException, ClassNotFoundException {
+
+		//--------------------------------------------
+		//0.모두삭제 : 건건이로 수정
+		//--------------------------------------------
+		commentDAO.delete(inVO1);
+		commentDAO.delete(inVO2);
+		
+		//--------------------------------------------
+		//1. 단건 추가
+		//--------------------------------------------
 		commentDAO.add(inVO1);
+		commentDAO.addreply(inVO2);
+		
+		//--------------------------------------------
+		//2. 단건 조회
+		//--------------------------------------------
+		CommentVO getVO01 = commentDAO.get(inVO1);
+		CommentVO getVO02 = commentDAO.get(inVO2);
+		LOG.info("getVO01:"+getVO01);
+		LOG.info("getVO02:"+getVO02);
+		//--------------------------------------------
+		//3. 추가Data와 비교
+		//--------------------------------------------		
+		checkSameUser(inVO1, getVO01);
+		checkSameUser(inVO2, getVO02);
+	}
+	
+	@Test
+	public void update() throws SQLException, ClassNotFoundException {
+		
+		commentDAO.update(inVO1);
+		commentDAO.update(inVO2);
+		
+	}
+	
+	private void checkSameUser(CommentVO comm01, CommentVO comm02) {
+		assertThat(comm01.getCommTextNum(), is(comm02.getCommTextNum()));
+		assertThat(comm01.getbNum(), is(comm02.getbNum()));
+		assertThat(comm01.getCommCont(), is(comm02.getCommCont()));
+		assertThat(comm01.getUserId(), is(comm02.getUserId()));
+		assertThat(comm01.getCommHit(), is(comm02.getCommHit()));
+		assertThat(comm01.getCommGroupNo(), is(comm02.getCommGroupNo()));
+		assertThat(comm01.getCommDepth(), is(comm02.getCommDepth()));
+		assertThat(comm01.getModId(), is(comm02.getModId()));
 	}
 	
 	

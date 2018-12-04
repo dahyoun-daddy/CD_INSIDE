@@ -31,4 +31,27 @@
 		)
 	</insert>
 	
+		<!-- 삭제 -->
+	<delete id="delete"  parameterType="CommentVO"  >
+		DELETE FROM comm	
+		WHERE comm_text_num = #{commTextNum}	
+	</delete>
+	
+		<!-- 단건 조회 -->
+	<select id="get" 
+	  parameterType="CommentVO" resultType="CommentVO"	  >
+		SELECT COMM_TEXT_NUM,
+		  B_NUM,
+		  COMM_CONT,
+		  USER_ID,
+		  COMM_HIT,
+		  COMM_GROUP_NO,
+		  COMM_DEPTH,
+		  REG_DT,
+		  MOD_ID,
+		  MOD_DT
+		FROM COMM
+		WHERE COMM_TEXT_NUM = #{commTextNum}                  	
+	</select>
+	
 </mapper>
