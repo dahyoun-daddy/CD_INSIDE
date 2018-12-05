@@ -1,10 +1,13 @@
 package com.sist.cd.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import com.sist.cd.common.DTO;
 import com.sist.cd.common.DuplicateUserIdException;
+import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.CommentVO;
 
 public interface CommentDAO {
@@ -48,5 +51,15 @@ public interface CommentDAO {
 	 * @throws DuplicateUserIdException
 	 */
 	int addreply(CommentVO commentVO) throws DuplicateUserIdException;
+	
+	/**
+	 * 댓글 출력
+	 * @param searchVO
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws EmptyResultDataAccessException
+	 */
+	List<CommentVO> do_retrieve(CommentVO commentVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 }

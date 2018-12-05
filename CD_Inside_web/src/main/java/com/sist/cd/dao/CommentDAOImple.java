@@ -1,6 +1,7 @@
 package com.sist.cd.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.sist.cd.common.DuplicateUserIdException;
+import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.CommentVO;
 
 @Repository
@@ -89,6 +91,27 @@ public class CommentDAOImple implements CommentDAO{
 		log.debug("3.flag: "+flag);
 		
 		return flag;
+	}
+	
+	/**
+	 * 
+	 * @param searchVO
+	 * @return 댓글 출력
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws EmptyResultDataAccessException
+	 */
+	public List<CommentVO> do_retrieve(CommentVO commentVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		        
+		String statement = NAME_SPACE+".do_retrieve";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+commentVO);
+		List<CommentVO> list  = this.sqlSession.selectList(statement, commentVO);
+		log.debug("*****************************");
+		log.debug("3.list: "+list);
+		log.debug("*****************************");
+		return list;	
 	}
 	
 	

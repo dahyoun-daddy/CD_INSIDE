@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.sist.cd.common.DTO;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.dao.CommentDAO;
 import com.sist.cd.domain.CommentVO;
@@ -42,15 +44,16 @@ public class CommentDAOTest {
 	CommentVO  inVO1 = null;
 	CommentVO  inVO2 = null;
 	CommentVO  inVO3 = null;
-	SearchVO searchVO = null;
+	DTO dto = null;
 	
 	@Before
 	public void setUp() {
 		inVO1 = new CommentVO("43","1","천재냐?","1","0","1","0","2018-11-15","1","1");
 		inVO2 = new CommentVO("44","1","호일","1","0","1","1","2018-11-15","1","1");
 		inVO3 = new CommentVO("45","1","보승","1","1","1","jamesol@paran.com","2018-11-15","1","1");		
-	
-		searchVO = new SearchVO(10,1,"","");
+		
+		inVO1.setPage_num(1);
+		inVO1.setPage_size(10);
 		  
 		LOG.info("context:"+context);
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -89,10 +92,14 @@ public class CommentDAOTest {
 	
 	@Test
 	public void update() throws SQLException, ClassNotFoundException {
-		
 		commentDAO.update(inVO1);
 		commentDAO.update(inVO2);
-		
+	}
+	
+	@Test
+	public void do_retrieve() throws SQLException, ClassNotFoundException {
+		List<CommentVO> list = commentDAO.do_retrieve(inVO1);
+		LOG.info("do_retrieve_list:"+list);
 	}
 	
 	private void checkSameUser(CommentVO comm01, CommentVO comm02) {

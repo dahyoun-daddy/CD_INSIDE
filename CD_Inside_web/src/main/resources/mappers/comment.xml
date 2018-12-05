@@ -5,6 +5,7 @@
   
 <mapper namespace="com.sist.cd.mappers.comment">
 
+	<!-- commTextNum 과 group_seq 는 시퀀스로 처리 -->
 	<insert id="add"  parameterType="CommentVO" >
 		INSERT INTO comm (
 		comm_text_num,
@@ -18,13 +19,39 @@
 		mod_id,
 		mod_dt
 		) VALUES (
-		COMM_SEQ.nextval,
+		#{commTextNum},
 		#{bNum},
 		#{commCont},
 		#{userId},
 		0,
-		GROUP_SEQ.nextval,
+		#{commGroupNo},
 		0,
+		sysdate,
+		#{modId},
+		sysdate
+		)
+	</insert>
+	
+	<insert id="addreply" parameterType="CommentVO">
+		INSERT INTO comm (
+		comm_text_num,
+		b_num,
+		comm_cont,
+		user_id,
+		comm_hit,
+		comm_group_no,
+		comm_depth,
+		reg_dt,
+		mod_id,
+		mod_dt
+		) VALUES (
+		#{commTextNum},
+		#{bNum},
+		#{commCont},
+		#{userId},
+		0,
+		#{commGroupNo},
+		1,
 		sysdate,
 		#{modId},
 		sysdate
@@ -53,5 +80,44 @@
 		FROM COMM
 		WHERE COMM_TEXT_NUM = #{commTextNum}                  	
 	</select>
+	
+	<update id="update">
+		UPDATE comm
+		SET COMM_CONT = #{commCont},
+		MOD_DT = sysdate
+		WHERE COMM_TEXT_NUM = #{commTextNum}
+	</update>	
+	    <!-- select list -->
+    <select id="do_retrieve" parameterType="CommentVO" resultType="CommentVO"  >
+			SELECT X.*,Y.*		
+			FROM(		
+			SELECT  T.COMM_TEXT_NUM,		
+					T.B_NUM,
+					T.COMM_CONT,
+					T.USER_ID,
+					T.COMM_HIT,
+					T.COMM_GROUP_NO,
+					T.COMM_DEPTH,
+					TO_CHAR(T.reg_dt,'YYYY-MM-DD') REG_DT,
+					T.MOD_ID,
+					T.MOD_DT,
+					T.rnum AS no
+			FROM(		
+			SELECT hr.*		
+			,ROW_NUMBER() OVER(ORDER BY COMM_TEXT_NUM ) AS rnum		
+			FROM COMM hr		
+			WHERE B_NUM = #{bNum}	
+			ORDER BY comm_group_no,REG_DT		
+			) T		
+			WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1)		
+			AND (#{page_size} * (#{page_num}-1)+#{page_size})		
+			)X		
+			NATURAL JOIN		
+			(		
+			SELECT COUNT(*) AS total_cnt		
+			FROM COMM		
+			--WHERE		
+			)Y		
+   	</select>
 	
 </mapper>
