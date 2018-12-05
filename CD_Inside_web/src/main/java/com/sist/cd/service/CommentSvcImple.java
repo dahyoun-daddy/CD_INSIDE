@@ -48,7 +48,7 @@ public class CommentSvcImple implements CommentSvc {
 
 	@Override
 	public List<CommentVO> do_retrieve(CommentVO commentVO)
-			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+			throws ClassNotFoundException, SQLException {
 		return commentDAO.do_retrieve(commentVO);
 	}
 

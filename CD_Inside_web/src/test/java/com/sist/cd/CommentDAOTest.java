@@ -99,7 +99,6 @@ public class CommentDAOTest {
 	}
 	
 	@Test
-	@Ignore
 	public void do_retrieve() throws SQLException, ClassNotFoundException {
 		List<CommentVO> list = commentDAO.do_retrieve(inVO1);
 		LOG.info("do_retrieve_list:"+list);
