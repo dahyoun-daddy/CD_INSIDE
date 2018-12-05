@@ -62,4 +62,26 @@ public interface CommentDAO {
 	 */
 	List<CommentVO> do_retrieve(CommentVO commentVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
+	/**
+	 * 댓글 code 테이블 검색
+	 * @throws SQLException 
+	 */
+	int do_code_getCount(CommentVO commentVO) throws SQLException;
+	
+	/**
+	 * 댓글 code 테이블 댓글번호,아이디 추가
+	 * @param commentVO
+	 * @return
+	 * @throws SQLException
+	 */
+	int do_code_insert(CommentVO commentVO) throws SQLException;
+
+	/**
+	 * 댓글 추천 +1
+	 * @param commentVO
+	 * @return
+	 * @throws SQLException
+	 */
+	int do_hit(CommentVO commentVO) throws SQLException;
+	
 }

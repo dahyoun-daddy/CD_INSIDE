@@ -11,19 +11,20 @@ public class DTO {
 	 * @see java.lang.Object#toString()
 	 */
 	
-	
-	
 	/**
 	 * @return the no
 	 */
 	public int getNo() {
 		return no;
 	}
+	
 	@Override
 	public String toString() {
 		return "DTO [no=" + no + ", totalCnt=" + totalCnt + ", page_size=" + page_size + ", page_num=" + page_num
 				+ ", search_word=" + search_word + ", search_div=" + search_div + "]";
 	}
+
+
 	/**
 	 * @param no the no to set
 	 */

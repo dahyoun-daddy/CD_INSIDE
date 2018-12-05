@@ -16,6 +16,7 @@
  		<typeAlias alias="MainVO"   type="com.sist.cd.domain.MainVO"/>
   		<typeAlias alias="MsgVO"   type="com.sist.cd.domain.MsgVO"/>
   		<typeAlias alias="UserVO"   type="com.sist.cd.domain.UserVO"/>
+  		<typeAlias alias="SearchVO"   type="com.sist.cd.common.SearchVO"/>
  	</typeAliases>	
  </configuration> 
   

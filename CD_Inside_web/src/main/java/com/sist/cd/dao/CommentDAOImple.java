@@ -113,6 +113,40 @@ public class CommentDAOImple implements CommentDAO{
 		log.debug("*****************************");
 		return list;	
 	}
+
+	@Override
+	public int do_code_getCount(CommentVO commentVO) throws SQLException {
+		String statement = NAME_SPACE+".do_code_getCount";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+commentVO);
+		int flag  = this.sqlSession.selectOne(statement, commentVO);
+		log.debug("3.flag: "+flag);
+
+		return flag;
+	}
+
+	@Override
+	public int do_code_insert(CommentVO commentVO) throws SQLException {
+		String statement = NAME_SPACE+".do_code_insert";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+commentVO);
+		int flag  = this.sqlSession.update(statement, commentVO);
+		log.debug("3.flag: "+flag);
+		
+		return flag;
+	}
+
+	@Override
+	public int do_hit(CommentVO commentVO) throws SQLException {
+		String statement = NAME_SPACE+".do_hit";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+commentVO);
+		int flag  = this.sqlSession.update(statement, commentVO);
+		log.debug("3.flag: "+flag);
+		
+		return flag;
+	}
+	
 	
 	
 }
