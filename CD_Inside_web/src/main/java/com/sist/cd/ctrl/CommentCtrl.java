@@ -1,5 +1,6 @@
 package com.sist.cd.ctrl;
 
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +35,12 @@ public class CommentCtrl {
 	
 	@Autowired
 	private CommentDAO commentDao;
+	
+	@RequestMapping(value="comment/commentList.do")
+    public ModelAndView openBoardList() throws Exception{
+    	ModelAndView mv = new ModelAndView("/comment/comment");
+    	return mv;
+    }
 	
 	@RequestMapping(value = "/comment/comm/do_retrieve.do", produces = "application/json;charset=utf8")
 	@ResponseBody

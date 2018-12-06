@@ -1,5 +1,6 @@
 package com.sist.cd.dao;
 
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -144,6 +145,36 @@ public class CommentDAOImple implements CommentDAO{
 		int flag  = this.sqlSession.update(statement, commentVO);
 		log.debug("3.flag: "+flag);
 		
+		return flag;
+	}
+
+	@Override
+	public int COMM_SEQ() throws SQLException {
+		String statement = NAME_SPACE+".COMM_SEQ";
+		log.debug("1.statement: "+statement);		
+		int flag  = this.sqlSession.selectOne(statement);
+		log.debug("3.flag: "+flag);
+
+		return flag;
+	}
+
+	@Override
+	public int COMM_CODE_SEQ() throws SQLException {
+		String statement = NAME_SPACE+".COMM_CODE_SEQ";
+		log.debug("1.statement: "+statement);		
+		int flag  = this.sqlSession.selectOne(statement);
+		log.debug("3.flag: "+flag);
+
+		return flag;
+	}
+
+	@Override
+	public int GROUP_SEQ() throws SQLException {
+		String statement = NAME_SPACE+".GROUP_SEQ";
+		log.debug("1.statement: "+statement);		
+		int flag  = this.sqlSession.selectOne(statement);
+		log.debug("3.flag: "+flag);
+
 		return flag;
 	}
 	

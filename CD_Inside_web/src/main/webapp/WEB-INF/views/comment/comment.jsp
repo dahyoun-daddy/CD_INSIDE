@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>댓글</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
@@ -26,11 +26,6 @@ function ComSubmit(opt_formId) {
 	this.formId = gfn_isNull(opt_formId) == true ? "commonForm" : opt_formId;
 	this.url = "";
 	
-	if(this.formId == "commonForm"){
-		$("#commonForm")[0].reset();
-		$("#commonForm").empty();
-	}
-	
 	this.setUrl = function setUrl(url){
 		this.url = url;
 	};
@@ -39,13 +34,6 @@ function ComSubmit(opt_formId) {
 		$("#"+this.formId).append($("<input type='hidden' name='"+key+"' id='"+key+"' value='"+value+"' >"));
 	};
 	
-	this.submit = function submit(){
-		console.log('전송');
-		var frm = $("#"+this.formId)[0];
-		frm.action = this.url;
-		frm.method = "post";
-		frm.submit();	
-	};
 }
 
 function ComAjax(opt_formId){
@@ -53,10 +41,10 @@ function ComAjax(opt_formId){
 	this.formId = gfn_isNull(opt_formId) == true ? "commonForm" : opt_formId;
 	this.param = "";
 	
-	if(this.formId == "commonForm"){
+/* 	if(this.formId == "commonForm"){
 		$("#commonForm")[0].reset();
 		$("#commonForm").empty();
-	}
+	} */
 	
 	this.setUrl = function setUrl(url){
 		this.url = url;
@@ -72,7 +60,6 @@ function ComAjax(opt_formId){
 		if(value == ''){
 			this.value = "1";
 		}
-		console.log(value);
 	};
 	
 	
@@ -109,12 +96,11 @@ eventName : 페이징 하단의 숫자 등의 버튼이 클릭되었을 때 호�
 */
 var gfv_pageIndex = null;
 var gfv_eventName = null;
-var currentIndex = 1;
 function gfn_renderPaging(params){
 	var divId = params.divId; //페이징이 그려질 div id
 	gfv_pageIndex = params.pageIndex; //현재 위치가 저장될 input 태그
 	var totalCount = params.totalCount; //전체 조회 건수
-	currentIndex = $("#"+params.pageIndex).val(); //현재 위치
+	var currentIndex = $("#"+params.pageIndex).val(); //현재 위치
 	if($("#"+params.pageIndex).length == 0 || gfn_isNull(currentIndex) == true){
 		currentIndex = 1;
 	}
@@ -196,12 +182,11 @@ function _movePage(value){
 		function fn_selectBoardListCallback(data){
 			console.log('fn_selectBoardListCallback!!');
 			var total = data.TOTAL;
-			console.log(total);
 			var body = $("#bocomment");
 			body.empty();
 			if(total == 0){
 				var str = "<tr>" + 
-								"<td colspan='4'>조회된 결과가 없습니다.</td>" + 
+								"<td colspan='4'>댓글이 없습니다. 댓글을 달아주세요.</td>" + 
 							"</tr>";
 				body.append(str);
 			}
@@ -214,11 +199,9 @@ function _movePage(value){
 				};
 				gfn_renderPaging(params);
 				
-				var str = "";
+				  var str = "";
 	            var depth = "";
 	            $.each(data.list, function(key, value){
-	            	console.log(value.no);
-	            	console.log(value.totalCnt);
 	                  str +=  "<tr>" + "<td>1</td>" +
 	                           "<td>" + value.commTextNum + "</td>" + 
 	                           "<td>" + value.bNum + "</td>" +

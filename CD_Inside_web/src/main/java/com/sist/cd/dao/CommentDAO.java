@@ -1,5 +1,6 @@
 package com.sist.cd.dao;
 
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -83,5 +84,29 @@ public interface CommentDAO {
 	 * @throws SQLException
 	 */
 	int do_hit(CommentVO commentVO) throws SQLException;
+
+	/**
+	 * 댓글 시퀀스
+	 * @param commentVO
+	 * @return
+	 * @throws SQLException
+	 */
+	int COMM_SEQ() throws SQLException;
+
+	/**
+	 * 댓글 코드 시퀀스
+	 * @param commentVO
+	 * @return
+	 * @throws SQLException
+	 */
+	int COMM_CODE_SEQ() throws SQLException;
+
+	/**
+	 * 댓글 그룹 시퀀스
+	 * @param commentVO
+	 * @return
+	 * @throws SQLException
+	 */
+	int GROUP_SEQ() throws SQLException;
 	
 }
