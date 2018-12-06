@@ -52,7 +52,6 @@ function ComAjax(opt_formId){
 	this.url = "";		
 	this.formId = gfn_isNull(opt_formId) == true ? "commonForm" : opt_formId;
 	this.param = "";
-	this.value = "1";
 	
 	if(this.formId == "commonForm"){
 		$("#commonForm")[0].reset();
@@ -70,6 +69,9 @@ function ComAjax(opt_formId){
 	this.addParam = function addParam(key,value){ 
 		this.param = this.param + "&" + key + "=" + value; 
 		this.value = value;
+		if(value == ''){
+			this.value = "1";
+		}
 		console.log(value);
 	};
 	
@@ -83,7 +85,7 @@ function ComAjax(opt_formId){
 			type : "POST",   
 			//data : this.param,
             data:{
-	            "pageIndex": value
+	            "pageIndex": this.value
 	        },
 			async : false, 
 			success : function(data, status) {
