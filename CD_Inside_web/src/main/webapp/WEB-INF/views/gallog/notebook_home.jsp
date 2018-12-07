@@ -49,7 +49,7 @@
 <style>
 </style>
 <meta charset="UTF-8">
-<title>notebook</title>
+<title>notebook_home</title>
 </head>
 <body>
 
@@ -91,7 +91,7 @@
 		
 		
 		<!-- 메모장 출력 영역 ------------------------------------------------------------->
-		<form  name="frm" id="frm" action="notebookhome.do" method="get" class="form-inline">
+		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
 		<input type="hidden" name="page_num" id="page_num">
 			<c:choose>
 				<c:when test="${list.size()>0}">
@@ -112,7 +112,7 @@
 						</div>
 						<hr/>
 						<div style="float:right;">
-							<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/notebookwrite.jsp'">수정</button>
+							<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/notebook_write.jsp'">수정</button>
 							<button type="button" class="btn btn-default" id="do_delete">삭제</button>
 						</div>
 						<br><br><br><br><br>
@@ -129,7 +129,7 @@
 		</form>
 				<!-- 페이징 처리 ---------------------------------------------------->
 		<div class="form-inline text-center">
-			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "notebookhome.do", "search_page") %>
+			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "notebook_home.do", "search_page") %>
 		</div>
 		
 	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->

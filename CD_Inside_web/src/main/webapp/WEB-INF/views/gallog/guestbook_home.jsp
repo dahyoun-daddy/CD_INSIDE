@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>guestbook</title>
+<title>guestbook_home</title>
 </head>
 <body>
-guestbook
+guestbook_home
 </body>
 </html>

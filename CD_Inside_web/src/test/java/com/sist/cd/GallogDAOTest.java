@@ -41,8 +41,8 @@ public class GallogDAOTest {
 	@Before
 	public void setUp() {
 		inVO1 = new GallogVO("180","test05","","","22title","cont","0","sysdate","test03","sysdate");	
-		inVO2 = new GallogVO("123","test03","","","!!title!!","!!cont!!","0","2018-12-04","test03","2018-12-04");
-		inVO3 = new SearchVO(10, 1, "test06", "0");
+		inVO2 = new GallogVO("52","test03","","","@@title!!","!!cont!!","0","2018-12-04","test03","2018-12-04");
+		inVO3 = new SearchVO(10, 1, "test05", "0");
 	}
 	
 	

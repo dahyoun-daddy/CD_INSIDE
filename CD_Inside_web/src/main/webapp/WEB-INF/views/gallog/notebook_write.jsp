@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>notebookwrite</title>
+<title>notebook_write</title>
 </head>
 <body>
-notebookwrite
+notebook_write
 </body>
 </html>

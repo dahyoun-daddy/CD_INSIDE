@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>galloghome</title>
+<title>gallog_home</title>
 </head>
 <body>
-galloghome
+gallog_home
 </body>
 </html>
