@@ -28,7 +28,11 @@ public class UserCtrl {
 	@Autowired
 	private UserSvc userSvc;
     
-	
+	@RequestMapping(value="/user/user_join.do")	
+	public String join_view() {
+		log.info("=====join_view======");
+		return "/user/user_join";
+	}
 	
 	/**
 	 * 이름 중복확인
