@@ -11,11 +11,26 @@ import com.sist.cd.domain.UserVO;
 
 public interface UserDAO {
 
+
+	/**
+	 * 일반유저 정보수정 
+	 */
+	int uUpdate (UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
+	
+	/**
+	 * 비밀번호 찾기>비밀번호 변경
+	 */
+	int pwFindUpdate (UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
+	
+	/**
+	 * 비밀번호 찾기
+	 */
+	String pwFind(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
+
 	/**
 	 * 아이디 찾기
 	 */
 	String idFind(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
-	
 	
 	/**
 	 * 이름(닉네임)중복확인

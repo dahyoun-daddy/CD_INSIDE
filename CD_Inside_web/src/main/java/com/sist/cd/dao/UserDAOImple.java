@@ -20,14 +20,12 @@ import com.sist.cd.domain.UserVO;
 public class UserDAOImple implements UserDAO{
 	
 	Logger  log = LoggerFactory.getLogger(UserDAOImple.class);
-
+    
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	private final String NAME_SPACE ="com.sist.cd.mappers.user";
+	private final String NAME_SPACE ="com.sist.hr.mappers.user";
 	
-	
-
 	private RowMapper<UserVO> userMapper = new RowMapper<UserVO>() {
 
 		public UserVO mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -47,9 +45,46 @@ public class UserDAOImple implements UserDAO{
 		}  
 	};
 
+	/**
+	 * 일반 개인정보 수정
+	 */
+	@Override
+	public int uUpdate (UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		String statement = NAME_SPACE+".uUpdate";
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+userVO);
+
+		int flag  = this.sqlSession.update(statement, userVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
+	/**
+	 * 일반 비밀번호 변경
+	 */
+	@Override
+	public int pwFindUpdate (UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException{
+		String statement = NAME_SPACE+".pwFindUpdate";
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+userVO);
+
+		int flag  = this.sqlSession.update(statement, userVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
 	
+	/**
+	 * 아이디 찾기
+	 */
+	@Override
+	public String pwFind(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		String statement = NAME_SPACE+".pwFind";
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+userVO);
 
-
+		String result = this.sqlSession.selectOne(statement, userVO);
+		log.info("3.result: "+result);
+		return result;
+	}
 
 	@Override
 	public String idFind(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
@@ -162,4 +197,5 @@ public class UserDAOImple implements UserDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }
