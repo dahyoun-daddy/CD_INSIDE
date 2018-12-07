@@ -42,5 +42,11 @@ public class GallogSvcImple implements GallogSvc {
 		
 		return gallogDao.do_retrieve(searchVO);
 	}
+	
+	@Override
+	public GallogVO get(GallogVO gallogVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return gallogDao.get(gallogVO);
+	}
+
 
 }

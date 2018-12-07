@@ -74,5 +74,16 @@
 		DELETE FROM gallog
  		 WHERE g_seq = #{gSeq}
 	</delete>
+	
+	    <!-- 단건조회 -->
+    <select id="get" 
+	  parameterType="GallogVO"
+	  resultType="GallogVO"	  >
+	    SELECT g_seq
+	      ,g_title
+	      ,g_cont
+	  	  FROM gallog
+	 	 WHERE g_seq=#{gSeq}
+	 </select>
     
 </mapper>

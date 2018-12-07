@@ -28,13 +28,13 @@ public class GallogCtrl {
 	@Autowired
 	private GallogSvc gallogSvc;
 	
-	private static final String GALLOG_HOME="/gallog/galloghome";
-	private static final String NOTE_BOOK="/gallog/notebook";
-	private static final String GUEST_BOOK="/gallog/guestbook";
-	private static final String NOTE_BOOK_WRITE="/gallog/notebookwrite";
+	private static final String GALLOG_HOME="/gallog/gallog_home";
+	private static final String NOTE_BOOK="/gallog/notebook_home";
+	private static final String GUEST_BOOK="/gallog/guestbook_home";
+	private static final String NOTE_BOOK_WRITE="/gallog/notebook_write";
 	
 	
-	@RequestMapping(value="/gallog/notebookhome.do")	
+	@RequestMapping(value="/gallog/notebook_home.do")	
 	public String do_retrieve(@ModelAttribute SearchVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		log.info("SearchVO: "+invo);
 		

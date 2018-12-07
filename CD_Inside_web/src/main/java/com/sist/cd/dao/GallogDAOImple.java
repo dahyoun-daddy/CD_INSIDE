@@ -23,7 +23,7 @@ public class GallogDAOImple implements GallogDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	private final String NAME_SPACE ="com.sist.hr.mappers.user";
+	private final String NAME_SPACE ="com.sist.cd.mappers.gallog";
 	
 	public GallogDAOImple() {
 		
@@ -72,6 +72,17 @@ public class GallogDAOImple implements GallogDAO {
 		log.info("3.list: "+list);
 		log.info("*****************************");
 		return list;	
+	}
+	
+	@Override
+	public GallogVO get(GallogVO gallogVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		String statement = NAME_SPACE+".get";
+		log.info("========1.statement: "+statement);		
+		log.info("============2.param: "+gallogVO);
+		GallogVO outVO = this.sqlSession.selectOne(statement, gallogVO);
+		log.info("=============3.outVO: "+outVO);
+
+		return outVO;
 	}
 
 }

@@ -47,30 +47,37 @@ public class GallogDAOTest {
 	
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void save() throws SQLException, ClassNotFoundException {
 		
 		gallogDao.save(inVO1);
 	}
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void delete() throws SQLException, ClassNotFoundException {
 		
 		gallogDao.delete(inVO1);
 	}
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void update() throws SQLException, ClassNotFoundException {
 		
 		gallogDao.update(inVO2);
 	}
 	
 	@Test
+//	@Ignore
 	public void do_retrieve() throws SQLException, ClassNotFoundException {
 		
 		gallogDao.do_retrieve(inVO3);
 	}
 	
+	@Test
+//	@Ignore
+	public void get() throws SQLException, ClassNotFoundException {
+		
+		gallogDao.get(inVO1);
+	}
 }

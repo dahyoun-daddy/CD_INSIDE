@@ -11,13 +11,15 @@ import com.sist.cd.domain.GallogVO;
 
 public interface GallogDAO {
 	
-	int save(GallogVO gallogVO) throws DuplicateUserIdException;
+int save(GallogVO gallogVO) throws DuplicateUserIdException;
 	
 	int delete(GallogVO gallogVO) throws SQLException;
 	
 	int update(GallogVO gallogVO) throws SQLException;
 	
 	List<GallogVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	
+	GallogVO get(GallogVO gallogVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 	
 }
