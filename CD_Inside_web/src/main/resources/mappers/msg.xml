@@ -1,8 +1,154 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.sist.cd.mappers.msg">
+    
+    <sql id="msgColumns">
+	     MSG_SEQ AS msgSeq,                                 
+	     USER_ID AS userId,                                 
+	     MSG_RECV_ID AS msgRecvId,                             
+	     MSG_CONT AS msgCont,                              
+         TO_CHAR(REG_DT,'YYYY-MM-DD HH24:MI:SS') AS regDt        
+	     MSG_READ_YN AS msgReadYn,                                
+    </sql>
+    
+    <sql id="baseCondition">
+	    <where> 
+	    	<choose>
+	    		<when test="'10'==search_div">
+	    		    hr.userId like  #{search_word}||'%'
+	    		</when>
+	    		<when test="'20'==search_div">
+	    		    hr.msgRecvId like  #{search_word}||'%'
+	    		</when>
+	    		<when test="'30'==search_div">
+	    		    hr.msgCont like  #{search_word}||'%'
+	    		</when>		    		
+	    		<otherwise></otherwise>
+	    	</choose>
+	    </where>     
+    </sql>
+    
+    <!-- merse:insert/update -->
+    <update id="do_upsert"  parameterType="MsgVO">
+			MERGE INTO MSG T1
+			USING ( SELECT #{msgSeq}         AS MSG_SEQ
+			            ,  #{userId}         AS USER_ID
+			            ,  #{msgRecvId}      AS MSG_RECV_ID
+			            ,  #{msgCont}        AS MSG_CONT
+			            ,  SYSDATE           AS REG_DT            
+			            ,  #{msgReadYn}      AS MSG_READ_YN            
+			         FROM DUAL
+			
+			)T2
+			ON (T1.USER_ID = T2.USER_ID)
+			WHEN MATCHED THEN 
+			     UPDATE SET T1.MSG_SEQ = T2.MSG_SEQ
+			               ,T1.USER_ID = T2.USER_ID
+			               ,T1.MSG_RECV_ID  = T2.MSG_RECV_ID
+			               ,T1.MSG_CONT= T2.MSG_CONT			               
+			               ,T1.REG_DT= T2.REG_DT
+			               ,T1.MSG_READ_YN    = T2.MSG_READ_YN
+			WHEN NOT MATCHED THEN        
+			     INSERT (T1.MSG_SEQ,T1.USER_ID,T1.MSG_RECV_ID,T1.MSG_CONT,T1.REG_DT,T1.MSG_READ_YN) 
+			     VALUES (T2.MSG_SEQ,T2.USER_ID,T2.MSG_RECV_ID,T2.MSG_CONT,T2.REG_DT,T2.MSG_READ_YN)    
+    </update>
+    
+    <!-- select list -->
+    <select id="do_retrieve" 
+      parameterType="SearchVO"
+      resultType="MsgVO"  >
+		SELECT X.*,Y.*
+		  FROM(
+		SELECT T.msg_seq AS msgSeq,                                  
+				T.USER_ID AS userId,                                  
+				T.MSG_RECV_ID AS msgRecvId,                              
+				T.MSG_CONT  AS msgCont,                              
+				TO_CHAR(T.REG_DT,'YYYY-MM-DD HH24:MI:SS') AS regDt,                                  
+				T.MSG_READ_YN AS msgReadYn,                                                    
+				T.rnum AS no    						                         
+		  FROM(                                          
+			SELECT hr.*                                  
+				  ,ROW_NUMBER() OVER(ORDER BY REG_DT desc ) AS rnum       
+			  FROM MSG hr
+             <include refid="baseCondition"/>
+		  )T
+		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
+		    AND (#{page_size} * (#{page_num}-1)+#{page_size})
+		)X    
+		NATURAL JOIN
+		(
+		  SELECT COUNT(*) AS total_cnt   
+		    FROM MSG hr
+		    <include refid="baseCondition"/>
+		)Y      
+    </select>
+    
+    
+    <!-- 전체 조회 -->
+    <select id="getAll" resultType="MsgVO">
+	    SELECT <include refid="msgColumns"/>
+	      FROM MSG
+	     ORDER BY USER_ID    
+    </select>
+    
+    
+	<!-- 단건 조회 -->
+	<select id="get" 
+	  parameterType="com.sist.cd.domain.MsgVO"
+	  resultType="com.sist.cd.domain.MsgVO"	  >
+	 SELECT                                    
+	     <include refid="msgColumns"/>                       
+	 FROM MSG                             
+	 WHERE USER_ID = #{userId}                            	
 	
-</mapper>
+	</select>
+	
+	
+	<!-- 삭제 -->
+	<delete id="delete"  parameterType="MsgVO"  >
+		DELETE FROM MSG 
+		WHERE MSG_SEQ = #{msgSeq}
+	</delete>
+	
+	<!-- 수정 -->
+	<update id="update"  parameterType="MsgVO" >
+		 UPDATE MSG          
+	        SET MSG_READ_YN  = #{msgReadYn}      
+	    WHERE msg_seq    = #{msgSeq}            
+	</update>
+	
+	
+	<!-- 등록 -->
+	<insert id="add"  parameterType="MsgVO" >
+		 INSERT INTO MSG ( 
+		     msg_seq,              
+		     msg_seq,              
+		     msg_recv_id,          
+		     msg_cont,           
+		     reg_dt,             
+		     msg_read_yn        
+         
+		 ) VALUES (             
+		     #{msgSeq},                 
+		     #{userId} ,                 
+		     #{msgRecvId},                 
+		     #{msgCont},                 
+		     SYSDATE,                 
+		     #{msgReadYn}                 
+		 )                      	
+	</insert>
+	
+	
+	<select id="getCount" parameterType="String" 
+	                      resultType="java.lang.Integer">
+		SELECT COUNT(*) CNT 
+		  FROM MSG     
+		 WHERE USER_ID LIKE #{userId} ||'%'  
+	</select>
+	
+	
+	
+	
+</mapper>  
