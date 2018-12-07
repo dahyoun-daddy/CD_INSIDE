@@ -2,10 +2,23 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="com.sist.cd.mappers.comment">
 
-	<insert id="add"  parameterType="CommentVO" >
+	<select id="COMM_SEQ" resultType="int">
+		SELECT COMM_SEQ.NEXTVAL as cnt FROM DUAL
+	</select>
+
+	<select id="COMM_CODE_SEQ" resultType="int">
+		SELECT COMM_SEQ.NEXTVAL as cnt FROM DUAL
+	</select>
+
+	<select id="GROUP_SEQ" resultType="int">
+		SELECT COMM_SEQ.NEXTVAL as cnt FROM DUAL
+	</select>
+
+	<!-- commTextNum 과 group_seq 는 시퀀스로 처리 -->
+	<insert id="add" parameterType="CommentVO">
 		INSERT INTO comm (
 		comm_text_num,
 		b_num,
@@ -18,40 +31,135 @@
 		mod_id,
 		mod_dt
 		) VALUES (
-		COMM_SEQ.nextval,
+		#{commTextNum},
 		#{bNum},
 		#{commCont},
 		#{userId},
 		0,
-		GROUP_SEQ.nextval,
+		#{commGroupNo},
 		0,
 		sysdate,
 		#{modId},
 		sysdate
 		)
 	</insert>
-	
-		<!-- 삭제 -->
-	<delete id="delete"  parameterType="CommentVO"  >
-		DELETE FROM comm	
-		WHERE comm_text_num = #{commTextNum}	
+
+	<insert id="addreply" parameterType="CommentVO">
+		INSERT INTO comm (
+		comm_text_num,
+		b_num,
+		comm_cont,
+		user_id,
+		comm_hit,
+		comm_group_no,
+		comm_depth,
+		reg_dt,
+		mod_id,
+		mod_dt
+		) VALUES (
+		#{commTextNum},
+		#{bNum},
+		#{commCont},
+		#{userId},
+		0,
+		#{commGroupNo},
+		1,
+		sysdate,
+		#{modId},
+		sysdate
+		)
+	</insert>
+
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="CommentVO">
+		DELETE FROM comm
+		WHERE comm_text_num = #{commTextNum}
 	</delete>
-	
-		<!-- 단건 조회 -->
-	<select id="get" 
-	  parameterType="CommentVO" resultType="CommentVO"	  >
+
+	<!-- 단건 조회 -->
+	<select id="get" parameterType="CommentVO"
+		resultType="CommentVO">
 		SELECT COMM_TEXT_NUM,
-		  B_NUM,
-		  COMM_CONT,
-		  USER_ID,
-		  COMM_HIT,
-		  COMM_GROUP_NO,
-		  COMM_DEPTH,
-		  REG_DT,
-		  MOD_ID,
-		  MOD_DT
+		B_NUM,
+		COMM_CONT,
+		USER_ID,
+		COMM_HIT,
+		COMM_GROUP_NO,
+		COMM_DEPTH,
+		REG_DT,
+		MOD_ID,
+		MOD_DT
 		FROM COMM
-		WHERE COMM_TEXT_NUM = #{commTextNum}                  	
+		WHERE COMM_TEXT_NUM = #{commTextNum}
 	</select>
+
+	<update id="update">
+		UPDATE comm
+		SET COMM_CONT = #{commCont},
+		MOD_DT =
+		sysdate
+		WHERE COMM_TEXT_NUM = #{commTextNum}
+	</update>
+	<!-- select list -->
+	<select id="do_retrieve" parameterType="CommentVO"
+		resultType="CommentVO">
+		SELECT X.*,Y.*
+		FROM(
+		SELECT T.COMM_TEXT_NUM,
+		T.B_NUM,
+		T.COMM_CONT,
+		T.USER_ID,
+		T.COMM_HIT,
+		T.COMM_GROUP_NO,
+		T.COMM_DEPTH,
+		TO_CHAR(T.reg_dt,'YYYY-MM-DD') REG_DT,
+		T.MOD_ID,
+		T.MOD_DT,
+		T.rnum AS no
+		FROM(
+		SELECT hr.*
+		,ROW_NUMBER() OVER(ORDER BY COMM_TEXT_NUM ) AS rnum
+		FROM COMM hr
+		WHERE B_NUM = #{bNum}
+		ORDER BY comm_group_no,REG_DT
+		) T
+		WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1)
+		AND (#{page_size} * (#{page_num}-1)+#{page_size})
+		)X
+		NATURAL JOIN
+		(
+		SELECT COUNT(*) AS total_cnt
+		FROM COMM
+		--WHERE
+		)Y
+	</select>
+
+	<select id="do_code_getCount" parameterType="CommentVO"
+		resultType="int">
+		SELECT count(*) as cnt
+		FROM comm_code
+		WHERE comm_text_num =
+		#{commTextNum}
+		AND user_id = #{userId}
+	</select>
+
+<!-- comm_code_seq.nextval -->
+	<insert id="do_code_insert" parameterType="CommentVO">
+		INSERT INTO comm_code (
+		comm_code_seq,
+		comm_text_num,
+		user_id
+		) VALUES (
+		#{no},
+		#{commTextNum},
+		#{userId}
+		)
+	</insert>
 	
+	<update id="do_hit" parameterType="CommentVO">
+		UPDATE COMM	
+		SET COMM_HIT = COMM_HIT + 1
+		WHERE COMM_TEXT_NUM = #{commTextNum}
+	</update>
+
 </mapper>

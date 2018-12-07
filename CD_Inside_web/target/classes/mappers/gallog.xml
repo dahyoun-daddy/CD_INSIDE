@@ -5,4 +5,74 @@
   
 <mapper namespace="com.sist.cd.mappers.gallog">
 	
+    
+    <!-- select list -->
+    <select id="do_retrieve" 
+      parameterType="SearchVO"
+      resultType="GallogVO"  >
+			SELECT G.g_seq
+					,G.g_title
+	      		   ,G.g_cont
+	     		   ,CASE WHEN to_char(G.reg_dt,'YYYY/MM/DD')=to_char(sysdate,'YYYY/MM/DD')
+	                   THEN to_char(G.reg_dt,'HH24:MI')                                 
+	       		ELSE to_char(G.reg_dt,'YYYY/MM/DD HH24:MI') end  reg_dt
+	      		   ,G.totalCnt
+	      		   ,G.rnum AS no
+			FROM(
+		   		SELECT gal.*
+		          ,ROW_NUMBER() OVER(ORDER BY reg_dt) as rnum
+		          ,COUNT(*) OVER () AS totalCnt
+		    	  FROM gallog gal
+		   		 WHERE user_id = #{search_word}
+		     	   AND g_cate = #{search_div}
+		    	)G
+			WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1 )
+	               AND (#{page_size} * (#{page_num}-1)+#{page_size})
+    </select>
+    
+    
+    <!-- 등록 -->
+	<insert id="save"  parameterType="GallogVO" >
+		 INSERT INTO gallog (
+		    g_seq,
+		    user_id,
+		    g_id,
+		    g_pw,
+		    g_title,
+		    g_cont,
+		    g_cate,
+		    reg_dt,
+		    mod_id,
+		    mod_dt
+		) VALUES (
+		    #{gSeq},
+		    #{userId},
+		    #{gId},
+		    #{gPw},
+		    #{gTitle},
+		    #{gCont},
+		    #{gCate},
+		    sysdate,
+		    #{modId},
+		    sysdate
+		)               	
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="update"  parameterType="GallogVO" >
+		UPDATE gallog
+		   SET g_title = #{gTitle}
+		      ,g_cont = #{gCont}
+		      ,mod_id = #{modId}
+		      ,mod_dt = sysdate
+		 WHERE g_seq = #{gSeq}          
+	</update>
+	
+	
+	<!-- 삭제 -->
+	<delete id="delete"  parameterType="GallogVO"  >
+		DELETE FROM gallog
+ 		 WHERE g_seq = #{gSeq}
+	</delete>
+    
 </mapper>
