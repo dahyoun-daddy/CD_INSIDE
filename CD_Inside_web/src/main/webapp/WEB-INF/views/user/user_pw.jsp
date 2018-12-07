@@ -13,19 +13,19 @@
     <!-- 부트스트랩 -->
     <link href="<%=context%>/resources/css/bootstrap.min.css" rel="stylesheet">
     
-<title>:::아이디 찾기:::</title>
+<title>:::비밀번호 찾기:::</title>
 </head>
 <body>
 	   <div class="container">
 	     <div class="page-header">
-	       <h1>Class D Inside 아이디 찾기</h1>
+	       <h1>Class D Inside 비밀번호 찾기</h1>
 	     </div>
 	 <tbody>
 		 <form method="post" action="" align="center">
 	        <div class="col-sm-2" ><br/></div>
-	       <label class="col-sm-2 control-label">이름(닉네임) </label>
+	       <label class="col-sm-2 control-label">아이디 </label>
 	       <div class="col-sm-8">
-				<input class ="form-control col-sm-8" style="WIDTH: 200pt" type="text" id ="userName" name = "userName" maxlength="20" placeholder="이름(닉네임)을 입력하세요.">
+				<input class ="form-control col-sm-8" style="WIDTH: 200pt" type="text" name="user_id"  id="user_id"  placeholder="아이디를 입력하세요"/>
 	       </div>
 	       <div class="col-sm-2" ><br/></div>
 	       <label class="col-sm-2 control-label"><br/>질의응답 </label>

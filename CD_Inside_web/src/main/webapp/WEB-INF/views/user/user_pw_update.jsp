@@ -13,34 +13,24 @@
     <!-- 부트스트랩 -->
     <link href="<%=context%>/resources/css/bootstrap.min.css" rel="stylesheet">
     
-<title>:::아이디 찾기:::</title>
+<title>:::비밀번호 변경:::</title>
 </head>
 <body>
 	   <div class="container">
 	     <div class="page-header">
-	       <h1>Class D Inside 아이디 찾기</h1>
+	       <h1>Class D Inside 비밀번호 변경</h1>
 	     </div>
 	 <tbody>
 		 <form method="post" action="" align="center">
-	        <div class="col-sm-2" ><br/></div>
-	       <label class="col-sm-2 control-label">이름(닉네임) </label>
-	       <div class="col-sm-8">
-				<input class ="form-control col-sm-8" style="WIDTH: 200pt" type="text" id ="userName" name = "userName" maxlength="20" placeholder="이름(닉네임)을 입력하세요.">
-	       </div>
 	       <div class="col-sm-2" ><br/></div>
-	       <label class="col-sm-2 control-label"><br/>질의응답 </label>
-	       <div class="col-sm-8"><br/>
-				<select name="userQues" id="userQues" class="form-control input-sm" style="WIDTH: 200pt">
-					<option value="1">내가 가장 좋아하는 사람은?</option>
-					<option value="2">내가 가장 좋아하는 음식은?</option>
-					<option value="3">살면서 가장 하기 싫은 일은?</option>
-					<option value="4">기억에 남는 장소는?</option>
-				</select>
+	       <label class="col-sm-3 control-label"><br/>비밀번호 </label>
+	       <div class="col-sm-7"><br/>
+				<input class ="form-control" type="password" id ="userPw1" name = "userPw1" style="WIDTH: 200pt" maxlength="20" placeholder="비밀번호를 입력하세요.">
 	        </div>
 	        <div class="col-sm-2" ><br/></div>
-		    <label class="col-sm-2 control-label"><br/>답변 </label>
-	        <div class="col-sm-8"><br/>
-				<input class ="form-control" type="text" id ="userAns" name = "userAns" style="WIDTH: 200pt" maxlength="20" placeholder="질문의 답변을 입력하세요.">
+		    <label class="col-sm-3 control-label"><br/>비밀번호 재확인 </label>
+	        <div class="col-sm-7" ><br/>
+				<input class ="form-control" type="password" id ="userPw2" name = "userPw2" style="WIDTH: 200pt" maxlength="20" placeholder="비밀번호를 한번 더 입력하세요.">
 	        </div>
 	        <div class="col-sm-2" ></div>
 	        <div class="col-sm-8" ><hr/></div>
@@ -48,7 +38,6 @@
 	        
 	        <div class="col-sm-3" ></div>
 	        <div class="col-sm-6" align="center"><br/>
-		    	<input class="btn btn-primary" type="button" value="취소" onclick="history.go(-1)">
 		    	<input class="btn btn-primary " type="submit" value="확인">
 			</div>
 	        <div class="col-sm-3" ></div>
