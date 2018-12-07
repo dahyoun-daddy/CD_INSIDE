@@ -10,7 +10,8 @@
     <select id="do_retrieve" 
       parameterType="SearchVO"
       resultType="GallogVO"  >
-			SELECT G.g_title
+			SELECT G.g_seq
+					,G.g_title
 	      		   ,G.g_cont
 	     		   ,CASE WHEN to_char(G.reg_dt,'YYYY/MM/DD')=to_char(sysdate,'YYYY/MM/DD')
 	                   THEN to_char(G.reg_dt,'HH24:MI')                                 
@@ -22,11 +23,11 @@
 		          ,ROW_NUMBER() OVER(ORDER BY reg_dt) as rnum
 		          ,COUNT(*) OVER () AS totalCnt
 		    	  FROM gallog gal
-		   		 WHERE user_id = #{searchWord}
-		     	   AND g_cate = #{searchDiv}
+		   		 WHERE user_id = #{search_word}
+		     	   AND g_cate = #{search_div}
 		    	)G
-			WHERE rnum BETWEEN (#{pageSize} * (#{pageNum}-1)+1 )
-	               AND (#{pageSize} * (#{pageNum}-1)+#{pageSize})
+			WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1 )
+	               AND (#{page_size} * (#{page_num}-1)+#{page_size})
     </select>
     
     
@@ -74,7 +75,4 @@
  		 WHERE g_seq = #{gSeq}
 	</delete>
     
-
-	
-	
 </mapper>

@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>galloghome</title>
 </head>
 <body>
-
+galloghome
 </body>
 </html>
