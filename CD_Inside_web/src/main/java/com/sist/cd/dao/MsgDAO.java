@@ -11,6 +11,19 @@ import com.sist.cd.domain.MsgVO;
 
 
 public interface MsgDAO { 
+	/**
+	 * 1.전송(submit)
+	 * 2.1건삭제(delete)
+	 * 3.보낸쪽지전체삭제(deleteSAll)
+	 * 4.받은쪽지전체삭제(deleteRAll)
+	 * 5.안읽은쪽지삭제(deleteN)
+	 * 6.안읽음->읽음여부 수정(updateReadCheck)
+	 * 7.1건가져오기(get)
+	 * 8.쪽지전체갯수(getAllCount)
+	 * 9.안읽은쪽지갯수(getNCount)
+	 * 10.쪽지전체목록,읽지않음 + 최신순정렬(getAll) 
+	 * 11.검색(retrieve) 
+	*/
 
 	/**
 	 * 단건 등록
