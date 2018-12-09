@@ -22,7 +22,12 @@ public class CommentSvcImple implements CommentSvc {
 	private CommentDAO commentDAO;
 	
 	@Override
-	public int add(CommentVO commentVO) throws DuplicateUserIdException {
+	public int add(CommentVO commentVO) throws DuplicateUserIdException, SQLException {
+		String comm_seq = ""+commentDAO.COMM_SEQ();
+		String group_seq = ""+commentDAO.GROUP_SEQ();
+		log.info("comm_seq:"+comm_seq);
+		commentVO.setCommTextNum(comm_seq);
+		commentVO.setCommGroupNo(group_seq);
 		return commentDAO.add(commentVO);
 	}
 

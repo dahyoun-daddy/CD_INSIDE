@@ -5,8 +5,8 @@
  <configuration>
 
  	<settings>
-
  		<setting name="mapUnderscoreToCamelCase" value="true"/>
+ 		<setting name="jdbcTypeForNull" value="NULL"/>
  	</settings>
   	<typeAliases>
  		<typeAlias alias="BoardVO"   type="com.sist.cd.domain.BoardVO"/>

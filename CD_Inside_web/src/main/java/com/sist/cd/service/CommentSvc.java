@@ -25,7 +25,7 @@ public interface CommentSvc {
 	 * @return
 	 * @throws DuplicateUserIdException
 	 */
-	int add(CommentVO commentVO) throws DuplicateUserIdException;
+	int add(CommentVO commentVO) throws DuplicateUserIdException,SQLException;
 
 	/**
 	 * 댓글 삭제

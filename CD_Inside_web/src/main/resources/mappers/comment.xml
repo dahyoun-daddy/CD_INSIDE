@@ -10,11 +10,11 @@
 	</select>
 
 	<select id="COMM_CODE_SEQ" resultType="int">
-		SELECT COMM_SEQ.NEXTVAL as cnt FROM DUAL
+		SELECT COMM_CODE_SEQ.NEXTVAL as cnt FROM DUAL
 	</select>
 
 	<select id="GROUP_SEQ" resultType="int">
-		SELECT COMM_SEQ.NEXTVAL as cnt FROM DUAL
+		SELECT GROUP_SEQ.NEXTVAL as cnt FROM DUAL
 	</select>
 
 	<!-- commTextNum 과 group_seq 는 시퀀스로 처리 -->
