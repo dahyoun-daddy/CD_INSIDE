@@ -37,19 +37,42 @@ public class MsgSvcImple implements MsgSvc {
 	 * 10.쪽지전체목록,읽지않음 + 최신순정렬(getAll) 
 	 * 11.검색(retrieve) 
 	*/
-	
-	
-	/* (non-Javadoc)
-	 * @see com.sist.hr.user.service.UserSvc#delete(com.sist.hr.user.domain.UserVO)
-	 */
+	@Override
+	public int add(MsgVO msgVO) throws DuplicateUserIdException{
+		return msgDao.add(msgVO);
+	}	
+
 	@Override
 	public int delete(MsgVO msgVO) throws SQLException{
 		return msgDao.delete(msgVO);
+	}	
+
+//	@Override
+//	public void deleteSAll() throws SQLException{
+//		return msgDao.deleteSAll();
+//	}
+//	
+//	@Override
+//	public void deleteRAll() throws SQLException{
+//		return msgDao.deleteRAll();
+//	}
+//	
+//	@Override
+//	public void deleteN() throws SQLException{
+//		return msgDao.deleteN();
+//	}
+	
+	@Override
+	public int getAllCount(String userId) throws SQLException{
+		return msgDao.getAllCount(userId);
+	}
+
+	@Override
+	public int getNCount(String msgReadYn) throws SQLException{
+		return msgDao.getAllCount(msgReadYn);
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.sist.hr.user.service.UserSvc#update(com.sist.hr.user.domain.UserVO)
-	 */
+
 	@Override
 	public int update(MsgVO msgVO) throws SQLException{
 		return msgDao.update(msgVO);
@@ -58,21 +81,11 @@ public class MsgSvcImple implements MsgSvc {
 	/* (non-Javadoc)
 	 * @see com.sist.hr.user.service.UserSvc#getCount(java.lang.String)
 	 */
-	@Override
-	public int getCount(String userId) throws SQLException{
-		return msgDao.getCount(userId);
-	}
-
-
 
 	/* (non-Javadoc)
 	 * @see com.sist.hr.user.service.UserSvc#add(com.sist.hr.user.domain.UserVO)
 	 */
-	@Override
-	public int add(MsgVO msgVO) throws DuplicateUserIdException{
-		//TODO: return 
-		return msgDao.add(msgVO);
-	}
+
 
 	
 	/* (non-Javadoc)
@@ -103,6 +116,24 @@ public class MsgSvcImple implements MsgSvc {
 	public int do_deleteMulti(List<MsgVO> list) throws RuntimeException, SQLException {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void deleteSAll() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteRAll() throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteN() throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

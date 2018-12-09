@@ -52,24 +52,6 @@ public class MsgDAOImple implements MsgDAO{
 	 * 10.쪽지전체목록,읽지않음 + 최신순정렬(getAll) 
 	 * 11.검색(retrieve) 
 	*/
-	
-
-	/* (non-Javadoc)
-	 * @see com.sist.hr.UserDaoI#getCount(java.lang.String)
-	 */
-	public int getCount(String userId) throws SQLException {
-		int cnt = 0;
-		String statement = NAME_SPACE+".getCount";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+userId);
-		int flag  = this.sqlSession.selectOne(statement, userId);
-		log.debug("3.flag: "+flag);
-
-		return flag;
-		
-	}
-
-	
 
 	public int add(MsgVO msgVO) throws DuplicateUserIdException {
 		String statement = NAME_SPACE+".add";
@@ -80,6 +62,76 @@ public class MsgDAOImple implements MsgDAO{
 		
 		return flag;
 	}
+	
+	/**
+	 * 단건 삭제!
+	 * mybatis:ok
+	 */
+	public int delete(MsgVO msgVO) throws SQLException {
+		String statement = NAME_SPACE+".delete";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+msgVO);
+		int flag  = this.sqlSession.delete(statement, msgVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}	
+	
+	public void deleteSAll() throws SQLException {
+		String statement = NAME_SPACE+".deleteSAll";
+		log.debug("1.statement: "+statement);		
+	}	
+	
+	public void deleteRAll() throws SQLException {
+		String statement = NAME_SPACE+".deleteRAll";
+		log.debug("1.statement: "+statement);		
+	}		
+
+	public void deleteN() throws SQLException {
+		String statement = NAME_SPACE+".deleteN";
+		log.debug("1.statement: "+statement);		
+	}	
+
+	public MsgVO get(MsgVO msgVO) throws ClassNotFoundException, SQLException,EmptyResultDataAccessException {
+		
+		String statement = NAME_SPACE+".get";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+msgVO);
+		MsgVO outVO = this.sqlSession.selectOne(statement, msgVO);
+		log.debug("3.outVO: "+outVO);
+
+		return outVO;
+		
+	}	
+	
+	/* (non-Javadoc)
+	 * @see com.sist.hr.UserDaoI#getCount(java.lang.String)
+	 */
+	public int getAllCount(String userId) throws SQLException {
+		int cnt = 0;
+		String statement = NAME_SPACE+".getAllCount";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+userId);
+		int flag  = this.sqlSession.selectOne(statement, userId);
+		log.debug("3.flag: "+flag);
+
+		return flag;
+		
+	}
+
+	public int getNCount(String msgReadYn) throws SQLException {
+		int cnt = 0;
+		String statement = NAME_SPACE+".getNCount";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+msgReadYn);
+		int flag  = this.sqlSession.selectOne(statement, msgReadYn);
+		log.debug("3.flag: "+flag);
+
+		return flag;
+				
+	}
+
+	
+	
 	
 	/* (non-Javadoc)
 	 * @see com.sist.hr.UserDaoI#getAll()
@@ -101,17 +153,7 @@ public class MsgDAOImple implements MsgDAO{
     /**
      * mybatis:ok
      */
-	public MsgVO get(MsgVO msgVO) throws ClassNotFoundException, SQLException,EmptyResultDataAccessException {
-		
-		String statement = NAME_SPACE+".get";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+msgVO);
-		MsgVO outVO = this.sqlSession.selectOne(statement, msgVO);
-		log.debug("3.outVO: "+outVO);
 
-		return outVO;
-		
-	}
 
 	/**
 	 * mybatis:ok
@@ -126,18 +168,7 @@ public class MsgDAOImple implements MsgDAO{
 		return flag;
 	}
 
-	/**
-	 * 단건 삭제!
-	 * mybatis:ok
-	 */
-	public int delete(MsgVO msgVO) throws SQLException {
-		String statement = NAME_SPACE+".delete";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+msgVO);
-		int flag  = this.sqlSession.delete(statement, msgVO);
-		log.debug("3.flag: "+flag);
-		return flag;
-	}
+
 
 
 	public List<MsgVO> do_retrieve(SearchVO searchVO)
@@ -163,7 +194,8 @@ public class MsgDAOImple implements MsgDAO{
 		
 		return flag;
 	}
-	
+
+
 
 }
 

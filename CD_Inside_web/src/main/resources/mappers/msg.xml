@@ -3,7 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.sist.cd.mappers.msg">
-    
+	<select id="MSG_SEQ" resultType="int">
+	SELECT MSG_SEQ.NEXTVAL AS msgSeq FROM DUAL
+	</select>
+   
     <sql id="msgColumns">
 	     MSG_SEQ AS msgSeq,                                 
 	     USER_ID AS userId,                                 
@@ -29,7 +32,69 @@
 	    	</choose>
 	    </where>     
     </sql>
-    
+ 
+	<!-- 등록 -->
+	<insert id="add"  parameterType="MsgVO" >
+		 INSERT INTO MSG ( 
+		     msg_seq,              
+		     user_id,              
+		     msg_recv_id,          
+		     msg_cont,           
+		     reg_dt,             
+		     msg_read_yn                 
+		 ) VALUES (             
+		     #{msgSeq},                 
+		     #{userId} ,                 
+		     #{msgRecvId},                 
+		     #{msgCont},                 
+		     SYSDATE,                 
+		     #{msgReadYn}                 
+		 )                      	
+	</insert> 
+	
+	<!-- 삭제 -->
+	<delete id="delete"  parameterType="MsgVO"  >
+		DELETE FROM MSG 
+		WHERE msg_seq = #{msgSeq}
+	</delete> 
+
+	<!-- 보낸쪽지 전부 삭제 -->
+	<delete id="deleteSAll"  parameterType="MsgVO"  >
+		DELETE FROM MSG 
+		WHERE USER_ID = #{userId}
+	</delete> 
+
+	<!-- 받은쪽지 전부 삭제 -->
+	<delete id="deleteRAll"  parameterType="MsgVO"  >
+		DELETE FROM MSG 
+		WHERE MSG_RECV_ID = #{msgRecvId}
+	</delete> 	
+
+	<!-- 안읽은쪽지 전부 삭제 -->
+	<delete id="deleteN"  parameterType="MsgVO"  >
+		DELETE FROM MSG 
+		WHERE MSG_READ_YN = #{msgReadYn}
+	</delete> 	
+
+	<!-- 받은쪽지 갯수 -->
+	<select id="getAllCount" parameterType="String" 
+	                      resultType="java.lang.Integer">
+		SELECT COUNT(*) CNT 
+		  FROM MSG     
+		 WHERE msg_recv_id =  #{msgRecvId}
+	</select>
+
+	<!-- 안읽은쪽지 갯수 -->
+	<select id="getNCount" parameterType="String" 
+	                      resultType="java.lang.Integer">
+		SELECT COUNT(*) CNT 
+		  FROM MSG     
+		 WHERE msg_recv_id =  #{msgRecvId}
+ 		   AND msg_read_yn =  #{msgReadYn}
+		 
+	</select>	
+	
+		    
     <!-- merse:insert/update -->
     <update id="do_upsert"  parameterType="MsgVO">
 			MERGE INTO MSG T1
@@ -106,11 +171,7 @@
 	</select>
 	
 	
-	<!-- 삭제 -->
-	<delete id="delete"  parameterType="MsgVO"  >
-		DELETE FROM MSG 
-		WHERE MSG_SEQ = #{msgSeq}
-	</delete>
+
 	
 	<!-- 수정 -->
 	<update id="update"  parameterType="MsgVO" >
@@ -120,33 +181,10 @@
 	</update>
 	
 	
-	<!-- 등록 -->
-	<insert id="add"  parameterType="MsgVO" >
-		 INSERT INTO MSG ( 
-		     msg_seq,              
-		     msg_seq,              
-		     msg_recv_id,          
-		     msg_cont,           
-		     reg_dt,             
-		     msg_read_yn        
-         
-		 ) VALUES (             
-		     #{msgSeq},                 
-		     #{userId} ,                 
-		     #{msgRecvId},                 
-		     #{msgCont},                 
-		     SYSDATE,                 
-		     #{msgReadYn}                 
-		 )                      	
-	</insert>
+
 	
 	
-	<select id="getCount" parameterType="String" 
-	                      resultType="java.lang.Integer">
-		SELECT COUNT(*) CNT 
-		  FROM MSG     
-		 WHERE USER_ID LIKE #{userId} ||'%'  
-	</select>
+
 	
 	
 	

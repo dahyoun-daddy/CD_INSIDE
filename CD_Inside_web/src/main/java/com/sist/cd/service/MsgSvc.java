@@ -25,6 +25,15 @@ public interface MsgSvc {
 	 * 10.쪽지전체목록,읽지않음 + 최신순정렬(getAll) 
 	 * 11.검색(retrieve) 
 	*/
+
+	
+	int add(MsgVO msgVO) throws DuplicateUserIdException;
+	int delete(MsgVO msgVO) throws SQLException;
+	void deleteSAll() throws SQLException;
+	void deleteRAll() throws SQLException;
+	void deleteN() throws SQLException;
+	int getAllCount(String userId) throws SQLException;
+	int getNCount(String msgReadYn) throws SQLException;
 	
 
 	/**
@@ -35,7 +44,6 @@ public interface MsgSvc {
 	/**
 	 * 단건삭제
 	 */
-	int delete(MsgVO msgVO) throws SQLException;
 
 	/**
 	 * 수정
@@ -46,7 +54,6 @@ public interface MsgSvc {
 	 * 조회 COUNT
 	 * @throws SQLException 
 	 */
-	int getCount(String userId) throws SQLException;
 
 	/**
 	 * 추가:115
@@ -54,7 +61,6 @@ public interface MsgSvc {
 	 * @throws ClassNotFoundException 
 	 * @throws SQLException 
 	 */
-	int add(MsgVO msgVO) throws DuplicateUserIdException;
 
 	List<MsgVO> do_retrieve(SearchVO searchVO)
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
