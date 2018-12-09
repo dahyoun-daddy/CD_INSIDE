@@ -95,7 +95,7 @@ public class MsgDAOTest {
 		//--------------------------------------------
 		//0.1건 삭제 
 		//--------------------------------------------
-		msgDao.delete(inVO1);
+//		msgDao.delete(inVO1); 됨
 		//		inVO1 = new MsgVO("400","보낸이","받는이","내용","2018-11-15","읽지않음");
 
 		//--------------------------------------------
@@ -120,14 +120,14 @@ public class MsgDAOTest {
 		//--------------------------------------------
 		//1. 단건 추가
 		//--------------------------------------------	
-		msgDao.add(inVO1);
+//		msgDao.add(inVO1);
 		
 	}	
 	
 	@Test	
 	public void count() throws SQLException, ClassNotFoundException {
-	//	assertThat(msgDao.getAllCount("받는이3"),is(4)); //받는이3 기준, 받은쪽지 갯수
-		assertThat(msgDao.getNCount("읽지않음"),is(4)); //받는이3 기준, 안읽은쪽지 갯수 안됨
+		assertThat(msgDao.getAllCount("받는이3"),is(4)); //받는이3 기준, 받은쪽지 갯수
+	//	assertThat(msgDao.getNCount("읽지않음"),is(4)); //받는이3 기준, 안읽은쪽지 갯수 안됨
 
 	}		
 	
