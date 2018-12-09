@@ -42,6 +42,14 @@ public class CommentCtrl {
     	return mv;
     }
 	
+	@RequestMapping(value = "/comment/addComment.do",method=RequestMethod.POST)
+	@ResponseBody
+	public String addComment(HttpServletRequest req,CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		commentSvc.add(commentVO);
+		log.info("commentVO:"+commentVO);
+		return "123";
+	}
+	
 	@RequestMapping(value = "/comment/comm/do_retrieve.do", produces = "application/json;charset=utf8")
 	@ResponseBody
 	public String getUserList(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
@@ -54,7 +62,7 @@ public class CommentCtrl {
 		log.info("page_num:"+page_num);
 		
 		if (invo.getPage_size() == 0) {
-			invo.setPage_size(20);
+			invo.setPage_size(5);
 		}
 
 		if (null == invo.getSearch_div()) {

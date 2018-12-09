@@ -5,11 +5,150 @@
 <head>
 <meta charset="UTF-8">
 <title>댓글</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
+<style type="text/css">
+.container {
+	margin-top: 30px;
+}
+
+.media {
+	margin-bottom: 5px;
+	padding-left: 30px;
+}
+
+.hitNum {
+	width: 18px;
+	height: 18px;
+	color: gray;
+}
+
+.cursor {
+	cursor: pointer;
+}
+
+#commentReply {
+	padding-left: 8px;
+}
+
+#commentUpdateComplete {
+	padding-left: 8px;
+}
+
+.commTime{
+	color: gray;
+}
+
+.wdp_90 {width:90%}
+.pad_5 {padding: 5px;}
+
+#PAGE_NAVI{
+	padding-left: 200px;
+}
+
+</style>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
+
+
+var id;
+var cont;
+var parent;
+var children;
+var commTextNum;
+var commGroupNo;
+
+//보낼 params 셋팅
+function params(parent) {
+	id = $(parent).find(".commId").text();
+	alert(id);
+	commTextNum = $(parent).find(".commTextNum").val();
+	alert(commTextNum);
+	commGroupNo = $(parent).find(".commGroupNo").val();
+	alert(commGroupNo);
+}
+
+//수정버튼 눌렸을때
+$(document).on('click','#commentUpdate', function() {
+	parent = $(this).parents(".media");
+	cont = $(parent).find("p").text();
+	$(parent).find("p").remove();
+	$(parent).find(".p").append('<textarea id="commentTextarea" class="form-control" rows="3">'+cont+'</textarea>');
+	$(parent).find("#coomentDelete").before(' <a class="cursor" id="commentUpdateComplete" >수정완료</a>');
+	$(parent).find("#coomentDelete").before(' <a class="cursor" id="commentUpdateCancel" >수정취소</a>');
+	$(parent).find("#commentUpdate").remove();
+	$(parent).find("#commentReply").remove();
+	$(parent).find("#coomentDelete").remove();
+});
+
+$(document).on('click','#commentUpdateComplete', function() {
+	var cont = $(parent).find("#commentTextarea").val();
+	alert(cont);
+	parent = $(this).parents(".media");
+	params(parent);
+});
+
+//수정취소
+$(document).on('click','#commentUpdateCancel', function() {
+	var commTextNum = $(parent).find(".commTextNum").val();
+	alert(commTextNum);
+	parent = $(this).parents(".media");
+	$(parent).find("#commentUpdateComplete").remove();
+	$(parent).find("#commentUpdateCancel").remove();
+	$(parent).find("#commentTextarea").remove();
+	$(parent).find(".p").append('<p>'+cont+'</p>');
+	$(parent).find(".hitNum").after(' <a class="cursor" id="coomentDelete" >삭제</a> ');
+	$(parent).find(".hitNum").after(' <a class="cursor" id="commentUpdate" >수정</a> ');
+	$(parent).find(".hitNum").after('<a class="cursor" data-toggle="collapse" id="commentReply" href="#commentReplyadd' + commTextNum + '">답글</a>');
+});
+
+//추천
+$(document).on('click','#like', function() {
+	parent = $(this).parents(".media");
+	params(parent);
+	alert('추천');
+});
+
+//삭제
+$(document).on('click','#coomentDelete', function() {
+	parent = $(this).parents(".media");
+	//params(parent);
+	alert('삭제');
+});
+
+//댓글달기
+$(document).on('click','#commentadd', function() {
+	var cont = $("#commentcont").val();
+	alert(cont);
+    $.ajax({
+        type:"POST",
+        url:"addComment.do",
+        dataType:"json",// JSON
+        data:{
+        "userId": 1,
+        "commCont": cont,
+        "bNum":1,
+        "modId":1
+        },
+        success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+        	alert(totalIndexCount);
+        	fn_selectBoardList();
+        },
+        complete: function(data){//무조건 수행
+        	
+        },
+        error: function(xhr,status,error){
+         
+        }
+   }); //--ajax
+});
+
+//답글달기
+$(document).on('click','#replyadd', function() {
+	parent = $(this).parents(".media");
+	params(parent);
+	alert('답글달기');
+});
 
 function gfn_isNull(str) {
 	if (str == null) return true;
@@ -35,7 +174,6 @@ function ComSubmit(opt_formId) {
 	};
 	
 }
-
 function ComAjax(opt_formId){
 	this.url = "";		
 	this.formId = gfn_isNull(opt_formId) == true ? "commonForm" : opt_formId;
@@ -96,6 +234,7 @@ eventName : 페이징 하단의 숫자 등의 버튼이 클릭되었을 때 호�
 */
 var gfv_pageIndex = null;
 var gfv_eventName = null;
+var totalIndexCount;
 function gfn_renderPaging(params){
 	var divId = params.divId; //페이징이 그려질 div id
 	gfv_pageIndex = params.pageIndex; //현재 위치가 저장될 input 태그
@@ -107,9 +246,9 @@ function gfn_renderPaging(params){
 	
 	var recordCount = params.recordCount; //페이지당 레코드 수
 	if(gfn_isNull(recordCount) == true){
-		recordCount = 20;
+		recordCount = 5;
 	}
-	var totalIndexCount = Math.ceil(totalCount/recordCount); // 전체 인덱스 수
+	totalIndexCount = Math.ceil(totalCount/recordCount); // 전체 인덱스 수
 	gfv_eventName = params.eventName;
 	
 	$("#"+divId).empty();
@@ -158,20 +297,39 @@ function _movePage(value){
 		eval(gfv_eventName + "(value);");
 	}
 }
+
+function bigImg(x) {
+    x.style.height = "40px";
+    x.style.width = "40px";
+}
+
+function normalImg(x) {
+    x.style.height = "30px";
+    x.style.width = "30px";
+}
 </script>
 </head>
 <body>
 	<div id="bocomment"></div>
+	<div class="container">
 	<div id="PAGE_NAVI"></div>
+	</div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 	<form id="commonForm" name="commonForm"></form>
+	<div class="container">
+		<div class="form-group">
+			<label for="comment">댓글</label>
+			<textarea id="commentcont" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
+		</div>
+		<button id="commentadd" class="btn btn-default">댓글달기</button>
+	</div>
 <%-- 	<%@ include file="/WEB-INF/include/include-body.jspf"%> --%>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			fn_selectBoardList(1);
+			fn_selectBoardList();
 		});
 		
-		function fn_selectBoardList(pageNo){
+		function fn_selectBoardList(){
 			var comAjax = new ComAjax();
 			comAjax.setUrl("comm/do_retrieve.do");
 			comAjax.setCallback("fn_selectBoardListCallback");
@@ -202,15 +360,42 @@ function _movePage(value){
 				  var str = "";
 	            var depth = "";
 	            $.each(data.list, function(key, value){
-	                  str +=  "<tr>" + "<td>1</td>" +
-	                           "<td>" + value.commTextNum + "</td>" + 
-	                           "<td>" + value.bNum + "</td>" +
-	                           "<td>" + value.commCont + "</td>" +
-	                           "<td>" + value.userId + "</td>" +
-	                           "<td>" + value.commHit + "</td>" +
-	                           "<td>" + value.commGroupNo + "</td>" +
-	                           "<td>" + value.commDepth + "</td>" +
-	                        "</tr>";
+	            	
+	          		str +=		'<div class="container">' 
+	    				+		'<div class="media">' 
+	    				+			'<div class="media-heading">'
+	    				+				'<div id="container">'
+	    				+					'<div>'
+	    				+						'<label class="commId">' + value.userId + '</label>&nbsp;'
+	    				+						'<label class="commTime">' + value.regDt + '</label>'
+	    				+					'</div>'
+	    				+					'<input type="hidden" class="commTextNum" value="' + value.commTextNum + '">'
+	    				+					'<input type="hidden" class="commGroupNo" value="' + value.commGroupNo + '">'
+	    				+				'</div>'
+	    				+			'</div>'
+	    				+			'<div class="p">'
+	    				+				'<p>'+value.commCont+'</p>'
+	    				+			'</div>'
+	    				+				'<img class="cursor" id="like" src="/cd/resources/img/like.jpg"'
+	    				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
+	    				+					'width="30px" height="30px"/>&nbsp;'
+	    				+				'<label class="hitNum">'+value.commHit+'</label>'
+	    				+				'<a class="cursor" data-toggle="collapse" id="commentReply" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
+	    				+				'&nbsp;'
+	    				+				'<a class="cursor" id="commentUpdate" >수정</a>'
+	    				+				'&nbsp;'
+	    				+				'<a class="cursor" id="coomentDelete" >삭제</a>'
+	    				+			'<div class="comment-meta">'
+	    				+				'<div class="collapse" id="commentReplyadd' + value.commTextNum + '">'
+	    				+					'<div class="form-group">'
+	    				+						'<label for="comment">답글</label>'
+	    				+						'<textarea name="comment" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
+	    				+					'</div>'
+	    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
+	    				+				'</div>'
+	    				+			'</div>'
+	    				+		'</div>'
+	    				+	'</div>';
 	            });
 				body.append(str);
 			}
