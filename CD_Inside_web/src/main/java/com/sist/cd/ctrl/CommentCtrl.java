@@ -59,9 +59,11 @@ public class CommentCtrl {
 	
 	@RequestMapping(value = "/comment/deleteComment.do",method=RequestMethod.POST)
 	@ResponseBody
-	public String deleteComment (HttpServletRequest req,CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
-		commentSvc.delete(commentVO);
+	public String deleteComment (CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		log.info("====================");
 		log.info("commentVO:"+commentVO);
+		log.info("====================");
+		commentSvc.delete(commentVO);
 		return "123";
 	}
 	

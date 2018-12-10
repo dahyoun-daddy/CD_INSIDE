@@ -33,7 +33,14 @@ public class CommentSvcImple implements CommentSvc {
 
 	@Override
 	public int delete(CommentVO commentVO) throws SQLException {
-		return commentDAO.delete(commentVO);
+		int flag;
+		if(commentVO.getCommDepth().equals("0")){
+			flag = commentDAO.deleteAll(commentVO);
+		}else {
+			flag = commentDAO.delete(commentVO);
+		}
+		
+		return flag;
 	}
 
 	@Override

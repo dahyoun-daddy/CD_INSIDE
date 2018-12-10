@@ -53,6 +53,18 @@ public class CommentDAOImple implements CommentDAO{
 		log.debug("3.flag: "+flag);
 		return flag;
 	}
+	
+	/**
+	 * 대댓글 전체 삭제
+	 */
+	public int deleteAll(CommentVO CommentVO) throws SQLException {
+		String statement = NAME_SPACE+".deleteAll";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+CommentVO);
+		int flag  = this.sqlSession.delete(statement, CommentVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
 
 	/**
 	 * 댓글 수정

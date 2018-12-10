@@ -75,6 +75,12 @@
 		DELETE FROM comm
 		WHERE comm_text_num = #{commTextNum}
 	</delete>
+	
+		<!--대댓글 완전 삭제 -->
+	<delete id="deleteAll" parameterType="CommentVO">
+		DELETE FROM comm
+		WHERE COMM_GROUP_NO = #{commGroupNo}
+	</delete>
 
 	<!-- 단건 조회 -->
 	<select id="get" parameterType="CommentVO"

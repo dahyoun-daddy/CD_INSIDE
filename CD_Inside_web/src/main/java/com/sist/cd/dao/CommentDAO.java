@@ -30,6 +30,15 @@ public interface CommentDAO {
 	int delete(CommentVO commentVO) throws SQLException;
 	
 	/**
+	 * 댓글 전체 삭제
+	 * @param CommentVO
+	 * @return
+	 * @throws SQLException
+	 */
+	int deleteAll(CommentVO CommentVO) throws SQLException;
+	
+	
+	/**
 	 * 댓글 수정
 	 * @param userVO
 	 * @return
