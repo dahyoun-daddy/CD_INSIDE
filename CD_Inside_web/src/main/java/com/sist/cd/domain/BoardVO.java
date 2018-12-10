@@ -84,6 +84,9 @@ public class BoardVO extends DTO{
 				+ bCnt + "]";
 	}
 	
+	
+	public BoardVO() {}
+	
 	public BoardVO(String bNum, String userId, String bTitle, String bCont, String bCate, String bHit, String regDt,
 			String modId, String modDt, String bCnt) {
 		super();
@@ -99,7 +102,21 @@ public class BoardVO extends DTO{
 		this.bCnt = bCnt;
 	}
 	
-	public BoardVO() {}
+//	/**
+//	 * 데이터 조회
+//	 * 게시판번호, 구분자 , 등록일, 수정일   빼버림  
+//	 */
+//	public BoardVO( String userId, String bTitle, String bCont, String bHit, String modId, String bCnt) {
+//		this.userId = userId;
+//		this.bTitle = bTitle;
+//		this.bCont = bCont;
+//		this.bHit = bHit;
+//		this.modId = modId;
+//		this.bCnt = bCnt;
+//	}
+	
+	
+	
 	
 	
 	

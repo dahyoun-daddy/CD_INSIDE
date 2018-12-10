@@ -1,5 +1,49 @@
 package com.sist.cd.service;
 
-public class BoardSvcImple {
+import java.sql.SQLException;
+import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
+
+import com.sist.cd.common.DuplicateUserIdException;
+import com.sist.cd.dao.BoardDAO;
+import com.sist.cd.domain.BoardVO;
+
+public class BoardSvcImple implements BoardSvc {
+	private Logger log = LoggerFactory.getLogger(UserSvcImple.class);
+	private BoardDAO bd;
+	@Override
+	public int addSY(BoardVO boardVO) throws DuplicateUserIdException {
+		return bd.addSY(boardVO);
+	}
+
+	@Override
+	public int addLK(BoardVO boardVO) throws DuplicateUserIdException {
+		return bd.addLK(boardVO);
+	}
+
+	@Override
+	public BoardVO get(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return bd.get(boardVO);
+	}
+
+	@Override
+	public List<BoardVO> do_retrieve(BoardVO boardVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return bd.do_retrieve(boardVO);
+	}
+
+	@Override
+	public int update(BoardVO boardVO) throws SQLException {
+		return bd.update(boardVO);
+	}
+
+	@Override
+	public int delete(BoardVO boardVO) throws SQLException {
+		return bd.delete(boardVO);
+	}
+
+	
 }

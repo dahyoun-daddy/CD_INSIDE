@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.CommentVO;
 
@@ -28,7 +29,35 @@ public class BoardDAOImple implements BoardDAO{
 	
 	
 	/**
-	 * 단건 조회
+	 * 쌍용게시글 작성
+	 */
+	@Override
+	public int addSY(BoardVO boardVO) throws DuplicateUserIdException {
+		String statement = NAME_SPACE+".addSY";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+boardVO);
+		int flag  = this.sqlSession.insert(statement, boardVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
+	
+	/**
+	 * 링크게시글 작성
+	 */
+	@Override
+	public int addLK(BoardVO boardVO) throws DuplicateUserIdException {
+		String statement = NAME_SPACE+".addLK";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+boardVO);
+		int flag  = this.sqlSession.insert(statement, boardVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
+	
+	
+	
+	/**
+	 * 댓글 단건 조회
 	 */
 	@Override
 	public BoardVO get(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
@@ -37,13 +66,12 @@ public class BoardDAOImple implements BoardDAO{
 		log.debug("2.param: "+boardVO);
 		BoardVO outVO = this.sqlSession.selectOne(statement, boardVO);
 		log.debug("3.outVO: "+outVO);
-
 		return outVO;
 	}
 
 
 	/**
-	 * 전 조회
+	 * 전체조회
 	 */
 	@Override
 	public List<BoardVO> do_retrieve(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
@@ -57,7 +85,23 @@ public class BoardDAOImple implements BoardDAO{
 		log.debug("*****************************");
 		return list;	
 	}
-	
+
+
+
+	/**
+	 * 게시글 수정
+	 */
+	@Override
+	public int update(BoardVO boardVO) throws SQLException {
+		String statement = NAME_SPACE+".update";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+boardVO);
+		int flag  = this.sqlSession.insert(statement, boardVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
+
+
 	
 	/**
 	 * 게시글 삭제
@@ -71,8 +115,7 @@ public class BoardDAOImple implements BoardDAO{
 		log.debug("3.flag: "+flag);
 		return flag;
 	}
-
-
+	
 	
 	
 	

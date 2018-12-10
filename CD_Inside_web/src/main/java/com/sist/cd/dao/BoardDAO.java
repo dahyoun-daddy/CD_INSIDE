@@ -13,15 +13,33 @@ import com.sist.cd.domain.CommentVO;
 
 
 public interface BoardDAO {
-
+	
+	
+	/**
+	 * 쌍용게시글 작성
+	 * @param inVO1
+	 * @return
+	 * @throws DuplicateUserIdException
+	 */
+	int addSY(BoardVO boardVO) throws DuplicateUserIdException;
+	
+	/**
+	 * 링크게시글 작성
+	 * @param inVO1
+	 * @return
+	 * @throws DuplicateUserIdException
+	 */
+	int addLK(BoardVO boardVO) throws DuplicateUserIdException;
+	
+	
+	
 	/**
 	 * 게시글 단건조회
-	 * @param userVO
+	 * @param userVO판
 	 * @throws ClassNotFoundException 
 	 * @throws SQLException 
 	 */
 	BoardVO get(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
-	
 	
 	/**
 	 * 게시판 전체 조회
@@ -34,6 +52,16 @@ public interface BoardDAO {
 	List<BoardVO> do_retrieve(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 	
+	
+	/**
+	 * 게시글 수정
+	 * @param userVO
+	 * @return
+	 * @throws SQLException
+	 */
+	int update(BoardVO boardVO) throws SQLException;
+	
+	
 	/**
 	 * 게시글 삭제
 	 * @param userVO
@@ -41,5 +69,6 @@ public interface BoardDAO {
 	 * @throws SQLException
 	 */
 	int delete(BoardVO boardVO) throws SQLException;
+	
 	
 }
