@@ -39,7 +39,7 @@ public class MymsgCtrl {
 	private CodeSvc codeSvc;	
 	
 	
-	private static final String VIEW_NAME="/msg/msg";
+	private static final String VIEW_NAME="/mypage/msg2.do";
 	
 	
 	@RequestMapping(value="/msg/{msg_send}")
