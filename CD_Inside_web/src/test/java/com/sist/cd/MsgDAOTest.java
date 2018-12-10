@@ -57,7 +57,7 @@ public class MsgDAOTest {
 	
 	@Before
 	public void setUp() {
-		inVO1 = new MsgVO("400","보낸이","받는이","내용","2018-11-15","읽지않음");
+		inVO1 = new MsgVO("406","보낸이","받는이","내용","2018-11-15","읽지않음");
 		inVO2 = new MsgVO("401","보낸이2","받는이2","내용2","2018-11-15","읽지않음");
 		inVO3 = new MsgVO("402","보낸이3","받는이3","내용3","2018-11-15","읽지않음");
 		inVO4 = new MsgVO("403","보낸이","받는이3","내용3","2018-11-15","읽지않음");
@@ -113,17 +113,21 @@ public class MsgDAOTest {
 		//--------------------------------------------
 	//	msgDao.deleteN(); 안됨		
 	}
-
+	
 	@Ignore
 	@Test
 	public void add() throws SQLException, ClassNotFoundException {
 		//--------------------------------------------
 		//1. 단건 추가
 		//--------------------------------------------	
-//		msgDao.add(inVO1);
-		
+//		msgDao.delete(inVO1);// 됨
+
+//		msgDao.add(inVO1); // 됨
+//		inVO1 = new MsgVO("406","보낸이","받는이","내용","2018-11-15","읽지않음");
+
 	}	
 	
+	@Ignore
 	@Test	
 	public void count() throws SQLException, ClassNotFoundException {
 		assertThat(msgDao.getAllCount("받는이3"),is(4)); //받는이3 기준, 받은쪽지 갯수
@@ -146,6 +150,7 @@ public class MsgDAOTest {
 		//--------------------------------------------
 		
 //		msgDao.add(inVO1);
+
 //		msgDao.add(inVO2);
 //		msgDao.add(inVO3);
 //		msgDao.add(inVO4);
