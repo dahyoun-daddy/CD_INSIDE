@@ -20,6 +20,7 @@ int save(GallogVO gallogVO) throws DuplicateUserIdException;
 	List<GallogVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 	GallogVO get(GallogVO gallogVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+
 	
 	
 }

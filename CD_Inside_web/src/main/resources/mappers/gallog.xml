@@ -83,7 +83,7 @@
 	      ,g_title
 	      ,g_cont
 	  	  FROM gallog
-	 	 WHERE g_seq=#{gSeq}
+	 	 WHERE g_seq = #{gSeq} 
 	 </select>
     
 </mapper>

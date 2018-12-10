@@ -47,6 +47,7 @@ public class GallogDAOImple implements GallogDAO {
 		log.debug("2.param: "+gallogVO);
 		int flag  = this.sqlSession.delete(statement, gallogVO);
 		log.debug("3.flag: "+flag);
+		
 		return flag;
 	}
 
@@ -57,6 +58,7 @@ public class GallogDAOImple implements GallogDAO {
 		log.debug("2.param: "+gallogVO);
 		int flag  = this.sqlSession.update(statement, gallogVO);
 		log.debug("3.flag: "+flag);
+		
 		
 		return flag;
 	}
@@ -71,10 +73,11 @@ public class GallogDAOImple implements GallogDAO {
 		log.info("*****************************");
 		log.info("3.list: "+list);
 		log.info("*****************************");
+		
+		
 		return list;	
 	}
 	
-	@Override
 	public GallogVO get(GallogVO gallogVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		String statement = NAME_SPACE+".get";
 		log.info("========1.statement: "+statement);		

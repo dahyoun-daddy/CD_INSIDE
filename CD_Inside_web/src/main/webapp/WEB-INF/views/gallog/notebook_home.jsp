@@ -49,7 +49,7 @@
 <style>
 </style>
 <meta charset="UTF-8">
-<title>notebook_home</title>
+<title>notebook</title>
 </head>
 <body>
 
@@ -113,7 +113,7 @@
 						<hr/>
 						<div style="float:right;">
 							<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/notebook_write.jsp'">수정</button>
-							<button type="button" class="btn btn-default" id="do_delete">삭제</button>
+							<button type="button" class="btn btn-default" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
 						</div>
 						<br><br><br><br><br>
 					</div>
@@ -150,20 +150,69 @@
 		   	 frm.submit();
 	    }
 	    
+        function doSearch(){
+       	 var frm = document.frm;
+       	 frm.page_num.value =1;
+       	 frm.action = "notebook_home.do";
+       	 frm.submit();
+        }
+	    
 	    
 	    $(document).ready(function(){
 	    	//alert("ready");
 	    	
-	    	$("#note").on("click","button",function(){
-	    		alert("delete");
-	    		
-	    	});
+	    	$("#appendBtn").click(function(){ 
+	    		   var tag = "<button type='button' id='do_delete'/>";
+	    		   var dlt = "<input type='text' name='${gallogVo.gSeq}' id='${gallogVo.gSeq}'/>"
+	    		   $("body").append(tag);
+	    		   $("body").append(dlt);
+	    		});
+	    		$(document).on("click","#do_delete",function(){ 
+	    			var items = [];
+	    			var gSeq = $(this).val();
+	    		   console.log("gSeq:"+gSeq);
+	    		   
+	    		   items.push(gSeq);
+	    		   
+	    		   if(false==confirm("삭제하시겠습니까?"))return;
+	    		    
+	    		   var jsonGSeq = JSON.stringify(items);
+	    		   
+	    		   console.log("jsonGSeq"+jsonGSeq);   
+	    		   
+	    		   $.ajax({
+	    			 	type:"POST",
+	    			 	url:"delete.do",
+	    			 	dataType:"html",
+	    			 	data:{
+	    			 		"gSeq": gSeq
+	    			 	},
+	    			 	success: function(data){//통신 성공시
+	    			 		var parseData = $.parseJSON(data);
+	    			 	    console.log("parseData.flag="+parseData.flag);
+			               console.log("parseData.message="+parseData.message);
+				         if(parseData.flag > 0){
+				         	 alert(parseData.message);
+				         	 doSearch();
+				         	 }else{
+				         		alert(parseData.message);
+				         		
+				         	 }
+	    			 	},
+	    			 	
+	    			 	 complete: function(data){//무조건 수행
+				             
+				         },
+				        error: function(xhr,status,error){
+				             
+				         }
+	    		   });//ajax
+	    		   
+	    		   
+	    		   
+	    		 });
 	    	
-	    	//$("#do_delete").on("click",function(){
-	    	//	alert("delete");
 	    		
-	    		
-	    	//});
 	    	
 	    });
 	    
