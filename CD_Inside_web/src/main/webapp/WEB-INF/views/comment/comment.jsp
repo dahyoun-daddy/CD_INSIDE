@@ -44,12 +44,15 @@
 	padding-left: 200px;
 }
 
+.form-group{
+	padding-top: 20px;
+}
+
 </style>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-
 
 var id;
 var cont;
@@ -61,19 +64,31 @@ var commGroupNo;
 //보낼 params 셋팅
 function params(parent) {
 	id = $(parent).find(".commId").text();
-	alert(id);
 	commTextNum = $(parent).find(".commTextNum").val();
-	alert(commTextNum);
 	commGroupNo = $(parent).find(".commGroupNo").val();
-	alert(commGroupNo);
+	cont = $(parent).find("#commentTextarea").val();
 }
 
 //수정버튼 눌렸을때
 $(document).on('click','#commentUpdate', function() {
 	parent = $(this).parents(".media");
+	var commentmeta = $(this).parents(".comment-meta");
+	console.log($(parent).find('.collapse').val());
+	
+	$(parent).find('.collapse.in').collapse('hide');
+	
 	cont = $(parent).find("p").text();
 	$(parent).find("p").remove();
-	$(parent).find(".p").append('<textarea id="commentTextarea" class="form-control" rows="3">'+cont+'</textarea>');
+	$(parent).find(".p").append('<textarea id="commentTextarea" class="form-control" rows="3" onfocus="this.value = this.value;">'+cont+'</textarea>');
+	
+
+	
+	$(parent).find("#commentTextarea").focus();
+	
+	var val = $(parent).find("#commentTextarea").val();
+	
+	$(parent).find("#commentTextarea").val("").val(val);
+
 	$(parent).find("#coomentDelete").before(' <a class="cursor" id="commentUpdateComplete" >수정완료</a>');
 	$(parent).find("#coomentDelete").before(' <a class="cursor" id="commentUpdateCancel" >수정취소</a>');
 	$(parent).find("#commentUpdate").remove();
@@ -81,11 +96,18 @@ $(document).on('click','#commentUpdate', function() {
 	$(parent).find("#coomentDelete").remove();
 });
 
+//수정완료
 $(document).on('click','#commentUpdateComplete', function() {
-	var cont = $(parent).find("#commentTextarea").val();
-	alert(cont);
 	parent = $(this).parents(".media");
-	params(parent);
+	commTextNum = $(parent).find(".commTextNum").val();
+	alert(commTextNum);
+	commCont = $(parent).find("#commentTextarea").val();
+	alert(cont);
+	var params = {
+			commTextNum : commTextNum,
+			commCont		  : commCont
+		};
+	commentAjax(params,"	updateComment.do");
 });
 
 //수정취소
@@ -112,43 +134,90 @@ $(document).on('click','#like', function() {
 //삭제
 $(document).on('click','#coomentDelete', function() {
 	parent = $(this).parents(".media");
-	//params(parent);
-	alert('삭제');
+	commTextNum = $(parent).find(".commTextNum").val();
+	alert(commTextNum);
+	var params = {
+		commTextNum : commTextNum
+	};
+	commentAjax(params,"deleteComment.do");
 });
 
-//댓글달기
-$(document).on('click','#commentadd', function() {
-	var cont = $("#commentcont").val();
-	alert(cont);
-    $.ajax({
-        type:"POST",
-        url:"addComment.do",
+//Ajax 분리
+function commentAjax(params,url){
+	
+	var userId = params.userId
+	var commCont = params.commCont
+	var bNum = params.bNum
+	var modId = params.modId
+	var commTextNum = params.commTextNum
+	var commGroupNo = params.commGroupNo
+	console.log(userId);
+	console.log(commCont);
+	console.log(bNum);
+	console.log(modId);
+	console.log(commTextNum);
+	console.log(commGroupNo);
+	console.log(url);
+	$.ajax({
+		 type : "POST", 
+		 url : url,    
         dataType:"json",// JSON
         data:{
-        "userId": 1,
-        "commCont": cont,
-        "bNum":1,
-        "modId":1
+            "userId": userId,
+            "commCont": commCont,
+            "bNum": bNum,
+            "modId":modId,
+            "commTextNum":commTextNum,
+            "commGroupNo":commGroupNo
         },
-        success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		success : function(data) {//통신이 성공적으로 이루어 졌을때 받을 함수
         	alert(totalIndexCount);
         	fn_selectBoardList();
-        },
+		},
         complete: function(data){//무조건 수행
         	
         },
         error: function(xhr,status,error){
-         
         }
-   }); //--ajax
+	});
+}
+
+//댓글달기
+$(document).on('click','#commentadd', function() {
+	var cont = $("#commentcont").val();
+	var params = {
+			userId : "1",
+			commCont : cont,
+			bNum : "1",
+			modId : "1"
+	};
+	commentAjax(params,"addComment.do");
 });
 
 //답글달기
 $(document).on('click','#replyadd', function() {
 	parent = $(this).parents(".media");
-	params(parent);
-	alert('답글달기');
+	cont = $(parent).find(".commentTextarea").val();
+	alert(cont);
+	var params = {
+			bNum 	     : "1",
+			commCont    : cont,
+			userId	     : "1",
+			commGroupNo : "1",
+			modId       : "1"
+	};
+	commentAjax(params,"addreplyComment.do");
 });
+
+function bigImg(x) {
+    x.style.height = "40px";
+    x.style.width = "40px";
+}
+
+function normalImg(x) {
+    x.style.height = "30px";
+    x.style.width = "30px";
+}
 
 function gfn_isNull(str) {
 	if (str == null) return true;
@@ -179,11 +248,6 @@ function ComAjax(opt_formId){
 	this.formId = gfn_isNull(opt_formId) == true ? "commonForm" : opt_formId;
 	this.param = "";
 	
-/* 	if(this.formId == "commonForm"){
-		$("#commonForm")[0].reset();
-		$("#commonForm").empty();
-	} */
-	
 	this.setUrl = function setUrl(url){
 		this.url = url;
 	};
@@ -193,24 +257,21 @@ function ComAjax(opt_formId){
 	};
 
 	this.addParam = function addParam(key,value){ 
-		this.param = this.param + "&" + key + "=" + value; 
 		this.value = value;
 		if(value == ''){
 			this.value = "1";
 		}
 	};
 	
-	
 	this.ajax = function ajax(){
-		if(this.formId != "commonForm"){
-			this.param += "&" + $("#" + this.formId).serialize();
-		}
 		$.ajax({
 			url : this.url,    
 			type : "POST",   
 			//data : this.param,
             data:{
-	            "pageIndex": this.value
+	            "page_num": this.value,
+	            "bNum": '1',
+	            "page_size": page_size
 	        },
 			async : false, 
 			success : function(data, status) {
@@ -229,12 +290,13 @@ function ComAjax(opt_formId){
 divId : 페이징 태그가 그려질 div
 pageIndx : 현재 페이지 위치가 저장될 input 태그 id
 recordCount : 페이지당 레코드 수
-totalCount : 전체 조회 건수 
+page_size : 전체 조회 건수 
 eventName : 페이징 하단의 숫자 등의 버튼이 클릭되었을 때 호출될 함수 이름
 */
 var gfv_pageIndex = null;
 var gfv_eventName = null;
 var totalIndexCount;
+var page_size = 5;
 function gfn_renderPaging(params){
 	var divId = params.divId; //페이징이 그려질 div id
 	gfv_pageIndex = params.pageIndex; //현재 위치가 저장될 input 태그
@@ -244,11 +306,7 @@ function gfn_renderPaging(params){
 		currentIndex = 1;
 	}
 	
-	var recordCount = params.recordCount; //페이지당 레코드 수
-	if(gfn_isNull(recordCount) == true){
-		recordCount = 5;
-	}
-	totalIndexCount = Math.ceil(totalCount/recordCount); // 전체 인덱스 수
+	totalIndexCount = Math.ceil(totalCount/page_size); // 전체 인덱스 수
 	gfv_eventName = params.eventName;
 	
 	$("#"+divId).empty();
@@ -298,15 +356,6 @@ function _movePage(value){
 	}
 }
 
-function bigImg(x) {
-    x.style.height = "40px";
-    x.style.width = "40px";
-}
-
-function normalImg(x) {
-    x.style.height = "30px";
-    x.style.width = "30px";
-}
 </script>
 </head>
 <body>
@@ -353,7 +402,7 @@ function normalImg(x) {
 					divId : "PAGE_NAVI",
 					pageIndex : "PAGE_INDEX",
 					totalCount : total,
-					eventName : "fn_selectBoardList"
+					eventName : "fn_selectBoardList",
 				};
 				gfn_renderPaging(params);
 				
@@ -389,7 +438,7 @@ function normalImg(x) {
 	    				+				'<div class="collapse" id="commentReplyadd' + value.commTextNum + '">'
 	    				+					'<div class="form-group">'
 	    				+						'<label for="comment">답글</label>'
-	    				+						'<textarea name="comment" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
+	    				+						'<textarea name="commentTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
 	    				+					'</div>'
 	    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
 	    				+				'</div>'

@@ -48,7 +48,10 @@ public class CommentSvcImple implements CommentSvc {
 	}
 
 	@Override
-	public int addreply(CommentVO commentVO) throws DuplicateUserIdException {
+	public int addreply(CommentVO commentVO) throws DuplicateUserIdException, SQLException {
+		String comm_seq = ""+commentDAO.COMM_SEQ();
+		
+		commentVO.setCommTextNum(comm_seq);
 		return commentDAO.addreply(commentVO);
 	}
 
