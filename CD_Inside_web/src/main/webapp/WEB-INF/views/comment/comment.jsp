@@ -9,7 +9,7 @@
 .container {
 	margin-top: 30px;
 }
-
+ 
 .media {
 	margin-bottom: 5px;
 	padding-left: 30px;
