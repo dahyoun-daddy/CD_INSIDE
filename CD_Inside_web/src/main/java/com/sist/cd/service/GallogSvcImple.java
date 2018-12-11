@@ -26,8 +26,7 @@ public class GallogSvcImple implements GallogSvc {
 
 	@Override
 	public int delete(GallogVO gallogVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		return gallogDao.delete(gallogVO);
 	}
 
 	@Override

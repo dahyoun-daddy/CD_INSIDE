@@ -74,7 +74,6 @@ public class GallogDAOImple implements GallogDAO {
 		log.info("3.list: "+list);
 		log.info("*****************************");
 		
-		
 		return list;	
 	}
 	

@@ -68,13 +68,12 @@
 		<br>
 		
 		<!-- 갤로그 이동 버튼 영역------------------------------------------------------->
-		<div class="row">
-		  <div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<button type="button" class="btn btn-default" onclick=" location.href='<%=context%>/gallog/gallog_home.jsp'">갤로그홈</button>
-				<button type="button" class="btn btn-primary" onclick=" location.href='<%=context%>/gallog/notebook_home.do'">낙서장</button>
-				<button type="button" class="btn btn-default" onclick=" location.href='<%=context%>/gallog/guestbook_home.jsp'">방명록</button>
-		  </div>	
-		</div>
+		<ul class="nav nav-pills">
+				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.jsp">갤로그홈</a></li>
+				<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do">메모장</a></li>
+				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.jsp'">방명록</a></li>
+		  </ul>	
+		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
 		<br>
 		
@@ -92,6 +91,7 @@
 		
 		<!-- 메모장 출력 영역 ------------------------------------------------------------->
 		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
+		<input type="hidden" name="gSeq" id="gSeq">
 		<input type="hidden" name="page_num" id="page_num">
 			<c:choose>
 				<c:when test="${list.size()>0}">
@@ -112,7 +112,7 @@
 						</div>
 						<hr/>
 						<div style="float:right;">
-							<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/notebook_write.jsp'">수정</button>
+							<button type="button" class="btn btn-default" id="do_update" value="${gallogVo.gSeq}">수정</button>
 							<button type="button" class="btn btn-default" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
 						</div>
 						<br><br><br><br><br>
@@ -124,17 +124,16 @@
 				</c:otherwise>
 			</c:choose>
 
-		<!--// 메모장 출력 영역 ------------------------------------------------------------->
-								
-		</form>
-				<!-- 페이징 처리 ---------------------------------------------------->
 		<div class="form-inline text-center">
 			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "notebook_home.do", "search_page") %>
 		</div>
 		
+		</form>
+				<!-- 페이징 처리 ---------------------------------------------------->
+
+		
 	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     
-    search
     <script src="<%=context%>/resources/js/jquery.min.js"></script>
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
@@ -142,7 +141,7 @@
     
     
 	    function search_page(url,page_num){
-		   	 alert(url+":search_page:"+page_num);
+		   	 //alert(url+":search_page:"+page_num);
 		   	 var frm = document.frm;
 		   	 frm.page_num.value = page_num;
         	 console.log(frm.page_num.value);
@@ -150,71 +149,63 @@
 		   	 frm.submit();
 	    }
 	    
-        function doSearch(){
+        function doSearch(){ // 전체조회
        	 var frm = document.frm;
-       	 frm.page_num.value =1;
+       	 frm.page_num.value = 1;
        	 frm.action = "notebook_home.do";
        	 frm.submit();
         }
-	    
-	    
+	     
+        function doDelete(gSeq){ // 삭제
+        	var frm = document.frm;
+        	frm.gSeq.value = gSeq;
+        	frm.page_num.value = <%=oPageNum%>;
+        	frm.action = "delete.do";
+        	frm.submit();
+        }
+        
+         function doUpdate(gSeq){ //수정
+        	var frm = document.frm;
+        	frm.gSeq.value = gSeq;
+        	frm.page_num.value = <%=oPageNum%>;
+        	frm.action = "get.do";
+        	frm.submit();
+        }
+        
+        
 	    $(document).ready(function(){
 	    	//alert("ready");
 	    	
 	    	$("#appendBtn").click(function(){ 
-	    		   var tag = "<button type='button' id='do_delete'/>";
-	    		   var dlt = "<input type='text' name='${gallogVo.gSeq}' id='${gallogVo.gSeq}'/>"
-	    		   $("body").append(tag);
+	    		   var dlt = "<button type='button' id='do_delete'/>";
+	    		   var udt = "<button type='button' id='do_update'/>";
+	    		   var tag = "<input type='text' name='${gallogVo.gSeq}' id='${gallogVo.gSeq}'/>"
 	    		   $("body").append(dlt);
+	    		   $("body").append(udt);
+	    		   $("body").append(tag);
 	    		});
-	    		$(document).on("click","#do_delete",function(){ 
-	    			var items = [];
+	    	
+	    		$(document).on("click","#do_delete",function(){ //삭제
 	    			var gSeq = $(this).val();
 	    		   console.log("gSeq:"+gSeq);
 	    		   
-	    		   items.push(gSeq);
-	    		   
 	    		   if(false==confirm("삭제하시겠습니까?"))return;
 	    		    
-	    		   var jsonGSeq = JSON.stringify(items);
+	    		   doDelete(gSeq);
 	    		   
-	    		   console.log("jsonGSeq"+jsonGSeq);   
-	    		   
-	    		   $.ajax({
-	    			 	type:"POST",
-	    			 	url:"delete.do",
-	    			 	dataType:"html",
-	    			 	data:{
-	    			 		"gSeq": gSeq
-	    			 	},
-	    			 	success: function(data){//통신 성공시
-	    			 		var parseData = $.parseJSON(data);
-	    			 	    console.log("parseData.flag="+parseData.flag);
-			               console.log("parseData.message="+parseData.message);
-				         if(parseData.flag > 0){
-				         	 alert(parseData.message);
-				         	 doSearch();
-				         	 }else{
-				         		alert(parseData.message);
-				         		
-				         	 }
-	    			 	},
-	    			 	
-	    			 	 complete: function(data){//무조건 수행
-				             
-				         },
-				        error: function(xhr,status,error){
-				             
-				         }
-	    		   });//ajax
-	    		   
-	    		   
-	    		   
-	    		 });
-	    	
-	    		
-	    	
-	    });
+	    		 });//delete
+	    		 
+	    		 $(document).on("click","#do_update",function(){ //수정
+		    		var gSeq = $(this).val();
+		    		   
+		    		if(false==confirm("수정하시겠습니까?"))return;
+		    		   
+		    		doUpdate(gSeq);    
+		    		  
+		    		   
+		    	 });//update
+		    		 	    	
+	    });//ready
 	    
     </script>
 

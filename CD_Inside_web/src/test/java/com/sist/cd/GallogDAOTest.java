@@ -40,7 +40,7 @@ public class GallogDAOTest {
 
 	@Before
 	public void setUp() {
-		inVO1 = new GallogVO("210","test05","","","22title","cont","0","sysdate","test03","sysdate");	
+		inVO1 = new GallogVO("","test05","","","22title","cont","0","sysdate","test03","sysdate");	
 		inVO2 = new GallogVO("52","test03","","","@@title!!","!!cont!!","0","2018-12-04","test03","2018-12-04");
 		inVO3 = new SearchVO(10, 1, "test05", "0");
 	}
@@ -50,6 +50,17 @@ public class GallogDAOTest {
 //	@Ignore
 	public void save() throws SQLException, ClassNotFoundException {
 		
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
+		gallogDao.save(inVO1);
 		gallogDao.save(inVO1);
 	
 	}
