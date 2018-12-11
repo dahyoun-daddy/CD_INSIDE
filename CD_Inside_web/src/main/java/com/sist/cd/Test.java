@@ -6,6 +6,9 @@ public class Test {
 		System.out.println("커밋이잘되는가?");
 		System.out.println("커밋이잘되는가?");
 		System.out.println("커밋이잘되는가?");
+		System.out.println("커밋이잘되는가?");
+		System.out.println("커밋이잘되는가?");
+		System.out.println("커밋이잘되는가?");
 	}
 
 }
