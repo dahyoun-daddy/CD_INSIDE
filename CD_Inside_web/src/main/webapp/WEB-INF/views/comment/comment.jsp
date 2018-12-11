@@ -143,7 +143,7 @@ $(document).on('click','#coomentDelete', function() {
 	};
 	commentAjax(params,"deleteComment.do");
 });
- 
+  
 //Ajax 분리
 function commentAjax(params,url){
 	
