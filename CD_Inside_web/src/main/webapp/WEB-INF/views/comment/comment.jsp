@@ -166,7 +166,7 @@ function commentAjax(params,url){
 		 url : url,    
         dataType:"json",// JSON
         data:{
-            "userId": '1',
+            "userId": '3',
             "commCont": commCont,
             "bNum": '1',
             "modId": '1',
