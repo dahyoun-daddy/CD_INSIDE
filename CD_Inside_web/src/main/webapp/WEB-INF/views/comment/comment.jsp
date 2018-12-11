@@ -293,10 +293,6 @@ function ComAjax(opt_formId){
 	};
 }
 
-$('.collapse').on('shown.bs.collapse', function () {
-	alert('123');
-})
-
 /*
 divId : 페이징 태그가 그려질 div
 pageIndx : 현재 페이지 위치가 저장될 input 태그 id
@@ -366,6 +362,11 @@ function _movePage(value){
 		eval(gfv_eventName + "(value);");
 	}
 }
+
+$(document).on('shown.bs.collapse', '.bocollapse', function (e) {
+	var parent = $(this).parents(".container");
+	$(parent).find("#commentReplyTextarea").focus();
+});
 
 </script>
 </head>
@@ -445,7 +446,7 @@ function _movePage(value){
 		    				+				'&nbsp;'
 		    				+				'<a class="cursor" id="coomentDelete" >삭제</a>'
 		    				+			'<div class="comment-meta">'
-		    				+				'<div class="collapse" id="commentReplyadd' + value.commTextNum + '">'
+		    				+				'<div class="bocollapse collapse" id="commentReplyadd' + value.commTextNum + '">'
 		    				+					'<div class="form-group">'
 		    				+						'<label for="comment">답글</label>'
 		    				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
