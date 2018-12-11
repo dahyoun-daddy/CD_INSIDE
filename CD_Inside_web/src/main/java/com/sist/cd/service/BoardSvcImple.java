@@ -5,24 +5,33 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.sist.cd.common.DuplicateUserIdException;
+import com.sist.cd.common.SearchVO;
 import com.sist.cd.dao.BoardDAO;
 import com.sist.cd.domain.BoardVO;
 
+@Service
 public class BoardSvcImple implements BoardSvc {
 	private Logger log = LoggerFactory.getLogger(UserSvcImple.class);
+	
+	@Autowired
 	private BoardDAO bd;
+	
 	@Override
-	public int addSY(BoardVO boardVO) throws DuplicateUserIdException {
-		return bd.addSY(boardVO);
+	public List<BoardVO> addSY(SearchVO searchVO) throws DuplicateUserIdException {
+		
+		return bd.addSY(searchVO);
 	}
 
 	@Override
-	public int addLK(BoardVO boardVO) throws DuplicateUserIdException {
-		return bd.addLK(boardVO);
+	public List<BoardVO> addLK(SearchVO searchVO) throws DuplicateUserIdException {
+		return bd.addLK(searchVO);
 	}
+	
 
 	@Override
 	public BoardVO get(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
@@ -30,9 +39,9 @@ public class BoardSvcImple implements BoardSvc {
 	}
 
 	@Override
-	public List<BoardVO> do_retrieve(BoardVO boardVO)
+	public List<BoardVO> do_retrieve(SearchVO searchVO)
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
-		return bd.do_retrieve(boardVO);
+		return bd.do_retrieve(searchVO);
 	}
 
 	@Override
@@ -44,6 +53,8 @@ public class BoardSvcImple implements BoardSvc {
 	public int delete(BoardVO boardVO) throws SQLException {
 		return bd.delete(boardVO);
 	}
+
+	
 
 	
 }

@@ -11,8 +11,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.sist.cd.common.DuplicateUserIdException;
+import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.CommentVO;
+import com.sist.cd.domain.GallogVO;
 
 
 @Repository
@@ -32,26 +34,26 @@ public class BoardDAOImple implements BoardDAO{
 	 * 쌍용게시글 작성
 	 */
 	@Override
-	public int addSY(BoardVO boardVO) throws DuplicateUserIdException {
+	public List<BoardVO> addSY(SearchVO searchVO) throws DuplicateUserIdException {
 		String statement = NAME_SPACE+".addSY";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+boardVO);
-		int flag  = this.sqlSession.insert(statement, boardVO);
-		log.debug("3.flag: "+flag);
-		return flag;
+		log.debug("2.param: "+searchVO);
+		List<BoardVO> list  = this.sqlSession.selectList(statement, searchVO);
+		log.debug("3.flag: "+list);
+		return list;
 	}
 	
 	/**
 	 * 링크게시글 작성
 	 */
 	@Override
-	public int addLK(BoardVO boardVO) throws DuplicateUserIdException {
+	public List<BoardVO> addLK(SearchVO searchVO) throws DuplicateUserIdException {
 		String statement = NAME_SPACE+".addLK";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+boardVO);
-		int flag  = this.sqlSession.insert(statement, boardVO);
-		log.debug("3.flag: "+flag);
-		return flag;
+		log.debug("2.param: "+searchVO);
+		List<BoardVO> list  = this.sqlSession.selectList(statement, searchVO);
+		log.debug("3.list: "+list);
+		return list;
 	}
 	
 	
@@ -74,12 +76,12 @@ public class BoardDAOImple implements BoardDAO{
 	 * 전체조회
 	 */
 	@Override
-	public List<BoardVO> do_retrieve(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+	public List<BoardVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		
 		String statement = NAME_SPACE+".do_retrieve";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+boardVO);
-		List<BoardVO> list  = this.sqlSession.selectList(statement, boardVO);
+		log.debug("2.param: "+searchVO);
+		List<BoardVO> list  = this.sqlSession.selectList(statement, searchVO);
 		log.debug("*****************************");
 		log.debug("3.list: "+list);
 		log.debug("*****************************");
@@ -115,9 +117,7 @@ public class BoardDAOImple implements BoardDAO{
 		log.debug("3.flag: "+flag);
 		return flag;
 	}
-	
-	
-	
+
 	
 	
 }

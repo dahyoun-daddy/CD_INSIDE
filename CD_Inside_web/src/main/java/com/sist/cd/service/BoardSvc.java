@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.sist.cd.common.DuplicateUserIdException;
+import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.BoardVO;
+import com.sist.cd.domain.GallogVO;
 
 public interface BoardSvc {
 
@@ -16,7 +18,7 @@ public interface BoardSvc {
 	 * @return
 	 * @throws DuplicateUserIdException
 	 */
-	int addSY(BoardVO boardVO) throws DuplicateUserIdException;
+	List<BoardVO> addSY(SearchVO searchVO) throws DuplicateUserIdException;
 	
 	/**
 	 * 링크게시글 작성
@@ -24,7 +26,7 @@ public interface BoardSvc {
 	 * @return
 	 * @throws DuplicateUserIdException
 	 */
-	int addLK(BoardVO boardVO) throws DuplicateUserIdException;
+	List<BoardVO> addLK(SearchVO searchVO) throws DuplicateUserIdException;
 	
 	
 	
@@ -38,13 +40,13 @@ public interface BoardSvc {
 	
 	/**
 	 * 게시판 전체 조회
-	 * @param searchVO
+	 * @param boardVO
 	 * @return
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 * @throws EmptyResultDataAccessException
 	 */
-	List<BoardVO> do_retrieve(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	List<BoardVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 	
 	

@@ -23,7 +23,7 @@
 	</select>
 	
 	<!-- 전체 조회 -->
-	  <select id="do_retrieve"  parameterType="BoardVO"
+	  <select id="do_retrieve"  parameterType="SearchVO"
       resultType="BoardVO"  >
 		SELECT
 		    B.b_num,
@@ -41,7 +41,8 @@
 		SELECT bo.*
 		,ROW_NUMBER() OVER(ORDER BY reg_dt ) AS rnum
 		FROM board bo
-		)B
+		WHERE b_cate = #{search_div}
+		)B 
 		WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1)
 		AND (#{page_size} * (#{page_num}-1)+#{page_size})
 		</select>

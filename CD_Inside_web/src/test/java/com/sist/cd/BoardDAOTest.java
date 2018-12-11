@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.sist.cd.common.DTO;
+import com.sist.cd.common.SearchVO;
 import com.sist.cd.dao.BoardDAO;
 import com.sist.cd.domain.BoardVO;
 
@@ -35,16 +36,18 @@ public class BoardDAOTest {
 
 	
 	private final Logger LOG= LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private WebApplicationContext context;
-	
 	private MockMvc mockMvc;
 	
 	@Autowired
 	private BoardDAO boardDAO;
+	private SearchVO searchVO;
 	BoardVO  inVO1 = null;
 	BoardVO  inVO2 = null;
 	BoardVO  inVO3 = null;
+	SearchVO  inVO4 = null;
 	DTO dto = null;
 
 	
@@ -53,10 +56,11 @@ public class BoardDAOTest {
 		inVO1 =  new BoardVO("10014", "smd", "연진이냐", "덮밥쓰", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
 		inVO2 =  new BoardVO("10001", "digh", "딜리트되냐구", "딜리트만 남음", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
 		inVO3 =  new BoardVO("100000", "smd", "연진이냐", "덮밥쓰", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
+		inVO4 =  new SearchVO(10, 1, "test05", "0");
 		
-		
-		inVO1.setPage_num(1);
 		inVO1.setPage_size(5);
+		inVO1.setPage_num(1);
+		
 		  
 		LOG.info("context:"+context);
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -75,8 +79,8 @@ public class BoardDAOTest {
 		//--------------------------------------------
 		//1. 게시글 작성
 		//--------------------------------------------
-			boardDAO.addSY(inVO2);
-			boardDAO.addLK(inVO2);
+			boardDAO.addSY(searchVO);
+			boardDAO.addLK(searchVO);
 		
 		//--------------------------------------------
 	}
@@ -99,7 +103,7 @@ public class BoardDAOTest {
 	@Ignore
 	public void do_retrieve() throws SQLException, ClassNotFoundException {
 		//전체글 조회
-	List<BoardVO> list = boardDAO.do_retrieve(inVO1);
+	List<BoardVO> list = boardDAO.do_retrieve(searchVO);
 		LOG.info("do_retrieve_list:"+list);
 	}
 	

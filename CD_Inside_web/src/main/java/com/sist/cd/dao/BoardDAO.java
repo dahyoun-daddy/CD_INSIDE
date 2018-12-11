@@ -21,7 +21,7 @@ public interface BoardDAO {
 	 * @return
 	 * @throws DuplicateUserIdException
 	 */
-	int addSY(BoardVO boardVO) throws DuplicateUserIdException;
+	List<BoardVO> addSY(SearchVO searchVO) throws DuplicateUserIdException;
 	
 	/**
 	 * 링크게시글 작성
@@ -29,7 +29,7 @@ public interface BoardDAO {
 	 * @return
 	 * @throws DuplicateUserIdException
 	 */
-	int addLK(BoardVO boardVO) throws DuplicateUserIdException;
+	List<BoardVO> addLK(SearchVO searchVO) throws DuplicateUserIdException;
 	
 	
 	
@@ -49,7 +49,7 @@ public interface BoardDAO {
 	 * @throws SQLException
 	 * @throws EmptyResultDataAccessException
 	 */
-	List<BoardVO> do_retrieve(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	List<BoardVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 	
 	
