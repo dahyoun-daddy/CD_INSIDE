@@ -293,6 +293,10 @@ function ComAjax(opt_formId){
 	};
 }
 
+$('.collapse').on('shown.bs.collapse', function () {
+	alert('123');
+})
+
 /*
 divId : 페이징 태그가 그려질 div
 pageIndx : 현재 페이지 위치가 저장될 input 태그 id
@@ -435,7 +439,7 @@ function _movePage(value){
 		    				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
 		    				+					'width="30px" height="30px"/>&nbsp;'
 		    				+				'<label class="hitNum">'+value.commHit+'</label>'
-		    				+				'<a class="cursor" data-toggle="collapse" id="commentReply" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
+		    				+				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-expanded="false" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
 		    				+				'&nbsp;'
 		    				+				'<a class="cursor" id="commentUpdate" >수정</a>'
 		    				+				'&nbsp;'
@@ -454,7 +458,7 @@ function _movePage(value){
 	    				+		'<div class="media">' 
 						+			divIn
 	    				+		'</div>'
-	    				+	'</div>';
+	    				+		'</div>';
 	            	}else {
 		          		str +=		'<div class="container">' 
 		    				+		'<div class="media_reply">' 
