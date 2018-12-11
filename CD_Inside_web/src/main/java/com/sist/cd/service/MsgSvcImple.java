@@ -36,6 +36,7 @@ public class MsgSvcImple implements MsgSvc {
 	 * 9.안읽은쪽지갯수(getNCount)
 	 * 10.쪽지전체목록,읽지않음 + 최신순정렬(getAll) 
 	 * 11.검색(retrieve) 
+	 * 12.다중삭제(do_deleteMulti)
 	*/
 	@Override
 	public int add(MsgVO msgVO) throws DuplicateUserIdException{
@@ -60,15 +61,19 @@ public class MsgSvcImple implements MsgSvc {
 	}
 	
 	@Override
-	public int deleteN(String msgReadYn) throws SQLException{
-		return msgDao.deleteN(msgReadYn);
+	public int deleteN(String userId) throws SQLException{
+		return msgDao.deleteN(userId);
 	}
 	
 	@Override
 	public int updateReadCheck(MsgVO msgVO) throws SQLException{
-		return msgDao.update(msgVO);
+		return msgDao.updateReadCheck(msgVO);
 	}
 	
+	@Override
+	public MsgVO get(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException{
+		return  msgDao.get(msgVO);
+	}
 	
 	@Override
 	public int getAllCount(String userId) throws SQLException{
@@ -80,41 +85,13 @@ public class MsgSvcImple implements MsgSvc {
 		return msgDao.getAllCount(msgReadYn);
 	}
 	
-
-	
-	/* (non-Javadoc)
-	 * @see com.sist.hr.user.service.UserSvc#getCount(java.lang.String)
-	 */
-
-	/* (non-Javadoc)
-	 * @see com.sist.hr.user.service.UserSvc#add(com.sist.hr.user.domain.UserVO)
-	 */
-
-
-	
-	/* (non-Javadoc)
-	 * @see com.sist.hr.user.service.UserSvc#do_retrieve(com.sist.hr.common.SearchVO)
-	 */
 	@Override
 	public List<MsgVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException{
 		return msgDao.do_retrieve(searchVO);
 	}
-	
-
-	/* (non-Javadoc)
-	 * @see com.sist.hr.user.service.UserSvc#get(com.sist.hr.user.domain.UserVO)
-	 */
-	@Override
-	public MsgVO get(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException{
-		return  msgDao.get(msgVO);
-	}
 
 
 
-	@Override
-	public int do_upsert(MsgVO msgVO) throws SQLException {
-		return msgDao.do_upsert(msgVO);
-	}
 
 	@Override
 	public int do_deleteMulti(List<MsgVO> list) throws RuntimeException, SQLException {
@@ -122,13 +99,11 @@ public class MsgSvcImple implements MsgSvc {
 		return 0;
 	}
 
+
 	@Override
-	public int update(MsgVO msgVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int do_upsert(MsgVO msgVO) throws SQLException {
+		return msgDao.do_upsert(msgVO);
 	}
-
-
 }
 
 

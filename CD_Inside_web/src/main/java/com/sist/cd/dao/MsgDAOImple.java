@@ -90,11 +90,11 @@ public class MsgDAOImple implements MsgDAO{
 		return flag;
 	}		
 
-	public int deleteN(String msgReadYn) throws SQLException {
+	public int deleteN(String userId) throws SQLException {
 		String statement = NAME_SPACE+".deleteN";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+msgReadYn);
-		int flag  = this.sqlSession.delete(statement, msgReadYn);
+		log.debug("2.param: "+userId);
+		int flag  = this.sqlSession.delete(statement, userId);
 		log.debug("3.flag: "+flag);
 		return flag;
 	}	
@@ -121,9 +121,6 @@ public class MsgDAOImple implements MsgDAO{
 		
 	}	
 	
-	/* (non-Javadoc)
-	 * @see com.sist.hr.UserDaoI#getCount(java.lang.String)
-	 */
 	public int getAllCount(String userId) throws SQLException {
 		int cnt = 0;
 		String statement = NAME_SPACE+".getAllCount";
@@ -148,12 +145,7 @@ public class MsgDAOImple implements MsgDAO{
 				
 	}
 
-	
-	
-	
-	/* (non-Javadoc)
-	 * @see com.sist.hr.UserDaoI#getAll()
-	 */
+
 	public List<MsgVO> getAll() throws ClassNotFoundException, SQLException,EmptyResultDataAccessException {
 		
 		String statement = NAME_SPACE+".getAll";
@@ -191,13 +183,6 @@ public class MsgDAOImple implements MsgDAO{
 		
 		return flag;
 	}
-
-	@Override
-	public int update(MsgVO msgVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 
 
 

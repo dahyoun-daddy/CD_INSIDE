@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.sist.cd.common.DTO;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.dao.MsgDAO;
+import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.MsgVO;
 import com.sist.cd.domain.UserVO;
 
@@ -53,7 +55,6 @@ public class MsgDAOTest {
 	MsgVO  inVO5 = null;
 
 	SearchVO searchVO = null;
-	
 	
 	@Before
 	public void setUp() {
@@ -89,12 +90,14 @@ public class MsgDAOTest {
 		
 	}
 	
+	@Ignore
 	@Test
 	public void update() throws SQLException, ClassNotFoundException {
 		//--------------------------------------------
 		//0. 읽지않음 -> 읽음 수정
 		//--------------------------------------------
-		msgDao.updateReadCheck(inVO1); 		 //안됨
+		msgDao.updateReadCheck(inVO2); 	
+		//		inVO1 = new MsgVO("400","보낸이","받는이","내용","2018-11-15","읽지않음");
 
 	}
 	
@@ -104,34 +107,36 @@ public class MsgDAOTest {
 		//--------------------------------------------
 		//0.1건 삭제 
 		//--------------------------------------------
-	//	msgDao.delete(inVO1); //됨
+		msgDao.delete(inVO1); //됨
 		//		inVO1 = new MsgVO("400","보낸이","받는이","내용","2018-11-15","읽지않음");
 
 		//--------------------------------------------
 		//1.보낸쪽지 전부 삭제   ex) "보낸이가" 가 보낸 보낸쪽지 전부 삭제 
 		//--------------------------------------------
-	//	msgDao.deleteSAll("보낸이"); //됨 
+		msgDao.deleteSAll("보낸이"); //됨 
 
 		//--------------------------------------------
 		//2.받은쪽지 전부 삭제   ex) "받는이2" 가 받은 받은쪽지 전부 삭제 
 		//--------------------------------------------
-	//	msgDao.deleteRAll("받는이2");  //됨
+		msgDao.deleteRAll("받는이2");  //됨
 		
 		//--------------------------------------------
-		//3.안 읽은쪽지 전부 삭제 
+		//3.안 읽은쪽지 전부 삭제   ex) "받는이3" 가 받은 받은쪽지 중 읽지않은 쪽지 전부 삭제 
 		//--------------------------------------------
-		msgDao.deleteN("읽지않음"); 		 //안됨
+		msgDao.deleteN("받는이3");  //됨		
 	}
-	
-	@Ignore
+
+	@Ignore	
 	@Test
 	public void add() throws SQLException, ClassNotFoundException {
 		//--------------------------------------------
 		//1. 단건 추가
 		//--------------------------------------------	
-//		msgDao.delete(inVO1);// 됨
+		msgDao.delete(inVO1);
+		LOG.info("★★★inVO1" + inVO1);
 
-//		msgDao.add(inVO1); // 됨
+		msgDao.add(inVO1); 
+		LOG.info("★★★inVO1" + inVO1);
 		
 //		inVO1 = new MsgVO("406","보낸이","받는이","내용","2018-11-15","읽지않음");
 
@@ -140,60 +145,50 @@ public class MsgDAOTest {
 	@Ignore
 	@Test	
 	public void count() throws SQLException, ClassNotFoundException {
+		//--------------------------------------------
+		//0. 받은쪽지 전체 갯수
+		//--------------------------------------------
 		assertThat(msgDao.getAllCount("받는이3"),is(4)); //받는이3 기준, 받은쪽지 갯수
-	//	assertThat(msgDao.getNCount("읽지않음"),is(4)); //받는이3 기준, 안읽은쪽지 갯수 안됨
+		
+		//--------------------------------------------
+		//1. 받은쪽지 중 안 읽은 쪽전체 갯수
+		//--------------------------------------------
+		assertThat(msgDao.getNCount("받는이2"),is(1)); //받는이2 기준, 안읽은쪽지 갯수 
 
 	}		
 	
-	@Ignore
 	@Test
 	public void addAndGet() throws SQLException, ClassNotFoundException {
-
 	
 		//--------------------------------------------
 		//0.1건 삭제 
 		//--------------------------------------------
-//		msgDao.deleteAll();
+		msgDao.delete(inVO1);
 		
 		//--------------------------------------------
 		//1. 단건 추가
-		//--------------------------------------------
-		
-//		msgDao.add(inVO1);
+		//--------------------------------------------		
+		msgDao.add(inVO1);
 
-//		msgDao.add(inVO2);
-//		msgDao.add(inVO3);
-//		msgDao.add(inVO4);
-//		msgDao.add(inVO5);
-		
-		//--------------------------------------------
-		//1.1 Count
-		//--------------------------------------------
-		//했음
-//		MsgVO getVO01 = msgDao.get(inVO1);
-//		MsgVO getVO02 = msgDao.get(inVO2);
-//		LOG.info("getVO01:"+getVO01);
-//		LOG.info("getVO02:"+getVO02);		
-//		assertThat(msgDao.getCount("보낸이"),is(4));
-	
-		
-		
 		//--------------------------------------------
 		//2. 단건 조회
 		//--------------------------------------------
-		//했음
-//		MsgVO getVO = msgDao.get(inVO5);
-//		UserVO vo = new UserVO();
-//		vo.setUserId("11user");
-//		LOG.info("***selectOne : "+userDao.selectOne(vo));
+		MsgVO getVO = msgDao.get(inVO1);
+		LOG.info("★★★inVO1" + inVO1);
 		
-		
-		/**
 		//--------------------------------------------
-		//3. 추가Data와 비교
-		//--------------------------------------------		
-		checkSameUser(inVO1, getVO);
-		
-	*/
+		//3. 전체 데이터 조회
+		//--------------------------------------------
+		List<MsgVO> getVO1 = msgDao.getAll();
+		LOG.info("★★★getVO1" + getVO1);		
+
 	}
+	
+	@Test
+	public void do_retrieve() throws SQLException, ClassNotFoundException {
+		List<MsgVO> list = msgDao.do_retrieve(searchVO);
+			LOG.info("do_retrieve_list:"+list);
+	}
+
+	
 }

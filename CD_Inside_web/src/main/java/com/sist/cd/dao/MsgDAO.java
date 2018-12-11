@@ -29,52 +29,15 @@ public interface MsgDAO {
 	int delete(MsgVO msgVO) throws SQLException;
 	int deleteSAll(String userId) throws SQLException;
 	int deleteRAll(String userId) throws SQLException;
-	int deleteN(String msgReadYn) throws SQLException;
+	int deleteN(String userId) throws SQLException;
 	int updateReadCheck(MsgVO msgVO) throws SQLException;
-
+	MsgVO get(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	int getAllCount(String userId) throws SQLException;
 	int getNCount(String msgReadYn) throws SQLException;
-
-	
-	/**
-	 * 단건 등록
-	 */
-	int do_upsert(MsgVO msgVO) throws SQLException;	
-	
-	/**
-	 * 단건삭제
-	 */
-	
-	/**
-	 * 수정
-	 */
-	int update(MsgVO msgVO) throws SQLException;
-	
-	/**
-	 * 조회 COUNT
-	 * @throws SQLException 
-	 */
-   
-
-	/**
-	 * 추가:115
-	 * @param userVO
-	 * @throws ClassNotFoundException 
-	 * @throws SQLException 
-	 */
-
-
 	List<MsgVO> getAll() throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	List<MsgVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
-	
 
-	/**
-	 * 단건조회
-	 * @param userVO
-	 * @throws ClassNotFoundException 
-	 * @throws SQLException 
-	 */
-	MsgVO get(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
-	
+	int do_upsert(MsgVO msgVO) throws SQLException;	
+
 
 }
