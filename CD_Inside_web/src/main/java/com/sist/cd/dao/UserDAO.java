@@ -12,9 +12,12 @@ import com.sist.cd.domain.UserVO;
 public interface UserDAO {
 
 
-	/**
-	 * 일반유저 정보수정 
-	 */
+	/** 로그인 아이디 확인*/
+	int loginIdFind (UserVO userVO)throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
+	
+	/** 로그인*/
+	int login (UserVO userVO)throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
+	
 	int uUpdate (UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
 	
 	/**

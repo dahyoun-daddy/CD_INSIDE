@@ -23,7 +23,6 @@ public class UserSvcImple implements UserSvc{
 	@Autowired
 	private UserDAO userDao;
 
-	
 
 	@Override
 	public String nameCheck(String userName) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
@@ -57,14 +56,60 @@ public class UserSvcImple implements UserSvc{
 
 	@Override
 	public int do_deleteMulti(List<UserVO> list) throws RuntimeException, SQLException {
-		// TODO 다건삭제 
-		return 0;
+		int flag = 0;
+		try {
+			for(UserVO vo :list) {
+				flag+=userDao.delete(vo);
+			}
+			
+		}catch(RuntimeException e) {
+			log.debug("========================");
+			log.debug("RuntimeException: "+e.getMessage());
+			log.debug("========================");			
+			throw e;
+		}
+		log.debug("========================");
+		log.debug("=flag="+flag);
+		log.debug("========================");
+		return flag;
 	}
 
 	@Override
 	public List<UserVO> do_retrieve(SearchVO searchVO)
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
-		// TODO 전체조회
-		return null;
+		return userDao.do_retrieve(searchVO);
 	}
+
+	@Override
+	public int login(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return userDao.login(userVO);
+	}
+
+	@Override
+	public int loginIdFind(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return userDao.loginIdFind(userVO);
+	}
+	/**아이디 찾기*/
+	@Override
+	public String idFind(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return userDao.idFind(userVO);
+	}
+	/**개인정보 수정*/
+	@Override
+	public int uUpdate(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return userDao.uUpdate(userVO); 
+	}
+	/**비밀번호 찾기>변경*/
+	@Override
+	public int pwFindUpdate(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return userDao.pwFindUpdate(userVO);
+	}
+
+	/**비밀번호 찾기*/
+	@Override
+	public String pwFind(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return userDao.pwFind(userVO);
+	}
+
+
 }

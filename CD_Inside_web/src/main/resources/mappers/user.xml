@@ -17,14 +17,80 @@
 	    ,MOD_ID
     	,TO_CHAR(MOD_DT,'YYYY-MM-DD HH24:MI:SS') MOD_DT
     </sql>
+    
+<!--     로그인 아이디 확인 -->
+    <select id="loginIdFind" resultType="Integer" parameterType="UserVO">
+    	SELECT COUNT(*)
+    	FROM   U_SER
+    	WHERE USER_ID=#{userId}
+    </select>
+    
+<!--     로그인 -->
+	<select id="user_login" resultType="Integer" parameterType="UserVO">
+		SELECT COUNT(*)
+		FROM  U_SER
+		WHERE USER_ID =#{userId}
+		AND   USER_PW =#{userPw}
+	</select>
+    
+<!--     페이징 검색조건 -->
+    <sql id="baseCondition">
+	    <where>
+	    	<choose>
+	    		<when test="'10'==search_div">
+	    		    hr.u_id like  #{search_word}||'%'
+	    		</when>
+	    		<when test="'20'==search_div">
+	    		    hr.name like  #{search_word}||'%'
+	    		</when>
+	    		<when test="'30'==search_div">
+	    		    hr.email like  #{search_word}||'%'
+	    		</when>		    		
+	    		<otherwise></otherwise>
+	    	</choose>
+	    </where>     
+    </sql>
+    
+<!--     전체 조회 페이징처리 -->
+    <select id="do_retrieve" parameterType="SearchVO" resultType="UserVO"  >
+		SELECT X.*,Y.*
+		  FROM(
+			SELECT  T.user_id,
+			        T.user_name,
+			        T.user_pw,
+			        T.user_email,
+			        T.user_ques,
+			        T.user_answ,
+			        T.user_yn,
+			        TO_CHAR(T.reg_dt,'YYYY-MM-DD') reg_dt,
+			        T.mod_id,
+			        TO_CHAR(T.mod_dt,'YYYY-MM-DD') mod_dt,
+			        T.rnum AS no
+			  FROM(
+			    SELECT u.*,
+			          ROW_NUMBER() OVER(ORDER BY reg_dt desc ) AS rnum
+			      FROM u_ser u
+		    <include refid="baseCondition"/>
+			  )T
+		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
+		    AND (#{page_size} * (#{page_num}-1)+#{page_size})
+		)X
+		NATURAL JOIN
+		(
+		  SELECT COUNT(*) AS total_cnt   
+		    FROM u_ser
+		    <include refid="baseCondition"/>
+		)Y
+	</select>
+    
 <!--     user 비밀번호 변경 -->
-    <select id="pwFindUpdate">
+    <update id="pwFindUpdate" parameterType="UserVO">
 	    UPDATE U_SER
 		SET
-		    USER_PW = #{userPw} 
-		WHERE
-		    USER_ID = #{userId}
-    </select>
+		    USER_PW = #{userPw}
+		   ,MOD_ID  = #{userId} 
+		WHERE USER_ID = #{userId}
+    </update>
     
 <!--     비밀번호 찾기 -->
 	<select id="pwFind" parameterType="UserVO" resultType="String">

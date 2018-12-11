@@ -24,7 +24,7 @@ public class UserDAOImple implements UserDAO{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	private final String NAME_SPACE ="com.sist.hr.mappers.user";
+	private final String NAME_SPACE ="com.sist.cd.mappers.user";
 	
 	private RowMapper<UserVO> userMapper = new RowMapper<UserVO>() {
 
@@ -45,6 +45,36 @@ public class UserDAOImple implements UserDAO{
 		}  
 	};
 
+	/**
+	 * 로그인시 회원가입 유무 확인
+	 */
+	@Override
+	public int loginIdFind(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		String statement = NAME_SPACE+".loginIdFind";
+		log.info("1.statement: "+statement);
+		log.info("2.param: "+userVO);
+
+		int flag  = this.sqlSession.selectOne(statement, userVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
+
+	
+	/**
+	 * 로그인
+	 */
+	@Override
+	public int login(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		String statement = NAME_SPACE+".user_login";
+		log.info("1.statement: "+statement);
+		log.info("2.param: "+userVO);
+
+		int flag  = this.sqlSession.selectOne(statement, userVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
+
+	
 	/**
 	 * 일반 개인정보 수정
 	 */
@@ -194,8 +224,15 @@ public class UserDAOImple implements UserDAO{
 	@Override
 	public List<UserVO> do_retrieve(SearchVO searchVO)
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+		String statement = NAME_SPACE+".do_retrieve";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+searchVO);
+		List<UserVO> list  = this.sqlSession.selectList(statement, searchVO);
+		log.debug("*****************************");
+		log.debug("3.list: "+list);
+		log.debug("*****************************");
+		return list;
 	}
+
 
 }

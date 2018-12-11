@@ -28,10 +28,148 @@ public class UserCtrl {
 	@Autowired
 	private UserSvc userSvc;
     
-	@RequestMapping(value="/user/user_join.do")	
-	public String join_view() {
-		log.info("=====join_view======");
-		return "/user/user_join";
+
+	@RequestMapping(value="/user/pwFindUpdate.do",method=RequestMethod.POST
+	        ,produces="application/json;charset=UTF-8" )
+	@ResponseBody
+	public String pwFindUpdate(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		String userId = req.getParameter("userId");
+		String userPw = req.getParameter("userPw");
+
+		log.info("*pwFindUpdate*userId : "+userId);
+		UserVO pwUpdateVo = new UserVO();
+		pwUpdateVo.setUserId(userId);
+		pwUpdateVo.setUserPw(userPw);
+		pwUpdateVo.setModId(userId);
+		
+		JSONObject object=new JSONObject();
+		int flag = userSvc.pwFindUpdate(pwUpdateVo);
+		log.info("*flag* : "+flag);
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "비밀번호가 수정되었습니다.");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "수정 실패ㅠㅠ");			
+		}		
+		
+		
+		String jsonData = object.toJSONString();
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+	}
+		
+	
+	@RequestMapping(value="/user/pwFind.do",method=RequestMethod.POST
+	        ,produces="application/json;charset=UTF-8" )
+	@ResponseBody
+	public String pwFind(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		String userId   = req.getParameter("userId");
+		String userQues = req.getParameter("userQues");
+		String userAnsw = req.getParameter("userAnsw");
+		
+		UserVO pwFindVO = new UserVO();
+		pwFindVO.setUserId(userId);
+		pwFindVO.setUserQues(userQues);
+		pwFindVO.setUserAnsw(userAnsw);
+		
+		String pwFind = userSvc.pwFind(pwFindVO);
+		log.info("***idFind : "+pwFind);
+		JSONObject object=new JSONObject();
+		
+		if(pwFind!=null) {
+			object.put("pwFind", pwFind);
+//			object.put("message", "회원가입 하신 아이디는 [ "+pwFind+" ] 입니다.");
+		}else {
+			object.put("pwFind", pwFind);
+			object.put("message", "일치하는 정보가 없습니다.");			
+		}
+		String jsonData = object.toJSONString();
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+	}
+		
+	
+	@RequestMapping(value="/user/idFind.do",method=RequestMethod.POST
+	        ,produces="application/json;charset=UTF-8" )
+	@ResponseBody
+	public String idFind(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		String userName = req.getParameter("userName");
+		String userQues = req.getParameter("userQues");
+		String userAnsw = req.getParameter("userAnsw");
+		
+		UserVO idFindVO = new UserVO();
+		idFindVO.setUserName(userName);
+		idFindVO.setUserQues(userQues);
+		idFindVO.setUserAnsw(userAnsw);
+		
+		String idFind = userSvc.idFind(idFindVO);
+		log.info("***idFind : "+idFind);
+		JSONObject object=new JSONObject();
+		
+		if(idFind!=null) {
+			object.put("idFind", idFind);
+			object.put("message", "회원가입 하신 아이디는 [ "+idFind+" ] 입니다.");
+		}else {
+			object.put("idFind", idFind);
+			object.put("message", "일치하는 정보가 없습니다.");			
+		}
+		
+		String jsonData = object.toJSONString();
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+		
+	}
+	
+	/**
+	 * 로그인 
+	 * (아이디 없으면 등록한정보없음)
+	 * (아이디와 비밀번호가 틀리면 다시확인)
+	 */
+	@RequestMapping(value="/user/user_login.do",method=RequestMethod.POST
+	        ,produces="application/json;charset=UTF-8" )
+	@ResponseBody
+	public String login(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		String userId = req.getParameter("userId");
+		String userPw = req.getParameter("userPw");
+		
+		UserVO loginVo = new UserVO();
+		
+		
+		loginVo.setUserId(userId);
+		loginVo.setUserPw(userPw);
+		log.info("userVO : "+loginVo);
+
+		int flag1 = this.userSvc.loginIdFind(loginVo);
+		int flag = this.userSvc.login(loginVo);
+		JSONObject object=new JSONObject();
+		
+		if(flag1<=0) {
+			object.put("flag1", flag1);
+		}
+		log.info("****flag1 : "+flag1);
+		UserVO outVO = this.userSvc.selectOne(loginVo);
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", outVO.getUserName()+"님 환영합니다.");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "아이디와 비밀번호를 확인하세요.");			
+		}
+		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+		
 	}
 	
 	/**
@@ -44,7 +182,7 @@ public class UserCtrl {
 	 * @throws SQLException
 	 */
 	@RequestMapping(value="/user/nameCheck.do",method=RequestMethod.POST
-	        ,produces="application/json;charset=utf8" )
+	        ,produces="application/json;charset=UTF-8" )
 	@ResponseBody
 	public String nameCheck(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		String userName = req.getParameter("userName");//input text id
@@ -88,7 +226,7 @@ public class UserCtrl {
 	 * @throws SQLException
 	 */
 	@RequestMapping(value="/user/idCheck.do",method=RequestMethod.POST
-	        ,produces="application/json;charset=utf8")
+	        ,produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public String idCheck(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		String userId = req.getParameter("userId");//input text id
@@ -123,49 +261,49 @@ public class UserCtrl {
 		return jsonData;
 	}
 	
-//	/**
-//	 * 단건 조회
-//	 * @param req
-//	 * @param model
-//	 * @return
-//	 * @throws EmptyResultDataAccessException
-//	 * @throws ClassNotFoundException
-//	 * @throws SQLException
-//	 */
-//	@RequestMapping(value="/user/do_search_one.do",method=RequestMethod.POST
-//	        ,produces="application/json;charset=utf8"  
-//	)
-//	@ResponseBody
-//	public String selectOne(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
-//		String userId = req.getParameter("userId");
-//		log.info("2========================");
-//		log.info("get=");
-//		log.info("2========================");	
-//		UserVO userVO=new UserVO();
-//		userVO.setUserId(userId);
-//		
-//		//JSON Convertor
-//		UserVO outVO = userSvc.selectOne(userVO);
-//		JSONObject object=new JSONObject();
-//		object.put("userId"   , outVO.getUserId()   );
-//		object.put("userName" , outVO.getUserName() );
-//		object.put("userPw"   , outVO.getUserPw()   );
-//		object.put("userEmail", outVO.getUserEmail());
-//		object.put("userQues" , outVO.getUserQues() );
-//		object.put("userAnsw" , outVO.getUserAnsw() );
-//		object.put("userYn"   , outVO.getUserYn()   );
-//		object.put("regDt"    , outVO.getRegDt()    );
-//		object.put("modId"    , outVO.getModId()    );
-//		object.put("modDt"    , outVO.getModDt()    );
-//		
-//		String jsonData = object.toJSONString();
-//		
-//		log.info("3========================");
-//		log.info("jsonData="+jsonData);
-//		log.info("3========================");
-//		model.addAttribute("vo", userSvc.selectOne(userVO));
-//		return jsonData;
-//	}
+	/**
+	 * 단건 조회
+	 * @param req
+	 * @param model
+	 * @return
+	 * @throws EmptyResultDataAccessException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	@RequestMapping(value="/user/do_search_one.do",method=RequestMethod.POST
+	        ,produces="application/json;charset=utf-8"  
+	)
+	@ResponseBody
+	public String selectOne(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		String userId = req.getParameter("userId");
+		log.info("2========================");
+		log.info("get=");
+		log.info("2========================");	
+		UserVO userVO=new UserVO();
+		userVO.setUserId(userId);
+		
+		//JSON Convertor
+		UserVO outVO = userSvc.selectOne(userVO);
+		JSONObject object=new JSONObject();
+		object.put("userId"   , outVO.getUserId()   );
+		object.put("userName" , outVO.getUserName() );
+		object.put("userPw"   , outVO.getUserPw()   );
+		object.put("userEmail", outVO.getUserEmail());
+		object.put("userQues" , outVO.getUserQues() );
+		object.put("userAnsw" , outVO.getUserAnsw() );
+		object.put("userYn"   , outVO.getUserYn()   );
+		object.put("regDt"    , outVO.getRegDt()    );
+		object.put("modId"    , outVO.getModId()    );
+		object.put("modDt"    , outVO.getModDt()    );
+		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");
+		model.addAttribute("vo", userSvc.selectOne(userVO));
+		return jsonData;
+	}
 
 	/**
 	 * 단건 삭제
@@ -231,7 +369,7 @@ public class UserCtrl {
 	 * @throws SQLException
 	 */
 	@RequestMapping(value="/user/update.do",method=RequestMethod.POST
-	        ,produces="application/json;charset=utf8" )
+	        ,produces="application/json;charset=UTF-8" )
 	@ResponseBody
 	public String update(@ModelAttribute UserVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		
@@ -267,7 +405,7 @@ public class UserCtrl {
 	 * @throws SQLException
 	 */
 	@RequestMapping(value="/user/save.do",method=RequestMethod.POST
-	        ,produces="application/json;charset=utf8" )
+	        ,produces="application/json;charset=UTF-8" )
 	@ResponseBody
 	public String save(@ModelAttribute UserVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		
@@ -297,6 +435,35 @@ public class UserCtrl {
 		log.info("3========================");			
 		return jsonData;
 	}
+    
+	@RequestMapping(value="/user/user_join.do")	
+	public String join_view() {
+		log.info("=====user_join_view======");
+		return "/user/user_join";
+	}    
 	
-}
+	@RequestMapping(value="/user/login.do")	
+	public String login_view() {
+		log.info("=====login_view======");
+		return "/user/login.do";
+	}
+	
+	@RequestMapping(value="/user/user_id.do")	
+	public String user_id_view() {
+		log.info("=====user_id_view======");
+		return "/user/user_id.do";
+	}
+	
+	@RequestMapping(value="/user/user_pw.do")	
+	public String user_pw_view() {
+		log.info("=====user_pw_view======");
+		return "/user/user_pw.do";
+	}
+	
+	@RequestMapping(value="/user/user_pw_update.do")	
+	public String user_pw_update_view() {
+		log.info("=====user_pw_update_view======");
+		return "/user/user_pw_update.do";
+	}
 
+}

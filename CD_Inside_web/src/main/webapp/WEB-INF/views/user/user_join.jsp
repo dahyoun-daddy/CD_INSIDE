@@ -5,8 +5,6 @@
 <%
 	String context = request.getContextPath();//context path
 	Logger log = LoggerFactory.getLogger(this.getClass());
-	String outId= (String)request.getAttribute("outId");
-	log.debug("-*-outId : "+outId);
 	
 %>
 <!DOCTYPE html>
@@ -67,13 +65,13 @@
 					</tr>
 					<tr>
 						<td style="width:150px; padding-top:15px">질의응답</td>
-							<td style="padding-top:15px">
+						<td style="padding-top:15px">
 							<select name="userQues" id="userQues" class="form-control input-sm ">
-							<option value="내가 가장 좋아하는 사람은?" selected="selected">내가 가장 좋아하는 사람은?</option>
-							<option value="내가 가장 좋아하는 음식은?">내가 가장 좋아하는 음식은?</option>
-							<option value="살면서 가장 하기 싫은 일은?">살면서 가장 하기 싫은 일은?</option>
-							<option value="기억에 남는 장소는?">기억에 남는 장소는?</option>
-						</select>
+								<option value="내가 가장 좋아하는 사람은?" selected="selected">내가 가장 좋아하는 사람은?</option>
+								<option value="내가 가장 좋아하는 음식은?">내가 가장 좋아하는 음식은?</option>
+								<option value="살면서 가장 하기 싫은 일은?">살면서 가장 하기 싫은 일은?</option>
+								<option value="기억에 남는 장소는?">기억에 남는 장소는?</option>
+							</select>
 						<td></td>
 					</tr>	
 					<tr>
