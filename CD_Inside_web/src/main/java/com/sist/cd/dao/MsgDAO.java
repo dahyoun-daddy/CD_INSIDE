@@ -27,9 +27,11 @@ public interface MsgDAO {
 
 	int add(MsgVO msgVO) throws DuplicateUserIdException;
 	int delete(MsgVO msgVO) throws SQLException;
-	void deleteSAll() throws SQLException;
-	void deleteRAll() throws SQLException;
-	void deleteN() throws SQLException;
+	int deleteSAll(String userId) throws SQLException;
+	int deleteRAll(String userId) throws SQLException;
+	int deleteN(String msgReadYn) throws SQLException;
+	int updateReadCheck(MsgVO msgVO) throws SQLException;
+
 	int getAllCount(String userId) throws SQLException;
 	int getNCount(String msgReadYn) throws SQLException;
 

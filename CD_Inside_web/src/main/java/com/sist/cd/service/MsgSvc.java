@@ -13,7 +13,7 @@ import com.sist.cd.domain.MsgVO;
 public interface MsgSvc {
 	
 	/**
-	 * 1.전송(submit)
+	 * 1.전송(add)
 	 * 2.1건삭제(delete)
 	 * 3.보낸쪽지전체삭제(deleteSAll)
 	 * 4.받은쪽지전체삭제(deleteRAll)
@@ -29,9 +29,10 @@ public interface MsgSvc {
 	
 	int add(MsgVO msgVO) throws DuplicateUserIdException;
 	int delete(MsgVO msgVO) throws SQLException;
-	void deleteSAll() throws SQLException;
-	void deleteRAll() throws SQLException;
-	void deleteN() throws SQLException;
+	int deleteSAll(String userId) throws SQLException;
+	int deleteRAll(String userId) throws SQLException;
+	int deleteN(String msgReadYn) throws SQLException;
+	int updateReadCheck(MsgVO msgVO) throws SQLException;
 	int getAllCount(String userId) throws SQLException;
 	int getNCount(String msgReadYn) throws SQLException;
 	

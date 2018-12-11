@@ -74,7 +74,17 @@
 	<delete id="deleteN"  parameterType="MsgVO"  >
 		DELETE FROM MSG 
 		WHERE MSG_READ_YN = #{msgReadYn}
+		  AND MSG_RECV_ID = #{msgRecvId}
 	</delete> 	
+
+	<!-- 수정 -->
+	<update id="updateReadCheck"  parameterType="MsgVO" >
+		 UPDATE MSG          
+	        SET MSG_READ_YN  = "'읽지않음'"      
+	    WHERE msg_seq    = #{msgSeq}            
+	</update>
+	
+
 
 	<!-- 받은쪽지 갯수 -->
 	<select id="getAllCount" parameterType="String" 
@@ -173,13 +183,7 @@
 	
 
 	
-	<!-- 수정 -->
-	<update id="update"  parameterType="MsgVO" >
-		 UPDATE MSG          
-	        SET MSG_READ_YN  = #{msgReadYn}      
-	    WHERE msg_seq    = #{msgSeq}            
-	</update>
-	
+
 	
 
 	

@@ -34,13 +34,12 @@ public class MsgDAOImple implements MsgDAO{
 	
 	private final String NAME_SPACE ="com.sist.cd.mappers.msg";
 	
-
 	public MsgDAOImple() {
 		
 	}
 	
 	/**
-	 * 1.전송(submit)
+	 * 1.전송(add)
 	 * 2.1건삭제(delete)
 	 * 3.보낸쪽지전체삭제(deleteSAll)
 	 * 4.받은쪽지전체삭제(deleteRAll)
@@ -62,11 +61,7 @@ public class MsgDAOImple implements MsgDAO{
 		
 		return flag;
 	}
-	
-	/**
-	 * 단건 삭제!
-	 * mybatis:ok
-	 */
+
 	public int delete(MsgVO msgVO) throws SQLException {
 		String statement = NAME_SPACE+".delete";
 		log.debug("1.statement: "+statement);		
@@ -75,21 +70,44 @@ public class MsgDAOImple implements MsgDAO{
 		log.debug("3.flag: "+flag);
 		return flag;
 	}	
-	
-	public void deleteSAll() throws SQLException {
+
+	@Override
+	public int deleteSAll(String userId) throws SQLException {
 		String statement = NAME_SPACE+".deleteSAll";
 		log.debug("1.statement: "+statement);		
-	}	
+		log.debug("2.param: "+userId);
+		int flag  = this.sqlSession.delete(statement, userId);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
 	
-	public void deleteRAll() throws SQLException {
+	public int deleteRAll(String userId) throws SQLException {
 		String statement = NAME_SPACE+".deleteRAll";
 		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+userId);
+		int flag  = this.sqlSession.delete(statement, userId);
+		log.debug("3.flag: "+flag);
+		return flag;
 	}		
 
-	public void deleteN() throws SQLException {
+	public int deleteN(String msgReadYn) throws SQLException {
 		String statement = NAME_SPACE+".deleteN";
 		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+msgReadYn);
+		int flag  = this.sqlSession.delete(statement, msgReadYn);
+		log.debug("3.flag: "+flag);
+		return flag;
 	}	
+	
+	public int updateReadCheck(MsgVO msgVO) throws SQLException {
+		String statement = NAME_SPACE+".updateReadCheck";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+msgVO);
+		int flag  = this.sqlSession.update(statement, msgVO);
+		log.debug("3.flag: "+flag);
+		
+		return flag;
+	}
 
 	public MsgVO get(MsgVO msgVO) throws ClassNotFoundException, SQLException,EmptyResultDataAccessException {
 		
@@ -149,27 +167,6 @@ public class MsgDAOImple implements MsgDAO{
 
 		return this.sqlSession.selectList(statement);				
 	}
-	
-    /**
-     * mybatis:ok
-     */
-
-
-	/**
-	 * mybatis:ok
-	 */
-	public int update(MsgVO msgVO) throws SQLException {
-		String statement = NAME_SPACE+".update";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+msgVO);
-		int flag  = this.sqlSession.update(statement, msgVO);
-		log.debug("3.flag: "+flag);
-		
-		return flag;
-	}
-
-
-
 
 	public List<MsgVO> do_retrieve(SearchVO searchVO)
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
@@ -194,6 +191,13 @@ public class MsgDAOImple implements MsgDAO{
 		
 		return flag;
 	}
+
+	@Override
+	public int update(MsgVO msgVO) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 
 

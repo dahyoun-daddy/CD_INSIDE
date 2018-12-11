@@ -89,29 +89,38 @@ public class MsgDAOTest {
 		
 	}
 	
+	@Test
+	public void update() throws SQLException, ClassNotFoundException {
+		//--------------------------------------------
+		//0. 읽지않음 -> 읽음 수정
+		//--------------------------------------------
+		msgDao.updateReadCheck(inVO1); 		 //안됨
+
+	}
+	
 	@Ignore
 	@Test
 	public void delete() throws SQLException, ClassNotFoundException {
 		//--------------------------------------------
 		//0.1건 삭제 
 		//--------------------------------------------
-//		msgDao.delete(inVO1); 됨
+	//	msgDao.delete(inVO1); //됨
 		//		inVO1 = new MsgVO("400","보낸이","받는이","내용","2018-11-15","읽지않음");
 
 		//--------------------------------------------
-		//1.보낸쪽지 전부 삭제 
+		//1.보낸쪽지 전부 삭제   ex) "보낸이가" 가 보낸 보낸쪽지 전부 삭제 
 		//--------------------------------------------
-	//	msgDao.deleteSAll(); 안됨
+	//	msgDao.deleteSAll("보낸이"); //됨 
 
 		//--------------------------------------------
-		//2.받은쪽지 전부 삭제 
+		//2.받은쪽지 전부 삭제   ex) "받는이2" 가 받은 받은쪽지 전부 삭제 
 		//--------------------------------------------
-	//	msgDao.deleteRAll(); 안됨
+	//	msgDao.deleteRAll("받는이2");  //됨
 		
 		//--------------------------------------------
 		//3.안 읽은쪽지 전부 삭제 
 		//--------------------------------------------
-	//	msgDao.deleteN(); 안됨		
+		msgDao.deleteN("읽지않음"); 		 //안됨
 	}
 	
 	@Ignore
@@ -123,6 +132,7 @@ public class MsgDAOTest {
 //		msgDao.delete(inVO1);// 됨
 
 //		msgDao.add(inVO1); // 됨
+		
 //		inVO1 = new MsgVO("406","보낸이","받는이","내용","2018-11-15","읽지않음");
 
 	}	

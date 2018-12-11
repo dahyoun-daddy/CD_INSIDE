@@ -25,7 +25,7 @@ public class MsgSvcImple implements MsgSvc {
 	
 	
 	/**
-	 * 1.전송(submit)
+	 * 1.전송(add)
 	 * 2.1건삭제(delete)
 	 * 3.보낸쪽지전체삭제(deleteSAll)
 	 * 4.받은쪽지전체삭제(deleteRAll)
@@ -45,22 +45,30 @@ public class MsgSvcImple implements MsgSvc {
 	@Override
 	public int delete(MsgVO msgVO) throws SQLException{
 		return msgDao.delete(msgVO);
-	}	
+	}
+	
+	@Override
+	public int deleteSAll(String userId) throws SQLException {
+		return msgDao.deleteSAll(userId);
+		
+	}
 
-//	@Override
-//	public void deleteSAll() throws SQLException{
-//		return msgDao.deleteSAll();
-//	}
-//	
-//	@Override
-//	public void deleteRAll() throws SQLException{
-//		return msgDao.deleteRAll();
-//	}
-//	
-//	@Override
-//	public void deleteN() throws SQLException{
-//		return msgDao.deleteN();
-//	}
+	@Override
+	public int deleteRAll(String userId) throws SQLException {
+		return msgDao.deleteSAll(userId);
+		
+	}
+	
+	@Override
+	public int deleteN(String msgReadYn) throws SQLException{
+		return msgDao.deleteN(msgReadYn);
+	}
+	
+	@Override
+	public int updateReadCheck(MsgVO msgVO) throws SQLException{
+		return msgDao.update(msgVO);
+	}
+	
 	
 	@Override
 	public int getAllCount(String userId) throws SQLException{
@@ -73,10 +81,6 @@ public class MsgSvcImple implements MsgSvc {
 	}
 	
 
-	@Override
-	public int update(MsgVO msgVO) throws SQLException{
-		return msgDao.update(msgVO);
-	}
 	
 	/* (non-Javadoc)
 	 * @see com.sist.hr.user.service.UserSvc#getCount(java.lang.String)
@@ -119,22 +123,12 @@ public class MsgSvcImple implements MsgSvc {
 	}
 
 	@Override
-	public void deleteSAll() throws SQLException {
+	public int update(MsgVO msgVO) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 
-	@Override
-	public void deleteRAll() throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void deleteN() throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
 }
 
 
