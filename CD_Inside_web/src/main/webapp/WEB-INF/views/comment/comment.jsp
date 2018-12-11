@@ -14,7 +14,7 @@
 	margin-bottom: 5px;
 	padding-left: 30px;
 }
-
+ 
 .media_reply {
 	margin-bottom: 5px;
 	padding-left: 100px;
