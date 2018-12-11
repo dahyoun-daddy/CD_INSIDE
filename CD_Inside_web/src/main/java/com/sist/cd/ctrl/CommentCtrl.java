@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,6 @@ public class CommentCtrl {
 	@Autowired
 	private CommentSvc commentSvc;
 	
-	@Autowired
-	private CommentDAO commentDao;
-	
 	@RequestMapping(value="comment/commentList.do")
     public ModelAndView openBoardList() throws Exception{
     	ModelAndView mv = new ModelAndView("/comment/comment");
@@ -43,7 +41,7 @@ public class CommentCtrl {
 	
 	@RequestMapping(value = "/comment/addComment.do",method=RequestMethod.POST)
 	@ResponseBody
-	public String addComment(HttpServletRequest req,CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+	public String addComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
 		commentSvc.add(commentVO);
 		log.info("commentVO:"+commentVO);
 		return "123";
@@ -51,7 +49,7 @@ public class CommentCtrl {
 	
 	@RequestMapping(value = "/comment/updateComment.do",method=RequestMethod.POST)
 	@ResponseBody
-	public String updateComment(HttpServletRequest req,CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+	public String updateComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
 		commentSvc.update(commentVO);
 		log.info("commentVO:"+commentVO);
 		return "123";
@@ -69,10 +67,33 @@ public class CommentCtrl {
 	
 	@RequestMapping(value = "/comment/addreplyComment.do",method=RequestMethod.POST)
 	@ResponseBody
-	public String addreplyComment(HttpServletRequest req,CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+	public String addreplyComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
 		log.info("commentVO:"+commentVO);
 		commentSvc.addreply(commentVO);
 		return "123";
+	}
+	
+	@RequestMapping(value = "/comment/do_hitComment.do",method=RequestMethod.POST , produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String do_hitComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		log.info("commentVO:"+commentVO);
+		int flag = commentSvc.do_hit(commentVO);
+		
+		JSONObject object=new JSONObject();
+		
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "추천 되었습니다.");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "이미 추천한 댓글입니다.");			
+		}		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
 	}
 	
 	@RequestMapping(value = "/comment/comm/do_retrieve.do", produces = "application/json;charset=utf8")
@@ -82,7 +103,7 @@ public class CommentCtrl {
 		log.info("invo:"+invo.getbNum());
 		
 		log.info("invo:"+invo);
-		List<CommentVO> listVO = commentDao.do_retrieve(invo);
+		List<CommentVO> listVO = commentSvc.do_retrieve(invo);
 		int total_cnt = 0;
 		if(null != listVO && listVO.size()>0) {
 			total_cnt = listVO.get(0).getTotalCnt();

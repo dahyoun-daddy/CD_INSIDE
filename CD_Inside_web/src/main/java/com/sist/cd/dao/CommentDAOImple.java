@@ -34,10 +34,10 @@ public class CommentDAOImple implements CommentDAO{
 	 */
 	public int add(CommentVO commentVO) throws DuplicateUserIdException {
 		String statement = NAME_SPACE+".add";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+commentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+commentVO);
 		int flag  = this.sqlSession.update(statement, commentVO);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 		
 		return flag;
 	}
@@ -47,10 +47,10 @@ public class CommentDAOImple implements CommentDAO{
 	 */
 	public int delete(CommentVO CommentVO) throws SQLException {
 		String statement = NAME_SPACE+".delete";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+CommentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+CommentVO);
 		int flag  = this.sqlSession.delete(statement, CommentVO);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 		return flag;
 	}
 	
@@ -59,10 +59,10 @@ public class CommentDAOImple implements CommentDAO{
 	 */
 	public int deleteAll(CommentVO CommentVO) throws SQLException {
 		String statement = NAME_SPACE+".deleteAll";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+CommentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+CommentVO);
 		int flag  = this.sqlSession.delete(statement, CommentVO);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 		return flag;
 	}
 
@@ -71,10 +71,10 @@ public class CommentDAOImple implements CommentDAO{
 	 */
 	public int update(CommentVO CommentVO) throws SQLException {
 		String statement = NAME_SPACE+".update";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+CommentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+CommentVO);
 		int flag  = this.sqlSession.update(statement, CommentVO);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 		
 		return flag;
 	}
@@ -85,10 +85,10 @@ public class CommentDAOImple implements CommentDAO{
 	@Override
 	public CommentVO get(CommentVO commentVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		String statement = NAME_SPACE+".get";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+commentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+commentVO);
 		CommentVO outVO = this.sqlSession.selectOne(statement, commentVO);
-		log.debug("3.outVO: "+outVO);
+		log.info("3.outVO: "+outVO);
 
 		return outVO;
 	}
@@ -98,10 +98,10 @@ public class CommentDAOImple implements CommentDAO{
 	 */
 	public int addreply(CommentVO commentVO) throws DuplicateUserIdException {
 		String statement = NAME_SPACE+".addreply";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+commentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+commentVO);
 		int flag  = this.sqlSession.update(statement, commentVO);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 		
 		return flag;
 	}
@@ -118,22 +118,22 @@ public class CommentDAOImple implements CommentDAO{
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		        
 		String statement = NAME_SPACE+".do_retrieve";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+commentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+commentVO);
 		List<CommentVO> list  = this.sqlSession.selectList(statement, commentVO);
-		log.debug("*****************************");
-		log.debug("3.list: "+list);
-		log.debug("*****************************");
+		log.info("*****************************");
+		log.info("3.list: "+list);
+		log.info("*****************************");
 		return list;	
 	}
 
 	@Override
 	public int do_code_getCount(CommentVO commentVO) throws SQLException {
 		String statement = NAME_SPACE+".do_code_getCount";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+commentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+commentVO);
 		int flag  = this.sqlSession.selectOne(statement, commentVO);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 
 		return flag;
 	}
@@ -141,10 +141,10 @@ public class CommentDAOImple implements CommentDAO{
 	@Override
 	public int do_code_insert(CommentVO commentVO) throws SQLException {
 		String statement = NAME_SPACE+".do_code_insert";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+commentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+commentVO);
 		int flag  = this.sqlSession.update(statement, commentVO);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 		
 		return flag;
 	}
@@ -152,10 +152,10 @@ public class CommentDAOImple implements CommentDAO{
 	@Override
 	public int do_hit(CommentVO commentVO) throws SQLException {
 		String statement = NAME_SPACE+".do_hit";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+commentVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+commentVO);
 		int flag  = this.sqlSession.update(statement, commentVO);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 		
 		return flag;
 	}
@@ -163,9 +163,9 @@ public class CommentDAOImple implements CommentDAO{
 	@Override
 	public int COMM_SEQ() throws SQLException {
 		String statement = NAME_SPACE+".COMM_SEQ";
-		log.debug("1.statement: "+statement);		
+		log.info("1.statement: "+statement);		
 		int flag  = this.sqlSession.selectOne(statement);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 
 		return flag;
 	}
@@ -173,9 +173,9 @@ public class CommentDAOImple implements CommentDAO{
 	@Override
 	public int COMM_CODE_SEQ() throws SQLException {
 		String statement = NAME_SPACE+".COMM_CODE_SEQ";
-		log.debug("1.statement: "+statement);		
+		log.info("1.statement: "+statement);		
 		int flag  = this.sqlSession.selectOne(statement);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 
 		return flag;
 	}
@@ -183,9 +183,9 @@ public class CommentDAOImple implements CommentDAO{
 	@Override
 	public int GROUP_SEQ() throws SQLException {
 		String statement = NAME_SPACE+".GROUP_SEQ";
-		log.debug("1.statement: "+statement);		
+		log.info("1.statement: "+statement);		
 		int flag  = this.sqlSession.selectOne(statement);
-		log.debug("3.flag: "+flag);
+		log.info("3.flag: "+flag);
 
 		return flag;
 	}

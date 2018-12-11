@@ -39,7 +39,6 @@ public class CommentSvcImple implements CommentSvc {
 		}else {
 			flag = commentDAO.delete(commentVO);
 		}
-		
 		return flag;
 	}
 
@@ -80,23 +79,41 @@ public class CommentSvcImple implements CommentSvc {
 
 	@Override
 	public int do_hit(CommentVO commentVO) throws SQLException {
-		return commentDAO.do_hit(commentVO);
-	}
+		
+		int flag;
+		if(commentDAO.do_code_getCount(commentVO) == 1) {
+			log.info("이미 추천한 아이디가 존재합니다.");
+			flag = -1;
+			log.info("flag\n"+flag);
+		}else {
 
+			int comm_code_seq = commentDAO.COMM_CODE_SEQ();
+			log.info("====================================================");
+			log.info(comm_code_seq+"");
+			log.info("====================================================");
+			commentVO.setNo(comm_code_seq);
+			
+			flag = commentDAO.do_code_insert(commentVO);
+			log.info("code테이블에 값을 주입시켰습니다.\n"+flag);
+			flag = commentDAO.do_hit(commentVO);
+			log.info("추천수 + 1"+flag);
+		}
+		return flag;
+	}
 	@Override
 	public void onehit(CommentVO commentVO) throws SQLException, RuntimeException {
 		int flag = commentDAO.do_code_getCount(commentVO);
 		if(flag == 1) {
-			log.debug("이미 존재하는 데이터입니다.");
+			log.info("이미 존재하는 데이터입니다.");
 		}else {
 			int insert = commentDAO.do_code_insert(commentVO);
-			log.debug("========================");
-			log.debug("code 테이블 삽입여부:"+insert);
-			log.debug("========================");
+			log.info("========================");
+			log.info("code 테이블 삽입여부:"+insert);
+			log.info("========================");
 			int hit = commentDAO.do_hit(commentVO);
-			log.debug("========================");
-			log.debug("code 테이블 삽입여부:"+hit);
-			log.debug("========================");
+			log.info("========================");
+			log.info("code 테이블 삽입여부:"+hit);
+			log.info("========================");
 		}
 	}
 	

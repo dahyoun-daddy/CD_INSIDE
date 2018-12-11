@@ -124,7 +124,7 @@
 		T.rnum AS no
 		FROM(
 		SELECT hr.*
-		,ROW_NUMBER() OVER(ORDER BY COMM_TEXT_NUM ) AS rnum
+		,ROW_NUMBER() OVER(ORDER BY comm_group_no ) AS rnum
 		FROM COMM hr
 		WHERE B_NUM = #{bNum}
 		ORDER BY comm_group_no,REG_DT
@@ -144,8 +144,7 @@
 		resultType="int">
 		SELECT count(*) as cnt
 		FROM comm_code
-		WHERE comm_text_num =
-		#{commTextNum}
+		WHERE comm_text_num = #{commTextNum}
 		AND user_id = #{userId}
 	</select>
 

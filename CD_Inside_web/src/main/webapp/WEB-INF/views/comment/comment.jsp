@@ -15,10 +15,11 @@
 	padding-left: 30px;
 }
 
-.media_reply{
+.media_reply {
 	margin-bottom: 5px;
 	padding-left: 100px;
 }
+
 .hitNum {
 	width: 18px;
 	height: 18px;
@@ -37,52 +38,44 @@
 	padding-left: 8px;
 }
 
-.commTime{
+.commTime {
 	color: gray;
 }
 
-.wdp_90 {width:90%}
-.pad_5 {padding: 5px;}
+.wdp_90 {
+	width: 90%
+}
 
-#PAGE_NAVI{
+.pad_5 {
+	padding: 5px;
+}
+
+#PAGE_NAVI {
 	padding-left: 200px;
 }
 
-.form-group{
+.form-group {
 	padding-top: 20px;
 }
-
 </style>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-
-var id;
-var cont;
-var parent;
-var children;
-var commTextNum;
-var commGroupNo;
-var commDepth;
-
-//보낼 params 셋팅
-function params(parent) {
-	id = $(parent).find(".commId").text();
-	commTextNum = $(parent).find(".commTextNum").val();
-	commGroupNo = $(parent).find(".commGroupNo").val();
-	cont = $(parent).find("#commentTextarea").val();
-}
 
 //수정버튼 눌렸을때
 $(document).on('click','#commentUpdate', function() {
-	parent = $(this).parents(".container");
+	var parent = $(this).parents(".container");
 	var commentmeta = $(this).parents(".comment-meta");
+	var cont = $(parent).find("p").text();
+	
 	console.log($(parent).find('.collapse').val());
 	
 	$(parent).find('.collapse.in').collapse('hide');
 	
-	cont = $(parent).find("p").text();
 	$(parent).find("p").remove();
 	$(parent).find(".p").append('<textarea id="commentTextarea" class="form-control" rows="3" onfocus="this.value = this.value;">'+cont+'</textarea>');
 	
@@ -101,11 +94,9 @@ $(document).on('click','#commentUpdate', function() {
 
 //수정완료
 $(document).on('click','#commentUpdateComplete', function() {
-	parent = $(this).parents(".container");
-	commTextNum = $(parent).find(".commTextNum").val();
-	alert(commTextNum);
-	commCont = $(parent).find("#commentTextarea").val();
-	alert(cont);
+	var parent = $(this).parents(".container");
+	var commTextNum = $(parent).find(".commTextNum").val();
+	var commCont = $(parent).find("#commentTextarea").val();
 	var params = {
 			commTextNum : commTextNum,
 			commCont		  : commCont
@@ -115,9 +106,11 @@ $(document).on('click','#commentUpdateComplete', function() {
 
 //수정취소
 $(document).on('click','#commentUpdateCancel', function() {
+	var parent = $(this).parents(".container");
 	var commTextNum = $(parent).find(".commTextNum").val();
-	alert(commTextNum);
-	parent = $(this).parents(".container");
+	var cont = $(parent).find("#commentTextarea").text();
+	console.log(commTextNum);
+	console.log(cont);
 	$(parent).find("#commentUpdateComplete").remove();
 	$(parent).find("#commentUpdateCancel").remove();
 	$(parent).find("#commentTextarea").remove();
@@ -129,20 +122,20 @@ $(document).on('click','#commentUpdateCancel', function() {
 
 //추천
 $(document).on('click','#like', function() {
-	parent = $(this).parents(".container");
-	params(parent);
-	alert('추천');
+	var parent = $(this).parents(".container");
+	var commTextNum = $(parent).find(".commTextNum").val();
+	var params = {
+			commTextNum : commTextNum
+	};
+	commentAjax(params,"do_hitComment.do");
 });
 
 //삭제
 $(document).on('click','#coomentDelete', function() {
-	parent = $(this).parents(".container");
-	commTextNum = $(parent).find(".commTextNum").val();
-	alert('댓글번호'+commTextNum);
-	commGroupNo = $(parent).find(".commGroupNo").val();
-	alert('그룹넘버'+commGroupNo);
-	commDepth = $(parent).find(".commDepth").val();
-	alert('Depth'+commDepth);
+	var parent = $(this).parents(".container");
+	var commTextNum = $(parent).find(".commTextNum").val();
+	var commGroupNo = $(parent).find(".commGroupNo").val();
+	var commDepth = $(parent).find(".commDepth").val();
 	var params = {
 		commTextNum : commTextNum,
 		commDepth : commDepth,
@@ -160,6 +153,7 @@ function commentAjax(params,url){
 	var modId = params.modId
 	var commTextNum = params.commTextNum
 	var commGroupNo = params.commGroupNo
+	var commDepth = params.commDepth
 	console.log(userId);
 	console.log(commCont);
 	console.log(bNum);
@@ -172,17 +166,25 @@ function commentAjax(params,url){
 		 url : url,    
         dataType:"json",// JSON
         data:{
-            "userId": userId,
+            "userId": '1',
             "commCont": commCont,
-            "bNum": bNum,
-            "modId":modId,
+            "bNum": '1',
+            "modId": '1',
             "commTextNum":commTextNum,
             "commGroupNo":commGroupNo,
             "commDepth":commDepth
         },
 		success : function(data) {//통신이 성공적으로 이루어 졌을때 받을 함수
-        	alert(totalIndexCount);
+        	if(this.url == "do_hitComment.do"){
+        		console.log('추천');
+	         	if(data.flag=="1"){
+	         		alert(data.message);
+	         	}else{
+	         		alert(data.message);
+	            }	
+        	}
         	fn_selectBoardList();
+
 		},
         complete: function(data){//무조건 수행
         	
@@ -196,10 +198,7 @@ function commentAjax(params,url){
 $(document).on('click','#commentadd', function() {
 	var cont = $("#commentcont").val();
 	var params = {
-			userId : "1",
-			commCont : cont,
-			bNum : "1",
-			modId : "1"
+			commCont : cont
 	};
 	commentAjax(params,"addComment.do");
 });
@@ -207,17 +206,12 @@ $(document).on('click','#commentadd', function() {
 //답글달기
 $(document).on('click','#replyadd', function() {
 	var parent = $(this).parents(".container");
-	commTextNum = $(parent).find(".commTextNum").val();
-	alert(commTextNum);
+	var commTextNum = $(parent).find(".commTextNum").val();
 	var cont   = $(parent).find("#commentReplyTextarea").val(); 
-	commGroupNo = $(parent).find(".commGroupNo").val();
-	alert(cont);
+	var commGroupNo = $(parent).find(".commGroupNo").val();
 	var params = {
-			bNum 	     : "1",
 			commCont    : cont,
-			userId	     : "1",
-			commGroupNo : commGroupNo,
-			modId       : "1"
+			commGroupNo : commGroupNo
 	};
 	commentAjax(params,"addreplyComment.do");
 });
@@ -309,7 +303,7 @@ eventName : 페이징 하단의 숫자 등의 버튼이 클릭되었을 때 호�
 var gfv_pageIndex = null;
 var gfv_eventName = null;
 var totalIndexCount;
-var page_size = 20;
+var page_size = 5;
 function gfn_renderPaging(params){
 	var divId = params.divId; //페이징이 그려질 div id
 	gfv_pageIndex = params.pageIndex; //현재 위치가 저장될 input 태그
@@ -374,14 +368,15 @@ function _movePage(value){
 <body>
 	<div id="bocomment"></div>
 	<div class="container">
-	<div id="PAGE_NAVI"></div>
+		<div id="PAGE_NAVI"></div>
 	</div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 	<form id="commonForm" name="commonForm"></form>
 	<div class="container">
 		<div class="form-group">
 			<label for="comment">댓글</label>
-			<textarea id="commentcont" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
+			<textarea id="commentcont" class="form-control" rows="3"
+				placeholder="댓글을 입력하세요."></textarea>
 		</div>
 		<button id="commentadd" class="btn btn-default">댓글달기</button>
 	</div>
@@ -421,47 +416,8 @@ function _movePage(value){
 				  var str = "";
 	            var depth = "";
 	            $.each(data.list, function(key, value){
-	            	if(value.commDepth == 0) {
-	          		str +=		'<div class="container">' 
-	    				+		'<div class="media">' 
-	    				+			'<div class="media-heading">'
-	    				+				'<div id="container">'
-	    				+					'<div>'
-	    				+						'<label class="commId">' + value.userId + '</label>&nbsp;'
-	    				+						'<label class="commTime">' + value.regDt + '</label>'
-	    				+					'</div>'
-	    				+					'<input type="hidden" class="commTextNum" value="' + value.commTextNum + '"/>'
-	    				+					'<input type="hidden" class="commGroupNo" value="' + value.commGroupNo + '"/>'
-	    				+					'<input type="hidden" class="commDepth" value="' + value.commDepth + '"/>'
-	    				+				'</div>'
-	    				+			'</div>'
-	    				+			'<div class="p">'
-	    				+				'<p>'+value.commCont+'</p>'
-	    				+			'</div>'
-	    				+				'<img class="cursor" id="like" src="/cd/resources/img/like.jpg"'
-	    				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
-	    				+					'width="30px" height="30px"/>&nbsp;'
-	    				+				'<label class="hitNum">'+value.commHit+'</label>'
-	    				+				'<a class="cursor" data-toggle="collapse" id="commentReply" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
-	    				+				'&nbsp;'
-	    				+				'<a class="cursor" id="commentUpdate" >수정</a>'
-	    				+				'&nbsp;'
-	    				+				'<a class="cursor" id="coomentDelete" >삭제</a>'
-	    				+			'<div class="comment-meta">'
-	    				+				'<div class="collapse" id="commentReplyadd' + value.commTextNum + '">'
-	    				+					'<div class="form-group">'
-	    				+						'<label for="comment">답글</label>'
-	    				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
-	    				+					'</div>'
-	    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
-	    				+				'</div>'
-	    				+			'</div>'
-	    				+		'</div>'
-	    				+	'</div>';
-	            	}else {
-		          		str +=		'<div class="container">' 
-		    				+		'<div class="media_reply">' 
-		    				+			'<div class="media-heading">'
+	            	var divIn = "";
+	            		divIn += 	'<div class="media-heading">'
 		    				+				'<div id="container">'
 		    				+					'<div>'
 		    				+						'<label class="commId">' + value.userId + '</label>&nbsp;'
@@ -493,6 +449,16 @@ function _movePage(value){
 		    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
 		    				+				'</div>'
 		    				+			'</div>'
+	            	if(value.commDepth == 0) {
+	          		str +=		'<div class="container">' 
+	    				+		'<div class="media">' 
+						+			divIn
+	    				+		'</div>'
+	    				+	'</div>';
+	            	}else {
+		          		str +=		'<div class="container">' 
+		    				+		'<div class="media_reply">' 
+							+ 			divIn
 		    				+		'</div>'
 		    				+	'</div>';
 	            	}
