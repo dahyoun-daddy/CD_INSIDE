@@ -71,7 +71,7 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
- 
+
 //수정버튼 눌렸을때
 $(document).on('click','#commentUpdate', function() {
 	var parent = $(this).parents(".container");
@@ -319,7 +319,7 @@ eventName : 페이징 하단의 숫자 등의 버튼이 클릭되었을 때 호�
 var gfv_pageIndex = null;
 var gfv_eventName = null;
 var totalIndexCount;
-var page_size = 5;
+var page_size = 20;
 function gfn_renderPaging(params){
 	var divId = params.divId; //페이징이 그려질 div id
 	gfv_pageIndex = params.pageIndex; //현재 위치가 저장될 input 태그
