@@ -18,7 +18,8 @@
 		mod_id,
 		mod_dt,
 		b_visit_cnt
-		) VALUES (
+		)
+		VALUES (
 		B_B_SEQ.nextval,
 		#{userId},
 		#{bTitle},
@@ -45,7 +46,8 @@
 		mod_id,
 		mod_dt,
 		b_visit_cnt
-		) VALUES (
+		)
+		VALUES (
 		B_L_seq.nextval,
 		#{userId},
 		#{bTitle},
@@ -95,6 +97,33 @@
 		SELECT bo.*
 		,ROW_NUMBER() OVER(ORDER BY reg_dt ) AS rnum
 		FROM board bo
+		)B
+		WHERE rnum BETWEEN (#{page_size} *
+		(#{page_num}-1)+1)
+		AND
+		(#{page_size} * (#{page_num}-1)+#{page_size})
+	</select>
+
+
+	<!-- 카테고리 조회 -->
+	<select id="do_cateret" parameterType="SearchVO"
+		resultType="BoardVO">
+		SELECT
+		B.b_num,
+		B.user_id,
+		B.b_title,
+		B.b_cont,
+		B.b_cate,
+		B.b_hit,
+		B.reg_dt,
+		B.mod_id,
+		B.mod_dt,
+		B.rnum AS no,
+		B.b_visit_cnt
+		FROM (
+		SELECT bo.*
+		,ROW_NUMBER() OVER(ORDER BY reg_dt ) AS rnum
+		FROM board bo
 		WHERE b_cate = #{search_div}
 		)B
 		WHERE rnum BETWEEN (#{page_size} *
@@ -102,7 +131,7 @@
 		AND (#{page_size} * (#{page_num}-1)+#{page_size})
 	</select>
 
-	<!--글 수정  -->
+	<!--글 수정 -->
 	<update id="update">
 		UPDATE board
 		SET b_title = #{bTitle}
@@ -111,12 +140,13 @@
 		,mod_dt = SYSDATE
 		WHERE b_num = #{bNum}
 	</update>
-	
-	
+
+
 	<!-- 글 삭제 -->
 	<delete id="delete" parameterType="BoardVO">
 		DELETE FROM board
-		WHERE b_num = #{bNum}
+		WHERE b_num =
+		#{bNum}
 	</delete>
 
 

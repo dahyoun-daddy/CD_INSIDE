@@ -43,6 +43,12 @@ public class BoardSvcImple implements BoardSvc {
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		return bd.do_retrieve(searchVO);
 	}
+	
+	@Override
+	public List<BoardVO> do_cateret(SearchVO searchVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return bd.do_cateret(searchVO);
+	}
 
 	@Override
 	public int update(BoardVO boardVO) throws SQLException {

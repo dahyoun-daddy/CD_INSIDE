@@ -52,6 +52,17 @@ public interface BoardDAO {
 	List<BoardVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 	
+	/**
+	 * 카테고리 별 조회
+	 * @param searchVO
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws EmptyResultDataAccessException
+	 */
+	List<BoardVO> do_cateret(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	
+	
 	
 	/**
 	 * 게시글 수정
