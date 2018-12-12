@@ -25,3 +25,4 @@ public interface ChatDAO {
 	List<ChatVO> getAll() throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 
 }
+

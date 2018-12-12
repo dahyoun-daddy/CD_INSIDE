@@ -19,6 +19,8 @@ public interface ChatSvc {
 	*/
 
 	
+	
+	
 	int add(ChatVO chatVO) throws DuplicateUserIdException;
 	ChatVO get(ChatVO chatVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;	
 	int getAllCount(String userId) throws SQLException;

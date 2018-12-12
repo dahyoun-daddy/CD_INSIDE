@@ -8,6 +8,7 @@
 	SELECT MSG_SEQ.NEXTVAL AS msgSeq FROM DUAL
 	</select>
    
+   
     <sql id="chatColumns">
 	     MSG_SEQ AS msgSeq,                                 
 	     USER_ID AS userId,                                 

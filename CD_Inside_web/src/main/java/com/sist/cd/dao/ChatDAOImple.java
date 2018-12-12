@@ -29,6 +29,7 @@ public class ChatDAOImple implements ChatDAO{
 		
 	}
 	
+	
 	/**
 	 * 1.전송(add)
 	 * 2.1건가져오기(get)

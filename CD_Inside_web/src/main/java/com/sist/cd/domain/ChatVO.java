@@ -7,6 +7,7 @@ public class ChatVO {
 	private String chatCont;
 	private String regDt;
 
+	
 	public ChatVO() {
 		
 	}
