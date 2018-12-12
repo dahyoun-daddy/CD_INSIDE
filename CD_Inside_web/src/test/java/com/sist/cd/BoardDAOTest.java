@@ -92,7 +92,7 @@ public class BoardDAOTest {
 	
 	//rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 	@Test(timeout=2000)
-	@Ignore
+//	@Ignore
 	public void addAndGet() throws SQLException, ClassNotFoundException {
 		//--------------------------------------------
 		//2. 단건 조회
@@ -104,7 +104,7 @@ public class BoardDAOTest {
 	}
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void do_retrieve() throws SQLException, ClassNotFoundException {
 		//전체글 조회
 	List<BoardVO> list = boardDAO.do_retrieve(inVO4);
@@ -112,7 +112,7 @@ public class BoardDAOTest {
 	}
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void do_cateret() throws SQLException, ClassNotFoundException {
 		//전체글 조회
 	List<BoardVO> list = boardDAO.do_cateret(inVO5);
@@ -122,7 +122,7 @@ public class BoardDAOTest {
 	
 	//uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
 	@Test
-	@Ignore
+//	@Ignore
 	public void update() throws SQLException, ClassNotFoundException {
 		boardDAO.update(inVO3);
 		
@@ -130,7 +130,7 @@ public class BoardDAOTest {
 	
 	//dddddddddddddddddddddddddddddddddddddddddddddddd
 	@Test
-	@Ignore
+//	@Ignore
 	public void delete() throws SQLException, ClassNotFoundException {
 		boardDAO.delete(inVO1);
 		
