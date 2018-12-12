@@ -48,7 +48,7 @@ public class CommentDAOTest {
 	
 	@Before
 	public void setUp() {
-		inVO1 = new CommentVO("43","1","천재냐?","강보승","0","1","0","2018-11-15","1","1");
+		inVO1 = new CommentVO("100","1","천재냐?","강보승","0","1","0","2018-11-15","1","1");
 		inVO2 = new CommentVO("44","1","호일","1","0","1","1","2018-11-15","1","1");
 		inVO3 = new CommentVO("45","1","보승","강보승","1","1","jamesol@paran.com","2018-11-15","1","1");		
 		
@@ -62,7 +62,6 @@ public class CommentDAOTest {
 	}
 	
 	@Test(timeout=2000)
-	@Ignore
 	public void addAndGet() throws SQLException, ClassNotFoundException {
 
 		//--------------------------------------------
@@ -92,7 +91,6 @@ public class CommentDAOTest {
 	}
 	
 	@Test
-	@Ignore
 	public void update() throws SQLException, ClassNotFoundException {
 		commentDAO.update(inVO1);
 		commentDAO.update(inVO2);
@@ -105,19 +103,17 @@ public class CommentDAOTest {
 	}
 	
 	@Test
-	@Ignore
 	public void do_code_select() throws SQLException, ClassNotFoundException {
-		assertThat(commentDAO.do_code_getCount(inVO1),is(1));
+		assertThat(commentDAO.do_code_getCount(inVO1),is(6));
 	}
 	
 	@Test
-	@Ignore
 	public void add() throws SQLException, ClassNotFoundException {
+		inVO1.setNo('6');
 		commentDAO.do_code_insert(inVO1);
 	}
 	
 	@Test
-	@Ignore
 	public void do_hit() throws SQLException, ClassNotFoundException {
 		commentDAO.do_hit(inVO1);
 	}

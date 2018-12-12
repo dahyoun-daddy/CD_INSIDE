@@ -59,11 +59,8 @@
 }
 </style>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 
 //수정버튼 눌렸을때
@@ -154,19 +151,12 @@ function commentAjax(params,url){
 	var commTextNum = params.commTextNum
 	var commGroupNo = params.commGroupNo
 	var commDepth = params.commDepth
-	console.log(userId);
-	console.log(commCont);
-	console.log(bNum);
-	console.log(modId);
-	console.log(commTextNum);
-	console.log(commGroupNo);
-	console.log(url);
 	$.ajax({
 		 type : "POST", 
 		 url : url,    
         dataType:"json",// JSON
         data:{
-            "userId": '3',
+            "userId": 'test',
             "commCont": commCont,
             "bNum": '1',
             "modId": '1',
@@ -183,8 +173,15 @@ function commentAjax(params,url){
 	         		alert(data.message);
 	            }	
         	}
+		
         	fn_selectBoardList();
-
+        	if(this.url == "addComment.do"){
+            	_movePage(totalIndexCount);
+        	}
+        	
+        	if(total == 0){
+        		_movePage(totalIndexCount-1);
+        	}
 		},
         complete: function(data){//무조건 수행
         	
@@ -197,6 +194,16 @@ function commentAjax(params,url){
 //댓글달기
 $(document).on('click','#commentadd', function() {
 	var cont = $("#commentcont").val();
+	var n = cont.length;
+	
+	alert(n);
+	var regexp = /[A-Za-z0-9]{140}/g;
+	
+	if(cont.match(regexp)){
+		alert('연속된영어및숫자140개는 입력하실수없습니다.')
+		return false;
+	}
+	
 	var params = {
 			commCont : cont
 	};
@@ -248,8 +255,8 @@ function ComSubmit(opt_formId) {
 	this.addParam = function addParam(key, value){
 		$("#"+this.formId).append($("<input type='hidden' name='"+key+"' id='"+key+"' value='"+value+"' >"));
 	};
-	
 }
+
 function ComAjax(opt_formId){
 	this.url = "";		
 	this.formId = gfn_isNull(opt_formId) == true ? "commonForm" : opt_formId;
@@ -398,9 +405,10 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 			comAjax.ajax();
 		}
 		
+		var total;
 		function fn_selectBoardListCallback(data){
 			console.log('fn_selectBoardListCallback!!');
-			var total = data.TOTAL;
+			total = data.TOTAL;
 			var body = $("#bocomment");
 			body.empty();
 			if(total == 0){

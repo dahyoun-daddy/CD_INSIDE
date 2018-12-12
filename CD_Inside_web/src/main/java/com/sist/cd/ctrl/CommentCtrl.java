@@ -98,7 +98,7 @@ public class CommentCtrl {
 	
 	@RequestMapping(value = "/comment/comm/do_retrieve.do", produces = "application/json;charset=utf8")
 	@ResponseBody
-	public String getUserList(HttpServletRequest req,CommentVO invo) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+	public String getUserList(CommentVO invo) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
 		log.info("invo:"+invo.getPage_num());
 		log.info("invo:"+invo.getbNum());
 		
