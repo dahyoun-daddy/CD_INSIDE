@@ -4,5 +4,86 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.sist.cd.mappers.chat">
+	<select id="MSG_SEQ" resultType="int">
+	SELECT MSG_SEQ.NEXTVAL AS msgSeq FROM DUAL
+	</select>
+   
+    <sql id="chatColumns">
+	     MSG_SEQ AS msgSeq,                                 
+	     USER_ID AS userId,                                 
+	     MSG_RECV_ID AS msgRecvId,                             
+	     MSG_CONT AS msgCont,                              
+         TO_CHAR(REG_DT,'YYYY-MM-DD HH24:MI:SS') AS regDt,        
+	     MSG_READ_YN AS msgReadYn                                
+    </sql>  
+    
+    <sql id="baseCondition">
+	    <where> 
+	    	<choose>
+	    		<when test="'30'==search_div">
+	    		    hr.userId like  #{search_word}||'%'
+	    		</when>
+	    		<when test="'40'==search_div">
+	    		    hr.msgRecvId like  #{search_word}||'%'
+	    		</when>
+	    		<when test="'60'==search_div">
+	    		    hr.msgCont like  #{search_word}||'%'
+	    		</when>		    		
+	    		<otherwise></otherwise>
+	    	</choose>
+	    </where>     
+    </sql>
+ 
+	<!-- 등록 -->
+	<insert id="add"  parameterType="ChatVO" >
+		 INSERT INTO MSG ( 
+		     msg_seq,              
+		     user_id,              
+		     msg_recv_id,          
+		     msg_cont,           
+		     reg_dt,             
+		     msg_read_yn                 
+		 ) VALUES (             
+		     #{msgSeq},                 
+		     #{userId},                 
+		     #{msgRecvId},                 
+		     #{msgCont},                 
+		     SYSDATE,                 
+		     #{msgReadYn}                 
+		 )                      	
+	</insert> 
 	
-</mapper>
+	<!-- 단건 조회 -->
+	<select id="get" parameterType="ChatVO" resultType="ChatVO"	  >
+	 SELECT <include refid="chatColumns"/>                       
+	   FROM CHAT                            
+	  WHERE chat_cont = #{chatCont}                       		
+	</select>		
+			
+	<!-- 받은쪽지 갯수 -->
+	<select id="getAllCount" parameterType="String" 
+	                      resultType="java.lang.Integer">
+		SELECT COUNT(*) CNT 
+		  FROM MSG     
+		 WHERE msg_recv_id = #{msgRecvId}
+	</select>
+
+	<!-- 안읽은쪽지 갯수 -->
+	<select id="getNCount" parameterType="String" 
+	                      resultType="java.lang.Integer">
+		SELECT COUNT(*) CNT 
+		  FROM MSG     
+		 WHERE msg_recv_id = #{msgRecvId}
+ 		   AND msg_read_yn = '읽지않음'		 
+	</select>	
+	
+    <!-- 전체 조회 -->
+    <select id="getAll" resultType="ChatVO">
+	    SELECT <include refid="chatColumns"/>
+	      FROM MSG
+	     ORDER BY MSG_READ_YN DESC, REG_DT DESC  
+    </select>
+    		
+    
+	
+</mapper>  
