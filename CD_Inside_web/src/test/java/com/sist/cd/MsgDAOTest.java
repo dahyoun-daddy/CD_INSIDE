@@ -72,7 +72,7 @@ public class MsgDAOTest {
 		LOG.info("msgDao:"+msgDao);
 	}
 	
-	@Ignore
+//	@Ignore
 	@Test
 	public void get() throws Exception {
 		LOG.info("1==========================");
@@ -90,7 +90,7 @@ public class MsgDAOTest {
 		
 	}
 	
-	@Ignore
+//	@Ignore
 	@Test
 	public void update() throws SQLException, ClassNotFoundException {
 		//--------------------------------------------
@@ -101,7 +101,7 @@ public class MsgDAOTest {
 
 	}
 	
-	@Ignore
+//	@Ignore
 	@Test
 	public void delete() throws SQLException, ClassNotFoundException {
 		//--------------------------------------------
@@ -126,7 +126,7 @@ public class MsgDAOTest {
 		msgDao.deleteN("받는이3");  //됨		
 	}
 
-	@Ignore	
+//	@Ignore	
 	@Test
 	public void add() throws SQLException, ClassNotFoundException {
 		//--------------------------------------------
@@ -142,21 +142,24 @@ public class MsgDAOTest {
 
 	}	
 	
-	@Ignore
+//	@Ignore
 	@Test	
 	public void count() throws SQLException, ClassNotFoundException {
+		msgDao.add(inVO2); 
+		LOG.info("★★★inVO2" + inVO2);
 		//--------------------------------------------
 		//0. 받은쪽지 전체 갯수
 		//--------------------------------------------
-		assertThat(msgDao.getAllCount("받는이3"),is(4)); //받는이3 기준, 받은쪽지 갯수
+		assertThat(msgDao.getAllCount("받는이2"),is(1)); //받는이2 기준, 받은쪽지 갯수
 		
 		//--------------------------------------------
 		//1. 받은쪽지 중 안 읽은 쪽전체 갯수
 		//--------------------------------------------
 		assertThat(msgDao.getNCount("받는이2"),is(1)); //받는이2 기준, 안읽은쪽지 갯수 
 
-	}		
+	}	
 	
+//	@Ignore		
 	@Test
 	public void addAndGet() throws SQLException, ClassNotFoundException {
 	
@@ -184,6 +187,7 @@ public class MsgDAOTest {
 
 	}
 	
+//	@Ignore		
 	@Test
 	public void do_retrieve() throws SQLException, ClassNotFoundException {
 		List<MsgVO> list = msgDao.do_retrieve(searchVO);
