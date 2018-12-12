@@ -10,7 +10,7 @@
           <param name="ConversionPattern" 
           value="%d{yyyy-MM-dd HH:mm:ss} [%-5p](%-15c{1}:%-3L) %m%n" />            
   </layout>
- </appender>
+ </appender> 
 
 
    <appender name="console-infolog" class="org.apache.log4j.ConsoleAppender">
