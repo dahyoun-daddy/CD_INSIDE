@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- sqlSessionTemplate -->
@@ -20,12 +29,29 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-    	<property name="driverClass" value="oracle.jdbc.driver.OracleDriver"/>
-    	<property name="url" value="jdbc:oracle:thin:@211.238.142.102:1521:orcl" />
-    	<property name="username" value="CD_INSIDE" />
-    	<property name="password" value="CD_INSIDE1224" />
-    </bean>	
+	  
+       <!-- DB Connection Pool  -->
+	 <bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource"
+	   destroy-method="close"
+	   p:driverClassName="oracle.jdbc.driver.OracleDriver"
+	   p:url="jdbc:oracle:thin:@211.238.142.102:1521:orcl"
+	   p:username="CD_INSIDE"
+	   p:password="CD_INSIDE1224" 
+	   p:maxActive="10"
+	   p:maxIdle="5"
+	   p:maxWait="-1"
+	  />
+    
+      <!-- log4jdbc-remix -->
+  <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+   <constructor-arg ref="dataSourceSpied"/>
+   <property name="logFormatter">
+    <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+     <property name="loggingType" value="MULTI_LINE"/>
+     <property name="sqlPrefix"   value="SIST_SQL]  :"/>
+    </bean>
+   
+   </property>
+  </bean>    
     
 </beans>
