@@ -145,10 +145,12 @@ public class MsgDAOTest {
 	@Ignore
 	@Test	
 	public void count() throws SQLException, ClassNotFoundException {
+		msgDao.add(inVO2); 
+		LOG.info("★★★inVO2" + inVO2);
 		//--------------------------------------------
 		//0. 받은쪽지 전체 갯수
 		//--------------------------------------------
-		assertThat(msgDao.getAllCount("받는이3"),is(4)); //받는이3 기준, 받은쪽지 갯수
+		assertThat(msgDao.getAllCount("받는이2"),is(1)); //받는이2 기준, 받은쪽지 갯수
 		
 		//--------------------------------------------
 		//1. 받은쪽지 중 안 읽은 쪽전체 갯수
