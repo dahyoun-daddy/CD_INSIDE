@@ -19,13 +19,13 @@
     <sql id="baseCondition">
 	    <where> 
 	    	<choose>
-	    		<when test="'10'==search_div">
+	    		<when test="'30'==search_div">
 	    		    hr.userId like  #{search_word}||'%'
 	    		</when>
-	    		<when test="'20'==search_div">
+	    		<when test="'40'==search_div">
 	    		    hr.msgRecvId like  #{search_word}||'%'
 	    		</when>
-	    		<when test="'30'==search_div">
+	    		<when test="'60'==search_div">
 	    		    hr.msgCont like  #{search_word}||'%'
 	    		</when>		    		
 	    		<otherwise></otherwise>
@@ -85,6 +85,13 @@
 	      AND MSG_READ_YN = '읽지않음'        
 	</update>
 	
+	<!-- 단건 조회 -->
+	<select id="get" parameterType="MsgVO" resultType="MsgVO"	  >
+	 SELECT <include refid="msgColumns"/>                       
+	   FROM MSG                            
+	  WHERE msg_seq = #{msgSeq}                       		
+	</select>	
+	
 	<!-- 받은쪽지 갯수 -->
 	<select id="getAllCount" parameterType="String" 
 	                      resultType="java.lang.Integer">
@@ -100,13 +107,6 @@
 		  FROM MSG     
 		 WHERE msg_recv_id = #{msgRecvId}
  		   AND msg_read_yn = '읽지않음'		 
-	</select>	
-	
-	<!-- 단건 조회 -->
-	<select id="get" parameterType="MsgVO" resultType="MsgVO"	  >
-	 SELECT <include refid="msgColumns"/>                       
-	   FROM MSG                            
-	  WHERE msg_seq = #{msgSeq}                       		
 	</select>	
     
     <!-- 전체 조회 -->

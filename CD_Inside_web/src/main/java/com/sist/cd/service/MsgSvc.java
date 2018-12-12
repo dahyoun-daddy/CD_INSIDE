@@ -37,10 +37,11 @@ public interface MsgSvc {
 	MsgVO get(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;	
 	int getAllCount(String userId) throws SQLException;
 	int getNCount(String msgReadYn) throws SQLException;
+	List<MsgVO> getAll() throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;	
 	List<MsgVO> do_retrieve(SearchVO searchVO)
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	int do_deleteMulti(List<MsgVO> list) throws RuntimeException, SQLException;
 
-	int do_upsert(MsgVO msgVO) throws SQLException;	
+	int do_upsert(MsgVO msgVO) throws SQLException;
 
 }
