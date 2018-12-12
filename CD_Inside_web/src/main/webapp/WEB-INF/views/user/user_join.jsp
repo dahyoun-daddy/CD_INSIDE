@@ -57,7 +57,7 @@
 					<tr>
 						<td style="width:110px; padding-top:15px">이름(닉네임)</td>
 						<td><input class="form-control " type="text" id="userName" name="userName" onkeydown="inputNameChk()"
-							maxlength="10" placeholder="이름(닉네임)을 입력하세요."></td>
+							maxlength="15" placeholder="이름(닉네임)을 입력하세요."></td>
 						<td align="left">
 							<input type="button" class="btn btn-default" id="nameCheck" value="중복 확인">
 							<input type="hidden" name="nameDuplication" id="nameDuplication" value="nameUnCheck">
@@ -77,13 +77,13 @@
 					<tr>
 						<td style="width:110px; padding-top:15px">답변</td>
 						<td><input class="form-control " type="text" id="userAnsw" name="userAnsw"  
-							maxlength="20" placeholder="질문의 답변을 입력하세요."></td>
+							maxlength="100" placeholder="질문의 답변을 입력하세요."></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td style="width:110px; padding-top:15px">이메일 주소</td>
 						<td><input class="form-control " type="email" id="userEmail" name="userEmail"  
-							maxlength="20" placeholder="이메일을 입력하세요."></td>
+							maxlength="100" placeholder="이메일을 입력하세요."></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -332,7 +332,7 @@
 		             var parseData = $.parseJSON(data);
 		         	 if(parseData.flag=="1"){
 		         		alert(parseData.message);
-		         		location.href ="login.jsp"; 
+		         		location.href ="login.do"; 
 		         	 }else{
 		         		alert(parseData.message);
 		         	 }				          

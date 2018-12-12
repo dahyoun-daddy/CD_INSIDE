@@ -25,19 +25,19 @@
 		      <form class="form-horizontal" action="" method="post" name="frmLogin" id="frmLogin">
 		         <input type="hidden" name="work_div"  >
 		   		 <div class="form-group input-sm" align="center">
-		   		    <input type="text"  class="form-control" style="WIDTH: 200pt" name="userId"  id="userId"  placeholder="아이디">
+		   		    <input type="text"  class="form-control" style="WIDTH: 300px" name="userId"  id="userId"  placeholder="아이디">
 		   		    
 		         </div>
 	 	   		 <div class="form-group input-sm" align="center">
-		   		    <input type="password"  class="form-control" style="WIDTH: 200pt" name="userPw1"  id="userPw1"  placeholder="비밀번호">
+		   		    <input type="password"  class="form-control" style="WIDTH: 300px" name="userPw1"  id="userPw1"  placeholder="비밀번호">
 		         </div>
 		         <div class="form-group input-sm" align="center" >
-		         	<input type="button" id="login" class="btn btn-primary" style="WIDTH: 200pt" value="로그인">
+		         	<input type="button" id="login" class="btn btn-primary" style="WIDTH: 300px" value="로그인">
 		         </div>
 		         <div style="height:100px">
 		    	<div class="col-sm-3"></div>
 		         <div class="form-group input-sm col-sm-7" align="center"  ><hr/>
-		         	<a style="text-left" href="user_join.do"  id="login" value="login"> 회원가입  </a> ┃ 
+		         	<a style="text-left" href="user_join.do" id="login" value="login"> 회원가입  </a> ┃ 
 		         	<a style="text-left" href="user_id.do"  id="idFind" value="idFind"> 아이디 찾기 </a> ┃ 
 		         	<a style="text-left" href="user_pw.do"  id="pwFind" value="pwFind"> 비밀번호 찾기</a><hr/>
 		         </div>
