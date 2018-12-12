@@ -20,8 +20,7 @@ public class GallogSvcImple implements GallogSvc {
 
 	@Override
 	public int save(GallogVO gallogVO) throws DuplicateUserIdException {
-		// TODO Auto-generated method stub
-		return 0;
+		return gallogDao.save(gallogVO);
 	}
 
 	@Override
@@ -31,8 +30,7 @@ public class GallogSvcImple implements GallogSvc {
 
 	@Override
 	public int update(GallogVO gallogVO) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		return gallogDao.update(gallogVO);
 	}
 
 	@Override

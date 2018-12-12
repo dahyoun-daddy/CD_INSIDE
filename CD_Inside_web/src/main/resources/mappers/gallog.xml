@@ -20,7 +20,7 @@
 	      		   ,G.rnum AS no
 			FROM(
 		   		SELECT gal.*
-		          ,ROW_NUMBER() OVER(ORDER BY reg_dt) as rnum
+		          ,ROW_NUMBER() OVER(ORDER BY reg_dt desc) as rnum
 		          ,COUNT(*) OVER () AS totalCnt
 		    	  FROM gallog gal
 		   		 WHERE user_id = #{search_word}
@@ -45,7 +45,7 @@
 		    mod_id,
 		    mod_dt
 		) VALUES (
-		    #{gSeq},
+		    g_seq.nextVal,
 		    #{userId},
 		    #{gId},
 		    #{gPw},

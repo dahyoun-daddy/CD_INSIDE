@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="com.sist.cd.common.SearchVO" %>
+<%@page import="com.sist.cd.domain.GallogVO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,6 +42,7 @@
 		</div>
 		<!--// 갤로그 공통 부분 ------------------------------------------------------->
 		<br>
+				
 		
 		<!-- 갤로그 이동 버튼 영역------------------------------------------------------->
 		<ul class="nav nav-pills">
@@ -52,13 +53,133 @@
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
 
+		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
+		<input type="hidden" name="gSeq" id="gSeq" value="${list.gSeq}">
+		<div>
+			<input type="text" name="gTitle" id="gTitle" maxlength="50" style="width:800px" value="${list.gTitle}"/>
+		</div>
+		
+		<div>
+			<textarea name="gCont" id="gCont" maxlength="1500" style="width:800px;height:500px;">${list.gCont}</textarea>
+		</div>
+		</form>
+		
+		
+		<button type="button" class="btn btn-default" onClick="history.go(-1)">취소</button>
+		
+		<%
+			GallogVO check =  (GallogVO)request.getAttribute("list");
+			if(check==null){
+		%>
+		<button type="button" class="btn btn-default" id="do_save">등록</button>
+		<%
+			}
+			else{
+		%>
+		<button type="button" class="btn btn-default" id="do_update">수정</button>
+			<% 
+		}
+		%>
+		
+		
 		
 		<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     
     <script src="<%=context%>/resources/js/jquery.min.js"></script>
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+    
+    
+    function doSearch(){ // 전체조회
+      	 var frm = document.frm;
+      	 frm.action = "notebook_home.do";
+      	 frm.submit();
+    }
+    
+    
+    
+    $(document).ready(function(){   
+    	
+    	$("#do_save").on("click",function(){
+    		
+			 if(false==confirm("등록 하시겠습니까?"))return;
+			  
+		     $.ajax({
+		         type:"POST",
+		         url:"save.do",
+		         dataType:"html",// JSON
+		         data:{
+		         	"gTitle": $("#gTitle").val(),
+		         	"gCont": $("#gCont").val(),
+		         	"gCate": "0",
+		         	"userId": "test05",
+		         	"modId": "test05"
+		         },
+		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+		         	 if(parseData.flag=="1"){
+		         		 alert(parseData.message);
+			         	 doSearch();
+		         	 }else{
+		         		alert(parseData.message);
+		         	 }
+		         },
+		         complete: function(data){//무조건 수행
+		          
+		         },
+		         error: function(xhr,status,error){
+		          
+		         }
+		        });//--ajax					
+			
+			
+		});//--do_save
+		
+		
+		$("#do_update").on("click",function(){
+    		
+			 if(false==confirm("수정 하시겠습니까?"))return;
+			  
+		     $.ajax({
+		         type:"POST",
+		         url:"update.do",
+		         dataType:"html",// JSON
+		         data:{
+		        	"gSeq": $("#gSeq").val(),
+		         	"gTitle": $("#gTitle").val(),
+		         	"gCont": $("#gCont").val(),
+		         	"gCate": "1",
+		         	"modId": "test05"
+		         },
+		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+		         	 if(parseData.flag=="1"){
+		         		 alert(parseData.message);
+		         		 history.go(-1);
+		         	 }else{
+		         		alert(parseData.message);
+		         	 }
+		         },
+		         complete: function(data){//무조건 수행
+		          
+		         },
+		         error: function(xhr,status,error){
+		          
+		         }
+		        });//--ajax					
+			
+			
+		});//--do_update
+   
+   	
+    });//ready
+    
+    
+    
+    
+    
+    </script>
 
 </body>
 </html>

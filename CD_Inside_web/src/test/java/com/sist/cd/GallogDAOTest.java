@@ -55,13 +55,6 @@ public class GallogDAOTest {
 		gallogDao.save(inVO1);
 		gallogDao.save(inVO1);
 		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
 	
 	}
 	

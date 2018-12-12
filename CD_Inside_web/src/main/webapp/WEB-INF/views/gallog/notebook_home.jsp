@@ -83,7 +83,7 @@
 				<strong>·메모장 ()</strong>
 			</div>
 			<div style="float:right;">
-				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/notebook_write.jsp'">글쓰기</button>
+				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/get.do'">글쓰기</button>
 			</div>
 		</div>
 		<!--// 메모장 상단 영역------------------------------------------------------------>
@@ -149,13 +149,6 @@
 		   	 frm.submit();
 	    }
 	    
-        function doSearch(){ // 전체조회
-       	 var frm = document.frm;
-       	 frm.page_num.value = 1;
-       	 frm.action = "notebook_home.do";
-       	 frm.submit();
-        }
-	     
         function doDelete(gSeq){ // 삭제
         	var frm = document.frm;
         	frm.gSeq.value = gSeq;
