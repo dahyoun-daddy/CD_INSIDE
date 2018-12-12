@@ -5,6 +5,7 @@
 
 <mapper namespace="com.sist.cd.mappers.comment">
 
+<!-- 서비스단에서  -->
 	<select id="COMM_SEQ" resultType="int">
 		SELECT COMM_SEQ.NEXTVAL as cnt 
 		  FROM DUAL
@@ -19,7 +20,7 @@
 		SELECT GROUP_SEQ.NEXTVAL as cnt 
 		  FROM DUAL
 	</select>
-
+ 
 	<!-- commTextNum 과 group_seq 는 시퀀스로 처리 -->
 	<insert id="add" parameterType="CommentVO">
 		INSERT INTO comm (

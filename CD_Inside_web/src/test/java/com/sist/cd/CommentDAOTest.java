@@ -51,7 +51,7 @@ public class CommentDAOTest {
 		inVO1 = new CommentVO("100","1","천재냐?","강보승","0","1","0","2018-11-15","1","1");
 		inVO2 = new CommentVO("44","1","호일","1","0","1","1","2018-11-15","1","1");
 		inVO3 = new CommentVO("45","1","보승","강보승","1","1","jamesol@paran.com","2018-11-15","1","1");		
-		
+		 
 		inVO1.setPage_num(1);
 		inVO1.setPage_size(10);
 		  
