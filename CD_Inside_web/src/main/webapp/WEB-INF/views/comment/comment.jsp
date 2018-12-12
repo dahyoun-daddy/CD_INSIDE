@@ -48,6 +48,15 @@
 
 .pad_5 {
 	padding: 5px;
+    color: black;
+	loat: left;
+	padding: 8px 16px;
+	text-decoration: none;
+ 	border: 1px solid #ddd
+}
+
+.pad_5strong {
+	background-color: rgb(217,229,255);
 }
 
 #PAGE_NAVI {
@@ -354,7 +363,7 @@ function gfn_renderPaging(params){
 			str += "<a href='#this' class='pad_5' onclick='_movePage("+i+")'>"+i+"</a>";
 		}
 		else{
-			str += "<strong><a href='#this' class='pad_5' onclick='_movePage("+i+")'>"+i+"</a></strong>";
+			str += "<strong><a href='#this' class='pad_5 pad_5strong' onclick='_movePage("+i+")'>"+i+"</a></strong>";
 		}
 	}
 	$("#"+divId).append(preStr + str + postStr);
