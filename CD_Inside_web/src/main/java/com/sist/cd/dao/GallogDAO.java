@@ -21,6 +21,6 @@ int save(GallogVO gallogVO) throws DuplicateUserIdException;
 	
 	GallogVO get(GallogVO gallogVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 
-	
+	int getCount(String userId) throws SQLException;
 	
 }

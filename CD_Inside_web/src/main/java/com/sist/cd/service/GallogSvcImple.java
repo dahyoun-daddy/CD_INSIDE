@@ -44,5 +44,10 @@ public class GallogSvcImple implements GallogSvc {
 		return gallogDao.get(gallogVO);
 	}
 
+	@Override
+	public int getCount(String userId) throws SQLException {
+		return gallogDao.getCount(userId);
+	}
+
 
 }

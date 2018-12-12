@@ -53,6 +53,8 @@
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
 
+
+		<!-- 메모장 글쓰기 영역 --------------------------------------------------------->
 		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
 		<input type="hidden" name="gSeq" id="gSeq" value="${list.gSeq}">
 		<div>
@@ -60,7 +62,7 @@
 		</div>
 		
 		<div>
-			<textarea name="gCont" id="gCont" maxlength="1500" style="width:800px;height:500px;">${list.gCont}</textarea>
+			<textarea name="gCont" id="gCont" maxlength="3000" style="width:800px;height:500px;">${list.gCont}</textarea>
 		</div>
 		</form>
 		
@@ -81,7 +83,7 @@
 		}
 		%>
 		
-		
+		<!--// 메모장 글쓰기 영역 --------------------------------------------------------->
 		
 		<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     

@@ -80,7 +80,7 @@
 		<!-- 메모장 상단 영역------------------------------------------------------------>
 		<div class="text-danger" style="width:auto;height:70px;">
 			<div style="float:left;">
-				<strong>·메모장 ()</strong>
+				<strong>·메모장 (<%=totalCnt %>)</strong>
 			</div>
 			<div style="float:right;">
 				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/get.do'">글쓰기</button>

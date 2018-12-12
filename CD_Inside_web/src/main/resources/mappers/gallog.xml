@@ -6,28 +6,36 @@
 <mapper namespace="com.sist.cd.mappers.gallog">
 	
     
-    <!-- select list -->
+    <!-- 전체 조회 -->
     <select id="do_retrieve" 
       parameterType="SearchVO"
       resultType="GallogVO"  >
-			SELECT G.g_seq
+            SELECT X.*,Y.*
+            FROM(		
+            SELECT G.g_seq
 					,G.g_title
 	      		   ,G.g_cont
 	     		   ,CASE WHEN to_char(G.reg_dt,'YYYY/MM/DD')=to_char(sysdate,'YYYY/MM/DD')
 	                   THEN to_char(G.reg_dt,'HH24:MI')                                 
 	       		ELSE to_char(G.reg_dt,'YYYY/MM/DD HH24:MI') end  reg_dt
-	      		   ,G.totalCnt
 	      		   ,G.rnum AS no
 			FROM(
 		   		SELECT gal.*
 		          ,ROW_NUMBER() OVER(ORDER BY reg_dt desc) as rnum
-		          ,COUNT(*) OVER () AS totalCnt
 		    	  FROM gallog gal
 		   		 WHERE user_id = #{search_word}
 		     	   AND g_cate = #{search_div}
 		    	)G
-			WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1 )
+			 WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
 	               AND (#{page_size} * (#{page_num}-1)+#{page_size})
+                   )X
+                   NATURAL JOIN
+                   (
+                   		  SELECT COUNT(*) AS total_cnt   
+                            FROM gallog gal
+                    WHERE user_id = #{search_word}
+		     	   AND g_cate = #{search_div}
+                   )Y
     </select>
     
     
@@ -85,5 +93,13 @@
 	  	  FROM gallog
 	 	 WHERE g_seq = #{gSeq} 
 	 </select>
+	 
+	 
+	 	<select id="getCount" parameterType="String" 
+	                      resultType="java.lang.Integer">
+		SELECT COUNT(*) CNT 
+		  FROM gallog     
+		 WHERE user_id LIKE #{userId} ||'%'  
+	</select>
     
 </mapper>

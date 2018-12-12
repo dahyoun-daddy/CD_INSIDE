@@ -20,5 +20,7 @@ public interface GallogSvc {
 	List<GallogVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 
 	GallogVO get(GallogVO gallogVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	
+	int getCount(String userId) throws SQLException;
 }
 

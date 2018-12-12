@@ -87,4 +87,17 @@ public class GallogDAOImple implements GallogDAO {
 		return outVO;
 	}
 
+	@Override
+	public int getCount(String userId) throws SQLException {
+		
+		int cnt = 0;
+		String statement = NAME_SPACE+".getCount";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+userId);
+		int flag  = this.sqlSession.selectOne(statement, userId);
+		log.debug("3.flag: "+flag);
+
+		return flag;
+	}
+
 }
