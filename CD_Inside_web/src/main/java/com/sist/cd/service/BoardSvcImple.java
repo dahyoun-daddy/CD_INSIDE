@@ -22,14 +22,14 @@ public class BoardSvcImple implements BoardSvc {
 	private BoardDAO bd;
 	
 	@Override
-	public List<BoardVO> addSY(SearchVO searchVO) throws DuplicateUserIdException {
+	public int addSY(BoardVO boardVO) throws DuplicateUserIdException {
 		
-		return bd.addSY(searchVO);
+		return bd.addSY(boardVO);
 	}
 
 	@Override
-	public List<BoardVO> addLK(SearchVO searchVO) throws DuplicateUserIdException {
-		return bd.addLK(searchVO);
+	public int addLK(BoardVO boardVO) throws DuplicateUserIdException {
+		return bd.addLK(boardVO);
 	}
 	
 

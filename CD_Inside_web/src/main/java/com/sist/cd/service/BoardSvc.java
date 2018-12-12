@@ -18,7 +18,7 @@ public interface BoardSvc {
 	 * @return
 	 * @throws DuplicateUserIdException
 	 */
-	List<BoardVO> addSY(SearchVO searchVO) throws DuplicateUserIdException;
+	int addSY(BoardVO boardVO) throws DuplicateUserIdException;
 	
 	/**
 	 * 링크게시글 작성
@@ -26,7 +26,7 @@ public interface BoardSvc {
 	 * @return
 	 * @throws DuplicateUserIdException
 	 */
-	List<BoardVO> addLK(SearchVO searchVO) throws DuplicateUserIdException;
+	int addLK(BoardVO boardVO) throws DuplicateUserIdException;
 	
 	
 	

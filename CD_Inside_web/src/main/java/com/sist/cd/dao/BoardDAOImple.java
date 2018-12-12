@@ -34,26 +34,26 @@ public class BoardDAOImple implements BoardDAO{
 	 * 쌍용게시글 작성
 	 */
 	@Override
-	public List<BoardVO> addSY(SearchVO searchVO) throws DuplicateUserIdException {
+	public int addSY(BoardVO boardVO) throws DuplicateUserIdException {
 		String statement = NAME_SPACE+".addSY";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+searchVO);
-		List<BoardVO> list  = this.sqlSession.selectList(statement, searchVO);
-		log.debug("3.flag: "+list);
-		return list;
+		log.debug("2.param: "+boardVO);
+		int flag  = this.sqlSession.insert(statement, boardVO);
+		log.debug("3.flag: "+flag);
+		return flag;
 	}
 	
 	/**
 	 * 링크게시글 작성
 	 */
 	@Override
-	public List<BoardVO> addLK(SearchVO searchVO) throws DuplicateUserIdException {
-		String statement = NAME_SPACE+".addLK";
+	public int addLK(BoardVO boardVO) throws DuplicateUserIdException {
+		String statement = NAME_SPACE+".addSY";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+searchVO);
-		List<BoardVO> list  = this.sqlSession.selectList(statement, searchVO);
-		log.debug("3.list: "+list);
-		return list;
+		log.debug("2.param: "+boardVO);
+		int flag  = this.sqlSession.insert(statement, boardVO);
+		log.debug("3.flag: "+flag);
+		return flag;
 	}
 	
 	

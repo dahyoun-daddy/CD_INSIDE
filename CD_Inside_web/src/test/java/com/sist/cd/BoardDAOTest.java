@@ -48,6 +48,8 @@ public class BoardDAOTest {
 	BoardVO  inVO2 = null;
 	BoardVO  inVO3 = null;
 	SearchVO  inVO4 = null;
+
+	
 	DTO dto = null;
 
 	
@@ -55,8 +57,9 @@ public class BoardDAOTest {
 	public void setUp() {
 		inVO1 =  new BoardVO("10014", "smd", "연진이냐", "덮밥쓰", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
 		inVO2 =  new BoardVO("10001", "digh", "딜리트되냐구", "딜리트만 남음", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
-		inVO3 =  new BoardVO("100000", "smd", "연진이냐", "덮밥쓰", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
-		inVO4 =  new SearchVO(10, 1, "test05", "0");
+		inVO3 =  new BoardVO("100000", "test", "연진이냐", "덮밥쓰", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
+		inVO4 =  new SearchVO(20, 1, "test05", "링크");
+		
 		
 		inVO1.setPage_size(5);
 		inVO1.setPage_num(1);
@@ -79,8 +82,8 @@ public class BoardDAOTest {
 		//--------------------------------------------
 		//1. 게시글 작성
 		//--------------------------------------------
-			boardDAO.addSY(searchVO);
-			boardDAO.addLK(searchVO);
+			boardDAO.addSY(inVO3);
+			boardDAO.addLK(inVO3);
 		
 		//--------------------------------------------
 	}
@@ -88,12 +91,12 @@ public class BoardDAOTest {
 	
 	//rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
 	@Test(timeout=2000)
-	//@Ignore
+	@Ignore
 	public void addAndGet() throws SQLException, ClassNotFoundException {
 		//--------------------------------------------
 		//2. 단건 조회
 		//--------------------------------------------
-		BoardVO getVO02 = boardDAO.get(inVO2);
+		BoardVO getVO02 = boardDAO.get(inVO3);
 		LOG.info("getVO01:"+getVO02);
 		//--------------------------------------------
 	
@@ -103,7 +106,7 @@ public class BoardDAOTest {
 	@Ignore
 	public void do_retrieve() throws SQLException, ClassNotFoundException {
 		//전체글 조회
-	List<BoardVO> list = boardDAO.do_retrieve(searchVO);
+	List<BoardVO> list = boardDAO.do_retrieve(inVO4);
 		LOG.info("do_retrieve_list:"+list);
 	}
 	

@@ -2,59 +2,122 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="com.sist.cd.mappers.board">
-	
+
+	<!-- SY 쌍용 게시글 추가 시퀀스 만번대 -->
+	<insert id="addSY" parameterType="BoardVO">
+		INSERT INTO board (
+		b_num,
+		user_id,
+		b_title,
+		b_cont,
+		b_cate,
+		b_hit,
+		reg_dt,
+		mod_id,
+		mod_dt,
+		b_visit_cnt
+		) VALUES (
+		B_B_SEQ.nextval,
+		#{userId},
+		#{bTitle},
+		#{bCont},
+		'쌍용',
+		#{bHit},
+		SYSDATE,
+		#{modId},
+		SYSDATE,
+		'0'
+		)
+	</insert>
+
+	<!-- LINK 링크 게시글 추가 시퀀스 10만번대 -->
+	<insert id="addLK" parameterType="BoardVO">
+		INSERT INTO board (
+		b_num,
+		user_id,
+		b_title,
+		b_cont,
+		b_cate,
+		b_hit,
+		reg_dt,
+		mod_id,
+		mod_dt,
+		b_visit_cnt
+		) VALUES (
+		B_L_seq.nextval,
+		#{userId},
+		#{bTitle},
+		#{bCont},
+		'링크',
+		#{bHit},
+		SYSDATE,
+		#{modId},
+		SYSDATE,
+		'0'
+		)
+	</insert>
+
 	<!-- 단건 조회 -->
-	<select id="get" parameterType="BoardVO"
-		resultType="BoardVO">
-		SELECT b_num,
-		    user_id,
-		    b_title,
-		    b_cont,
-		    b_cate,
-		    b_hit,
-		    reg_dt,
-		    mod_id,
-		    mod_dt,
-		    b_visit_cnt
+	<select id="get" parameterType="BoardVO" resultType="BoardVO">
+		SELECT
+		b_num,
+		user_id,
+		b_title,
+		b_cont,
+		b_cate,
+		b_hit,
+		reg_dt,
+		mod_id,
+		mod_dt,
+		b_visit_cnt
 		FROM board
 		WHERE b_num = #{bNum}
 	</select>
-	
-	<!-- 전체 조회 -->
-	  <select id="do_retrieve"  parameterType="SearchVO"
-      resultType="BoardVO"  >
+
+	<!-- 전체조회 -->
+	<select id="do_retrieve" parameterType="SearchVO"
+		resultType="BoardVO">
 		SELECT
-		    B.b_num,
-		    B.user_id,
-		    B.b_title,
-		    B.b_cont,
-		    B.b_cate,
-		    B.b_hit,
-		    B.reg_dt,
-		    B.mod_id,
-		    B.mod_dt,
-		    B.rnum AS no,
-		    B.b_visit_cnt
-			FROM  (
+		B.b_num,
+		B.user_id,
+		B.b_title,
+		B.b_cont,
+		B.b_cate,
+		B.b_hit,
+		B.reg_dt,
+		B.mod_id,
+		B.mod_dt,
+		B.rnum AS no,
+		B.b_visit_cnt
+		FROM (
 		SELECT bo.*
 		,ROW_NUMBER() OVER(ORDER BY reg_dt ) AS rnum
 		FROM board bo
 		WHERE b_cate = #{search_div}
-		)B 
-		WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1)
+		)B
+		WHERE rnum BETWEEN (#{page_size} *
+		(#{page_num}-1)+1)
 		AND (#{page_size} * (#{page_num}-1)+#{page_size})
-		</select>
-	 
-		<!-- 삭제 -->
-		<delete id="delete" parameterType="BoardVO">
-			DELETE FROM board
-   		   WHERE b_num = #{bNum}
-		</delete>
+	</select>
+
+	<!--글 수정  -->
+	<update id="update">
+		UPDATE board
+		SET b_title = #{bTitle}
+		,b_cont = #{bCont}
+		,mod_id = #{modId}
+		,mod_dt = SYSDATE
+		WHERE b_num = #{bNum}
+	</update>
 	
 	
-	
-	
-	
+	<!-- 글 삭제 -->
+	<delete id="delete" parameterType="BoardVO">
+		DELETE FROM board
+		WHERE b_num = #{bNum}
+	</delete>
+
+
 </mapper>  
