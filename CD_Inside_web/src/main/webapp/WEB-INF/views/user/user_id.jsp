@@ -90,7 +90,7 @@
 		         		alert(parseData.message);
 		         		var msg = confirm("로그인 화면으로 이동하시겠습니까?");
 		         		if(msg==true){
-			         		location.href ="login.jsp";
+			         		location.href ="login.do";
 		         		}else{
 		         			return;
 		         		}

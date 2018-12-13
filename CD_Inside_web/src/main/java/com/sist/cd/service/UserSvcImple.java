@@ -54,6 +54,9 @@ public class UserSvcImple implements UserSvc{
 		return userDao.save(userVO);
 	}
 
+	/**
+	 * 관리자 멀티 삭제
+	 */
 	@Override
 	public int do_deleteMulti(List<UserVO> list) throws RuntimeException, SQLException {
 		int flag = 0;

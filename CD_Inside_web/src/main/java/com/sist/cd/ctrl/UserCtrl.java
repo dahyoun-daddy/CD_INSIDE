@@ -1,6 +1,8 @@
 package com.sist.cd.ctrl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+import com.sist.cd.common.SearchVO;
 import com.sist.cd.ctrl.UserCtrl;
+import com.sist.cd.domain.CodeVO;
 import com.sist.cd.domain.UserVO;
+import com.sist.cd.service.CodeSvc;
 import com.sist.cd.service.UserSvc;
 
 @Controller
@@ -27,7 +33,53 @@ public class UserCtrl {
 	
 	@Autowired
 	private UserSvc userSvc;
+	@Autowired
+	private CodeSvc codeSvc;
     
+	private static final String VIEW_NAME="/mypage/user_list.do";
+	
+	//mypage 관리자 회원목록 조회------------------------------
+	@RequestMapping(value="/mypage/user_list.do",method = RequestMethod.GET )
+	public String do_search(@ModelAttribute SearchVO invo,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
+		log.info("SearchVO: "+invo);
+		//param -> view
+		
+		if(invo.getPage_size() == 0) {
+			invo.setPage_size(10);
+		}
+		
+		if(invo.getPage_num() == 0) {
+			invo.setPage_num(1);
+		}
+		
+		if(null == invo.getSearch_div()) {
+			invo.setSearch_div("");
+		}
+		
+		if(null == invo.getSearch_word()) {
+			invo.setSearch_word("");
+		}		
+		
+		
+		model.addAttribute("param",invo);
+		
+		List<UserVO> list = userSvc.do_retrieve(invo);
+		log.info("list: "+list);
+		//총글수
+		int total_cnt = 0;
+		if(null != list && list.size()>0) {
+			total_cnt = list.get(0).getTotalCnt();
+			log.info("total_cnt: "+total_cnt);
+		}
+		
+		CodeVO codePage=new CodeVO();
+		codePage.setCd_id("C_001");
+		
+		model.addAttribute("code_page",codeSvc.do_retrieve(codePage));
+		model.addAttribute("total_cnt",total_cnt);
+		model.addAttribute("list",list);
+		return "/mypage/user_list.do";  
+	}
 
 	@RequestMapping(value="/user/pwFindUpdate.do",method=RequestMethod.POST
 	        ,produces="application/json;charset=UTF-8" )
@@ -200,7 +252,7 @@ public class UserCtrl {
 		
 		if(null!=outName) {
 			object.put("outName", outName);
-			object.put("message", "중복된 이름(닉네임) 입니다.");
+			object.put("message", outName+"은(는) 중복된 이름(닉네임) 입니다.");
 		}else {
 			object.put("outName", outName);
 			object.put("message", "사용 가능한 이름(닉네임) 입니다.");
@@ -244,7 +296,7 @@ public class UserCtrl {
 		
 		if(null!=outId) {
 			object.put("outId", outId);
-			object.put("message", "중복된 아이디 입니다.");
+			object.put("message", outId+"은(는) 중복된 아이디 입니다.");
 		}else {
 			object.put("outId", outId);
 			object.put("message", "사용 가능한 아이디 입니다.");
@@ -313,30 +365,30 @@ public class UserCtrl {
 	 * @throws RuntimeException
 	 * @throws SQLException
 	 */
-	@RequestMapping(value="/user/delete.do",method=RequestMethod.POST
+	@RequestMapping(value="/mypage/delete.do",method=RequestMethod.POST
 			,consumes= {"text/plain", "application/*"}
 			,produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public String delete(HttpServletRequest req,Model model) throws RuntimeException, SQLException{
-//		String uIdList = req.getParameter("userId_list");
-//		log.info("uIdList: "+uIdList);
-//		
-//		Gson gson=new Gson();
-//		List<String>  listParam = gson.fromJson(uIdList, List.class);
-//		log.info("uIdList: "+listParam);
-//		
-//		List<UserVO> paramList = new ArrayList<UserVO>();
-//		for(int i=0;i<listParam.size();i++) {
-//			UserVO vo =new UserVO();
-//			vo.setUserId(listParam.get(i));
-//			
-//			paramList.add(vo);
-//		}
-//		log.info("paramList: "+paramList);
-//		
-//		int flag = this.userSvc.do_deleteMulti(paramList);
+		String uIdList = req.getParameter("userId_list");
+		log.info("uIdList: "+uIdList);
+		
+		Gson gson=new Gson();
+		List<String>  listParam = gson.fromJson(uIdList, List.class);
+		log.info("uIdList: "+listParam);
+		
+		List<UserVO> paramList = new ArrayList<UserVO>();
+		for(int i=0;i<listParam.size();i++) {
+			UserVO vo =new UserVO();
+			vo.setUserId(listParam.get(i));
+			
+			paramList.add(vo);
+		}
+		log.info("paramList: "+paramList);
+		
+		int flag = this.userSvc.do_deleteMulti(paramList);
 		UserVO userVO = new UserVO();
-		int flag = this.userSvc.delete(userVO);
+//		int flag = this.userSvc.delete(userVO);
 		log.info("====================");
 		log.info("flag : "+flag);
 		log.info("====================");
@@ -436,7 +488,7 @@ public class UserCtrl {
 		return jsonData;
 	}
 	
-//------------------------------뷰단 링크------------------------------
+//------------------------------user 뷰단 링크------------------------------
 	@RequestMapping(value="/user/user_join.do")	
 	public String join_view() {
 		log.info("=====user_join_view======");
@@ -452,6 +504,8 @@ public class UserCtrl {
 	@RequestMapping(value="/user/user_id.do")	
 	public String user_id_view() {
 		log.info("=====user_id_view======");
+		
+		
 		return "/user/user_id.do";
 	}
 	

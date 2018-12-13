@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <!-- 부트스트랩 -->
-    <link href="<%=context%>/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%=context%>/resources/css/bootstrap.min.css" rel="stylesheet"/>
     
 <title>:::비밀번호 찾기:::</title>
 </head>

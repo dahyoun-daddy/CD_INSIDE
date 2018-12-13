@@ -85,13 +85,13 @@
 	    <where>
 	    	<choose>
 	    		<when test="'10'==search_div">
-	    		    u.USER_ID like  #{search_word}||'%'
+	    		    u.USER_ID like   '%'|| #{search_word}||'%'
 	    		</when>
 	    		<when test="'20'==search_div">
-	    		    u.USER_NAME like  #{search_word}||'%'
+	    		    u.USER_NAME like '%'|| #{search_word}||'%'
 	    		</when>
 	    		<when test="'30'==search_div">
-	    		    u.USER_EMAIL like  #{search_word}||'%'
+	    		    u.USER_EMAIL like '%'|| #{search_word}||'%'
 	    		</when>		    		
 	    		<otherwise></otherwise>
 	    	</choose>
@@ -126,7 +126,6 @@
 		(
 		  SELECT COUNT(*) AS total_cnt   
 		    FROM u_ser
-		    <include refid="baseCondition"/>
 		)Y
 	</select>
     

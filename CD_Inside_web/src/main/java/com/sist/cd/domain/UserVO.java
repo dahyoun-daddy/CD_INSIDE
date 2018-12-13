@@ -1,6 +1,8 @@
 package com.sist.cd.domain;
 
-public class UserVO {
+import com.sist.cd.common.DTO;
+
+public class UserVO extends DTO{
 
 	private String userId   ; /**아이디  */
 	private String userName ; /**이름    */

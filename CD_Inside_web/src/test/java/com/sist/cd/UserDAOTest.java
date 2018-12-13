@@ -70,7 +70,7 @@ public class UserDAOTest {
 		coVO2.setPage_size(10);
 		coVO1.setPage_num(1);
 		coVO2.setPage_num(1);
-		searchVO = new SearchVO(10,1,"","");
+		searchVO = new SearchVO(10,1,"te","");
 		
 		LOG.info("context:"+context);
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -83,7 +83,7 @@ public class UserDAOTest {
 //	@Ignore
 	public void deleteBoard() throws SQLException, EmptyResultDataAccessException, ClassNotFoundException {
 		BoardVO boardVO1 =  new BoardVO("101", "test", "테스트주웅1", "등록됐?나?", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
-		BoardVO boardVO2 =  new BoardVO("102", "test", "테스트주웅2", "등록됐?나?", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
+		BoardVO boardVO2 =  new BoardVO("102", "test", "테스트주웅2", "등록됐?나?", "링크", "0", "2018-11-15", "smd", "2018-11-15", "0");
 
 		
 		BoardVO vo = new BoardVO();
@@ -254,7 +254,7 @@ public class UserDAOTest {
 	
 	
 	@Test
-//	@Ignore //됨ㅋ
+//	@Ignore
 	public void update() throws SQLException, ClassNotFoundException {
 		//회원 개인정보 수정
 		UserVO vo = new UserVO("11user","test22","11234","22@z.z","수정2","수정2","11user");
