@@ -80,7 +80,7 @@ public class UserDAOTest {
 	
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void deleteBoard() throws SQLException, EmptyResultDataAccessException, ClassNotFoundException {
 		BoardVO boardVO1 =  new BoardVO("101", "test", "테스트주웅1", "등록됐?나?", "쌍용", "0", "2018-11-15", "smd", "2018-11-15", "0");
 		BoardVO boardVO2 =  new BoardVO("102", "test", "테스트주웅2", "등록됐?나?", "링크", "0", "2018-11-15", "smd", "2018-11-15", "0");
