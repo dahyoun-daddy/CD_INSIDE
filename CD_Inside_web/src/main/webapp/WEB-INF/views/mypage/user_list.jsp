@@ -131,7 +131,7 @@
 		<div class="col-xs-1"></div>
 		</div>
 		<!--// Grid영역 ---------------------------------------------------->
-		<div class="form-inline text-center">
+		<div class="form-inline ">
 			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "user_list.do", "search_page") %>
 		</div>
 		

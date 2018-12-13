@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.dao.UserDAO;
+import com.sist.cd.domain.BoardVO;
+import com.sist.cd.domain.CommentVO;
 import com.sist.cd.domain.UserVO;
 import com.sist.cd.service.UserSvc;
 import com.sist.cd.service.UserSvcImple;
@@ -23,6 +25,18 @@ public class UserSvcImple implements UserSvc{
 	@Autowired
 	private UserDAO userDao;
 
+
+	@Override
+	public List<BoardVO> idBoard(BoardVO boardVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return userDao.idBoard(boardVO);
+	}
+
+	@Override
+	public List<CommentVO> idCommnet(CommentVO commentVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return userDao.idCommnet(commentVO);
+	}
 
 	@Override
 	public String nameCheck(String userName) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {

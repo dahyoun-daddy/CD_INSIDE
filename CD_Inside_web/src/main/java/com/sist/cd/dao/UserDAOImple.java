@@ -47,6 +47,35 @@ public class UserDAOImple implements UserDAO{
 		}  
 	};
 
+
+	/** 활동내역 아이디별 댓글 조회*/
+	@Override
+	public List<CommentVO> idCommnet(CommentVO commentVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		String statement = NAME_SPACE+".idCommnet";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+commentVO);
+		List<CommentVO> list  = this.sqlSession.selectList(statement, commentVO);
+		log.debug("*****************************");
+		log.debug("3.list: "+list);
+		log.debug("*****************************");
+		return list;
+	}
+
+	/** 활동내역 아이디별 글 조회*/
+	@Override
+	public List<BoardVO> idBoard(BoardVO boardVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		String statement = NAME_SPACE+".idBoard";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+boardVO);
+		List<BoardVO> list  = this.sqlSession.selectList(statement, boardVO);
+		log.debug("*****************************");
+		log.debug("3.list: "+list);
+		log.debug("*****************************");
+		return list;
+	}
+
 	/**
 	 * 로그인시 회원가입 유무 확인
 	 */
@@ -235,34 +264,5 @@ public class UserDAOImple implements UserDAO{
 		log.debug("*****************************");
 		return list;
 	}
-
-	/** 활동내역 아이디별 댓글 조회*/
-	@Override
-	public List<CommentVO> idCommnet(CommentVO commentVO)
-			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
-		String statement = NAME_SPACE+".idCommnet";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+commentVO);
-		List<CommentVO> list  = this.sqlSession.selectList(statement, commentVO);
-		log.debug("*****************************");
-		log.debug("3.list: "+list);
-		log.debug("*****************************");
-		return list;
-	}
-
-	/** 활동내역 아이디별 글 조회*/
-	@Override
-	public List<BoardVO> idBoard(BoardVO boardVO)
-			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
-		String statement = NAME_SPACE+".idBoard";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+boardVO);
-		List<BoardVO> list  = this.sqlSession.selectList(statement, boardVO);
-		log.debug("*****************************");
-		log.debug("3.list: "+list);
-		log.debug("*****************************");
-		return list;
-	}
-
 
 }

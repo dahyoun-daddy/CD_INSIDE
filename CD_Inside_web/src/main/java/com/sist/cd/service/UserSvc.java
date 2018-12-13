@@ -7,10 +7,17 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.common.SearchVO;
+import com.sist.cd.domain.BoardVO;
+import com.sist.cd.domain.CommentVO;
 import com.sist.cd.domain.UserVO;
 
 public interface UserSvc {
 
+	/**유저별 등록한댓글*/
+	List<CommentVO> idCommnet(CommentVO commentVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	/**유저별 등록한게시글*/
+	List<BoardVO> idBoard(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	
 
 	/** 로그인 아이디 확인*/
 	int loginIdFind (UserVO userVO)throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;

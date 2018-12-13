@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.ctrl.UserCtrl;
+import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.CodeVO;
 import com.sist.cd.domain.UserVO;
 import com.sist.cd.service.CodeSvc;
@@ -37,6 +38,46 @@ public class UserCtrl {
 	private CodeSvc codeSvc;
     
 	private static final String VIEW_NAME="/mypage/user_list.do";
+	
+	//mypage 활동내역 조회(게시글/댓글)------------------------------
+	@RequestMapping(value="/mypage/user_act.do",method = RequestMethod.GET )
+	public String idBoard(@ModelAttribute BoardVO  invo,Model model, HttpServletRequest req) 
+			throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		log.info("BoardVO" + invo);
+		
+		invo.setUserId("test"); //TODO 세션 받을곳
+		
+		String page_num = (String) req.getParameter("page_num");
+		if (page_num == null) {
+			invo.setPage_num(1);
+		} else {
+			invo.setPage_num(Integer.parseInt(page_num));
+		}
+
+		if(invo.getPage_size() == 0) {
+			invo.setPage_size(10);
+		}
+		
+		log.info("page_num:" + page_num);
+
+		model.addAttribute("param", invo);
+
+		List<BoardVO> list = userSvc.idBoard(invo);
+		log.info("list: " + list);
+
+		int totalCnt = 0;
+		if (null != list && list.size() > 0) {
+			totalCnt = list.get(0).getTotalCnt();
+			log.info("totalCnt: " + totalCnt);
+		}
+
+		model.addAttribute("totalCnt", totalCnt);
+		model.addAttribute("list", list);
+
+		return "/mypage/user_act.do";
+	}
+		
+	
 	
 	//mypage 관리자 회원목록 조회------------------------------
 	@RequestMapping(value="/mypage/user_list.do",method = RequestMethod.GET )

@@ -1,7 +1,49 @@
+<%@page import="com.sist.cd.domain.BoardVO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.sist.cd.domain.CodeVO"%>
+<%@page import="java.util.List"%>
+<%@page import="com.sist.cd.common.SearchVO"%>
+<%@page import="com.sist.cd.common.StringUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%-- <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
 <%
 	String context = request.getContextPath();//context path
+	
+	String page_size ="10";//page_size
+	String page_num  ="1";//page_num
+	String search_div ="";//검색구분
+	String search_word="";//검색어
+	
+	int totalCnt      =0;
+	int bottomCount   =10;
+	
+	BoardVO vo =  (BoardVO)request.getAttribute("param");
+	//out.print("vo:"+vo);
+	
+	if(null !=vo ){
+		search_div  = StringUtil.nvl(vo.getSearch_div(), ""); 
+		search_word = StringUtil.nvl(vo.getSearch_word(), ""); 
+		page_size   = StringUtil.nvl(vo.getPage_size(), "10"); 
+		page_num   = StringUtil.nvl(vo.getPage_num(), "1"); 
+	}else{ 
+		search_div  = StringUtil.nvl(request.getParameter("search_div"), ""); 
+		search_word = StringUtil.nvl(request.getParameter("search_word"), "");
+		page_size = StringUtil.nvl(request.getParameter("page_size"), "10");
+		page_num = StringUtil.nvl(request.getParameter("page_num"), "1");
+	}
+	
+	
+	
+	int oPageSize = Integer.parseInt(page_size);
+	int oPageNum  = Integer.parseInt(page_num);
+	
+	String iTotalCnt = (null == request.getAttribute("total_cnt"))?"0":request.getAttribute("total_cnt").toString();
+	totalCnt = Integer.parseInt(iTotalCnt);
+	
+	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
+			     ?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -17,7 +59,6 @@
 </head>
 <body>
 	 <div class="container" style="padding-top:3%">
-	<thead>
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
 			<a >일반회원</a>님<br/>
@@ -30,23 +71,145 @@
 		  <li role="presentation"><a href="#">쪽지함</a></li>
 		  <li role="presentation"><a href="#">갤로그 가기</a></li>
 		</ul>
-	</thead>
-	 <tbody>
+		<div class="col-xs-12"><hr/></div>
+		<div class="col-xs-1"></div>
+		<div class="table-responsive col-xs-10" >
 		 <form method="post" action="" >
-	         <div class="col-sm-12" ><hr/></div>
 	         <div class="col-sm-12" >
-	         <a > 등록한 게시글</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	         <a > 등록한 댓글</a>  </div>
+	         <a > 등록한 게시글</a>&nbsp;&nbsp;&nbsp;&nbsp; /  &nbsp;&nbsp;&nbsp;&nbsp;
+	         <a > 등록한 댓글</a></div>
 	         <div class="col-sm-12" ><hr/></div>
-	         
-	    </form>
-	</tbody>
-	   </div>     
-		
+	         <div><input type="button" class="btn btn-default btn-sm" style="height: 35px" id="do_delete" value="삭제"/> </div>
+			<table id="listTable" class="table table-striped table-bordered table-hover ">
+			<thead class="bg-primary">
+			    <tr>
+			        <th class="text-center "><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
+					<th class="text-center col-lg-1">번호</th>
+					<th class="text-center col-lg-2">게시판</th>
+					<th class="text-center col-lg-3">제목</th>
+					<th class="text-center col-lg-4">작성일</th>
+					<th class="text-center col-lg-1">조회수</th>
+				</tr>
+			</thead>
+			</div>
 			
+			 <tbody>
+				${list}
+				<c:choose>
+					<c:when test="${list.size()>0}">
+						<c:forEach var="boardVo" items="${list}">
+							<tr>
+							    <td class="text-center"><input type="checkbox" id="check" name="check"></td>
+								<td class="text-center"><c:out value="${boardVo.b_num}"></c:out></td>
+								<td class="text-left"><c:out value="${boardVo.b_cate}"></c:out></td>
+								<td class="text-left"><c:out value="${boardVo.b_title}"></c:out></td>
+								<td class="text-left"><c:out value="${boardVo.regDt}"></c:out></td>
+								<td class="text-center"><c:out value="${boardVo.b_visit_cnt}"></c:out></td>
+							</tr>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<tr>
+						    <td class="text-center" colspan="99">등록된 게시글이 없습니다.</td>
+						</tr>					
+					</c:otherwise>
+				</c:choose>						
+				</tbody>
+			</table>
+		<div class="col-xs-1"></div>
+		</div>
+		<!--// Grid영역 ---------------------------------------------------->
+		<div class="form-inline text-center">
+			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "user_list.do", "search_page") %>
+		</div>
+		
+	    </form>
+	   </div>
 	 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     <script src="<%=context%>/resources/js/jquery.min.js"></script>
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    
+    //page
+    function search_page(url,page_num){
+   	 //alert(url+":search_page:"+page_num);
+   	 var frm = document.frm;
+   	 frm.page_num.value = page_num;
+   	 frm.action = url;
+   	 frm.submit();
+   	 
+    }
+    
+	//check 전체 선택
+	function checkAll(){
+	//alert("checkAll");
+		if($("#checkAll").is(':checked') == true  ){
+			$("input[name='check']").prop("checked",true);
+		}else{
+		 	$("input[name='check']").prop("checked",false);
+		}
+	   
+	}
+    
+    
+	$(document).ready(function(){   
+		
+		$("#do_delete").on("click",function(){
+			//alert("do_delete");
+			
+			var items = [];//var items=new Array(); 
+			$( "input[name='check']:checked" ).each(function( index,row ) {
+				console.log("index="+index);
+				//console.log("row="+row);
+				var record = $(row).parents("tr");
+				var userId = $(record).find("td").eq(1).text();
+				console.log("userId="+userId);
+				items.push(userId);
+			});
+			console.log("items.length="+items.length);
+			if(items.length<=0){
+				alert("삭제할 데이터를 선택 하세요.")
+				return;
+			}
+			
+			if(false==confirm("삭제 하시겠습니까?"))return;
+			
+			var jsonIdList = JSON.stringify(items);
+			//jsonIdList=["107","108"]
+			console.log("jsonIdList="+jsonIdList);
+			
+	        $.ajax({
+	            type:"POST",
+	            url:"delete.do",
+	            dataType:"html",
+	            data:{
+	            	"userId_list": jsonIdList
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+	                 console.log("parseData.flag="+parseData.flag);
+	                 console.log("parseData.message="+parseData.message);
+		         	 if(parseData.flag > 0){
+		         		alert(parseData.message);
+		         		doSearch();
+		         	 }else{
+		         		alert(parseData.message);
+		         		
+		         	 }				             
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+			
+		});//--do_delete
+		
+ 	});
+    
+    </script>
 </body>
 </html>
