@@ -48,10 +48,10 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="menu">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#about">쌍용 커뮤니티</a></li>
-            <li><a href="#portfolio">링크 사이트</a></li>
-            <li><a href="#features">회원가입</a></li>
-            <li><a href="#contact">로그인</a></li>
+            <li><a href="/cd/board/bsy.do">쌍용 커뮤니티</a></li>
+            <li><a href="/cd/board/bsy.do">링크 사이트</a></li>
+            <li><a href="/cd/user/user_join.do">회원가입</a></li>
+            <li><a href="/cd/user/login.do">로그인</a></li>
           </ul>
         </div>
         <!-- /.Navbar-collapse -->

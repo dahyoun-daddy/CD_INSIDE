@@ -435,11 +435,12 @@ public class UserCtrl {
 		log.info("3========================");			
 		return jsonData;
 	}
-    
+	
+//------------------------------뷰단 링크------------------------------
 	@RequestMapping(value="/user/user_join.do")	
 	public String join_view() {
 		log.info("=====user_join_view======");
-		return "/user/user_join";
+		return "/user/user_join.do";
 	}    
 	
 	@RequestMapping(value="/user/login.do")	

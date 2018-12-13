@@ -7,6 +7,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.common.SearchVO;
+import com.sist.cd.domain.BoardVO;
+import com.sist.cd.domain.CommentVO;
 import com.sist.cd.domain.UserVO;
 
 public interface UserDAO {
@@ -74,7 +76,8 @@ public interface UserDAO {
 	List<UserVO> getAll() throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	List<UserVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
-
+	List<CommentVO> idCommnet(CommentVO commentVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	List<BoardVO> idBoard(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	/**
 	 * 단건조회
 	 * @param userVO

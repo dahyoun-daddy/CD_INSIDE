@@ -18,6 +18,53 @@
     	,TO_CHAR(MOD_DT,'YYYY-MM-DD HH24:MI:SS') MOD_DT
     </sql>
     
+<!--     아이디별 글 조회 -->
+	<select id="idBoard" resultType="BoardVO" parameterType="BoardVO">
+    SELECT B.user_id,
+	        B.b_num,
+	        B.b_title,
+	        B.b_cont,
+	        B.b_cate,
+	        B.b_hit,
+	        B.b_visit_cnt,
+	        B.reg_dt,
+	        B.mod_id,
+	        B.mod_dt,
+	        B.rnum
+	    FROM  (
+	    SELECT bo.*
+	    ,ROW_NUMBER() OVER(ORDER BY reg_dt desc ) AS rnum
+	    FROM board bo
+	    WHERE user_id = #{userId}
+	    )B
+		WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
+		  AND (#{page_size} * (#{page_num}-1)+#{page_size})
+	</select>
+    
+<!--     아이디별 댓글 조회 -->
+	<select id="idCommnet" resultType="CommentVO" parameterType="CommentVO">
+		SELECT
+	        B.comm_text_num,
+	        B.b_num,
+	        B.comm_cont,
+	        B.user_id,
+	        B.comm_hit,
+	        B.comm_group_no,
+	        B.comm_depth,
+	        B.reg_dt,
+	        B.mod_id,
+	        B.mod_dt,
+	        B.rnum 
+	    FROM  (
+	    SELECT bo.*
+	    ,ROW_NUMBER() OVER(ORDER BY reg_dt desc ) AS rnum
+	    FROM comm bo
+	    WHERE user_id = #{userId}
+	    )B 
+		WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
+		  AND (#{page_size} * (#{page_num}-1)+#{page_size})
+	</select>
+    
 <!--     로그인 아이디 확인 -->
     <select id="loginIdFind" resultType="Integer" parameterType="UserVO">
     	SELECT COUNT(*)
@@ -38,13 +85,13 @@
 	    <where>
 	    	<choose>
 	    		<when test="'10'==search_div">
-	    		    hr.u_id like  #{search_word}||'%'
+	    		    u.USER_ID like  #{search_word}||'%'
 	    		</when>
 	    		<when test="'20'==search_div">
-	    		    hr.name like  #{search_word}||'%'
+	    		    u.USER_NAME like  #{search_word}||'%'
 	    		</when>
 	    		<when test="'30'==search_div">
-	    		    hr.email like  #{search_word}||'%'
+	    		    u.USER_EMAIL like  #{search_word}||'%'
 	    		</when>		    		
 	    		<otherwise></otherwise>
 	    	</choose>
