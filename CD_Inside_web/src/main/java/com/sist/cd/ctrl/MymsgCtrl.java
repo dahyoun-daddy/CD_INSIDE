@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.sist.cd.common.SearchVO;
@@ -39,15 +40,114 @@ public class MymsgCtrl {
 	private CodeSvc codeSvc;	
 	
 	
-	private static final String VIEW_NAME="/mypage/msg2.do";
+	private static final String VIEW_NAME="/mypage/msg.do";
 	
-	
-	@RequestMapping(value="/msg/{msg_send}")
-	public String getSinglePage(@PathVariable("msg_send")String msg_send){
-		return "/msg"+msg_send;
+	//쪽지답장 페이지 나옴
+	@RequestMapping(value="/msg/resend.do")
+	public String resend() {
+		return "/mypage/msg_resend";
 	}
 	
 	
+	//쪽지쓰기 페이지 나옴
+	@RequestMapping(value="/msg/send.do")
+	public String send() {
+		return "/mypage/msg_send";
+	}
+	
+	//쪽지읽기 페이지 나옴
+	@RequestMapping(value="/msg/receive.do")
+	public String receive() {
+		return "/mypage/msg_receive";
+	}
+	
+	//받은쪽지함 페이지 나옴
+	@RequestMapping(value="/msg/receiveIndex.do")
+	public String do_receiveIndex(@ModelAttribute SearchVO invo,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
+		log.info("SearchVO: "+invo);
+		//param -> view
+		
+		if(invo.getPage_size() == 0) {
+			invo.setPage_size(10);
+		}
+		
+		if(invo.getPage_num() == 0) {
+			invo.setPage_num(1);
+		}
+		
+		if(null == invo.getSearch_div()) {
+			invo.setSearch_div("");
+		}
+		
+		if(null == invo.getSearch_word()) {
+			invo.setSearch_word("");
+		}		
+			
+		model.addAttribute("param",invo);
+		
+		List<MsgVO> list = msgSvc.do_retrieve(invo);
+		log.info("list: "+list);
+		//총글수
+		int total_cnt = 0;
+		if(null != list && list.size()>0) {
+			total_cnt = list.get(0).getTotalCnt();
+			log.info("total_cnt: "+total_cnt);
+		}
+		
+		CodeVO codePage=new CodeVO();
+		codePage.setCd_id("C_001");
+		
+		model.addAttribute("code_page",codeSvc.do_retrieve(codePage));
+		model.addAttribute("total_cnt",total_cnt);
+		model.addAttribute("list",list);
+		
+		return "/mypage/msg_receive_index";  
+	}	
+	
+	//보낸쪽지함 페이지 나옴
+	@RequestMapping(value="/msg/sendIndex.do")
+	public String do_sendIndex(@ModelAttribute SearchVO invo,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
+		log.info("SearchVO: "+invo);
+		//param -> view
+		
+		if(invo.getPage_size() == 0) {
+			invo.setPage_size(10);
+		}
+		
+		if(invo.getPage_num() == 0) {
+			invo.setPage_num(1);
+		}
+		
+		if(null == invo.getSearch_div()) {
+			invo.setSearch_div("");
+		}
+		
+		if(null == invo.getSearch_word()) {
+			invo.setSearch_word("");
+		}		
+			
+		model.addAttribute("param",invo);
+		
+		List<MsgVO> list = msgSvc.do_retrieve(invo);
+		log.info("list: "+list);
+		//총글수
+		int total_cnt = 0;
+		if(null != list && list.size()>0) {
+			total_cnt = list.get(0).getTotalCnt();
+			log.info("total_cnt: "+total_cnt);
+		}
+		
+		CodeVO codePage=new CodeVO();
+		codePage.setCd_id("C_001");
+		
+		model.addAttribute("code_page",codeSvc.do_retrieve(codePage));
+		model.addAttribute("total_cnt",total_cnt);
+		model.addAttribute("list",list);
+		
+		return "/mypage/msg_send_index";  
+	}
+
+	//테스트용 받은쪽지함, 컬럼값 전부 나옴
 	@RequestMapping(value="/msg/search.do")	
 	public String do_search(@ModelAttribute SearchVO invo,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
 		log.info("SearchVO: "+invo);
@@ -198,6 +298,7 @@ public class MymsgCtrl {
 		model.addAttribute("vo", msgSvc.get(msgVO));
 		return jsonData;
 	}
+	
 	
 	
 	

@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
-    <title>쪽지읽기</title>
+    <title>답장하기</title>
 
     <!-- 부트스트랩 -->
     <link href="<%=context%>/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -30,42 +30,34 @@
 	    <div class="container-fluid">
     	<!-- Title영역 -->
     	<div class="page-header">
-    		<h3>쪽지읽기</h3>
+    		<h3>답장하기</h3>
 
-    	
-    		
 		<!-- 입력폼 -->
 		<hr/>
-        <form  name="frm" id="frm" action="receive.do" method="get" class="form-horizontal">
+        <form  name="frm" id="frm" action="resend.do" method="get" class="form-horizontal">
 		  <div class="form-group">
-		    <label for="inputRecvId" class="col-sm-2 control-label">보낸 사람</label>
-		      <div class="col-xs-2">		    
-		      <input type="text" class="form-control" id="send_id" readonly maxlength="20">
+		    <label for="inputRecvId" class="col-sm-2 control-label">받는 사람</label>
+		      <div class="col-sm-2">			    
+		      <input type="text" class="form-control" id="recv_id" readonly maxlength="20">
 		    </div>
 		  </div>
-
-		  <div class="form-group">
-		    <label for="inputRecvId" class="col-sm-2 control-label">받은 시간</label>
-		      <div class="col-xs-2">		    
-		      <input type="text" class="form-control" id="send_time" readonly maxlength="20">
-		    </div>
-		  </div>
-		  
+		  		  
 		  <div class="form-group">
 		    <label for="inputContent" class="col-sm-2 control-label">메시지 내용</label>
 		    <div class="col-sm-10">
-				<textarea name="cont" rows="10" cols="40" readonly maxlength="400">
-					
-				</textarea>
+				<textarea name="cont" rows="10" cols="40" maxlength="400" placeholder="내용을 입력하세요"
+					onKeyUp="javascript:fnChkByte(this,'400')"></textarea>
+				<span id="byteInfo">0</span>/400 Byte
 		    </div>
 		  </div>
+
 		<!--// 입력폼 -->
 
 		<!-- 버튼 -->
 		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">
-		    <button type="submit" class="btn btn-default" id="do_resend">답장</button>
-		    <button type="submit" class="btn btn-default" id="do_delete">삭제</button>	
+		    <button type="submit" class="btn btn-default" id="do_send" onclick="closePopup();">보내기</button>
+		    <button type="submit" class="btn btn-default" id="do_cancel" onclick="closePopup();">취소</button>	
 
 		  </div>
 		</div>
@@ -78,18 +70,50 @@
 	    <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
 	    <script type="text/javascript">
 
-	    $(document).ready(function(){   
-		    
-		  //do_resend 답장
-			$("#do_resend").on("click",function(){
-			
-			});
-		  
-		 //do_delete 삭제
-			$("#do_delete").on("click",function(){
-				
-			});
+	    //보내기 버튼 누르면 보내고  팝업 닫기
+	    function closePopup(){
+	    	 javascript:window.close();
+	    }
 	    
+	    //취소 버튼 누르면 팝업 닫기
+	    function closePopup(){
+	    	 javascript:window.close();
+	    }
+	    
+	    //글자수 세기
+	    function fnChkByte(obj, maxByte){
+	    	var str = obj.value;
+	    	var str_len = str.length;
+
+	    	var rbyte = 0;
+	    	var rlen = 0;
+	    	var one_char = "";
+	    	var str2 = "";
+
+	    	for(var i=0; i<str_len; i++){
+	    	one_char = str.charAt(i);
+	    	if(escape(one_char).length > 4){
+	    	    rbyte += 2;  //한글2Byte
+	    	}else{
+	    	    rbyte++;     //영문 등 나머지 1Byte
+	    	}
+
+	    	if(rbyte <= maxByte){
+	    	    rlen = i+1;   //return할 문자열 갯수
+	    	}
+	    	}
+
+	    	if(rbyte > maxByte){
+	    	    alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
+	    	    str2 = str.substr(0,rlen);   //문자열 자르기
+	    	    obj.value = str2;
+	    	    fnChkByte(obj, maxByte);
+	    	}else{
+	    	    document.getElementById('byteInfo').innerText = rbyte;
+	    	}
+	    	}
+
+		    
 		</script>
 
 </body>

@@ -94,11 +94,15 @@
 		</div>
 		
 		<!-- 버튼 -->
+		
 		<button type="button" class="btn btn-default">받은쪽지함</button>
 		<button type="button" class="btn btn-default" id="do_sendindex">보낸쪽지함</button>
 		<input type="button" class="btn btn-default" value="쪽지쓰기"
 			onclick="showPopup();" />
 		<!--// 버튼 -->
+		
+
+		</ul>
 			
 	</div>
 	<!--// Title영역 -->
@@ -117,10 +121,10 @@
 					<select name="search_div" id="search_div"
 						class="form-control input-sm">
 						<option value="">::전체::</option>
-						<option value="10"
-							<%if (search_div.equals("10"))out.print("selected='selected'");%>>보낸이</option>
-						<option value="20"
-							<%if (search_div.equals("20"))out.print("selected='selected'");%>>내용</option>
+						<option value="30"
+							<%if (search_div.equals("30"))out.print("selected='selected'");%>>보낸이</option>
+						<option value="60"
+							<%if (search_div.equals("60"))out.print("selected='selected'");%>>내용</option>
 						</select>
 					<input type="text" name="search_word" id="search_word"
 						value="${param.search_word}" class="form-control input-sm"
@@ -224,6 +228,9 @@
     
 	//쪽지 쓰기 팝업창 호출 msg_send.jsp
 	function showPopup() {
+		var comSubmit = new comSubmit();
+		comSubmit.setUrl("<c:url value='send.do' />");
+		comSubmit.submit();
 		window.open("msg_send.jsp", "msg_send",
 				"width=500, height=500, left=100, top=50");
 	}

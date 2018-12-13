@@ -34,7 +34,7 @@
 
 		<!-- 입력폼 -->
 		<hr/>
-		<form class="form-horizontal">
+        <form  name="frm" id="frm" action="send.do" method="get" class="form-horizontal">
 		  <div class="form-group">
 		    <label for="inputRecvId" class="col-sm-2 control-label">받는 사람</label>
 		      <div class="col-sm-2">			    
