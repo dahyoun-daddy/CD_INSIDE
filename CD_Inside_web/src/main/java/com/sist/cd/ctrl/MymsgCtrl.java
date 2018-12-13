@@ -49,6 +49,7 @@ public class MymsgCtrl {
 	}
 	
 	
+	
 	//쪽지쓰기 페이지 나옴
 	@RequestMapping(value="/msg/send.do")
 	public String send() {

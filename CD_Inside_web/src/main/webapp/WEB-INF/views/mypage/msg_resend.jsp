@@ -32,6 +32,7 @@
     	<div class="page-header">
     		<h3>답장하기</h3>
 
+
 		<!-- 입력폼 -->
 		<hr/>
         <form  name="frm" id="frm" action="resend.do" method="get" class="form-horizontal">

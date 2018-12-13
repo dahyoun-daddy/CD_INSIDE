@@ -102,6 +102,8 @@
 	    	    rlen = i+1;   //return할 문자열 갯수
 	    	}
 	    	}
+	    	
+	    	
 
 	    	if(rbyte > maxByte){
 	    	    alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
@@ -110,10 +112,10 @@
 	    	    fnChkByte(obj, maxByte);
 	    	}else{
 	    	    document.getElementById('byteInfo').innerText = rbyte;
-	    	}
-	    	}
+	    	}	    
+	    	
+	    }
 
-		    
 		</script>
 
 </body>

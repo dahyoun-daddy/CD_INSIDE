@@ -9,6 +9,7 @@
 <%@taglib prefix="tiles"  
     uri="http://tiles.apache.org/tags-tiles" %>    
  
+ 
 <%
 	String context = request.getContextPath();//context path
 	
@@ -100,9 +101,6 @@
 		<input type="button" class="btn btn-default" value="쪽지쓰기"
 			onclick="showPopup();" />
 		<!--// 버튼 -->
-		
-
-		</ul>
 			
 	</div>
 	<!--// Title영역 -->

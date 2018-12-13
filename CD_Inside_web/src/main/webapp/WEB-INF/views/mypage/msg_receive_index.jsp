@@ -101,9 +101,6 @@
 			onclick="showPopup();" />
 		<!--// 버튼 -->
 		
-
-		</ul>
-			
 	</div>
 	<!--// Title영역 -->
 	<form name="frm" id="frm" action="receiveIndex.do" method="get"
