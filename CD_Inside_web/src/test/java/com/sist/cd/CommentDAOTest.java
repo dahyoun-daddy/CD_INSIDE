@@ -104,12 +104,12 @@ public class CommentDAOTest {
 	
 	@Test
 	public void do_code_select() throws SQLException, ClassNotFoundException {
-		assertThat(commentDAO.do_code_getCount(inVO1),is(6));
+		assertThat(commentDAO.do_code_getCount(inVO1),is(8));
 	}
 	
 	@Test
 	public void add() throws SQLException, ClassNotFoundException {
-		inVO1.setNo('6');
+		inVO1.setNo('8');
 		commentDAO.do_code_insert(inVO1);
 	}
 	

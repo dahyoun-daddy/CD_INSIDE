@@ -108,6 +108,19 @@ $(document).on('click','#commentUpdateComplete', function() {
 			commCont		  : commCont
 		};
 	commentAjax(params,"	updateComment.do");
+	
+	
+	
+	$(parent).find("#commentUpdateComplete").remove();
+	$(parent).find("#commentUpdateCancel").remove();
+	$(parent).find("#commentTextarea").remove();
+	$(parent).find(".hitNum").after(' <a class="cursor" id="coomentDelete" >삭제</a> ');
+	$(parent).find(".hitNum").after(' <a class="cursor" id="commentUpdate" >수정</a> ');
+	$(parent).find(".hitNum").after('<a class="cursor" data-toggle="collapse" id="commentReply" href="#commentReplyadd' + commTextNum + '">답글</a>');
+	
+	$(parent).find(".p").after('<p>'+commCont+'</p>');
+	
+	
 });
 
 //수정취소
@@ -139,70 +152,18 @@ $(document).on('click','#like', function() {
 //삭제
 $(document).on('click','#coomentDelete', function() {
 	var parent = $(this).parents(".container");
-
 	var commTextNum = $(parent).find(".commTextNum").val();
 	var commGroupNo = $(parent).find(".commGroupNo").val();
 	var commDepth = $(parent).find(".commDepth").val();
-	
 	var params = {
 		commTextNum : commTextNum,
 		commDepth : commDepth,
 		commGroupNo : commGroupNo
 	};
 	commentAjax(params,"deleteComment.do");
-	$(this).parents(".container").remove();
+	$(parent).remove();
 });
   
-//Ajax 분리
-function commentAjax(params,url){
-	
-	var userId = params.userId
-	var commCont = params.commCont
-	var bNum = params.bNum
-	var modId = params.modId
-	var commTextNum = params.commTextNum
-	var commGroupNo = params.commGroupNo
-	var commDepth = params.commDepth
-	$.ajax({
-		 type : "POST", 
-		 url : url,    
-        dataType:"json",// JSON
-        data:{
-            "userId": 'test',
-            "commCont": commCont,
-            "bNum": '1',
-            "modId": '1',
-            "commTextNum":commTextNum,
-            "commGroupNo":commGroupNo,
-            "commDepth":commDepth
-        },
-		success : function(data) {//통신이 성공적으로 이루어 졌을때 받을 함수
-        	if(this.url == "do_hitComment.do"){
-        		console.log('추천');
-	         	if(data.flag=="1"){
-	         		alert(data.message);
-	         	}else{
-	         		alert(data.message);
-	            }	
-        	}
-		
-        	fn_selectBoardList();
-        	if(this.url == "addComment.do"){
-            	_movePage(totalIndexCount);
-        	}
-        	
-        	if(total == 0){
-        		_movePage(totalIndexCount-1);
-        	}
-		},
-        complete: function(data){//무조건 수행
-        	
-        },
-        error: function(xhr,status,error){
-        }
-	});
-}
-
 //댓글달기
 $(document).on('click','#commentadd', function() {
 	var cont = $("#commentcont").val();
@@ -245,202 +206,76 @@ function normalImg(x) {
     x.style.width = "30px";
 }
 
-function gfn_isNull(str) {
-	if (str == null) return true;
-	if (str == "NaN") return true;
-	if (new String(str).valueOf() == "undefined") return true;    
-    var chkStr = new String(str);
-    if( chkStr.valueOf() == "undefined" ) return true;
-    if (chkStr == null) return true;    
-    if (chkStr.toString().length == 0 ) return true;   
-    return false; 
-}
-
-function ComSubmit(opt_formId) {
-	this.formId = gfn_isNull(opt_formId) == true ? "commonForm" : opt_formId;
-	this.url = "";
-	
-	this.setUrl = function setUrl(url){
-		this.url = url;
-	};
-	
-	this.addParam = function addParam(key, value){
-		$("#"+this.formId).append($("<input type='hidden' name='"+key+"' id='"+key+"' value='"+value+"' >"));
-	};
-}
-
-function ComAjax(opt_formId){
-	this.url = "";		
-	this.formId = gfn_isNull(opt_formId) == true ? "commonForm" : opt_formId;
-	this.param = "";
-	
-	this.setUrl = function setUrl(url){
-		this.url = url;
-	};
-	
-	this.setCallback = function setCallback(callBack){
-		fv_ajaxCallback = callBack;
-	};
-
-	this.addParam = function addParam(key,value){ 
-		this.value = value;
-		if(value == ''){
-			this.value = "1";
-		}
-	};
-	
-	this.ajax = function ajax(){
-		$.ajax({
-			url : this.url,    
-			type : "POST",   
-			//data : this.param,
-            data:{
-	            "page_num": this.value,
-	            "bNum": '1',
-	            "page_size": page_size
-	        },
-			async : false, 
-			success : function(data, status) {
-				if(typeof(fv_ajaxCallback) == "function"){
-					fv_ajaxCallback(data);
-				}
-				else {
-					eval(fv_ajaxCallback + "(data);");
-				}
-			}
-		});
-	};
-}
-
-/*
-divId : 페이징 태그가 그려질 div
-pageIndx : 현재 페이지 위치가 저장될 input 태그 id
-recordCount : 페이지당 레코드 수
-page_size : 전체 조회 건수 
-eventName : 페이징 하단의 숫자 등의 버튼이 클릭되었을 때 호출될 함수 이름
-*/
-var gfv_pageIndex = null;
-var gfv_eventName = null;
-var totalIndexCount;
-var page_size = 20;
-function gfn_renderPaging(params){
-	var divId = params.divId; //페이징이 그려질 div id
-	gfv_pageIndex = params.pageIndex; //현재 위치가 저장될 input 태그
-	var totalCount = params.totalCount; //전체 조회 건수
-	var currentIndex = $("#"+params.pageIndex).val(); //현재 위치
-	if($("#"+params.pageIndex).length == 0 || gfn_isNull(currentIndex) == true){
-		currentIndex = 1;
-	}
-	
-	totalIndexCount = Math.ceil(totalCount/page_size); // 전체 인덱스 수
-	gfv_eventName = params.eventName;
-	
-	$("#"+divId).empty();
-	var preStr = "";
-	var postStr = "";
-	var str = "";
-	
-	var first = (parseInt((currentIndex-1) / 10) * 10) + 1;
-	var last = (parseInt(totalIndexCount/10) < parseInt(currentIndex)/10) ? totalIndexCount%10 : 10;
-	var prev = (parseInt((currentIndex-1)/10)*10) - 9 > 0 ? (parseInt((currentIndex-1)/10)*10) - 9 : 1; 
-	var next = (parseInt((currentIndex-1)/10)+1) * 10 + 1 < totalIndexCount ? (parseInt((currentIndex-1)/10)+1) * 10 + 1 : totalIndexCount;
-	
-	if(totalIndexCount > 10){ //전체 인덱스가 10이 넘을 경우, 맨앞, 앞 태그 작성
-		preStr += "<a href='#this' class='pad_5' onclick='_movePage(1)'>[<<]</a>" +
-				"<a href='#this' class='pad_5' onclick='_movePage("+prev+")'>[<]</a>";
-	}
-	else if(totalIndexCount <=10 && totalIndexCount > 1){ //전체 인덱스가 10보다 작을경우, 맨앞 태그 작성
-		preStr += "<a href='#this' class='pad_5' onclick='_movePage(1)'>[<<]</a>";
-	}
-	
-	if(totalIndexCount > 10){ //전체 인덱스가 10이 넘을 경우, 맨뒤, 뒤 태그 작성
-		postStr += "<a href='#this' class='pad_5' onclick='_movePage("+next+")'>[>]</a>" +
-					"<a href='#this' class='pad_5' onclick='_movePage("+totalIndexCount+")'>[>>]</a>";
-	}
-	else if(totalIndexCount <=10 && totalIndexCount > 1){ //전체 인덱스가 10보다 작을경우, 맨뒤 태그 작성
-		postStr += "<a href='#this' class='pad_5' onclick='_movePage("+totalIndexCount+")'>[>>]</a>";
-	}
-	
-	for(var i=first; i<(first+last); i++){
-		if(i != currentIndex){
-			str += "<a href='#this' class='pad_5' onclick='_movePage("+i+")'>"+i+"</a>";
-		}
-		else{
-			str += "<strong><a href='#this' class='pad_5 pad_5strong' onclick='_movePage("+i+")'>"+i+"</a></strong>";
-		}
-	}
-	$("#"+divId).append(preStr + str + postStr);
-}
-
-function _movePage(value){
-	$("#"+gfv_pageIndex).val(value);
-	if(typeof(gfv_eventName) == "function"){
-		gfv_eventName(value);
-	}
-	else {
-		eval(gfv_eventName + "(value);");
-	}
-}
-
 $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 	var parent = $(this).parents(".container");
 	$(parent).find("#commentReplyTextarea").focus();
 });
 
-</script>
-</head>
-<body>
-	<div id="bocomment"></div>
-	<div class="container">
-		<div id="PAGE_NAVI"></div>
-	</div>
-	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
-	<form id="commonForm" name="commonForm"></form>
-	<div class="container">
-		<div class="form-group">
-			<label for="comment">댓글</label>
-			<textarea id="commentcont" class="form-control" rows="3"
-				placeholder="댓글을 입력하세요."></textarea>
-		</div>
-		<button id="commentadd" class="btn btn-default">댓글달기</button>
-	</div>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			fn_selectBoardList();
-		});
+//Ajax 분리
+function commentAjax(params,url){
+	
+	var userId = params.userId
+	var commCont = params.commCont
+	var bNum = params.bNum
+	var modId = params.modId
+	var commTextNum = params.commTextNum
+	var commGroupNo = params.commGroupNo
+	var commDepth = params.commDepth
+	$.ajax({
+		 type : "POST", 
+		 url : url,    
+        dataType:"json",// JSON
+        data:{
+            "userId": 'test',
+            "commCont": commCont,
+            "bNum": '1',
+            "modId": '1',
+            "commTextNum":commTextNum,
+            "commGroupNo":commGroupNo,
+            "commDepth":commDepth
+        },
+		success : function(data) {//통신이 성공적으로 이루어 졌을때 받을 함수
+        	if(this.url == "do_hitComment.do"){
+        		console.log('추천');
+	         	if(data.flag=="1"){
+	         		alert(data.message);
+	         	}else{
+	         		alert(data.message);
+	            }	
+        	}
 		
-		function fn_selectBoardList(){
-			var comAjax = new ComAjax();
-			comAjax.setUrl("comm/do_retrieve.do");
-			comAjax.setCallback("fn_selectBoardListCallback");
-			comAjax.addParam("PAGE_INDEX",$("#PAGE_INDEX").val());
-			comAjax.ajax();
-		}
-		
-		var total;
-		function fn_selectBoardListCallback(data){
-			console.log('fn_selectBoardListCallback!!');
-			total = data.TOTAL;
-			var body = $("#bocomment");
-			body.empty();
-			if(total == 0){
-				var str = "<tr>" + 
-								"<td colspan='4'>댓글이 없습니다. 댓글을 달아주세요.</td>" + 
-							"</tr>";
-				body.append(str);
-			}
-			else{
-				var params = {
-					divId : "PAGE_NAVI",
-					pageIndex : "PAGE_INDEX",
-					totalCount : total,
-					eventName : "fn_selectBoardList",
-				};
-				gfn_renderPaging(params);
-				
-				  var str = "";
+        	if(this.url == "addComment.do"){
+        		
+        	}
+        	
+		},
+        complete: function(data){//무조건 수행
+        	
+        },
+        error: function(xhr,status,error){
+        }
+	});
+}
+
+
+var page_num = 1;
+var page_size = 20;
+
+function pagingList(){
+	var body = $("#enters");
+    $.ajax({
+        type:"POST",
+        url:"comm/paging_retrieve.do",
+        dataType:"json",// JSON
+        data:{
+            "page_num": page_num,
+            "bNum": '1',
+            "page_size": page_size
+        },
+        success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+			  	 var str = "";
 	            var depth = "";
-	            $.each(data.list, function(key, value){
+	            $.each(data, function(key, value){
 	            	var divIn = "";
 	            		divIn += 	'<div class="media-heading">'
 		    				+				'<div id="container">'
@@ -489,8 +324,56 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 	            	}
 	            });
 				body.append(str);
-			}
-		}
-	</script>
+				page_num++;
+        },
+        complete: function(data){//무조건 수행
+         
+        },
+        error: function(xhr,status,error){
+         
+        }
+   }); //--ajax
+}
+
+//새로고침하면 맨 위로 포커스를 맞춰준다.
+window.onbeforeunload = function () {
+	  window.scrollTo(0, 0);
+}
+
+$(window).scroll(function(){ 
+
+    if  ($(window).scrollTop() >= $(document).height() - $(window).height()){
+    	pagingList();
+
+		};
+	});
+	
+$(document).ready(function(){
+	$(document).height()==0;
+});
+
+</script>
+</head>
+<body>
+
+	<img src="https://t1.daumcdn.net/cfile/tistory/9940D03D5A584CCD0C"><br />
+    <img src="https://t1.daumcdn.net/cfile/tistory/99F7323D5A584CCE1C"><br />
+    
+
+    
+   	<div class="container">
+		<div class="form-group">
+			<label for="comment">댓글</label>
+			<textarea id="commentcont" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
+		</div>
+		<button id="commentadd" class="btn btn-default btn-sm">댓글달기</button>
+	</div>
+	
+
+	
+	
+	<div id="enters">
+	</div>
+
 </body>
 </html>

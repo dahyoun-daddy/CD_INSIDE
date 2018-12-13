@@ -5,17 +5,19 @@
 
 <mapper namespace="com.sist.cd.mappers.comment">
 
-<!-- 서비스단에서  -->
+<!-- 서비스단에서 시퀀스를 주입시켜준다.  -->
 	<select id="COMM_SEQ" resultType="int">
 		SELECT COMM_SEQ.NEXTVAL as cnt 
 		  FROM DUAL
 	</select>
 
+<!-- 서비스단에서 시퀀스를 주입시켜준다.  -->
 	<select id="COMM_CODE_SEQ" resultType="int">
 		SELECT COMM_CODE_SEQ.NEXTVAL as cnt 
 		  FROM DUAL
 	</select>
 
+<!-- 서비스단에서 시퀀스를 주입시켜준다.  -->
 	<select id="GROUP_SEQ" resultType="int">
 		SELECT GROUP_SEQ.NEXTVAL as cnt 
 		  FROM DUAL

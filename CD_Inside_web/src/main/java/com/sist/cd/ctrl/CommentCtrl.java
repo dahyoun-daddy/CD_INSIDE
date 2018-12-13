@@ -34,8 +34,14 @@ public class CommentCtrl {
 	private CommentSvc commentSvc;
 	
 	@RequestMapping(value="comment/commentList.do")
-    public ModelAndView openBoardList() throws Exception{
+    public ModelAndView openCommentList() throws Exception{
     	ModelAndView mv = new ModelAndView("/comment/comment");
+    	return mv;
+    }
+	
+	@RequestMapping(value="comment/scrollcomment.do")
+    public ModelAndView scrollCommentList() throws Exception{
+    	ModelAndView mv = new ModelAndView("/comment/scrollcomment");
     	return mv;
     }
 	
@@ -116,6 +122,16 @@ public class CommentCtrl {
 		jsonList += mapper.writeValueAsString(listVO);
 		log.info(jsonList);
 		jsonList += ",\"TOTAL\":"+total_cnt+"}";
+		return jsonList;
+	}
+	
+	@RequestMapping(value = "/comment/comm/paging_retrieve.do", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String getPagingList(CommentVO invo) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		List<CommentVO> listVO = commentSvc.do_retrieve(invo);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonList="";
+		jsonList += mapper.writeValueAsString(listVO);
 		return jsonList;
 	}
 	
