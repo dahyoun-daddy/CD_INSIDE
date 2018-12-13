@@ -48,7 +48,7 @@
 		     #{msgRecvId},                 
 		     #{msgCont},                 
 		     SYSDATE,                 
-		     #{msgReadYn}                 
+		     '읽지않음'
 		 )                      	
 	</insert> 
 	
