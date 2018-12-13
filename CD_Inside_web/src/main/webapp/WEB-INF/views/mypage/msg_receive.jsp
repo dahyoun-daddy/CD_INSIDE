@@ -55,9 +55,7 @@
 		  <div class="form-group">
 		    <label for="inputContent" class="col-sm-2 control-label">메시지 내용</label>
 		    <div class="col-sm-10">
-				<textarea name="cont" rows="10" cols="40" readonly maxlength="400">
-					
-				</textarea>
+				<textarea name="cont" rows="10" cols="40" readonly maxlength="400"></textarea>
 		    </div>
 		  </div>
 		<!--// 입력폼 -->
