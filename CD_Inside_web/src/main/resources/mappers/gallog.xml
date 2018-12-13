@@ -15,6 +15,8 @@
             SELECT G.g_seq
 					,G.g_title
 	      		   ,G.g_cont
+	      		   ,G.g_id
+	      		   ,G.g_pw
 	     		   ,CASE WHEN to_char(G.reg_dt,'YYYY/MM/DD')=to_char(sysdate,'YYYY/MM/DD')
 	                   THEN to_char(G.reg_dt,'HH24:MI')                                 
 	       		ELSE to_char(G.reg_dt,'YYYY/MM/DD HH24:MI') end  reg_dt

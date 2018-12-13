@@ -71,14 +71,14 @@
 		<ul class="nav nav-pills">
 				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.jsp">갤로그홈</a></li>
 				<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do">메모장</a></li>
-				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.jsp'">방명록</a></li>
+				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do'">방명록</a></li>
 		  </ul>	
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
 		<br>
 		
 		<!-- 메모장 상단 영역------------------------------------------------------------>
-		<div class="text-danger" style="width:auto;height:70px;">
+		<div class="text-danger" style="width:955px;height:70px;">
 			<div style="float:left;">
 				<strong>·메모장 (<%=totalCnt %>)</strong>
 			</div>
@@ -91,6 +91,7 @@
 		
 		<!-- 메모장 출력 영역 ------------------------------------------------------------->
 		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
+		<div style="width:955px;">
 		<input type="hidden" name="gSeq" id="gSeq">
 		<input type="hidden" name="page_num" id="page_num">
 			<c:choose>
@@ -123,13 +124,14 @@
 					등록된 메모장이 없습니다.
 				</c:otherwise>
 			</c:choose>
-
+				<!--// 메모장 출력 영역 ------------------------------------------------------------->	
+		</div>
+		<!-- 페이징 처리 -------------------------------------------------------------------------->
 		<div class="form-inline text-center">
 			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "notebook_home.do", "search_page") %>
 		</div>
-		
+		<!--// 페이징 처리 -------------------------------------------------------------------------->
 		</form>
-				<!-- 페이징 처리 ---------------------------------------------------->
 
 		
 	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->

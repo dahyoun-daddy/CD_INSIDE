@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -42,10 +43,10 @@ public class GallogDAOTest {
 	SearchVO inVO3 = null;
 	GallogVO inVO4 = null;
 	GallogVO inVO5 = null;
-
+	
 	@Before
 	public void setUp() {
-		inVO1 = new GallogVO("","test05","","","22title","cont","0","sysdate","test03","sysdate");	
+		inVO1 = new GallogVO("","test05","asd","asd","22title","cont","1","sysdate","test03","sysdate");	
 		inVO2 = new GallogVO("52","test03","","","@@title!!","!!cont!!","0","2018-12-04","test03","2018-12-04");
 		inVO3 = new SearchVO(10, 1, "test05", "0");
 		inVO4 = new GallogVO("","toast","","","toast1","toast1","0","sysdate","toast1","sysdate");
@@ -63,14 +64,22 @@ public class GallogDAOTest {
 	
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void save() throws SQLException, ClassNotFoundException {
 		
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
-		gallogDao.save(inVO1);
+//		gallogDao.save(inVO1);
+//		gallogDao.save(inVO1);
+//		gallogDao.save(inVO1);
+//		gallogDao.save(inVO1);
+//		gallogDao.save(inVO1);
+		
+		int flag = gallogDao.save(inVO1);
+		
+		if(flag>0) {
+			LOG.info("********등록성공********");
+		}else {
+			LOG.info("********등록실패********");
+		}
 	
 	}
 	
@@ -78,28 +87,52 @@ public class GallogDAOTest {
 //	@Ignore
 	public void delete() throws SQLException, ClassNotFoundException {
 		
-		gallogDao.delete(inVO1);
+		int flag = gallogDao.delete(inVO1);
+		
+		if(flag>0) {
+			LOG.info("********삭제성공********");
+		}else {
+			LOG.info("********삭제실패********");
+		}
 	}
 	
 	@Test
 //	@Ignore
 	public void update() throws SQLException, ClassNotFoundException {
 		
-		gallogDao.update(inVO2);
+		int flag = gallogDao.update(inVO2);
+		
+		if(flag>0) {
+			LOG.info("********수정성공********");
+		}else {
+			LOG.info("********수정실패********");
+		}
 	}
 	
 	@Test
 //	@Ignore
 	public void do_retrieve() throws SQLException, ClassNotFoundException {
 		
-		gallogDao.do_retrieve(inVO3);
+		List<GallogVO> flag = gallogDao.do_retrieve(inVO3);
+		
+		if(flag.size()>0) {
+			LOG.info("********다건조회성공********");
+		}else {
+			LOG.info("********다건조회실패********");
+		}
 	}
 	
 	@Test
 //	@Ignore
 	public void get() throws SQLException, ClassNotFoundException {
 		
-		gallogDao.get(inVO1);
+		GallogVO flag = gallogDao.get(inVO2);
+		
+		if(flag != null) {
+			LOG.info("********단건조회성공********");
+		}else {
+			LOG.info("********단건조회실패********");
+		}
 	}
 	
 	@Test

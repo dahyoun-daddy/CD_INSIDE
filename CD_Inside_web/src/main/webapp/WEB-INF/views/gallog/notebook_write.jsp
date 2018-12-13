@@ -48,7 +48,7 @@
 		<ul class="nav nav-pills">
 				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.jsp">갤로그홈</a></li>
 				<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do">메모장</a></li>
-				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.jsp'">방명록</a></li>
+				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do">방명록</a></li>
 		  </ul>	
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->

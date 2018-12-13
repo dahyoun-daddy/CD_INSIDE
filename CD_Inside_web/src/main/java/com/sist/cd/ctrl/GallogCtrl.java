@@ -35,13 +35,12 @@ public class GallogCtrl {
 	
 	private static final String GALLOG_HOME="/gallog/gallog_home";
 	private static final String NOTE_BOOK="gallog/notebook_home.do";
-	private static final String GUEST_BOOK="/gallog/guestbook_home";
+	private static final String GUEST_BOOK="/gallog/guestbook_home.do";
 	private static final String NOTE_BOOK_WRITE="/gallog/notebook_write.do";
 	
 	
-	@RequestMapping(value="/gallog/notebook_home.do")	
+	@RequestMapping(value= "/gallog/notebook_home.do")	
 	public String do_retrieve(@ModelAttribute SearchVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
-		log.info("SearchVO: "+invo);
 		
 		
 		String page_num = (String) req.getParameter("page_num");
@@ -226,7 +225,7 @@ public class GallogCtrl {
 		return NOTE_BOOK_WRITE;
 	}
 	
-	@RequestMapping(value="/gallog/save.do",method=RequestMethod.POST
+	@RequestMapping(value= "/gallog/save.do",method=RequestMethod.POST
 	        ,produces="application/json;charset=utf8"  
 	)
 	@ResponseBody
@@ -235,7 +234,8 @@ public class GallogCtrl {
 		log.info("!2========================");
 		log.info("invo="+invo);
 		log.info("!2========================");	
-		
+
+		log.info("++++++++++++++++++"+invo.getgCate());
 		//수정
 		
 		//등록		
@@ -291,4 +291,54 @@ public class GallogCtrl {
 		log.info("3========================");			
 		return jsonData;
 	}	 
+	
+	
+	@RequestMapping(value="/gallog/guestbook_home.do")	
+	public String do_retrieve2(@ModelAttribute SearchVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		log.info("SearchVO: "+invo);
+		
+		
+		String page_num = (String) req.getParameter("page_num");
+		if(page_num == null) {
+			invo.setPage_num(1);
+		}else {
+			invo.setPage_num(Integer.parseInt(page_num));
+		}
+		
+		log.info("page_num:"+page_num);
+		
+		if(invo.getPage_size() == 0) {
+			invo.setPage_size(10);
+		}
+		
+		if(null == invo.getSearch_div()) {
+			invo.setSearch_div("1");
+		}
+		
+		if(null == invo.getSearch_word()) {
+			invo.setSearch_word("test05");
+		}		
+		
+		model.addAttribute("param",invo);
+		
+		List<GallogVO> list = gallogSvc.do_retrieve(invo);
+		log.info("list: "+list);
+		
+		int totalCnt = 0;
+		if(null != list && list.size()>0) {
+			totalCnt = list.get(0).getTotalCnt();
+			log.info("totalCnt: "+totalCnt);
+		}else{
+			totalCnt = list.get(0).getTotalCnt();
+			invo.setPage_num(Integer.parseInt(page_num)-1);
+		}
+
+		
+		model.addAttribute("totalCnt",totalCnt);
+		model.addAttribute("list",list);
+		model.addAttribute("page_num",page_num);
+		
+		return GUEST_BOOK;
+	}
+	
 }
