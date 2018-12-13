@@ -90,7 +90,10 @@ table {
 					</tr>
 				</thead>
 				<tbody>
-					<c:choose>
+						<!-- 메모장 출력 영역 ------------------------------------------------------------->
+				<form  name="frm" id="frm" action="/board.do" method="get" class="form-inline">
+				
+					<c:choose> 
 						<c:when test="${list.size()>0}">
 							<c:forEach var="boardVo" items="${list}">
 								<tr>
@@ -108,11 +111,15 @@ table {
 							</tr>
 						</c:otherwise>
 					</c:choose>
+				</form>
 				</tbody>
 			</table>
 		</div>
-
 	</div>
+				<form  name="boform" id="boform" action="/board.do" method="get" class="form-inline">
+				<input type="hidden" name="bNum" id="bNum">
+				</form>
+
 	<!--// Grid영역 ---------------------------------------------------->
 
 
@@ -129,7 +136,6 @@ table {
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript">
     
-    
 	    function search_page(url,page_num){
 		   	 alert(url+":search_page:"+page_num);
 		   	 var frm = document.frm;
@@ -139,6 +145,13 @@ table {
 		   	 frm.submit();
 	    }
 	    
+       function doUpdate(gSeq){ //수정
+        	var frm = document.frm;
+        	frm.gSeq.value = gSeq;
+        	frm.page_num.value = <%=oPageNum%>;
+        	frm.action = "get.do";
+        	frm.submit();
+        }
 	    
 	    $(document).ready(function(){
 	    	//alert("ready");
@@ -147,12 +160,22 @@ table {
 	    		alert("delete");
 	    		
 	    	});
-	    	
-	    	//$("#do_delete").on("click",function(){
-	    	//	alert("delete");
-	    		
-	    		
-	    	//});
+		    
+			$("#listTable>tbody").on("click","tr",function(){
+				console.log("1 #listTable>tbody");
+				
+				var tr = $(this);
+				var td = tr.children();
+				var bNum = td.eq(0).text();
+				console.log(bNum);
+				var frm = document.boform;
+			        	frm.bNum.value = bNum;
+			        	frm.action = "/cd/board/get.do";
+			        	alert('전송');
+			        	frm.submit();
+				
+
+			});//--#listTable>tbody
 	    	
 	    });
 
