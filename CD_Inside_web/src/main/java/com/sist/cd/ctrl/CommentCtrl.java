@@ -39,6 +39,12 @@ public class CommentCtrl {
     	return mv;
     }
 	
+	@RequestMapping(value="comment/main.do")
+    public ModelAndView mainList() throws Exception{
+    	ModelAndView mv = new ModelAndView("/comment/main");
+    	return mv;
+    }
+	
 	@RequestMapping(value="comment/scrollcomment.do")
     public ModelAndView scrollCommentList() throws Exception{
     	ModelAndView mv = new ModelAndView("/comment/scrollcomment");
