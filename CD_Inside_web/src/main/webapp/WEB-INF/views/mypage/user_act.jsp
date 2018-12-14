@@ -101,32 +101,32 @@
 			</div>
 			
 			 <tbody>
-			 	<c:choose>
-			 		<c:when test="value=='board'">
-					<c:choose>
-						<c:when test="${list.size()>0}">
-							<c:forEach var="boardVo" items="${list}">
+<%-- 			 	<c:choose> --%>
+<%-- 			 		<c:when test=""> --%>
+						<c:choose>
+							<c:when test="${list.size()>0}">
+								<c:forEach var="boardVo" items="${list}">
+									<tr>
+									    <td align="center"><input type="checkbox" id="check" name="check"></td>
+										<td align="center" ><c:out value="${boardVo.bNum}"></c:out></td>
+										<td align="center" ><c:out value="${boardVo.bCate}"></c:out></td>
+										<td align="center" ><c:out value="${boardVo.bTitle}"></c:out></td>
+										<td align="center" ><c:out value="${boardVo.regDt}"></c:out></td>
+										<td align="center" ><c:out value="${boardVo.bCnt}"></c:out></td>
+									</tr>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
 								<tr>
-								    <td align="center"><input type="checkbox" id="check" name="check"></td>
-									<td align="center" ><c:out value="${boardVo.bNum}"></c:out></td>
-									<td align="center" ><c:out value="${boardVo.bCate}"></c:out></td>
-									<td align="center" ><c:out value="${boardVo.bTitle}"></c:out></td>
-									<td align="center" ><c:out value="${boardVo.regDt}"></c:out></td>
-									<td align="center" ><c:out value="${boardVo.bCnt}"></c:out></td>
-								</tr>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<tr>
-							    <td class="text-center" colspan="99">등록된 게시글이 없습니다.</td>
-							</tr>					
-						</c:otherwise>
-					</c:when>
-					<c:otherwise>
-						commemt
-					</c:otherwise>
-					</c:choose>
-				</c:choose>
+								    <td class="text-center" colspan="99">등록된 게시글이 없습니다.</td>
+								</tr>					
+							</c:otherwise>
+						</c:choose>
+<%-- 					</c:when> --%>
+<%-- 					<c:otherwise> --%>
+<!-- 						commemt -->
+<%-- 					</c:otherwise> --%>
+<%-- 				</c:choose> --%>
 			</tbody>
 		</table>
 		<div class="col-xs-1"></div>
