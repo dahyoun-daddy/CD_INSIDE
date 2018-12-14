@@ -20,17 +20,19 @@
     
 <!--     아이디별 글 조회 -->
 	<select id="idBoard" resultType="BoardVO" parameterType="BoardVO">
-    SELECT B.user_id,
-	        B.b_num,
-	        B.b_title,
-	        B.b_cont,
-	        B.b_cate,
-	        B.b_hit,
-	        B.b_visit_cnt,
-	        B.reg_dt,
-	        B.mod_id,
-	        B.mod_dt,
-	        B.rnum
+	SELECT X.*,Y.*
+	  FROM(
+	    SELECT B.user_id,
+		        B.b_num,
+		        B.b_title,
+		        B.b_cont,
+		        B.b_cate,
+		        B.b_hit,
+		        B.b_visit_cnt,
+		        B.reg_dt,
+		        B.mod_id,
+		        B.mod_dt,
+		        B.rnum
 	    FROM  (
 	    SELECT bo.*
 	    ,ROW_NUMBER() OVER(ORDER BY reg_dt desc ) AS rnum
@@ -39,10 +41,19 @@
 	    )B
 		WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
 		  AND (#{page_size} * (#{page_num}-1)+#{page_size})
+	)X
+	NATURAL JOIN
+	(
+	  SELECT COUNT(*) AS total_cnt   
+	    FROM board
+	    WHERE user_id = #{userId}
+	)Y
 	</select>
     
 <!--     아이디별 댓글 조회 -->
 	<select id="idCommnet" resultType="CommentVO" parameterType="CommentVO">
+	SELECT X.*,Y.*
+	  FROM(
 		SELECT
 	        B.comm_text_num,
 	        B.b_num,
@@ -63,6 +74,13 @@
 	    )B 
 		WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
 		  AND (#{page_size} * (#{page_num}-1)+#{page_size})
+	)X
+	NATURAL JOIN
+	(
+	  SELECT COUNT(*) AS total_cnt   
+	    FROM comm
+	    WHERE user_id = #{userId}
+	)Y
 	</select>
     
 <!--     로그인 아이디 확인 -->

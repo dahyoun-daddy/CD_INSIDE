@@ -37,7 +37,6 @@ public class UserCtrl {
 	@Autowired
 	private CodeSvc codeSvc;
     
-	private static final String VIEW_NAME="/mypage/user_list.do";
 	
 	//mypage 활동내역 조회(게시글/댓글)------------------------------
 	@RequestMapping(value="/mypage/user_act.do",method = RequestMethod.GET )
@@ -59,19 +58,20 @@ public class UserCtrl {
 		}
 		
 		log.info("page_num:" + page_num);
+		log.info("***page_size:" + invo.getPage_size());
 
-		model.addAttribute("param", invo);
 
 		List<BoardVO> list = userSvc.idBoard(invo);
-		log.info("list: " + list);
 
-		int totalCnt = 0;
+		int total_cnt = 0;
 		if (null != list && list.size() > 0) {
-			totalCnt = list.get(0).getTotalCnt();
-			log.info("totalCnt: " + totalCnt);
+			total_cnt = list.get(0).getTotalCnt();
+			log.info("totalCnt: " + total_cnt);
 		}
-
-		model.addAttribute("totalCnt", totalCnt);
+		log.info("list: " + list);
+		model.addAttribute("param", invo);
+		
+		model.addAttribute("total_cnt",total_cnt);
 		model.addAttribute("list", list);
 
 		return "/mypage/user_act.do";

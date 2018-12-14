@@ -65,7 +65,7 @@
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
 		  <li role="presentation" class="active" ><a href=user_list.do>회원관리</a></li>
-		  <li role="presentation" ><a href="user_act.jsp">활동내역</a></li>
+		  <li role="presentation" ><a href="user_act.do">활동내역</a></li>
 		  <li role="presentation"><a href="#">쪽지함</a></li>
 		  <li role="presentation"><a href="#">갤로그 가기</a></li>
 		</ul>
@@ -100,11 +100,11 @@
 			<table id="listTable" class="table table-striped table-bordered table-hover ">
 				<thead class="bg-primary">
 				    <tr>
-				        <th class="text-center "><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
-						<th class="text-center col-lg-1">번호</th>
-						<th class="text-center col-lg-3">ID</th>
-						<th class="text-center col-lg-3">이름(닉네임)</th>
-						<th class="text-center col-lg-5">등록일</th>
+				        <th class="col-lg-1" style="text-align: center">전체<br/><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
+						<th class="text-center col-lg-1" >번호</th>
+						<th class="text-center col-lg-3" >아이디</th>
+						<th class="text-center col-lg-3" >이름(닉네임)</th>
+						<th class="text-center col-lg-4" >등록일</th>
 					</tr>
 				</thead>
 				<tbody>

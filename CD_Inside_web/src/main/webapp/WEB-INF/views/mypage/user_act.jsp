@@ -1,15 +1,16 @@
+<%@page import="org.slf4j.LoggerFactory"%>
+<%@page import="org.slf4j.Logger"%>
 <%@page import="com.sist.cd.domain.BoardVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.sist.cd.domain.CodeVO"%>
 <%@page import="java.util.List"%>
-<%@page import="com.sist.cd.common.SearchVO"%>
 <%@page import="com.sist.cd.common.StringUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String context = request.getContextPath();//context path
-	
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	String page_size ="10";//page_size
 	String page_num  ="1";//page_num
 	String search_div ="";//검색구분
@@ -43,7 +44,7 @@
 	
 	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
 			     ?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
-
+			     
 %>
 <!DOCTYPE html>
 <html>
@@ -67,60 +68,72 @@
 		<ul class="nav nav-pills col-sm-9" align="center" >
 		  <li role="presentation" ><a href=user_list.do>회원관리</a></li>
 		  <li role="presentation" ><a href="user_update.jsp">개인정보 수정</a></li>
-		  <li role="presentation" class="active" ><a href="user_act.jsp">활동내역</a></li>
+		  <li role="presentation" class="active" ><a href="user_act.do">활동내역</a></li>
 		  <li role="presentation"><a href="#">쪽지함</a></li>
 		  <li role="presentation"><a href="#">갤로그 가기</a></li>
 		</ul>
+        <form  name="frm" id="frm" action="user_act" method="get" class="form-inline">
+     		<input type="hidden" name="page_num" id="page_num">
 		<div class="col-xs-12"><hr/></div>
 		<div class="col-xs-1"></div>
 		<div class="table-responsive col-xs-10" >
-		 <form method="post" action="" >
 	         <div class="col-sm-12" >
-	         <a > 등록한 게시글</a>&nbsp;&nbsp;&nbsp;&nbsp; /  &nbsp;&nbsp;&nbsp;&nbsp;
-	         <a > 등록한 댓글</a></div>
+		         <a onclick="clickBoard()"> 등록한 게시글</a>&nbsp;&nbsp;&nbsp;&nbsp; /  &nbsp;&nbsp;&nbsp;&nbsp;
+		         <a onclick="clickComm()"> 등록한 댓글</a>
+		         <input type="text" id="aTag" name="aTag" value="board" >
+		         <c:out value="${aTag}"></c:out>
+		     </div>
 	         <div class="col-sm-12" ><hr/></div>
-	         <div><input type="button" class="btn btn-default btn-sm" style="height: 35px" id="do_delete" value="삭제"/> </div>
+	         <div style="text-align: right">
+	         	<input type="button" class="btn btn-default btn-sm" style="height: 35px" id="do_delete" value="삭제"/> 
+	         </div>
 			<table id="listTable" class="table table-striped table-bordered table-hover ">
 			<thead class="bg-primary">
 			    <tr>
-			        <th class="text-center "><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
-					<th class="text-center col-lg-1">번호</th>
-					<th class="text-center col-lg-2">게시판</th>
-					<th class="text-center col-lg-3">제목</th>
-					<th class="text-center col-lg-4">작성일</th>
-					<th class="text-center col-lg-1">조회수</th>
+			        <th class=" col-lg-1" style="text-align: center" > 전체<br/><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
+					<th class="text-center col-lg-1" >번호</th>
+					<th class="text-center col-lg-2" >게시판</th>
+					<th class="text-center col-lg-3" >제목</th>
+					<th class="text-center col-lg-3" >작성일</th>
+					<th class="text-center col-lg-2" >조회수</th>
 				</tr>
 			</thead>
 			</div>
 			
 			 <tbody>
-				${list}
-				<c:choose>
-					<c:when test="${list.size()>0}">
-						<c:forEach var="boardVo" items="${list}">
+			 	<c:choose>
+			 		<c:when test="value=='board'">
+					<c:choose>
+						<c:when test="${list.size()>0}">
+							<c:forEach var="boardVo" items="${list}">
+								<tr>
+								    <td align="center"><input type="checkbox" id="check" name="check"></td>
+									<td align="center" ><c:out value="${boardVo.bNum}"></c:out></td>
+									<td align="center" ><c:out value="${boardVo.bCate}"></c:out></td>
+									<td align="center" ><c:out value="${boardVo.bTitle}"></c:out></td>
+									<td align="center" ><c:out value="${boardVo.regDt}"></c:out></td>
+									<td align="center" ><c:out value="${boardVo.bCnt}"></c:out></td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
 							<tr>
-							    <td class="text-center"><input type="checkbox" id="check" name="check"></td>
-								<td class="text-center"><c:out value="${boardVo.b_num}"></c:out></td>
-								<td class="text-left"><c:out value="${boardVo.b_cate}"></c:out></td>
-								<td class="text-left"><c:out value="${boardVo.b_title}"></c:out></td>
-								<td class="text-left"><c:out value="${boardVo.regDt}"></c:out></td>
-								<td class="text-center"><c:out value="${boardVo.b_visit_cnt}"></c:out></td>
-							</tr>
-						</c:forEach>
+							    <td class="text-center" colspan="99">등록된 게시글이 없습니다.</td>
+							</tr>					
+						</c:otherwise>
 					</c:when>
 					<c:otherwise>
-						<tr>
-						    <td class="text-center" colspan="99">등록된 게시글이 없습니다.</td>
-						</tr>					
+						commemt
 					</c:otherwise>
-				</c:choose>						
-				</tbody>
-			</table>
+					</c:choose>
+				</c:choose>
+			</tbody>
+		</table>
 		<div class="col-xs-1"></div>
 		</div>
 		<!--// Grid영역 ---------------------------------------------------->
-		<div class="form-inline text-center">
-			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "user_list.do", "search_page") %>
+		<div class="form-inline">
+			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "user_act.do", "search_page") %>
 		</div>
 		
 	    </form>
@@ -130,6 +143,13 @@
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+    
+	function clickBoard(){
+	    document.frm.aTag.value ="board";
+	}
+	function clickComm(){
+	    document.frm.aTag.value ="commemt";
+	}
     
     //page
     function search_page(url,page_num){
