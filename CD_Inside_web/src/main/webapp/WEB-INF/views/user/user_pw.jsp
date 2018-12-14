@@ -87,7 +87,7 @@
 		           	var parseData = $.parseJSON(data);
 		         	if(parseData.pwFind!=null){
 			            $("#userId").val(parseData.pwFind);
-			         	location.href ="user_pw_update.jsp?pwFind="+parseData.pwFind;
+			         	location.href ="user_pw_update.do?pwFind="+parseData.pwFind;
 		         	}else{
 		         		alert(parseData.message);
 		         	}				          

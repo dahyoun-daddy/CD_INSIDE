@@ -43,6 +43,8 @@ public class UserCtrl {
 	public String idBoard(@ModelAttribute BoardVO  invo,Model model, HttpServletRequest req) 
 			throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		log.info("BoardVO" + invo);
+		String aTag = req.getParameter("aTag");
+		log.info(">>>>>>>aTag:" + aTag);
 		
 		invo.setUserId("test"); //TODO 세션 받을곳
 		

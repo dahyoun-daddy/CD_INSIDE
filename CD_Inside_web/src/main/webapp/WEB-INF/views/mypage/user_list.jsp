@@ -64,10 +64,10 @@
 			쪽지 <a > value</a> 
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
-		  <li role="presentation" class="active" ><a href=user_list.do>회원관리</a></li>
-		  <li role="presentation" ><a href="user_act.do">활동내역</a></li>
-		  <li role="presentation"><a href="#">쪽지함</a></li>
-		  <li role="presentation"><a href="#">갤로그 가기</a></li>
+		  <li role="presentation" class="active" ><a href="user_list.do" >회원관리</a></li>
+		  <li role="presentation" ><a href="user_act.do" >활동내역</a></li>
+		  <li role="presentation"><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
+		  <li role="presentation"><a href="/cd/gallog/notebook_home.do" >갤로그 가기</a></li>
 		</ul>
 		<!--// Title영역 -->
         <form  name="frm" id="frm" action="user_list.do" method="get" class="form-inline">
@@ -80,7 +80,7 @@
 				<div class="col-xs-1"></div>
 				<div class="form-group col-xs-10">
 					<select name="search_div" id="search_div" class="form-control input-sm" style="height: 35px" >
-					    <option value="" >::전체::</option>
+					    <option value="" >::선택::</option>
 						<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
 						<option value="20" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >이름</option>					
 					</select>

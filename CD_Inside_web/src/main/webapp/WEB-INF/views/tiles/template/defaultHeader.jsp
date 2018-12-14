@@ -50,6 +50,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/cd/board/bsy.do">쌍용 커뮤니티</a></li>
             <li><a href="/cd/board/bsy.do">링크 사이트</a></li>
+            <li><a href="/cd/mypage/user_list.do">마이페이지</a></li>
             <li><a href="/cd/user/user_join.do">회원가입</a></li>
             <li><a href="/cd/user/login.do">로그인</a></li>
           </ul>

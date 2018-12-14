@@ -92,7 +92,7 @@
 	         
 	         <div class="col-sm-3" ></div>
 	         <div class="col-sm-6" align="center"><br/>
-		     	<input class="btn btn-primary " type="submit" value="확인">
+		     	<input class="btn btn-primary " type="button" value="확인">
 		  	</div>
 	         <div class="col-sm-3" ></div>
 	    </form>

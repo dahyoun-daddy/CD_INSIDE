@@ -69,8 +69,8 @@
 		  <li role="presentation" ><a href=user_list.do>회원관리</a></li>
 		  <li role="presentation" ><a href="user_update.jsp">개인정보 수정</a></li>
 		  <li role="presentation" class="active" ><a href="user_act.do">활동내역</a></li>
-		  <li role="presentation"><a href="#">쪽지함</a></li>
-		  <li role="presentation"><a href="#">갤로그 가기</a></li>
+		  <li role="presentation"><a href="/cd/msg/receiveIndex.do">쪽지함</a></li>
+		  <li role="presentation"><a href="/cd/gallog/notebook_home.do">갤로그 가기</a></li>
 		</ul>
         <form  name="frm" id="frm" action="user_act" method="get" class="form-inline">
      		<input type="hidden" name="page_num" id="page_num">
@@ -81,7 +81,7 @@
 		         <a onclick="clickBoard()"> 등록한 게시글</a>&nbsp;&nbsp;&nbsp;&nbsp; /  &nbsp;&nbsp;&nbsp;&nbsp;
 		         <a onclick="clickComm()"> 등록한 댓글</a>
 		         <input type="text" id="aTag" name="aTag" value="board" >
-		         <c:out value="${aTag}"></c:out>
+<%-- 		         <c:out value="${aTag}"></c:out> --%>
 		     </div>
 	         <div class="col-sm-12" ><hr/></div>
 	         <div style="text-align: right">
