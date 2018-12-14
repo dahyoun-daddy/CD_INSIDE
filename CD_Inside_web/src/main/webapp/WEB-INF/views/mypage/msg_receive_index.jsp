@@ -429,17 +429,17 @@
 			
 			var tr = $(this);
 			var td = tr.children();
-			var userId = td.eq(2).text();
-			console.log("2 userId="+userId);
+			var msgSeq = td.eq(1).text();
+			console.log("2 msgSeq="+msgSeq);
 			
-			if(""==userId)return;
+			if(""==msgSeq)return;
 			
 	        $.ajax({
 	            type:"POST",
 	            url:"do_search_one.do",
 	            dataType:"html",// JSON
 	            data:{
-	            "userId": userId
+	            "msgSeq": msgSeq
 	            },
 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 	              var parseData = $.parseJSON(data);
@@ -462,7 +462,7 @@
 	              $("#regDt").val(parseData.regDt);
 	              $("#msgReadYn").val(parseData.msgReadYn);
 	              
-	              $("#userId").prop("disabled",true);
+	              $("#msgSeq").prop("disabled",true);
 	            },
 	            complete: function(data){//무조건 수행
 	             

@@ -63,7 +63,7 @@
 		<!-- 버튼 -->
 		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">
-		    <button type="submit" class="btn btn-default" id="do_resend">답장</button>
+		    <button type="submit" class="btn btn-default" id="do_resend">전송</button>
 		    <button type="submit" class="btn btn-default" id="do_delete">삭제</button>	
 
 		  </div>
@@ -79,7 +79,7 @@
 
 	    $(document).ready(function(){   
 		    
-		  //do_resend 답장
+		  //do_resend 전송
 			$("#do_resend").on("click",function(){
 			
 			});
@@ -88,6 +88,45 @@
 			$("#do_delete").on("click",function(){
 				
 			});
+		 
+		 
+			$("#do_update").on("click",function(){
+				 if(false==confirm("수정 하시겠습니까?"))return;
+				  
+				 var upsert_div = $("#upsert_div").val();
+				 upsert_div = (upsert_div == "")?"update":"";
+				 console.log("upsert_div:"+upsert_div);			 
+				 
+			     $.ajax({
+			         type:"POST",
+			         url:"update.do",
+			         dataType:"html",// JSON
+			         data:{
+			         	"upsert_div": upsert_div,
+			         	"msgRecvId": $("#msgRecvId").val(),
+			         	"msgCont": $("#msgCont").val(),
+			         	"regDt": $("#regDt").val()
+
+			         },
+			         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+			             var parseData = $.parseJSON(data);
+			         	 if(parseData.flag=="1"){
+			         		 alert(parseData.message);
+			         		 doSearch();
+			         	 }else{
+			         		alert(parseData.message);
+			         	 }
+			         },
+			         complete: function(data){//무조건 수행
+			          
+			         },
+			         error: function(xhr,status,error){
+			          
+			         }
+			        });//--ajax					
+				
+				
+			});//--do_update
 	    
 		</script>
 

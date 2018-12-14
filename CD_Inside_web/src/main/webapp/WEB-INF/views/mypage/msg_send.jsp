@@ -62,6 +62,12 @@
 		  </div>
 		</div>
 		<!--// 버튼 -->
+		
+		
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-body">
+					<c:out value="${list.bTitle}"></c:out>
 		  
 		</form>
 	
