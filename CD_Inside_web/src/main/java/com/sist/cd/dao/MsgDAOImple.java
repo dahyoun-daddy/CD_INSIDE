@@ -133,12 +133,12 @@ public class MsgDAOImple implements MsgDAO{
 		
 	}
 
-	public int getNCount(String msgReadYn) throws SQLException {
+	public int getNCount(String userId) throws SQLException {
 		int cnt = 0;
 		String statement = NAME_SPACE+".getNCount";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+msgReadYn);
-		int flag  = this.sqlSession.selectOne(statement, msgReadYn);
+		log.debug("2.param: "+userId);
+		int flag  = this.sqlSession.selectOne(statement, userId);
 		log.debug("3.flag: "+flag);
 
 		return flag;

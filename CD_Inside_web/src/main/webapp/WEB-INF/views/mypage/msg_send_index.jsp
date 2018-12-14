@@ -114,6 +114,13 @@
 	<div class="container-fluid">
 		<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<form action="#" class="form-inline">
+			
+				<strong>보낸쪽지함  <%=totalCnt %>   </strong>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				
+				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/get.do'">글쓰기</button>			
+			
+			
 				<div class="form-group">
 					<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
 				</div>

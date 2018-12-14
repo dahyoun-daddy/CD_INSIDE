@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.CodeVO;
+import com.sist.cd.domain.GallogVO;
 import com.sist.cd.domain.MsgVO;
 import com.sist.cd.service.CodeSvc;
 import com.sist.cd.service.MsgSvc;
@@ -39,27 +40,30 @@ public class MymsgCtrl {
 	@Autowired
 	private CodeSvc codeSvc;	
 	
-	
+	private static final String RESEND="/mypage/msg_resend.do";
+	private static final String SEND="/mypage/msg_send.do";
+	private static final String RECEIVE="/mypage/msg_receive.do";
+	private static final String RECEIVEINDEX="/mypage/msg_receive_index.do";
+	private static final String SENDINDEX="/mypage/msg_send_index.do";
+
 	private static final String VIEW_NAME="/mypage/msg.do";
 	
 	//쪽지답장 페이지 나옴
 	@RequestMapping(value="/msg/resend.do")
 	public String resend() {
-		return "/mypage/msg_resend";
+		return RESEND;
 	}
-	
-	
-	
+
 	//쪽지쓰기 페이지 나옴
 	@RequestMapping(value="/msg/send.do")
 	public String send() {
-		return "/mypage/msg_send";
+		return SEND;
 	}
 	
 	//쪽지읽기 페이지 나옴
 	@RequestMapping(value="/msg/receive.do")
 	public String receive() {
-		return "/mypage/msg_receive";
+		return RECEIVE;
 	}
 	
 	//받은쪽지함 페이지 나옴
@@ -88,21 +92,27 @@ public class MymsgCtrl {
 		
 		List<MsgVO> list = msgSvc.do_retrieve(invo);
 		log.info("list: "+list);
-		//총글수
+		//받은쪽지 수
 		int total_cnt = 0;
 		if(null != list && list.size()>0) {
 			total_cnt = list.get(0).getTotalCnt();
 			log.info("total_cnt: "+total_cnt);
 		}
 		
+		//읽지않은쪽지수
+		int n_cnt = msgSvc.getNCount("받는이"); //받는이 는 아이디임 앞으로 아이디를 넣어야함
+		log.info("n_cnt: "+n_cnt);
+		
+		
 		CodeVO codePage=new CodeVO();
 		codePage.setCd_id("C_001");
 		
 		model.addAttribute("code_page",codeSvc.do_retrieve(codePage));
+		model.addAttribute("n_cnt",n_cnt);
 		model.addAttribute("total_cnt",total_cnt);
 		model.addAttribute("list",list);
 		
-		return "/mypage/msg_receive_index";  
+		return RECEIVEINDEX;  
 	}	
 	
 	//보낸쪽지함 페이지 나옴
@@ -145,7 +155,7 @@ public class MymsgCtrl {
 		model.addAttribute("total_cnt",total_cnt);
 		model.addAttribute("list",list);
 		
-		return "/mypage/msg_send_index";  
+		return SENDINDEX;  
 	}
 
 	//테스트용 받은쪽지함, 컬럼값 전부 나옴
@@ -196,6 +206,14 @@ public class MymsgCtrl {
 			,produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public String delete(HttpServletRequest req,Model model) throws RuntimeException, SQLException{
+		String msgSeq = req.getParameter("msgSeq");
+		MsgVO msgVO = new MsgVO();
+		msgVO.setMsgSeq(msgSeq);
+		log.info("★★★msgSeq:"+msgVO);
+		msgSvc.delete(msgVO);
+		log.info("★★★MsgVO:"+msgVO);
+
+		
 		String uIdList = req.getParameter("userId_list");
 		log.info("uIdList: "+uIdList);
 		
@@ -274,12 +292,12 @@ public class MymsgCtrl {
 			)
 	@ResponseBody
 	public String get(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
-		String userId = req.getParameter("userId");
+		String msgSeq = req.getParameter("msgSeq");
 		log.info("2========================");
 		log.info("get=");
 		log.info("2========================");	
 		MsgVO msgVO=new MsgVO();
-		msgVO.setUserId(userId);
+		msgVO.setMsgSeq(msgSeq);
 		
 		//JSON Convertor
 		MsgVO outVO = msgSvc.get(msgVO);
@@ -296,7 +314,7 @@ public class MymsgCtrl {
 		log.info("3========================");
 		log.info("jsonData="+jsonData);
 		log.info("3========================");			
-		model.addAttribute("vo", msgSvc.get(msgVO));
+		model.addAttribute("msgVO", msgSvc.get(msgVO));
 		return jsonData;
 	}
 	

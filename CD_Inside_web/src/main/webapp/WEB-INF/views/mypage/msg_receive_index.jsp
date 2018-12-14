@@ -17,6 +17,7 @@
 	String search_div ="";//검색구분
 	String search_word="";//검색어
 	
+	int nCnt          =0;
 	int totalCnt      =0;
 	int bottomCount   =10;
     
@@ -40,9 +41,12 @@
 	int oPageSize = Integer.parseInt(page_size);
 	int oPageNum  = Integer.parseInt(page_num);
 	
+	
+	String inCnt = (null == request.getAttribute("n_cnt"))?"0":request.getAttribute("n_cnt").toString();
 	String iTotalCnt = (null == request.getAttribute("total_cnt"))?"0":request.getAttribute("total_cnt").toString();
 	totalCnt = Integer.parseInt(iTotalCnt);
-	
+	nCnt = Integer.parseInt(inCnt);
+
 	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
 			     ?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
 	
@@ -92,25 +96,39 @@
 		<div class="page-header">
 			<h1>받은쪽지함</h1>
 		</div>
+
+		<!-- 이동 버튼 영역------------------------------------------------------->
+		<ul class="nav nav-pills">
+				<li role="presentation"class="active"><a href="<%=context%>/mypage/mypage_receive_index.jsp">받은쪽지함</a></li>
+				<li role="presentation"><a href="<%=context%>/gallog/notebook_home.do">보낸쪽지함</a></li>
+				<li role="presentation"><a href="<%=context%>/mypage/mypage_send.jsp">쪽지쓰기</a></li>
+		  </ul>	
+		
+		<!--// 이동 버튼 영역----------------------------------------------------->
+
 		
 		<!-- 버튼 -->
-		
-		<button type="button" class="btn btn-default">받은쪽지함</button>
-		<button type="button" class="btn btn-default" id="do_sendindex">보낸쪽지함</button>
 		<input type="button" class="btn btn-default" value="쪽지쓰기"
 			onclick="showPopup();" />
 		<!--// 버튼 -->
-		
+				
 	</div>
 	<!--// Title영역 -->
 	<form name="frm" id="frm" action="receiveIndex.do" method="get"
 		class="form-inline">
 		<input type="hidden" name="page_num" id="page_num">
+		<input type="hidden" name="msgSeq" id="msgSeq">
+		
 
 	<!-- 검색영역 -->
 	<div class="container-fluid">
 		<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<form action="#" class="form-inline">
+			
+				<strong>받은쪽지함  <%=nCnt %> / <%=totalCnt %></strong>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/get.do'">글쓰기</button>			
+			
 				<div class="form-group">
 					<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
 				</div>
@@ -169,7 +187,7 @@
 						<c:forEach var="msgVo" items="${list}">
 							<tr>
 							    <td class="text-center"><input type="checkbox" id="check" name="check"></td>								
-								<td class="text-center"><c:out value="${msgVo.no}"></c:out></td>																							
+								<td class="text-center"><c:out value="${msgVo.msgSeq}"></c:out></td>																							
 								<td class="text-center"><c:out value="${msgVo.userId}"></c:out></td>																															
 								<td class="text-center"
 								style="position:relative; width:200px; text-overflow:ellipsis; overflow:hidden; cursor:hand">
@@ -278,9 +296,9 @@
 				console.log("index="+index);
 				//console.log("row="+row);
 				var record = $(row).parents("tr");
-				var userId = $(record).find("td").eq(2).text()
-				console.log("userId="+userId);
-				items.push(userId);
+				var userId = $(record).find("td").eq(1).text()
+				console.log("msgSeq="+msgSeq);
+				items.push(msgSeq);
 			});
 			console.log("items.length="+items.length);
 			if(items.length<=0){

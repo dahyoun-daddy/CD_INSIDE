@@ -73,22 +73,22 @@ public class MsgDAOTest {
 	}
 	
 //	@Ignore
-	@Test
-	public void get() throws Exception {
-		LOG.info("1==========================");
-		LOG.info("=get=");
-		LOG.info("1==========================");
-		
-		MockHttpServletRequestBuilder createMessage =
-				MockMvcRequestBuilders.get("/msg/do_search_one.do")
-				.param("user_id", "from")
-				;
-		
-		mockMvc.perform(createMessage)
-		.andDo(print())
-		.andExpect(status().is2xxSuccessful());
-		
-	}
+//	@Test
+//	public void get() throws Exception {
+//		LOG.info("1==========================");
+//		LOG.info("=get=");
+//		LOG.info("1==========================");
+//		
+//		MockHttpServletRequestBuilder createMessage =
+//				MockMvcRequestBuilders.get("/msg/do_search_one.do")
+//				.param("msgSeq", "from")
+//				;
+//		
+//		mockMvc.perform(createMessage)
+//		.andDo(print())
+//		.andExpect(status().is2xxSuccessful());
+//		
+//	}
 	
 //	@Ignore
 	@Test

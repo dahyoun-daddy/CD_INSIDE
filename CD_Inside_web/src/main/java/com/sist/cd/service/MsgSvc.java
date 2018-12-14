@@ -36,7 +36,7 @@ public interface MsgSvc {
 	int updateReadCheck(MsgVO msgVO) throws SQLException;	
 	MsgVO get(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;	
 	int getAllCount(String userId) throws SQLException;
-	int getNCount(String msgReadYn) throws SQLException;
+	int getNCount(String userId) throws SQLException;
 	List<MsgVO> getAll() throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;	
 	List<MsgVO> do_retrieve(SearchVO searchVO)
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
