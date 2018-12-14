@@ -147,6 +147,13 @@
 		DELETE FROM board
 		WHERE b_num = #{bNum}
 	</delete>
+	
+	<!--조회수 -->
+	<update id="viewcnt">
+		UPDATE board
+		SET b_visit_cnt = b_visit_cnt+1
+		WHERE b_num = #{bNum}
+	</update>
 
 
 </mapper>  

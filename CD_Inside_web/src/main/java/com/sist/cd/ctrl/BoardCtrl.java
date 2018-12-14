@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sist.cd.common.SearchVO;
+import com.sist.cd.dao.BoardDAO;
 import com.sist.cd.domain.BoardVO;
 import com.sist.cd.service.BoardSvc;
 
@@ -26,6 +27,7 @@ public class BoardCtrl {
 
 	@Autowired
 	private BoardSvc boardSvc;
+	private BoardDAO boardDAO;
 
 	private static final String BOARD_SSANGYONG = "board/bsy.do";
 	private static final String BOARD_CONTEXT = "board/bcont.do";
@@ -69,7 +71,11 @@ public class BoardCtrl {
 			totalCnt = list.get(0).getTotalCnt();
 			log.info("totalCnt: " + totalCnt);
 		}
-
+		
+		
+		//int cnt = boardDAO.viewcnt(invo);
+		//model.addAttribute("cnt",cnt);
+		
 		model.addAttribute("totalCnt", totalCnt);
 		model.addAttribute("list", list);
 
@@ -116,11 +122,15 @@ public class BoardCtrl {
 		log.info("!========================");
 		
 		
+		
+		
 		BoardVO list = boardSvc.get(invo);
+		
 		log.info("list: "+list);
 		
 		
 		model.addAttribute("list",list);
+		
 		
 		
 		return BOARD_CONTEXT;

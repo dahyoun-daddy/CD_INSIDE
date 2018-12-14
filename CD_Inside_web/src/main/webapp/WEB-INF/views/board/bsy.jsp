@@ -44,9 +44,15 @@
 
 <!-- 부트스트랩 -->
 
-<link href="<%=context%>/resources/css/bootstrap.min.css"
-	rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" -->
+<!--  integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"> -->
 
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" -->
+<!--  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"  -->
+<!-- integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"  -->
+<!-- integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script> -->
 
 
 <meta charset="UTF-8">
@@ -84,8 +90,8 @@ table {
 						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">번호</th>
 						<th class="text-center col-xs-11 col-sm-11 col-md-8 col-lg-7">제목</th>
 						<th class="text-center col-xs-1 col-sm-1 col-md-2 col-lg-2">글쓴이</th>
-						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">추천
-							수</th>
+						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">추천수</th>
+						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">날짜</th>
 						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">날짜</th>
 					</tr>
 				</thead>
@@ -97,11 +103,24 @@ table {
 						<c:when test="${list.size()>0}">
 							<c:forEach var="boardVo" items="${list}">
 								<tr>
-									<td class="text-center"><c:out value="${boardVo.bNum}"></c:out></td>
-									<td class="text-left"><c:out value="${boardVo.bTitle}"></c:out></td>
-									<td class="text-left"><c:out value="${boardVo.userId}"></c:out></td>
-									<td class="text-center"><c:out value="${boardVo.bHit}"></c:out></td>
-									<td class="text-center"><c:out value="${boardVo.regDt}"></c:out></td>
+									<td id="bNum" class="text-center"><c:out value="${boardVo.bNum}"></c:out></td>
+									<td id="bTitle" class="text-left"><c:out value="${boardVo.bTitle}"></c:out></td>
+									  
+									<td class="text-left" >
+									<div class="dropdown">
+									  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" 
+									  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									    <c:out value="${boardVo.userId}"></c:out>
+									  </button>
+									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									    <a class="dropdown-item" href="/cd/gallog/notebook_home.do">Gallog</a>
+									    <a class="dropdown-item" href="#">Another action</a>
+									    <a class="dropdown-item" href="#">Something else here</a>
+									  </div>
+									</div>
+									</td>
+									<td onclick='event.cancelBubble=true;'​ class="text-center"><c:out value="${boardVo.bHit}"></c:out></td>
+									<td onclick='event.cancelBubble=true;'​ class="text-center"><c:out value="${boardVo.regDt}"></c:out></td>
 								</tr>
 							</c:forEach>
 						</c:when>
@@ -116,6 +135,10 @@ table {
 			</table>
 		</div>
 	</div>
+	
+
+	
+	
 				<form  name="boform" id="boform" action="/board.do" method="get" class="form-inline">
 				<input type="hidden" name="bNum" id="bNum">
 				</form>
@@ -128,9 +151,9 @@ table {
 			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "notebook_home.do", "search_page") %>
 		</div>
 		
-	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
-    
-    search
+	
+	
+	
     <script src="<%=context%>/resources/js/jquery.min.js"></script>
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
@@ -161,10 +184,10 @@ table {
 	    		
 	    	});
 		    
-			$("#listTable>tbody").on("click","tr",function(){
+			$("#listTable>tbody").on("click","#bTitle",function(){
 				console.log("1 #listTable>tbody");
-				
-				var tr = $(this);
+
+				var tr = $(this).parent();
 				var td = tr.children();
 				var bNum = td.eq(0).text();
 				console.log(bNum);

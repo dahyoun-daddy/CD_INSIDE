@@ -133,6 +133,17 @@ public class BoardDAOImple implements BoardDAO{
 		log.debug("3.flag: "+flag);
 		return flag;
 	}
+	
+	
+	@Override
+	public int viewcnt(BoardVO boardVO) throws SQLException {
+		String statement = NAME_SPACE+".viewcnt";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+boardVO);
+		int flag  = this.sqlSession.insert(statement, boardVO);
+		log.debug("3.flag: "+flag);
+		return flag;
+	}
 
 	
 	

@@ -80,6 +80,8 @@ public interface BoardDAO {
 	 * @throws SQLException
 	 */
 	int delete(BoardVO boardVO) throws SQLException;
+
+	int viewcnt(BoardVO boardVO) throws SQLException;
 	
 	
 }
