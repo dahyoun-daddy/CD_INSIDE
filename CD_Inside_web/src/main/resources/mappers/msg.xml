@@ -43,7 +43,7 @@
 		     reg_dt,             
 		     msg_read_yn                 
 		 ) VALUES (             
-		     #{msgSeq},                 
+		     msg_seq.nextval,                 
 		     #{userId},                 
 		     #{msgRecvId},                 
 		     #{msgCont},                 
