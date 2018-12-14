@@ -61,14 +61,17 @@ hr.hr{
 	margin-left: 0px;
 }
 
+
 </style>    
     
 <meta charset="UTF-8">
 <title>guestbook_home</title>
 </head>
 <body>
+<div class="container">
+
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
-		<div class="bg-success">
+		<div class="bg-success" style="width:955px;">
 			<div class="text-primary">
 			()님의 갤로그입니다.
 			</div>	
@@ -98,22 +101,33 @@ hr.hr{
 		<!-- 방명록 등록 영역 ------------------------------------------------------------>
 		<div class="add">
 		<div style="float:left;">
-			<input type="text" style="width:250px; height:40px;" maxlength="30" placeholder="닉네임"><br/>
-			<input type="text" style="width:250px; height:40px;" maxlength="30" placeholder="비밀번호"><br/><br/><br/>
-			<input type="button" class="btn btn-default" value="등록" style="width:100px; margin-left:70px;" id="do_save">
+			<input type="text" style="width:250px; height:40px;" id="gId" maxlength="30" placeholder="닉네임"><br/>
+			<input type="text" style="width:250px; height:40px;" id="gPw" maxlength="30" placeholder="비밀번호"><br/><br/><br/>
+			<input type="button" class="btn btn-info" value="등록" style="width:100px; margin-left:70px;" id="do_save">
 		</div>
 		<div style="float:right">
-			<textarea style="width:700px; height:150px;" maxlength="2000"></textarea>
+			<textarea style="width:700px; height:150px;" id="gCont" maxlength="2000"></textarea>
 		</div>
 		</div>
 		<!--// 방명록 등록 영역 ----------------------------------------------------------->
 		
+		<!-- 방명록 추가 삭제 상자
+		<div id="box" style="border:2px solid #003399; height:40px; width:244px; display:flex;">
+		<input type="text" style="width:150px;">
+		<button style="width:50px;" type="button">확인</button>
+		<button style="width:40px;" type="button" style="border:2px solid #003399;" class="btn btn-default">
+		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+		</div>
+		 -->
+		 
 		<!-- 방명록 출력 영역 -------------------------------------------------------------->
 		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
 		<input type="hidden" name="page_num" id="page_num">
-		<c:choose>
+		<input type="hidden" name="gSeq" id="gSeq">
+		<c:choose> 
 				<c:when test="${list.size()>0}">
 					<c:forEach var="gallogVo" items="${list}">
+						<input type="hidden" name="${gallogVo.gSeq}" id="${gallogVo.gSeq}">
 						<div style="width:955px; height:100px;">
 							<table style="margin-top:20px; width:955px">
 							<tr>
@@ -122,11 +136,15 @@ hr.hr{
 								<td align="center" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"><c:out value="${gallogVo.regDt}"></c:out></td>
 							</tr>
 							</table>
+						<div class="chooseBox" id="chooseBox" style="float:right; margin-top:60px; margin-right:150px;">
+								<div style="bottom:5px;">
+									<div class="hereAdd" style="float:right;">
+									<button type="button" class="btn btn-default btn-sm" id="do_update" value="${gallogVo.gSeq}">수정</button>
+									<button type="button" class="btn btn-default btn-sm" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
+								 </div>
 						</div>
-						<div style="float:right; width:955px; margin-right:115px;">
-							<button type="button" class="btn btn-default btn-sm" id="do_update" value="${gallogVo.gSeq}">수정</button>
-							<button type="button" class="btn btn-default btn-sm" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
 						</div>
+						<br/><br/><br/>
 						<hr class="hr">
 					</c:forEach>
 				</c:when>
@@ -145,7 +163,7 @@ hr.hr{
 		</div>
 		<!--// 페이징 처리 -------------------------------------------------------------------------->
 		
-		
+</div>		
 				<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     
     <script src="<%=context%>/resources/js/jquery.min.js"></script>
@@ -169,6 +187,7 @@ hr.hr{
      	 frm.submit();
    }
     
+    
     $(document).ready(function(){   
     	
     	$("#do_save").on("click",function(){
@@ -181,11 +200,12 @@ hr.hr{
 		         dataType:"html",// JSON
 		         data:{
 		         	"gCont": $("#gCont").val(),
-		         	"gCate": "0",
+		         	"gCate": "1",
 		         	"userId": "test05",
-		         	"modId": "test05",
+		         	"modId": $("#gId").val(),
 		         	"gId": $("#gId").val(),
-		         	"gPw": $("#gPw").val()
+		         	"gPw": $("#gPw").val(),
+		         	"gTitle": "방명록"
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);
@@ -206,6 +226,40 @@ hr.hr{
 			
 			
 		});//--do_save
+		
+		$("#appendBtn").click(function(){ 
+ 		   var dlt = "<button type='button' id='do_delete'/>";
+ 		   var udt = "<button type='button' id='do_update'/>";
+ 		   var tag = "<input type='text' name='${gallogVo.gSeq}' id='${gallogVo.gSeq}'/>";
+ 		   $("body").append(dlt);
+ 		   $("body").append(udt);
+ 		   $("body").append(tag);
+ 		});
+ 	
+ 		$(document).on("click","#do_delete",function(){ //삭제
+ 			var gSeq = $(this).val();
+ 	       var box="<div id='box' style='border:2px solid #003399; height:35px; width:244px; display:flex;'><input type='text' style='width:150px;'><button style='width:50px;' type='button'>확인</button><button style='width:40px;' type='button' style='border:2px solid #003399;' class='btn btn-default'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></div>";
+ 			 
+ 	       $('#box').remove();
+ 	       var hereAdd = $(this).parent('.hereAdd');
+ 			$(hereAdd).after(box);
+ 			//Box();
+ 			
+ 		 });//delete
+ 		 
+ 		 $(document).on("click","#do_update",function(){ //수정
+	    		var gSeq = $(this).val();
+	    		   
+	    		if(false==confirm("수정하시겠습니까?"))return;
+	    		   
+	    		doUpdate(gSeq);    
+	    		  
+	    		   
+	    	 });//update
+		
+		
+		
+		
 		
     });//-- ready
     

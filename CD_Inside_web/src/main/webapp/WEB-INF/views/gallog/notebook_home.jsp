@@ -53,8 +53,10 @@
 </head>
 <body>
 
+<div class="container">
+
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
-		<div class="bg-success">
+		<div class="bg-success" style="width:955px;">
 			<div class="text-primary">
 			()님의 갤로그입니다.
 			</div>	
@@ -71,7 +73,7 @@
 		<ul class="nav nav-pills">
 				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.jsp">갤로그홈</a></li>
 				<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do">메모장</a></li>
-				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do'">방명록</a></li>
+				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do">방명록</a></li>
 		  </ul>	
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
@@ -133,6 +135,7 @@
 		<!--// 페이징 처리 -------------------------------------------------------------------------->
 		</form>
 
+</div>	
 		
 	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     
