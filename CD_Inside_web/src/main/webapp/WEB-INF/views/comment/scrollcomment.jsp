@@ -147,6 +147,8 @@ $(document).on('click','#like', function() {
 			commTextNum : commTextNum
 	};
 	commentAjax(params,"do_hitComment.do");
+	var hitNum = $(parent).find(".hitNum").text();
+	$(hitNum).text( hitNum.replace("()", "(new)") );
 });
 
 //삭제
@@ -344,7 +346,7 @@ $(window).scroll(function(){
 
     if  ($(window).scrollTop() >= $(document).height() - $(window).height()){
     	pagingList();
-
+ 
 		};
 	});
 	
