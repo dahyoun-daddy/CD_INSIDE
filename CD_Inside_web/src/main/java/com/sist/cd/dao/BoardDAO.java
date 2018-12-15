@@ -49,7 +49,7 @@ public interface BoardDAO {
 	 * @throws SQLException
 	 * @throws EmptyResultDataAccessException
 	 */
-	List<BoardVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	List<BoardVO> do_retrieve(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 	
 	/**
@@ -60,7 +60,7 @@ public interface BoardDAO {
 	 * @throws SQLException
 	 * @throws EmptyResultDataAccessException
 	 */
-	List<BoardVO> do_cateret(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	List<BoardVO> do_cateret(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 	
 	

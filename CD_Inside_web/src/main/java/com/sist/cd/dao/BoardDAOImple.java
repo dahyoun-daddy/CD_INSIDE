@@ -91,12 +91,12 @@ public class BoardDAOImple implements BoardDAO{
 	 * 전체조회
 	 */
 	@Override
-	public List<BoardVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+	public List<BoardVO> do_retrieve(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		
 		String statement = NAME_SPACE+".do_retrieve";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+searchVO);
-		List<BoardVO> list  = this.sqlSession.selectList(statement, searchVO);
+		log.debug("2.param: "+boardVO);
+		List<BoardVO> list  = this.sqlSession.selectList(statement, boardVO);
 		log.debug("*****************************");
 		log.debug("3.list: "+list);
 		log.debug("*****************************");
@@ -108,12 +108,12 @@ public class BoardDAOImple implements BoardDAO{
 	 * 카테고리 별 조회
 	 */
 	@Override
-	public List<BoardVO> do_cateret(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+	public List<BoardVO> do_cateret(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		
 		String statement = NAME_SPACE+".do_cateret";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+searchVO);
-		List<BoardVO> list  = this.sqlSession.selectList(statement, searchVO);
+		log.debug("2.param: "+boardVO);
+		List<BoardVO> list  = this.sqlSession.selectList(statement, boardVO);
 		log.debug("*****************************");
 		log.debug("3.list: "+list);
 		log.debug("*****************************");

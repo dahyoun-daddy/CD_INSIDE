@@ -1,3 +1,7 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.sist.cd.domain.CodeVO"%>
+<%@page import="com.sist.cd.domain.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -7,34 +11,32 @@
 <!-- 뷰단에서 뿌려주는거 포 이치해서 -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%@page import="com.sist.cd.common.SearchVO"%>
 <%@page import="com.sist.cd.common.StringUtil"%>
-
-
-
 
 <%
 	Logger LOG = LoggerFactory.getLogger(this.getClass());
-	String context = request.getContextPath();//context path  
-
-	String page_size = "5";//page_size
-	String page_num = "1";//page_num
-	String search_div = "";//유저아이디
-	String search_word = "";//메모장:0 방명록:1
+	String context = request.getContextPath();
 	
-
-	int totalCnt = 0;
-	int bottomCount = 10;
-
-	SearchVO vo = (SearchVO) request.getAttribute("param");
-	LOG.info("vo:" + vo);
-
+	String page_size ="10";//page_size
+	String page_num  ="1";//page_num
+	String search_div ="";//유저아이디
+	String search_word="";//메모장:0 방명록:1
+	
+	int totalCnt      =0;
+	int bottomCount   =10;
+	
+	BoardVO vo =  (BoardVO)request.getAttribute("param");
+	LOG.info("vo:"+vo);
+	
 	int oPageSize = vo.getPage_size();
-	int oPageNum = vo.getPage_num();
+	int oPageNum  = vo.getPage_num();
+	
+	String iTotalCnt = (null == request.getAttribute("totalCnt"))?"0":request.getAttribute("totalCnt").toString();
+	totalCnt = Integer.parseInt(iTotalCnt);
 
-// 	String iTotalCnt = (null == request.getAttribute("totalCnt")) ? "0"
-// 			: request.getAttribute("totalCnt").toString();
-// 	totalCnt = Integer.parseInt(iTotalCnt);
+	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
+	?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
+	
 %>
 
 
@@ -85,6 +87,31 @@ table {
 		<div class="table-responsive">
 			<table id="listTable"
 				class="table table-striped table-bordered table-hover">
+						<!-- 검색영역 -->
+			<div class="page-header">
+    			<h1>쌍용게시판</h1>
+    		</div>
+			<!-- 검색영역 -->
+			<div class="row">
+			  <div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<form action="#" class="form-inline">
+					<div >
+						<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false) %>
+					</div>
+					<div class="form-group1">
+						<select name="search_div" id="search_div" >
+						    <option value="" >::전체::</option>
+							<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
+							<option value="20" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >이름</option>					
+						</select>
+						<input type="text" name="search_word" id="search_word" value="${param.search_word}"  placeholder="검색어" />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="button" class="btn btn-default btn-sm" onclick="javascript:doSearch();">조회</button>
+					</div>					
+				</form>
+			  </div>	
+			</div>
+			<!--// 검색영역----------------------------------------------------->
 				<thead class="bg-primary">
 					<tr>
 						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">번호</th>
@@ -92,13 +119,12 @@ table {
 						<th class="text-center col-xs-1 col-sm-1 col-md-2 col-lg-2">글쓴이</th>
 						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">추천수</th>
 						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">날짜</th>
-						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">날짜</th>
 					</tr>
 				</thead>
 				<tbody>
 						<!-- 메모장 출력 영역 ------------------------------------------------------------->
 				<form  name="frm" id="frm" action="/board.do" method="get" class="form-inline">
-				
+				<input type="hidden" name="page_num" id="page_num">
 					<c:choose> 
 						<c:when test="${list.size()>0}">
 							<c:forEach var="boardVo" items="${list}">
@@ -136,7 +162,9 @@ table {
 		</div>
 	</div>
 	
-
+		<div class="form-inline text-center">
+			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "/cd/board/bsy.do", "search_page") %>
+		</div>
 	
 	
 				<form  name="boform" id="boform" action="/board.do" method="get" class="form-inline">
@@ -147,10 +175,6 @@ table {
 
 
 		<!-- 페이징 처리 ---------------------------------------------------->
-		<div class="form-inline text-center">
-			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "notebook_home.do", "search_page") %>
-		</div>
-		
 	
 	
 	
@@ -171,7 +195,6 @@ table {
        function doUpdate(gSeq){ //수정
         	var frm = document.frm;
         	frm.gSeq.value = gSeq;
-        	frm.page_num.value = <%=oPageNum%>;
         	frm.action = "get.do";
         	frm.submit();
         }

@@ -29,7 +29,7 @@ public class MainCtrl {
 	private BoardSvc boardSvc;
 	
 	@RequestMapping(value = "/main.do")
-	public String do_retrieve(@ModelAttribute SearchVO invo, Model model, DTO dto) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+	public String do_retrieve(@ModelAttribute BoardVO invo, Model model, DTO dto) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		invo.setPage_num(1);
 		invo.setPage_size(20);
 		
@@ -44,13 +44,9 @@ public class MainCtrl {
 		List<BoardVO> linkList = boardSvc.do_cateret(invo);
 		model.addAttribute("linkList", linkList);
 		
-		BoardVO boardVO = new BoardVO();
+		invo.setbHit("10");
 		
-		boardVO.setPage_num(1);
-		boardVO.setPage_size(20);
-		boardVO.setbHit("10");
-		
-		List<BoardVO> hitList = boardSvc.do_hitretreive(boardVO);
+		List<BoardVO> hitList = boardSvc.do_hitretreive(invo);
 		model.addAttribute("hitList", hitList);
 		
 		return "/main/main";
