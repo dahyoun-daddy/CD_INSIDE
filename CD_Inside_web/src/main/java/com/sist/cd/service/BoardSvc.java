@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import com.sist.cd.common.DTO;
 import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.BoardVO;
@@ -76,5 +77,16 @@ public interface BoardSvc {
 	 * @throws SQLException
 	 */
 	int delete(BoardVO boardVO) throws SQLException;
+	
+	
+	/**
+	 * 인기글조회
+	 * @param dto
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws EmptyResultDataAccessException
+	 */
+	List<BoardVO> do_hitretreive(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 }

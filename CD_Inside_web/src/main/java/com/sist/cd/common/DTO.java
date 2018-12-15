@@ -7,6 +7,7 @@ public class DTO {
 	private int	page_num        ;
 	private String	search_word ;
 	private String	search_div  ;
+	private String commentNo;
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -18,12 +19,24 @@ public class DTO {
 		return no;
 	}
 	
+	public String getCommentNo() {
+		return commentNo;
+	}
+
+
+
+	public void setCommentNo(String commentNo) {
+		this.commentNo = commentNo;
+	}
+
+	
+
+
 	@Override
 	public String toString() {
 		return "DTO [no=" + no + ", totalCnt=" + totalCnt + ", page_size=" + page_size + ", page_num=" + page_num
-				+ ", search_word=" + search_word + ", search_div=" + search_div + "]";
+				+ ", search_word=" + search_word + ", search_div=" + search_div + ", commentNo=" + commentNo + "]";
 	}
-
 
 	/**
 	 * @param no the no to set

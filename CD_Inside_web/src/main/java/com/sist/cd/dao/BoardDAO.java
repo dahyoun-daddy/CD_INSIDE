@@ -82,6 +82,16 @@ public interface BoardDAO {
 	int delete(BoardVO boardVO) throws SQLException;
 
 	int viewcnt(BoardVO boardVO) throws SQLException;
+
+	/**
+	 * 인기글조회
+	 * @param dto
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws EmptyResultDataAccessException
+	 */
+	List<BoardVO> do_hitretreive(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 	
 }

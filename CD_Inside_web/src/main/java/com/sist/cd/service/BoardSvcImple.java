@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.sist.cd.common.DTO;
 import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.dao.BoardDAO;
@@ -60,7 +61,10 @@ public class BoardSvcImple implements BoardSvc {
 		return bd.delete(boardVO);
 	}
 
-	
+	@Override
+	public List<BoardVO> do_hitretreive(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return bd.do_hitretreive(boardVO);
+	}
 
 	
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.sist.cd.common.DTO;
 import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.BoardVO;
@@ -28,7 +29,21 @@ public class BoardDAOImple implements BoardDAO{
 	
 	private final String NAME_SPACE ="com.sist.cd.mappers.board";
 	
-	
+	/**
+	 * 인기글조회
+	 */
+	@Override
+	public List<BoardVO> do_hitretreive(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		
+		String statement = NAME_SPACE+".do_hitretreive";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+boardVO);
+		List<BoardVO> list  = this.sqlSession.selectList(statement, boardVO);
+		log.debug("*****************************");
+		log.debug("3.list: "+list);
+		log.debug("*****************************");
+		return list;	
+	}
 	
 	/**
 	 * 쌍용게시글 작성
