@@ -137,7 +137,8 @@ hr.hr{
 							</tr>
 							</table>
 						<div class="chooseBox" id="chooseBox" style="float:right; margin-top:60px; margin-right:150px;">
-								<div style="bottom:5px;">
+							<div style="bottom:5px;">
+								
 									<div class="hereAdd" style="float:right;">
 									<button type="button" class="btn btn-default btn-sm" id="do_update" value="${gallogVo.gSeq}">수정</button>
 									<button type="button" class="btn btn-default btn-sm" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
@@ -145,6 +146,7 @@ hr.hr{
 						</div>
 						</div>
 						<br/><br/><br/>
+								 </div>
 						<hr class="hr">
 					</c:forEach>
 				</c:when>
@@ -189,10 +191,6 @@ hr.hr{
     
     function cancel(){
     	$('#box').remove();
-    }
-    
-    function delCheck(){
-    	
     }
     
     
@@ -245,9 +243,10 @@ hr.hr{
  		});
  	
  		$(document).on("click","#do_delete",function(){ //삭제
- 			var gSeq = $(this).val();
+ 		   var gSeq = $(this).val();
  	       var box="<div id='box' style='border:2px solid #003399; height:35px; width:244px; display:flex;'><input type='text' style='width:150px;'><button style='width:50px;' type='button' id='delCheck'>확인</button><button style='width:40px;' type='button' style='border:2px solid #003399;' class='btn btn-default' onclick='cancel();'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></div>";
- 			 
+ 	       
+ 	       
  	       $('#box').remove();
  	       var hereAdd = $(this).parent('.hereAdd');
  			$(hereAdd).after(box);
@@ -265,6 +264,45 @@ hr.hr{
 	    		   
 	    	 });//update
 		
+ 		 $(document).on("click","#delCheck",function(){ //수정
+ 				var gSeq = $(this).val();
+ 		 		alert(gSeq);  
+	    		
+ 		 
+	    	/* 	if(false==confirm("삭제하시겠습니까?"))return;
+	    		   
+	    		 $.ajax({ 
+			         type:"POST",
+			         url:"save.do",
+			         dataType:"html",// JSON
+			         data:{
+			         	"gCont": $("#gCont").val(),
+			         	"gCate": "1",
+			         	"userId": "test05",
+			         	"modId": $("#gId").val(),
+			         	"gId": $("#gId").val(),
+			         	"gPw": $("#gPw").val(),
+			         	"gTitle": "방명록"
+			         },
+			         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+			             var parseData = $.parseJSON(data);
+			         	 if(parseData.flag=="1"){
+			         		 alert(parseData.message);
+				         	 doSearch();
+			         	 }else{
+			         		alert(parseData.message);
+			         	 }
+			         },
+			         complete: function(data){//무조건 수행
+			          
+			         },
+			         error: function(xhr,status,error){
+			          
+			         }
+			        });//--ajax		 */ 
+	    		  
+	    		   
+	    	 });//update
 		
 		
 		
