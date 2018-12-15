@@ -189,6 +189,19 @@ public class CommentDAOImple implements CommentDAO{
 
 		return flag;
 	}
+
+	@Override
+	public List<CommentVO> scroll_retrieve(CommentVO commentVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		String statement = NAME_SPACE+".scroll_retrieve";
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+commentVO);
+		List<CommentVO> list  = this.sqlSession.selectList(statement, commentVO);
+		log.info("*****************************");
+		log.info("3.list: "+list);
+		log.info("*****************************");
+		return list;	
+	}
 	
 	
 	

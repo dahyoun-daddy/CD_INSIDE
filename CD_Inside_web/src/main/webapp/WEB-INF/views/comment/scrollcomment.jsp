@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	String context = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,10 +69,34 @@
 .form-group {
 	padding-top: 20px;
 }
+
+.cursor {
+	color: gray;
+}
+
+.cursor:hover {
+	text-decoration:none;
+}
+
+.cursor_reply {
+	color: black;
+	cursor: pointer;
+}
+
+.cursor_reply:hover {
+	text-decoration:none;
+}
+
+.replyDiv {
+	margin-top: 10px;
+}
+
 </style>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="<%=context%>/resources/js/jquery.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=context%>/resources/js/jquery.oLoader.min.js"></script>
+
 <script type="text/javascript">
 
 //수정버튼 눌렸을때
@@ -144,11 +171,10 @@ $(document).on('click','#like', function() {
 	var parent = $(this).parents(".container");
 	var commTextNum = $(parent).find(".commTextNum").val();
 	var params = {
+			parent : parent,
 			commTextNum : commTextNum
 	};
 	commentAjax(params,"do_hitComment.do");
-	var hitNum = $(parent).find(".hitNum").text();
-	$(hitNum).text( hitNum.replace("()", "(new)") );
 });
 
 //삭제
@@ -216,6 +242,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 //Ajax 분리
 function commentAjax(params,url){
 	
+	var parent = params.parent
 	var userId = params.userId
 	var commCont = params.commCont
 	var bNum = params.bNum
@@ -241,8 +268,11 @@ function commentAjax(params,url){
         		console.log('추천');
 	         	if(data.flag=="1"){
 	         		alert(data.message);
+	         	 	var hitNum = $(parent).find(".hitNum").text();
+	         	 	hitNum ++; 
+	         	 	$(parent).find(".hitNum").text(hitNum);
 	         	}else{
-	         		alert(data.message);
+	         		alert(data.message);//이미 추천한 댓글입니다.
 	            }	
         	}
 		
@@ -260,11 +290,13 @@ function commentAjax(params,url){
 }
 
 
+
 var page_num = 1;
 var page_size = 20;
 
 function pagingList(){
 	var body = $("#enters");
+	
     $.ajax({
         type:"POST",
         url:"comm/paging_retrieve.do",
@@ -272,10 +304,11 @@ function pagingList(){
         data:{
             "page_num": page_num,
             "bNum": '1',
-            "page_size": page_size
+            "page_size": page_size,
+            "userId":'강보승'
         },
         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-			  	 var str = "";
+			  	 var str = '';
 	            var depth = "";
 	            $.each(data, function(key, value){
 	            	var divIn = "";
@@ -311,6 +344,11 @@ function pagingList(){
 		    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
 		    				+				'</div>'
 		    				+			'</div>'
+		    				if(value.commentNo > 0){
+		    					divIn +=			'<div class="replyDiv">'
+		    					divIn +=			'<a class="cursor_reply">답글 '+ value.commentNo+'개 보기 ▽</a>'
+		    					divIn +=			'</div>'
+		    				}
 	            	if(value.commDepth == 0) {
 	          		str +=		'<div class="container">' 
 	    				+		'<div class="media">' 
@@ -325,11 +363,13 @@ function pagingList(){
 		    				+	'</div>';
 	            	}
 	            });
+	        	$('.fakeLoading').remove();
+	            str += '<div class="fakeLoading">&nbsp;</div>';
 				body.append(str);
 				page_num++;
         },
         complete: function(data){//무조건 수행
-         
+         	
         },
         error: function(xhr,status,error){
          
@@ -345,13 +385,27 @@ window.onbeforeunload = function () {
 $(window).scroll(function(){ 
 
     if  ($(window).scrollTop() >= $(document).height() - $(window).height()){
-    	pagingList();
- 
+    	 
+    	$(".fakeLoading").oLoader({
+  		  backgroundColor: '255,255,255',
+  		  fadeInTime: 500,
+  		  fadeLevel: 0.8,
+  		  image: '<%=context%>/resources/img/ajax-loader.gif',
+  		  imagePadding: 5,
+  		  imageBgColor: 'white',
+  		  hideAfter: 1000
+  		});
+  		
+    	setTimeout("pagingList()", 1000);
+ 		
 		};
 	});
 	
+
+
+
+
 $(document).ready(function(){
-	$(document).height()==0;
 });
 
 </script>
@@ -371,11 +425,12 @@ $(document).ready(function(){
 		<button id="commentadd" class="btn btn-default btn-sm">댓글달기</button>
 	</div>
 	
-
+	<div class="fakeLoading">&nbsp;</div>
 	
 	
 	<div id="enters">
 	</div>
+	
 
 </body>
 </html>

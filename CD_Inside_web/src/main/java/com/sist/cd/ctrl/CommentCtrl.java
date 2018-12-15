@@ -39,12 +39,6 @@ public class CommentCtrl {
     	return mv;
     }
 	
-	@RequestMapping(value="comment/main.do")
-    public ModelAndView mainList() throws Exception{
-    	ModelAndView mv = new ModelAndView("/comment/main");
-    	return mv;
-    }
-	
 	@RequestMapping(value="comment/scrollcomment.do")
     public ModelAndView scrollCommentList() throws Exception{
     	ModelAndView mv = new ModelAndView("/comment/scrollcomment");
@@ -134,7 +128,7 @@ public class CommentCtrl {
 	@RequestMapping(value = "/comment/comm/paging_retrieve.do", produces = "application/json;charset=utf8")
 	@ResponseBody
 	public String getPagingList(CommentVO invo) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
-		List<CommentVO> listVO = commentSvc.do_retrieve(invo);
+		List<CommentVO> listVO = commentSvc.scroll_retrieve(invo);
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonList="";
 		jsonList += mapper.writeValueAsString(listVO);

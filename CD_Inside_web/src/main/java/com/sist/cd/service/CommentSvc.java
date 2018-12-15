@@ -91,4 +91,14 @@ public interface CommentSvc {
 	 */
 	int do_hit(CommentVO commentVO) throws SQLException;
 	
+	/**
+	 * 댓글 출력
+	 * @param searchVO
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws EmptyResultDataAccessException
+	 */
+	List<CommentVO> scroll_retrieve(CommentVO commentVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	
 }

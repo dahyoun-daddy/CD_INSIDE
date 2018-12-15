@@ -125,7 +125,9 @@
 				T.COMM_HIT,
 				T.COMM_GROUP_NO,
 				T.COMM_DEPTH,
-				TO_CHAR(T.reg_dt,'YYYY-MM-DD') REG_DT,
+       			CASE WHEN to_char(T.reg_dt,'YYYY/MM/DD')=to_char(sysdate,'YYYY/MM/DD')
+	                 THEN to_char(T.reg_dt,'HH24:MI')                                 
+	       		ELSE to_char(T.reg_dt,'YYYY/MM/DD HH24:MI') end  reg_dt,
 				T.MOD_ID,
 				T.MOD_DT,
 				T.rnum AS no
@@ -146,6 +148,48 @@
 		--WHERE
 		)Y
 	</select>
+	
+		<!-- select list -->
+	<select id="scroll_retrieve" parameterType="CommentVO" resultType="CommentVO">
+SELECT C.*,Y.*
+  FROM (
+        SELECT BB.*
+          FROM (SELECT X.*,
+                       ROW_NUMBER() OVER(ORDER BY CASE WHEN USER_ID = #{userId} THEN USER_ID END ASC,COMM_HIT,REG_DT ASC ) AS rnum
+                  FROM(
+                        SELECT T.COMM_TEXT_NUM,
+                               T.B_NUM,
+                               T.COMM_CONT,
+                               T.USER_ID,
+                               T.COMM_HIT,
+                               T.COMM_GROUP_NO,
+                               T.COMM_DEPTH,
+                               CASE WHEN to_char(T.reg_dt,'YYYY/MM/DD')=to_char(sysdate,'YYYY/MM/DD')
+                                    THEN to_char(T.reg_dt,'HH24:MI')                                 
+                               ELSE to_char(T.reg_dt,'YYYY/MM/DD HH24:MI') end  reg_dt,
+                              T.MOD_ID,
+                              T.MOD_DT,
+                              T.commentNo AS commentNo
+                        FROM(
+                              SELECT hr.* 
+                                    ,COUNT(*) OVER(PARTITION BY COMM_GROUP_NO )-1 AS commentNo
+                              FROM COMM hr
+                              WHERE B_NUM = 1
+                        ) T
+                              WHERE COMM_DEPTH = 0
+                )X
+          )BB
+       WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) AND (#{page_size} * (#{page_num}-1)+#{page_size})
+)C
+NATURAL JOIN
+(
+		SELECT COUNT(*) AS total_cnt
+		  FROM COMM
+		 WHERE B_NUM = 1
+		--WHERE
+)Y
+	</select>
+	
 
 	<select id="do_code_getCount" parameterType="CommentVO"
 		resultType="int">
@@ -173,5 +217,7 @@
 		   SET COMM_HIT = COMM_HIT + 1
 		 WHERE COMM_TEXT_NUM = #{commTextNum}
 	</update>
+	
+
 
 </mapper>

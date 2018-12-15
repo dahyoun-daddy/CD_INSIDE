@@ -116,6 +116,12 @@ public class CommentSvcImple implements CommentSvc {
 			log.info("========================");
 		}
 	}
+
+	@Override
+	public List<CommentVO> scroll_retrieve(CommentVO commentVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return commentDAO.scroll_retrieve(commentVO);
+	}
 	
 	
 
