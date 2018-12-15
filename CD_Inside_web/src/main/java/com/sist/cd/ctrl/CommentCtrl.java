@@ -43,7 +43,7 @@ public class CommentCtrl {
     public ModelAndView scrollCommentList() throws Exception{
     	ModelAndView mv = new ModelAndView("/comment/scrollcomment");
     	return mv;
-    }
+    } 
 	
 	@RequestMapping(value = "/comment/addComment.do",method=RequestMethod.POST)
 	@ResponseBody

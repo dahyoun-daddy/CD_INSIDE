@@ -131,7 +131,7 @@
 				T.MOD_ID,
 				T.MOD_DT,
 				T.rnum AS no
-		FROM(
+		FROM( 
 		SELECT hr.*
 		,ROW_NUMBER() OVER(ORDER BY comm_group_no,REG_DT ) AS rnum
 		FROM COMM hr

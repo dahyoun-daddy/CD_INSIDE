@@ -91,7 +91,7 @@ public interface CommentSvc {
 	 */
 	int do_hit(CommentVO commentVO) throws SQLException;
 	
-	/**
+	/** 
 	 * 댓글 출력
 	 * @param searchVO
 	 * @return

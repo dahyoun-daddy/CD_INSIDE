@@ -189,7 +189,7 @@ public class CommentDAOImple implements CommentDAO{
 
 		return flag;
 	}
-
+ 
 	@Override
 	public List<CommentVO> scroll_retrieve(CommentVO commentVO)
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
