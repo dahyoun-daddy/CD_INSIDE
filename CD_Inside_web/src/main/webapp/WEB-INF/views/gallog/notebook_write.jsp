@@ -1,12 +1,20 @@
+<%@page import="org.slf4j.LoggerFactory"%>
+<%@page import="org.slf4j.Logger"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.sist.cd.domain.GallogVO" %>
+<%@page import="com.sist.cd.common.SearchVO" %>
 <!DOCTYPE html>
 <html>
 <head>
 <%
+	Logger LOG = LoggerFactory.getLogger(this.getClass());
 	String context = request.getContextPath();
+	SearchVO vo =  (SearchVO)request.getAttribute("param");
+	LOG.info("vo:"+vo);
+	int oPageNum  = vo.getPage_num();
+	LOG.info("oPageNum:"+oPageNum);
 %>
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,7 +53,6 @@
 		<!--// 갤로그 공통 부분 ------------------------------------------------------->
 		<br>
 				
-		
 		<!-- 갤로그 이동 버튼 영역------------------------------------------------------->
 		<ul class="nav nav-pills">
 				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.jsp">갤로그홈</a></li>
@@ -57,6 +64,7 @@
 
 		<!-- 메모장 글쓰기 영역 --------------------------------------------------------->
 		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
+		<input type="hidden" name="page_num" id="page_num">
 		<input type="hidden" name="gSeq" id="gSeq" value="${list.gSeq}">
 		<div>
 			<input type="text" name="gTitle" id="gTitle" maxlength="50" style="width:800px" value="${list.gTitle}"/>
@@ -95,12 +103,19 @@
     <script type="text/javascript">
     
     
-    function doSearch(){ // 전체조회
+    function doSearch(){ // 등록후 1페이지로 가서 전체조회
       	 var frm = document.frm;
       	 frm.action = "notebook_home.do";
       	 frm.submit();
     }
     
+    function doSearch1(){ // 수정후 그페이지로 다시가서 조회
+     	 var frm = document.frm;
+         frm.page_num.value = <%=oPageNum%>;
+//       alert(frm.page_num.value);
+    	 frm.action = "notebook_home.do";
+    	 frm.submit();
+   }
     
     
     $(document).ready(function(){   
@@ -160,7 +175,7 @@
 		             var parseData = $.parseJSON(data);
 		         	 if(parseData.flag=="1"){
 		         		 alert(parseData.message);
-		         		 history.go(-1);
+		         		 doSearch1();
 		         	 }else{
 		         		alert(parseData.message);
 		         	 }

@@ -187,6 +187,14 @@ hr.hr{
      	 frm.submit();
    }
     
+    function cancel(){
+    	$('#box').remove();
+    }
+    
+    function delCheck(){
+    	
+    }
+    
     
     $(document).ready(function(){   
     	
@@ -238,7 +246,7 @@ hr.hr{
  	
  		$(document).on("click","#do_delete",function(){ //삭제
  			var gSeq = $(this).val();
- 	       var box="<div id='box' style='border:2px solid #003399; height:35px; width:244px; display:flex;'><input type='text' style='width:150px;'><button style='width:50px;' type='button'>확인</button><button style='width:40px;' type='button' style='border:2px solid #003399;' class='btn btn-default'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></div>";
+ 	       var box="<div id='box' style='border:2px solid #003399; height:35px; width:244px; display:flex;'><input type='text' style='width:150px;'><button style='width:50px;' type='button' id='delCheck'>확인</button><button style='width:40px;' type='button' style='border:2px solid #003399;' class='btn btn-default' onclick='cancel();'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></div>";
  			 
  	       $('#box').remove();
  	       var hereAdd = $(this).parent('.hereAdd');
