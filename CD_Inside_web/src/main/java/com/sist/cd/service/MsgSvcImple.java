@@ -23,7 +23,6 @@ public class MsgSvcImple implements MsgSvc {
 	@Autowired
 	private MsgDAO msgDao;
 	
-	
 	/**
 	 * 1.전송(add)
 	 * 2.1건삭제(delete)
