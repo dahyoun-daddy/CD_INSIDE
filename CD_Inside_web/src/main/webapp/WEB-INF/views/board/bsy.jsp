@@ -81,29 +81,39 @@
 	margin-right: auto;
 }
 
+.wr{ 
+position: relative;
+left: 8px;
+}
+  
 
 .value{ font-size: 2px; } 
-
-</style>
+  
+</style>   
 
 </head>
 <body>
 	
 	
 			<div class="container">
-			<div class="row">
+			 <div class="row">
 			<div class="text-center col-xs-4 col-sm-4 col-md-4 col-lg-4"><h2>쌍용게시판</h2></div>
-			<div></div>
+			<div></div> 
 			<div></div>
     	   </div>   
-    		 
+    	  
+    	  
+    	  <!--  이거슨 세션값 가져왓을때 쓰기 나와야함 -->
+    		 <div class="row">
+    		  <div class="wr">
+			   <div class="text-right col-xs-11 col-sm-11 col-md-11 col-lg-11"><button class="update" href="/cd/board/update.do">쓰기 </button></div>
+			  </div>
+			 </div>  
+			       
+			    
 			
 			
-			
-			
-			
-			
-				<div class="table-responsive">
+				<div class="table-responsive"> 
 		
 		
 				<table id="listTable"
@@ -133,14 +143,14 @@
 									  
 									<td class="text-left" >
 									<div class="dropdown">
-									  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" 
+									  <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" 
 									  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									    <c:out value="${boardVo.userId}"></c:out>
-									  </button>
+									  </a> 
 									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									    <a class="dropdown-item" href="/cd/gallog/notebook_home.do">Gallog</a>
-									    <a class="dropdown-item" href="#">Another action</a>
-									    <a class="dropdown-item" href="#">Something else here</a>
+									    <li><a class="dropdown-item" href="/cd/gallog/notebook_home.do">Gallog</a></li>
+									    <li> <a class="dropdown-item" href="#">쪽지</a> <li>  
+									    <li> <a class="dropdown-item" href="#">음 뭐추가 하지</a> <li>
 									  </div>
 									</div>
 									</td>

@@ -52,7 +52,10 @@
 <body>
 
 	<div class="container">
-
+		<div>
+		<button class="update" href="/cd/board/update.do"> 수정 버튼 </button>
+		<button class="update"> 삭제 버튼  </button> 
+		</div>
 
 
 

@@ -115,31 +115,37 @@
 
 	<!-- 카테고리 조회 -->
 	<select id="do_cateret" parameterType="BoardVO" resultType="BoardVO">
-		  SELECT
-				B.b_num,
-				B.user_id,
-				B.b_title,
-				B.b_cont,
-				B.b_cate,
-				B.b_hit,
-				B.reg_dt,
-				B.mod_id,
-				B.mod_dt,
-				B.rnum AS no,
-				B.b_visit_cnt,
-				(SELECT COUNT (*)
-				   FROM COMM
-				  WHERE B_NUM = B.b_num) as commentNo
-		   FROM (
-		 SELECT bo.*
-				,ROW_NUMBER() OVER(ORDER BY reg_dt) AS rnum
-				FROM board bo
-				WHERE b_cate = #{bCate}
-				)B
-		WHERE rnum BETWEEN (#{page_size} *
-				(#{page_num}-1)+1)
-				AND (#{page_size} * (#{page_num}-1)+#{page_size})
-		
+		   SELECT X.*,Y.*
+			FROM(
+				  SELECT
+						B.b_num,
+						B.user_id,
+						B.b_title,
+						B.b_cont,
+						B.b_cate,
+						B.b_hit,
+						B.reg_dt,
+						B.mod_id,
+						B.mod_dt,
+						B.rnum AS no,
+						B.b_visit_cnt,
+						(SELECT COUNT (*)
+					       FROM COMM
+					      WHERE B_NUM = B.b_num) as commentNo
+				  FROM (
+				  SELECT bo.*
+						,ROW_NUMBER() OVER(ORDER BY reg_dt ) AS rnum
+						FROM board bo
+						WHERE b_cate = #{bCate}
+						)B
+				  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) AND (#{page_size} * (#{page_num}-1)+#{page_size})
+		     	 )X
+				NATURAL JOIN
+		(
+		SELECT COUNT(*) AS total_cnt
+		  FROM board
+		--WHERE
+		)Y
 	</select>
 	
 		<!-- 인기글 조회 -->
