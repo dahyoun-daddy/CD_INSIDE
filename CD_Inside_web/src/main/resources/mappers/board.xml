@@ -126,7 +126,10 @@
 				B.mod_id,
 				B.mod_dt,
 				B.rnum AS no,
-				B.b_visit_cnt
+				B.b_visit_cnt,
+				(SELECT COUNT (*)
+				   FROM COMM
+				  WHERE B_NUM = B.b_num) as commentNo
 		   FROM (
 		 SELECT bo.*
 				,ROW_NUMBER() OVER(ORDER BY reg_dt) AS rnum

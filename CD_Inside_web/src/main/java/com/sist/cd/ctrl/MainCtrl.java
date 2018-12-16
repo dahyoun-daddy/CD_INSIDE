@@ -31,16 +31,16 @@ public class MainCtrl {
 	@RequestMapping(value = "/main.do")
 	public String do_retrieve(@ModelAttribute BoardVO invo, Model model, DTO dto) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		invo.setPage_num(1);
-		invo.setPage_size(20);
+		invo.setPage_size(10);
 		
 		List<BoardVO> totalList = boardSvc.do_retrieve(invo);
 		model.addAttribute("totalList", totalList);
 		
-		invo.setSearch_div("쌍용");
+		invo.setbCate("쌍용");
 		List<BoardVO> sistList = boardSvc.do_cateret(invo);
 		model.addAttribute("sistList", sistList);
 		
-		invo.setSearch_div("링크");
+		invo.setbCate("링크");
 		List<BoardVO> linkList = boardSvc.do_cateret(invo);
 		model.addAttribute("linkList", linkList);
 		

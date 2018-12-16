@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	String context = request.getContextPath();
+%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,11 +108,11 @@ a {
 	<div class="mainall">
 		<div class="left-box">
 				<div class="boardTitleDiv">
-					<a class="boardTitle" href="">인기글 커뮤니티</a>
+					<a class="boardTitle">인기글 커뮤니티</a>
 				</div>
 				<div class="boardTitleMargin"></div> 
 				<c:forEach var="boardVo" items="${hitList}">
-				<a href="">
+				<a href='<%=context%>/board/get.do?bNum=<c:out value="${boardVo.bNum}"></c:out>'>
 					<div class="boardList">
 						<span class="bCate"> [<c:out value="${boardVo.bCate}"></c:out>]</span>
 						<span class="boardText"><c:out value="${boardVo.bTitle}"></c:out></span>
@@ -127,7 +130,7 @@ a {
 				</div>
 				<div class="boardTitleMargin"></div>
 				<c:forEach var="boardVo" items="${totalList}">
-				<a href="">
+				<a href='<%=context%>/board/get.do?bNum=<c:out value="${boardVo.bNum}"></c:out>'>
 					<div class="boardList">
 						<span class="bCate"> [<c:out value="${boardVo.bCate}"></c:out>]</span>
 						<span class="boardText"><c:out value="${boardVo.bTitle}"></c:out></span>
@@ -145,7 +148,7 @@ a {
 				</div>
 				<div class="boardTitleMargin"></div>
 				<c:forEach var="boardVo" items="${sistList}">
-				<a href="">
+				<a href='<%=context%>/board/get.do?bNum=<c:out value="${boardVo.bNum}"></c:out>'>
 					<div class="boardList">
 						<span class="bCate"> [<c:out value="${boardVo.bCate}"></c:out>]</span>
 						<span class="boardText"><c:out value="${boardVo.bTitle}"></c:out></span>
@@ -163,7 +166,7 @@ a {
 				</div>
 				<div class="boardTitleMargin"></div>
 				<c:forEach var="boardVo" items="${linkList}">
-				<a href="">
+				<a href='<%=context%>/board/get.do?bNum=<c:out value="${boardVo.bNum}"></c:out>'>
 					<div class="boardList">
 						<span class="bCate"> [<c:out value="${boardVo.bCate}"></c:out>]</span>
 						<span class="boardText"><c:out value="${boardVo.bTitle}"></c:out></span>
