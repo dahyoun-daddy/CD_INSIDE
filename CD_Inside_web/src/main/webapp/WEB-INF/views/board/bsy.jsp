@@ -85,7 +85,11 @@
 position: relative;
 left: 8px;
 }
-  
+   
+.goodhit{  
+position: relative;  
+left: 90px;  
+} 
 
 .value{ font-size: 2px; } 
   
@@ -97,22 +101,22 @@ left: 8px;
 	
 			<div class="container">
 			 <div class="row">
-			<div class="text-center col-xs-4 col-sm-4 col-md-4 col-lg-4"><h2>쌍용게시판</h2></div>
+			<div class="text-center col-xs-4 col-sm-4 col-md-4 col-lg-4"><h2>${name}</h2></div>
 			<div></div> 
 			<div></div>
     	   </div>   
-    	  
+    	   
     	  
     	  <!--  이거슨 세션값 가져왓을때 쓰기 나와야함 -->
-    		 <div class="row">
+    		 <div class="row"> 
     		  <div class="wr">
-			   <div class="text-right col-xs-11 col-sm-11 col-md-11 col-lg-11"><button class="update" href="/cd/board/update.do">쓰기 </button></div>
+			   <div class="text-right col-xs-11 col-sm-11 col-md-11 col-lg-11"><a class="update" href="/cd/board/write.do">쓰기 </a></div>
 			  </div>
 			 </div>  
 			       
-			    
+			     
 			
-			
+			   <p></p>
 				<div class="table-responsive"> 
 		
 		
@@ -169,6 +173,17 @@ left: 8px;
 				</tbody>
 			</table>
 		</div>
+		
+		
+		
+		 <!--  인기글 ------------------------------------------------ --> 
+    		 <div class="row">
+    		  <div class="goodhit">
+			   <div class="text-left col-xs-11 col-sm-11 col-md-11 col-lg-11"><a class="update" href="/cd/board/write.do">린끼글 </a></div>
+			  </div>
+			 </div>   
+		 <!--  인기글 ------------------------------------------------ --> 
+		
 	
 	
 		<div class="form-inline text-center">

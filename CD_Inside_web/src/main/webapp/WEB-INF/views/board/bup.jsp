@@ -35,11 +35,12 @@
 			<form>
 				<div class="form-group">
 					 <label for="Name">Title</label>
-					 <input type="Name" class="form-control" id="Name" placeholder="title">
+					 
+					 <input type="text" name="gTitle" id="gTitle" maxlength="50" style="width:800px" value="${list.gTitle}"/>
 				</div>
 				<div>
 					<label for="textarea">Context</label><br/>
-				 <textarea rows=20 cols=115 wrap=off></textarea>
+				 <textarea name="gCont" id="gCont" rows=20 cols=115  maxlength="3000" style="width:800px;height:500px;">${list.gCont}</textarea>
 				 </div>
 			</form>
 				<button type="submit" class="btn btn-info">Submit Information</button>

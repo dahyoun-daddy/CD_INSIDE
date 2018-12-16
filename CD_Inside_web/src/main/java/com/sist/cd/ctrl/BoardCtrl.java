@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.GallogVO;
 import com.sist.cd.service.BoardSvc;
@@ -30,15 +31,60 @@ public class BoardCtrl {
 	@Autowired
 	private BoardSvc boardSvc;
 
+	private static final String BOARD_ALLRET = "/board/ball.do";
 	private static final String BOARD_SSANGYONG = "/board/bsy.do";
-	private static final String BOARD_CONTEXTLK = "board/blk.do";
+	private static final String BOARD_LINK = "board/blk.do";
 	private static final String BOARD_CONTEXT = "board/bcont.do";
+	private static final String BOARD_WRITE = "board/bup.do";
 
+	@RequestMapping(value = "/ball.do")
+	public String do_retrieve(@ModelAttribute BoardVO invo, Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+
+		String page_num = (String) req.getParameter("page_num");
+		String b_cate = (String) req.getParameter("b_cate");
+		String name = "전체게시판";
+		
+		if(page_num == null) {
+			invo.setPage_num(1);
+		}
+		 
+		if(b_cate == null) {   
+			invo.setbCate("쌍용");  
+				 
+		} else{
+			invo.setPage_num(Integer.parseInt(page_num));
+		}
+		
+		
+		log.info("page_num:"+invo);
+		
+		invo.setPage_size(20);
+		
+		model.addAttribute("param", invo); 
+
+		List<BoardVO> list = boardSvc.do_retrieve(invo);   
+		log.info("list: " + list); 
+
+		int totalCnt = 0;
+		if (null != list && list.size() > 0) {
+			totalCnt = list.get(0).getTotalCnt();
+			log.info("totalCnt: " + totalCnt);
+		}
+		
+		model.addAttribute("totalCnt", totalCnt);
+		model.addAttribute("list", list);
+		model.addAttribute("name", name);
+
+		return BOARD_ALLRET;
+	}
+	
+	
 	@RequestMapping(value = "/bsy.do")
 	public String do_cateret(@ModelAttribute BoardVO invo, Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 
 		String page_num = (String) req.getParameter("page_num");
 		String b_cate = (String) req.getParameter("b_cate");
+		String name = "쌍용게시판";
 		
 		if(page_num == null) {
 			invo.setPage_num(1);
@@ -69,8 +115,9 @@ public class BoardCtrl {
 		
 		model.addAttribute("totalCnt", totalCnt);
 		model.addAttribute("list", list);
+		model.addAttribute("name", name);
 
-		return BOARD_SSANGYONG;
+		return BOARD_SSANGYONG;   
 	}
 	
 	 
@@ -79,12 +126,13 @@ public class BoardCtrl {
 
 		String page_num = (String) req.getParameter("page_num");
 		String b_cate = (String) req.getParameter("b_cate");
+		String name = "링크게시판";
 		
 		if(page_num == null) {
 			invo.setPage_num(1);
 		}
 		 
-		if(b_cate == null) {   
+		if(b_cate == null) {      
 			invo.setbCate("링크");  
 				 
 		} else{
@@ -109,13 +157,14 @@ public class BoardCtrl {
 		
 		model.addAttribute("totalCnt", totalCnt);
 		model.addAttribute("list", list);
+		model.addAttribute("name", name);
 
-		return BOARD_SSANGYONG;
+		return BOARD_SSANGYONG; 
 	}
 	
 	
-
-	@RequestMapping(value="/get.do")
+	 /*단건조회  게시글 하나 눌려서 들어가기루해요*/
+	@RequestMapping(value="/get.do") 
 	public String get(@ModelAttribute BoardVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		
 		log.info("!========================");
@@ -136,6 +185,37 @@ public class BoardCtrl {
 		
 		return BOARD_CONTEXT;
 	}
+	
+	
+	 /*글쓰기*/
+		@RequestMapping(value="/write.do")
+		public String write(@ModelAttribute BoardVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+			
+			log.info("!========================");
+			log.info("invo="+invo);
+			log.info("!========================");
+			
+			
+			
+			
+			BoardVO list = boardSvc.get(invo);
+			
+			log.info("list: "+list);
+			
+			
+			model.addAttribute("list",list);
+			
+			
+			
+			return BOARD_WRITE;
+		}
+	
+	
+
+	
+	
+	
+	
 	
 	@RequestMapping(value= "/addSY.do",method=RequestMethod.POST
 	        ,produces="application/json;charset=utf8"  
