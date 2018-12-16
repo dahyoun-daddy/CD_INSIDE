@@ -1,7 +1,12 @@
 package com.sist.cd.ctrl;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -187,7 +192,7 @@ public class BoardCtrl {
 	}
 	
 	
-	 /*글쓰기*/
+	 /*글쓰기 화면만 맵핑*/
 		@RequestMapping(value="/write.do")
 		public String write(@ModelAttribute BoardVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 			
@@ -211,12 +216,6 @@ public class BoardCtrl {
 		}
 	
 	
-
-	
-	
-	
-	
-	
 	@RequestMapping(value= "/addSY.do",method=RequestMethod.POST
 	        ,produces="application/json;charset=utf8"  
 	)
@@ -230,7 +229,13 @@ public class BoardCtrl {
 		//log.info("++++++++++++++++++"+invo.getgCate());
 		//수정
 		
-		//등록		
+		//등록
+		
+		if(null == invo.getUserId()) {
+			invo.setUserId("갓미니");
+		}
+		
+		
 		int flag = boardSvc.addSY(invo);
 		 
 		JSONObject object=new JSONObject();
@@ -250,6 +255,55 @@ public class BoardCtrl {
 		log.info("3========================");			
 		return jsonData;
 	}	 
+	
+	
+	
+	/*파일까지 업로드 할수 있는 에디터*/ 
+	@RequestMapping(value = "/insertBoard.do", method = RequestMethod.POST)
+    public String insertBoard(String editor) {
+        System.err.println("저장할 내용 : " + editor);
+        return "redirect:/coding.do";
+    }
+ 
+    // 다중파일업로드
+    @RequestMapping(value = "/file_uploader_html5.do",
+                  method = RequestMethod.POST)
+    @ResponseBody
+    public String multiplePhotoUpload(HttpServletRequest request) {
+        // 파일정보
+        StringBuffer sb = new StringBuffer();
+        try {
+            // 파일명을 받는다 - 일반 원본파일명
+            String oldName = request.getHeader("file-name");
+            // 파일 기본경로 _ 상세경로                    이 방법 쓰기  @Value("classpath*:test/*.xml") private Resource[] resources;
+            String filePath = "D:/workspace/Spring/src/main/webapp/resources/photoUpload/";
+            String saveName = sb.append(new SimpleDateFormat("yyyyMMddHHmmss")
+                          .format(System.currentTimeMillis()))
+                          .append(UUID.randomUUID().toString())
+                          .append(oldName.substring(oldName.lastIndexOf("."))).toString();
+            InputStream is = request.getInputStream();
+            OutputStream os = new FileOutputStream(filePath + saveName);
+            int numRead;
+            byte b[] = new byte[Integer.parseInt(request.getHeader("file-size"))];
+            while ((numRead = is.read(b, 0, b.length)) != -1) {
+                os.write(b, 0, numRead);
+            }
+            os.flush();
+            os.close();
+            // 정보 출력
+            sb = new StringBuffer();
+            sb.append("&bNewLine=true")
+              .append("&sFileName=").append(oldName)
+              .append("&sFileURL=").append("http://localhost:8090/Spring/resources/photoUpload/")
+        .append(saveName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
+
+	
 	
 	
 	@RequestMapping(value="update.do",method=RequestMethod.POST

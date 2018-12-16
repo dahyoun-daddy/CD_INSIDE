@@ -96,34 +96,145 @@ String context = request.getContextPath();
 				<div class="form-group">
 					 <label for="Name">Title</label><br/> 
 					 
-					 <input type="text" name="gTitle" id="gTitle" maxlength="50" style="width:1000px" value="${list.gTitle}"/>
+					 <input type="text" name="bTitle" id="bTitle" maxlength="50" style="width:1000px" value="${list.bTitle}"/>
 				</div> 
 				<div> 
 					<label for="textarea">Context</label><br/>
 					
 					<!-- html 에디터 바디에 추가---------------- -->
-	<form action="./insertBoard.do" method="post" id="insertBoardFrm" enctype="multipart/form-data">
-        <textarea name="editor" id="editor" style="width: 1000px; height: 400px;"> </textarea>
+	<form action="addSY.do" method="post" id="insertBoardFrm" enctype="multipart/form-data">
+        <textarea name="editor" id="editor" style="width: 1000px; height: 400px;">${list.bCont} </textarea>
     </form> 
    
 					
- 
+  
 
 					
 					
  <%-- textarea name="gCont" id="gCont" rows=20 cols=115  maxlength="3000" style="width:1000px;height:500px;">${list.gCont}</textarea> --%>
 				 </div>  
 				  <p></p>
-				  <input class="btn btn-info" type="button" id="insertBoard" value="등록" />
+				  <input class="btn btn-info" type="button" id="insertBoard" value="등록아님 낚시용" />
 				<button type="submit" class="btn btn-info">취소</button>
 		</div>
   
-   
+  
+  <button type="button" class="btn btn-default" onClick="history.go(-1)">취소</button>
+   <%
+			BoardVO check =  (BoardVO)request.getAttribute("list");
+			if(check==null){
+		%>
+		<button type="button" class="btn btn-default" id="do_save">등록</button>
+		<%
+			}
+			else{
+		%>
+		<button type="button" class="btn btn-default" id="do_update">수정</button>
+			<% 
+		}
+		%>
 
 		
- 				  
- 				 
- 		
+ 	<script type="text/javascript">
+    
+    
+    function doSearch(){ // 등록후 1페이지로 가서 전체조회
+      	 var frm = document.frm;
+    	 frm.page_num.value = 1;
+      	 frm.action = "bsy.do";
+      	 frm.submit();
+    }
+    
+//     function doSearch1(){ // 수정후 그페이지로 다시가서 조회
+//      	 var frm = document.frm;
+<%--          frm.page_num.value = <%=oPageNum%>; --%>
+// //       alert(frm.page_num.value);
+//     	 frm.action = "notebook_home.do";
+//     	 frm.submit();
+//    }
+    
+    
+    $(document).ready(function(){   
+    	
+    	$("#do_save").on("click",function(){
+    		
+			 if(false==confirm("등록 하시겠습니까?"))return;
+			  
+		     $.ajax({
+		         type:"POST",
+		         url:"addSY.do",
+		         dataType:"html",// JSON
+		         data:{
+		         	"bTitle": $("#bTitle").val(),
+		         	"bCont": $("#bCont").val(),
+		         	"bCate": "0",
+		         	"userId": "test05",
+		         	"modId": "test05"
+		         },
+		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+		         	 if(parseData.flag=="1"){
+		         		 alert(parseData.message);
+			         	 doSearch();
+		         	 }else{
+		         		alert(parseData.message);
+		         	 }
+		         },
+		         complete: function(data){//무조건 수행
+		          
+		         },
+		         error: function(xhr,status,error){
+		          
+		         }
+		        });//--ajax					
+			
+			
+		});//--do_save
+		
+		
+		$("#do_update").on("click",function(){
+    		
+			 if(false==confirm("수정 하시겠습니까?"))return;
+			  
+		     $.ajax({
+		         type:"POST",
+		         url:"update.do",
+		         dataType:"html",// JSON
+		         data:{
+		        	"bSeq": $("#bSeq").val(),
+		         	"bTitle": $("#bTitle").val(),
+		         	"bCont": $("#bCont").val(),
+		         	"bCate": "1",
+		         	"modId": "test05"
+		         },
+		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+		         	 if(parseData.flag=="1"){
+		         		 alert(parseData.message);
+		         		 doSearch1();
+		         	 }else{
+		         		alert(parseData.message);
+		         	 }
+		         },
+		         complete: function(data){//무조건 수행
+		          
+		         },
+		         error: function(xhr,status,error){
+		          
+		         }
+		        });//--ajax					
+			
+			
+		});//--do_update
+   
+   	
+    });//ready
+    
+    
+    
+    
+    
+    </script>
  				 
  			
  				 
