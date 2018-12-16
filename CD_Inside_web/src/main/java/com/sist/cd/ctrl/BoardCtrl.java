@@ -194,7 +194,7 @@ public class BoardCtrl {
 			log.info("!========================");
 			log.info("invo="+invo);
 			log.info("!========================");
-			
+			String name = "게시글 작성";
 			
 			
 			
@@ -204,7 +204,7 @@ public class BoardCtrl {
 			
 			
 			model.addAttribute("list",list);
-			
+			model.addAttribute("name", name);
 			
 			
 			return BOARD_WRITE;

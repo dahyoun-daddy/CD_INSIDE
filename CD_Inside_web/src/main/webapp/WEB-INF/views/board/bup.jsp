@@ -32,15 +32,24 @@
 <body>
 
 		<div class="container">
+			
+			
+				<div class="row">
+			<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12"><h2>${name}</h2></div>
+			<div></div> 
+			<div></div>
+    	   </div>    
+			  
+		
 			<form>
 				<div class="form-group">
-					 <label for="Name">Title</label>
+					 <label for="Name">Title</label><br/> 
 					 
-					 <input type="text" name="gTitle" id="gTitle" maxlength="50" style="width:800px" value="${list.gTitle}"/>
-				</div>
-				<div>
+					 <input type="text" name="gTitle" id="gTitle" maxlength="50" style="width:1000px" value="${list.gTitle}"/>
+				</div> 
+				<div> 
 					<label for="textarea">Context</label><br/>
-				 <textarea name="gCont" id="gCont" rows=20 cols=115  maxlength="3000" style="width:800px;height:500px;">${list.gCont}</textarea>
+				 <textarea name="gCont" id="gCont" rows=20 cols=115  maxlength="3000" style="width:1000px;height:500px;">${list.gCont}</textarea>
 				 </div>
 			</form>
 				<button type="submit" class="btn btn-info">Submit Information</button>
