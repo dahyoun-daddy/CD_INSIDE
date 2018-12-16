@@ -99,8 +99,8 @@
 
 		<!-- 이동 버튼 영역------------------------------------------------------->
 		<ul class="nav nav-pills">
-				<li role="presentation"class="active"><a href="<%=context%>/mypage/mypage_receive_index.jsp">받은쪽지함</a></li>
-				<li role="presentation"><a href="<%=context%>/gallog/notebook_home.do">보낸쪽지함</a></li>
+				<li role="presentation"class="active"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
+				<li role="presentation"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
 				<li role="presentation"><a href="<%=context%>/mypage/mypage_send.jsp">쪽지쓰기</a></li>
 		  </ul>	
 		
@@ -236,6 +236,14 @@
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+    
+    
+	//보낸쪽지함 호출 msg_send.jsp
+	function sendIndex() {
+		var comSubmit = new comSubmit();
+		comSubmit.setUrl("<c:url value='send_index.do' />");
+		comSubmit.submit();
+	}
     
     
 	//쪽지 쓰기 팝업창 호출 msg_send.jsp

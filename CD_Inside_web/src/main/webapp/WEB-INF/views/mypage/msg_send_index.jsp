@@ -94,15 +94,16 @@
 		</div>
 		
 		<!-- 버튼 -->
+		<ul class="nav nav-pills">
+		<li role="presentation"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
+		<li role="presentation" class="active"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
+		<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
+		</ul>	
 		
-		<button type="button" class="btn btn-default">받은쪽지함</button>
-		<button type="button" class="btn btn-default" id="do_sendindex">보낸쪽지함</button>
 		<input type="button" class="btn btn-default" value="쪽지쓰기"
 			onclick="showPopup();" />
 		<!--// 버튼 -->
-		
 
-		</ul>
 			
 	</div>
 	<!--// Title영역 -->
@@ -176,7 +177,7 @@
 						<c:forEach var="msgVo" items="${list}">
 							<tr>
 							    <td class="text-center"><input type="checkbox" id="check" name="check"></td>								
-								<td class="text-center"><c:out value="${msgVo.no}"></c:out></td>																							
+								<td class="text-center"><c:out value="${msgVo.msgSeq}"></c:out></td>																							
 								<td class="text-center"><c:out value="${msgVo.msgRecvId}"></c:out></td>																							
 								
 								<td class="text-center"
