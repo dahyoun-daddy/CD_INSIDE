@@ -155,7 +155,7 @@ SELECT C.*,Y.*
   FROM (
         SELECT BB.*
           FROM (SELECT X.*,
-                       ROW_NUMBER() OVER(ORDER BY CASE WHEN USER_ID = #{userId} THEN USER_ID END ASC,COMM_HIT,REG_DT ASC ) AS rnum
+                       ROW_NUMBER() OVER(ORDER BY CASE WHEN USER_ID = #{userId} THEN USER_ID END ASC,COMM_HIT desc,REG_DT desc ) AS rnum
                   FROM(
                         SELECT T.COMM_TEXT_NUM,
                                T.B_NUM,
@@ -164,12 +164,10 @@ SELECT C.*,Y.*
                                T.COMM_HIT,
                                T.COMM_GROUP_NO,
                                T.COMM_DEPTH,
-                               CASE WHEN to_char(T.reg_dt,'YYYY/MM/DD')=to_char(sysdate,'YYYY/MM/DD')
-                                    THEN to_char(T.reg_dt,'HH24:MI')                                 
-                               ELSE to_char(T.reg_dt,'YYYY/MM/DD HH24:MI') end  reg_dt,
-                              T.MOD_ID,
-                              T.MOD_DT,
-                              T.commentNo AS commentNo
+                               T.reg_dt,
+                               T.MOD_ID,
+                               T.MOD_DT,
+                               T.commentNo AS commentNo
                         FROM(
                               SELECT hr.* 
                                     ,COUNT(*) OVER(PARTITION BY COMM_GROUP_NO )-1 AS commentNo

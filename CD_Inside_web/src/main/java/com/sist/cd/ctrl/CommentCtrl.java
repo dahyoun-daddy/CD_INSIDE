@@ -45,12 +45,16 @@ public class CommentCtrl {
     	return mv;
     } 
 	
-	@RequestMapping(value = "/comment/addComment.do",method=RequestMethod.POST)
+	@RequestMapping(value = "/comment/addComment.do",method=RequestMethod.POST, produces = "application/json;charset=utf8")
 	@ResponseBody
 	public String addComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
 		commentSvc.add(commentVO);
 		log.info("commentVO:"+commentVO);
-		return "123";
+		CommentVO outVO = commentSvc.get(commentVO);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonList="";
+		jsonList += mapper.writeValueAsString(outVO);
+		return jsonList;
 	}
 	
 	@RequestMapping(value = "/comment/updateComment.do",method=RequestMethod.POST)

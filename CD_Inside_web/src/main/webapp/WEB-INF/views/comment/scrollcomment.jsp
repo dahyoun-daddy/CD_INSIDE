@@ -197,7 +197,6 @@ $(document).on('click','#commentadd', function() {
 	var cont = $("#commentcont").val();
 	var n = cont.length;
 	
-	alert(n);
 	var regexp = /[A-Za-z0-9]{140}/g;
 	
 	if(cont.match(regexp)){
@@ -205,10 +204,71 @@ $(document).on('click','#commentadd', function() {
 		return false;
 	}
 	
-	var params = {
-			commCont : cont
-	};
-	commentAjax(params,"addComment.do");
+	$.ajax({
+		 type : "POST", 
+		 url : "addComment.do",    
+       dataType:"json",// JSON
+       data:{
+           "userId": 'test',
+           "commCont": cont,
+           "bNum": '1',
+           "modId": '1'
+       },
+		success : function(data) {//통신이 성공적으로 이루어 졌을때 받을 함수
+			var str ='';
+			var divIn = '';
+			divIn += 	'<div class="media-heading">'
+				+				'<div id="container">'
+				+					'<div>'
+				+						'<label class="commId">' + data.userId + '</label>&nbsp;'
+				+						'<label class="commTime">' + data.regDt + '</label>'
+				+					'</div>'
+				+					'<input type="hidden" class="commTextNum" value="' + data.commTextNum + '"/>'
+				+					'<input type="hidden" class="commGroupNo" value="' + data.commGroupNo + '"/>'
+				+					'<input type="hidden" class="commDepth" value="' + data.commDepth + '"/>'
+				+				'</div>'
+				+			'</div>'
+				+			'<div class="p">'
+				+				'<p>'+data.commCont+'</p>'
+				+			'</div>'
+				+				'<img class="cursor" id="like" src="/cd/resources/img/like.jpg"'
+				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
+				+					'width="30px" height="30px"/>&nbsp;'
+				+				'<label class="hitNum">'+'0'+'</label>'
+				+				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-expanded="false" aria-controls="commentReplyadd' + data.commTextNum + '" href="#commentReplyadd' + data.commTextNum + '">답글</a>'
+				+				'&nbsp;'
+				+				'<a class="cursor" id="commentUpdate" >수정</a>'
+				+				'&nbsp;'
+				+				'<a class="cursor" id="coomentDelete" >삭제</a>'
+				+			'<div class="comment-meta">'
+				+				'<div class="bocollapse collapse" id="commentReplyadd' + data.commTextNum + '">'
+				+					'<div class="form-group">'
+				+						'<label for="comment">답글</label>'
+				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
+				+					'</div>'
+				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
+				+				'</div>'
+				+			'</div>'
+				
+		  		str +=		'<div class="container">' 
+					+		'<div class="media">' 
+					+ 			divIn
+					+		'</div>'
+					+		'</div>';
+			$('.commentAddDiv').before(str); 
+			$('.commentAddDiv').remove();
+			$('.absoluteDiv').after('<div class="commentAddDiv"></div>');
+		},
+       complete: function(data){//무조건 수행
+       	
+       },
+       error: function(xhr,status,error){
+    	   
+       }
+	});
+	
+
+	
 });
 
 //답글달기
@@ -294,6 +354,8 @@ function commentAjax(params,url){
 var page_num = 1;
 var page_size = 20;
 
+
+
 function pagingList(){
 	var body = $("#enters");
 	
@@ -305,11 +367,11 @@ function pagingList(){
             "page_num": page_num,
             "bNum": '1',
             "page_size": page_size,
-            "userId":'강보승'
+            "userId":'test'
         },
         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 			  	 var str = '';
-	            var depth = "";
+	            var depth = '';
 	            $.each(data, function(key, value){
 	            	var divIn = "";
 	            		divIn += 	'<div class="media-heading">'
@@ -427,6 +489,9 @@ $(document).ready(function(){
 	
 	<div class="fakeLoading">&nbsp;</div>
 	
+	<div class="absoluteDiv"></div>
+	
+	<div class="commentAddDiv"></div>
 	
 	<div id="enters">
 	</div>
