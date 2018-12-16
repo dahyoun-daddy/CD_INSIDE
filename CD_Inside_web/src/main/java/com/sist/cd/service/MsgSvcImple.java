@@ -102,8 +102,22 @@ public class MsgSvcImple implements MsgSvc {
 
 	@Override
 	public int do_deleteMulti(List<MsgVO> list) throws RuntimeException, SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		int flag = 0;
+		try {
+			for(MsgVO vo :list) {
+				flag+=msgDao.delete(vo);
+			}
+			
+		}catch(RuntimeException e) {
+			log.debug("========================");
+			log.debug("RuntimeException: "+e.getMessage());
+			log.debug("========================");			
+			throw e;
+		}
+		log.debug("========================");
+		log.debug("=flag="+flag);
+		log.debug("========================");
+		return flag;
 	}
 
 

@@ -28,6 +28,7 @@ public interface MsgSvc {
 	*/
 
 	
+	
 	int add(MsgVO msgVO) throws DuplicateUserIdException;
 	int delete(MsgVO msgVO) throws SQLException;
 	int deleteSAll(String userId) throws SQLException;

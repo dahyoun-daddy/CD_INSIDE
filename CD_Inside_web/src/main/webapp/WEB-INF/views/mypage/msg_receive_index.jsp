@@ -125,12 +125,12 @@
 	<!-- 검색영역 -->
 	<div class="container-fluid">
 		<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>
 		</div>
 				
 		<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">		
 			<form action="#" class="form-inline">
 				<div class="form-group">
+				
 					<strong>받은쪽지함  <%=nCnt %> / <%=tCnt %></strong>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			
@@ -152,10 +152,11 @@
 					<!-- 버튼 -->
 					<button type="button" class="btn btn-default btn-sm"
 						onclick="javascript:doSearch();">검색</button>
+					<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
+					<button type="button" class="btn btn-default btn-sm" id="do_deleteRAll">전부삭제</button>						
 					<button type="button" class="btn btn-default btn-sm"
 						onclick="javascript:doSearch();">안 읽은 쪽지 삭제</button>
-					<br/><br/>
-					
+					<br/><br/>					
 				</div>
 			</form>
 		</div>
@@ -167,7 +168,6 @@
 	  </div>	
 	</div>
 		<!--// 검색영역----------------------------------------------------->
-
 		
 		<!-- Grid영역 -->
 		<div class="container-fluid" 
@@ -180,7 +180,7 @@
 				    <tr>
 				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
 						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
+						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">보낸이</th>
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">읽음여부</th>
@@ -194,6 +194,7 @@
 							    <td class="text-center"><input type="checkbox" id="check" name="check"></td>								
 								<td class="text-center"><c:out value="${msgVo.msgSeq}"></c:out></td>																							
 								<td class="text-center"><c:out value="${msgVo.userId}"></c:out></td>																															
+								
 								<td class="text-center"
 								style="position:relative; width:200px; text-overflow:ellipsis; overflow:hidden; cursor:hand">
            						<nobr>
@@ -288,15 +289,57 @@
 	   	 frm.action = "search.do";
 	   	 frm.submit();
      }
-   
-     $(document).ready(function(){   
-		//alert("ready");
-		
-		//var items = [];
-		//$('input:checkbox[type=checkbox]:checked').each(function () {
-		//    items.push($(this).val());
-		//});
-		
+ 	 
+ 	$(document).ready(function(){   
+ 		
+ 		$("#do_deleteRAll").on("click",function(){
+			//alert("do_delete");
+			
+			var items = [];//var items=new Array(); 
+			$( "input[name='check']:checked" ).each(function( index,row ) {
+				console.log("index="+index);
+				//console.log("row="+row);
+				var record = $(row).parents("tr");
+				var userId = $(record).find("td").eq(1).text()
+				console.log("msgSeq="+msgSeq);
+				items.push(msgSeq);
+			});
+			
+			if(false==confirm("삭제 하시겠습니까?"))return;
+			
+			var jsonIdList = JSON.stringify(items);
+			//jsonIdList=["107","108"]
+			console.log("jsonIdList="+jsonIdList);
+			
+	        $.ajax({
+	            type:"POST",
+	            url:"deleteSAll.do",
+	            dataType:"html",
+	            data:{
+	            	"userId_list": jsonIdList
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+	                 console.log("parseData.flag="+parseData.flag);
+	                 console.log("parseData.message="+parseData.message);
+		         	 if(parseData.flag > 0){
+		         		alert(parseData.message);
+		         		doSearch();
+		         	 }else{
+		         		alert(parseData.message);
+		         		
+		         	 }				             
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+			
+		});//--do_delete
+
 		$("#do_delete").on("click",function(){
 			//alert("do_delete");
 			
@@ -326,7 +369,7 @@
 	            url:"delete.do",
 	            dataType:"html",
 	            data:{
-	            	"msgSeq_list": jsonIdList
+	            	"userId_list": jsonIdList
 	            },
 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);
@@ -349,6 +392,7 @@
 	         });//--ajax
 			
 		});//--do_delete
+
 		
 		//do_save
 		//등록
@@ -452,17 +496,7 @@
 	            },
 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 	              var parseData = $.parseJSON(data);
-	              /* console.log("3 parseData.u_id="+parseData.u_id);
-	              console.log("3 parseData.name="+parseData.name);
-	              console.log("3 parseData.password="+parseData.password);
-	              console.log("3 parseData.login="+parseData.login);
-	              console.log("3 parseData.recommend="+parseData.recommend);
-	              console.log("3 parseData.email="+parseData.email);
-	              console.log("3 parseData.userIntLevel="+parseData.userIntLevel);
-	              console.log("3 parseData.regDt="+parseData.regDt); */
 	              
-	              console.log("3 parseData.userIntLevel="+parseData.userIntLevel);
-
 	              $("#msgSeq").val(parseData.msgSeq);
 	              $("#userId").val(parseData.userId);
 	              $("#msgRecvId").val(parseData.msgRecvId);

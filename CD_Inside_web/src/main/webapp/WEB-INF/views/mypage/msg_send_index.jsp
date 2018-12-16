@@ -135,6 +135,9 @@
 					<!-- 버튼 -->
 					<button type="button" class="btn btn-default btn-sm"
 						onclick="javascript:doSearch();">검색</button>
+					<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
+					<button type="button" class="btn btn-default btn-sm" id="do_deleteSAll">전부삭제</button>						
+
 				</div>
 			</form>
 		</div>
@@ -271,6 +274,54 @@
 		//$('input:checkbox[type=checkbox]:checked').each(function () {
 		//    items.push($(this).val());
 		//});
+		
+		$("#do_deleteSAll").on("click",function(){
+			//alert("do_delete");
+			
+			var items = [];//var items=new Array(); 
+			$( "input[name='check']:checked" ).each(function( index,row ) {
+				console.log("index="+index);
+				//console.log("row="+row);
+				var record = $(row).parents("tr");
+				var userId = $(record).find("td").eq(1).text()
+				console.log("msgSeq="+msgSeq);
+				items.push(msgSeq);
+			});
+			
+			if(false==confirm("삭제 하시겠습니까?"))return;
+			
+			var jsonIdList = JSON.stringify(items);
+			//jsonIdList=["107","108"]
+			console.log("jsonIdList="+jsonIdList);
+			
+	        $.ajax({
+	            type:"POST",
+	            url:"deleteSAll.do",
+	            dataType:"html",
+	            data:{
+	            	"userId_list": jsonIdList
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+	                 console.log("parseData.flag="+parseData.flag);
+	                 console.log("parseData.message="+parseData.message);
+		         	 if(parseData.flag > 0){
+		         		alert(parseData.message);
+		         		doSearch();
+		         	 }else{
+		         		alert(parseData.message);
+		         		
+		         	 }				             
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+			
+		});//--do_delete
 		
 		$("#do_delete").on("click",function(){
 			//alert("do_delete");
