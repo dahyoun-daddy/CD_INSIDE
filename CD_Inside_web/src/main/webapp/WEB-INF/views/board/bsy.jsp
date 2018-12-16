@@ -61,58 +61,57 @@
 <title>Insert title here</title>
 
 <style>
-th {
-	font-size: 14px;
+.table-bordered>thead>tr>th {
+	font-size: 4px;
 	font-style: inherit;
 	color: black;
 	background-color: white;
 	vertical-align: middle;
 }
 
-td {
+.table>tbody>tr>td {
+    font-size: 2px;
 	text-align: left;
 }
 
-table {
-	width: 500px;
-	height: 200px;
+#listTable {
+	width: 960px;
+	height: 100px;
 	margin-left: auto;
 	margin-right: auto;
 }
+
+
+.value{ font-size: 2px; } 
+
 </style>
 
 </head>
 <body>
-	<div class="table-basic">
-		<div class="table-responsive">
-			<table id="listTable"
-				class="table table-striped table-bordered table-hover">
-						<!-- 검색영역 -->
-			<div class="page-header">
-    			<h1>쌍용게시판</h1>
-    		</div>
-			<!-- 검색영역 -->
+	
+	
+			<div class="container">
 			<div class="row">
-			  <div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<form action="#" class="form-inline">
-					<div >
-						<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false) %>
-					</div>
-					<div class="form-group1">
-						<select name="search_div" id="search_div" >
-						    <option value="" >::전체::</option>
-							<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
-							<option value="20" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >이름</option>					
-						</select>
-						<input type="text" name="search_word" id="search_word" value="${param.search_word}"  placeholder="검색어" />
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<button type="button" class="btn btn-default btn-sm" onclick="javascript:doSearch();">조회</button>
-					</div>					
-				</form>
-			  </div>	
-			</div>
-			<!--// 검색영역----------------------------------------------------->
-				<thead class="bg-primary">
+			<div class="text-center col-xs-4 col-sm-4 col-md-4 col-lg-4"><h2>쌍용게시판</h2></div>
+			<div></div>
+			<div></div>
+    	   </div>   
+    		 
+			
+			
+			
+			
+			
+			
+				<div class="table-responsive">
+		
+		
+				<table id="listTable"
+					class="table table-striped table-bordered table-hover">
+						
+			
+			
+					<thead class="bg-primary">
 					<tr>
 						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">번호</th>
 						<th class="text-center col-xs-11 col-sm-11 col-md-8 col-lg-7">제목</th>
@@ -160,7 +159,7 @@ table {
 				</tbody>
 			</table>
 		</div>
-	</div>
+	
 	
 		<div class="form-inline text-center">
 			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "/cd/board/bsy.do", "search_page") %>
@@ -172,6 +171,36 @@ table {
 				</form>
 
 	<!--// Grid영역 ---------------------------------------------------->
+
+
+<!-- 검색영역 -->
+
+
+			<div class="row">
+			  <div class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<form action="#" >
+					<%-- <div >
+						<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false) %>
+					</div> --%>
+						<select name="search_div" id="search_div" >
+						    <option value="" >::전체::</option>
+							<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
+							<option value="20" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >이름</option>					
+						</select>
+						<input type="text" name="search_word" id="search_word" value="${param.search_word}"  placeholder="검색어" />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="button" class="btn btn-default btn-sm" onclick="javascript:doSearch();">조회</button>
+						</form>
+					</div>					
+				<div></div>
+				<div></div> 
+			  </div>	  
+			</div> 
+			<!--// 검색영역----------------------------------------------------->
+
+
+
+
 
 
 		<!-- 페이징 처리 ---------------------------------------------------->
@@ -226,6 +255,8 @@ table {
 	    });
 
 	    </script>
+
+
 
 
 
