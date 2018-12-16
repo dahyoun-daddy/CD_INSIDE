@@ -129,7 +129,7 @@
 	    	
 	    	$("#do_save").on("click",function(){
 	    		
-				 if(false==confirm("등록 하시겠습니까?"))return;
+				 if(false==confirm("전송 하시겠습니까?"))return;
 				  
 			     $.ajax({
 			         type:"POST",
