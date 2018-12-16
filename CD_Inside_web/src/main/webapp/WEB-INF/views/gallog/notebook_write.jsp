@@ -105,6 +105,7 @@
     
     function doSearch(){ // 등록후 1페이지로 가서 전체조회
       	 var frm = document.frm;
+    	 frm.page_num.value = 1;
       	 frm.action = "notebook_home.do";
       	 frm.submit();
     }

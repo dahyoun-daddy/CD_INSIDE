@@ -43,6 +43,7 @@ public class GallogDAOTest {
 	SearchVO inVO3 = null;
 	GallogVO inVO4 = null;
 	GallogVO inVO5 = null;
+	GallogVO inVO6 = null;
 	
 	@Before
 	public void setUp() {
@@ -51,6 +52,7 @@ public class GallogDAOTest {
 		inVO3 = new SearchVO(10, 1, "test05", "0");
 		inVO4 = new GallogVO("","toast","","","toast1","toast1","0","sysdate","toast1","sysdate");
 		inVO5 = new GallogVO("","toast","","","toast2","toast2","0","sysdate","toast2","sysdate");
+		inVO6 = new GallogVO("","test05","ㄱ","ㄱ","ㄱ","ㄱ","1","sysdate","test05","sysdate");
 	}
 	
 	
@@ -64,14 +66,14 @@ public class GallogDAOTest {
 	
 	
 	@Test
-	@Ignore
+//	@Ignore
 	public void save() throws SQLException, ClassNotFoundException {
 		
-//		gallogDao.save(inVO1);
-//		gallogDao.save(inVO1);
-//		gallogDao.save(inVO1);
-//		gallogDao.save(inVO1);
-//		gallogDao.save(inVO1);
+		gallogDao.save(inVO6);
+		gallogDao.save(inVO6);
+		gallogDao.save(inVO6);
+		gallogDao.save(inVO6);
+		gallogDao.save(inVO6);
 		
 		int flag = gallogDao.save(inVO1);
 		

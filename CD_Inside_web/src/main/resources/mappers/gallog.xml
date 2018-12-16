@@ -103,5 +103,13 @@
 		  FROM gallog     
 		 WHERE user_id LIKE #{userId} ||'%'  
 	</select>
+	
+	
+	<!-- 방명록 삭제 -->
+	<delete id="delete2" parameterType="GallogVO">
+		DELETE FROM gallog
+		 WHERE g_seq = #{gSeq}
+		   AND g_pw = #{gPw}
+	</delete>
     
 </mapper>

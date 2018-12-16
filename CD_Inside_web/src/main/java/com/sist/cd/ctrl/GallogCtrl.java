@@ -1,10 +1,13 @@
 package com.sist.cd.ctrl;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -35,7 +38,7 @@ public class GallogCtrl {
 	
 	private static final String GALLOG_HOME="/gallog/gallog_home";
 	private static final String NOTE_BOOK="gallog/notebook_home.do";
-	private static final String GUEST_BOOK="/gallog/guestbook_home.do";
+	private static final String GUEST_BOOK="gallog/guestbook_home.do";
 	private static final String NOTE_BOOK_WRITE="/gallog/notebook_write.do";
 	
 	
@@ -132,7 +135,7 @@ public class GallogCtrl {
 		String totalCntLast = Integer.toString(totalCnt);
 		char last = totalCntLast.charAt(totalCntLast.length() - 1);
 		
-		
+		if(Integer.parseInt(page_num) != 1) {
 		if(last == '0' || last == '5') {
 			int page_num1 = Integer.parseInt(page_num)-1;
 			log.info("여기까지옴");
@@ -175,10 +178,11 @@ public class GallogCtrl {
 			
 			return NOTE_BOOK;
 		}
-		
+		}
 
 		model.addAttribute("totalCnt",totalCnt);
 		model.addAttribute("list",list);
+		model.addAttribute("page_num",page_num);
 		
 		
 		return NOTE_BOOK;
@@ -334,6 +338,120 @@ public class GallogCtrl {
 		}
 
 		
+		model.addAttribute("totalCnt",totalCnt);
+		model.addAttribute("list",list);
+		model.addAttribute("page_num",page_num);
+		
+		return GUEST_BOOK;
+	}
+	
+	@RequestMapping(value="/gallog/delete2.do")
+	public String delete2(@ModelAttribute SearchVO invo,Model model,HttpServletRequest req, HttpServletResponse response) throws RuntimeException, SQLException, ClassNotFoundException, IOException{
+		
+		String gSeq = req.getParameter("gSeq");
+		String gPw = req.getParameter("gPw");
+		GallogVO vo = new GallogVO();
+		vo.setgSeq(gSeq);
+		vo.setgPw(gPw);
+		log.info("@@GallogVO:"+vo);
+		
+		int flag = gallogSvc.delete2(vo);
+		
+		 
+		if(flag>0) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('삭제성공');</script>");
+			out.flush(); 
+		}else {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('비밀번호를 확인하세요.');</script>");
+			out.flush();
+		}
+		
+		String page_num = (String) req.getParameter("page_num");
+		if(page_num == null) {
+			invo.setPage_num(1);
+		}else {
+			invo.setPage_num(Integer.parseInt(page_num));
+		}
+		
+		log.info("page_num:"+page_num);
+		
+		if(invo.getPage_size() == 0) {
+			invo.setPage_size(10);
+		}
+		
+		if(null == invo.getSearch_div()) {
+			invo.setSearch_div("1");
+		}
+		
+		if(null == invo.getSearch_word()) {
+			invo.setSearch_word("test05");
+		}	
+		
+		model.addAttribute("param",invo);
+
+		
+		List<GallogVO> list = gallogSvc.do_retrieve(invo);
+		log.info("list: "+list);
+		
+		int totalCnt = 0;
+		if(null != list && list.size()>0) {
+			totalCnt = list.get(0).getTotalCnt();
+			log.info("totalCnt: "+totalCnt);
+			model.addAttribute("page_num",page_num);
+		}
+		
+		String totalCntLast = Integer.toString(totalCnt);
+		char last = totalCntLast.charAt(totalCntLast.length() - 1);
+		
+		if(Integer.parseInt(page_num) != 1) {
+		if(last == '0') {
+			int page_num1 = Integer.parseInt(page_num)-1;
+			log.info("여기까지옴");
+			
+			String page_num2 = Integer.toString(page_num1);
+			if(page_num2 == null) {
+				invo.setPage_num(1);
+			}else {
+				invo.setPage_num(Integer.parseInt(page_num2));
+			}
+			
+			log.info("page_num2:"+page_num2);
+			
+			if(invo.getPage_size() == 0) {
+				invo.setPage_size(10);
+			}
+			
+			if(null == invo.getSearch_div()) {
+				invo.setSearch_div("1");
+			}
+			
+			if(null == invo.getSearch_word()) {
+				invo.setSearch_word("test05");
+			}	
+			
+			model.addAttribute("param",invo);
+			
+			List<GallogVO> list2 = gallogSvc.do_retrieve(invo);
+			log.info("list2: "+list2);
+			
+			int totalCnt2 = 0;
+			if(null != list2 && list2.size()>0) {
+				totalCnt2 = list2.get(0).getTotalCnt();
+				log.info("totalCnt: "+totalCnt2);
+			}
+			
+			model.addAttribute("totalCnt",totalCnt2);
+			model.addAttribute("list",list2);
+			model.addAttribute("page_num",page_num2);
+			
+			return GUEST_BOOK;
+		}
+		}
+
 		model.addAttribute("totalCnt",totalCnt);
 		model.addAttribute("list",list);
 		model.addAttribute("page_num",page_num);

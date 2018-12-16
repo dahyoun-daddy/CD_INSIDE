@@ -100,4 +100,15 @@ public class GallogDAOImple implements GallogDAO {
 		return flag;
 	}
 
+	@Override
+	public int delete2(GallogVO gallogVO) throws SQLException {
+		String statement = NAME_SPACE+".delete2";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+gallogVO);
+		int flag  = this.sqlSession.delete(statement, gallogVO);
+		log.debug("3.flag: "+flag);
+		
+		return flag;
+	}
+
 }

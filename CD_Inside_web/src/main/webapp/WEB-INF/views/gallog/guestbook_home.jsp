@@ -121,13 +121,13 @@ hr.hr{
 		 -->
 		 
 		<!-- 방명록 출력 영역 -------------------------------------------------------------->
-		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
+		<form  name="frm" id="frm" action="guestbook_home.do" method="get" class="form-inline">
 		<input type="hidden" name="page_num" id="page_num">
 		<input type="hidden" name="gSeq" id="gSeq">
-		<c:choose> 
+		<input type="hidden" name="gPw" id="gPw">			
+			<c:choose> 
 				<c:when test="${list.size()>0}">
 					<c:forEach var="gallogVo" items="${list}">
-						<input type="hidden" name="${gallogVo.gSeq}" id="${gallogVo.gSeq}">
 						<div style="width:955px; height:100px;">
 							<table style="margin-top:20px; width:955px">
 							<tr>
@@ -193,6 +193,14 @@ hr.hr{
     	$('#box').remove();
     }
     
+    function doDelete(){ // 삭제
+    	var frm = document.frm;
+    	frm.gSeq.value = $gSeq2;
+    	frm.gPw.value = document.getElementById('gPw2').value;
+    	frm.page_num.value = <%=oPageNum%>;
+    	frm.action = "delete2.do";
+    	frm.submit();
+    }
     
     $(document).ready(function(){   
     	
@@ -236,76 +244,48 @@ hr.hr{
 		$("#appendBtn").click(function(){ 
  		   var dlt = "<button type='button' id='do_delete'/>";
  		   var udt = "<button type='button' id='do_update'/>";
- 		   var tag = "<input type='text' name='${gallogVo.gSeq}' id='${gallogVo.gSeq}'/>";
  		   $("body").append(dlt);
  		   $("body").append(udt);
- 		   $("body").append(tag);
  		});
  	
  		$(document).on("click","#do_delete",function(){ //삭제
- 		   var gSeq = $(this).val();
- 	       var box="<div id='box' style='border:2px solid #003399; height:35px; width:244px; display:flex;'><input type='text' style='width:150px;'><button style='width:50px;' type='button' id='delCheck'>확인</button><button style='width:40px;' type='button' style='border:2px solid #003399;' class='btn btn-default' onclick='cancel();'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></div>";
- 	       
+ 		   $gSeq2 = $(this).val();
+ 	       var box="<div id='box' style='border:2px solid #003399; height:35px; width:244px; display:flex;'><input type='text' id='gPw2' style='width:150px;'><button style='width:50px;' type='button' id='delCheck'>확인</button><button style='width:40px;' type='button' style='border:2px solid #003399;' class='btn btn-default' onclick='cancel();'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></div>";
  	       
  	       $('#box').remove();
  	       var hereAdd = $(this).parent('.hereAdd');
- 			$(hereAdd).after(box);
- 			//Box();
+ 		   $(hereAdd).after(box);
  			
- 		 });//delete
+ 		 });//do_delete
  		 
  		 $(document).on("click","#do_update",function(){ //수정
-	    		var gSeq = $(this).val();
-	    		   
-	    		if(false==confirm("수정하시겠습니까?"))return;
-	    		   
-	    		doUpdate(gSeq);    
-	    		  
-	    		   
-	    	 });//update
+ 			$gSeq2 = $(this).val();
+  	       	var box="<div id='box' style='border:2px solid #003399; height:35px; width:244px; display:flex;'><input type='text' id='gPw2' style='width:150px;'><button style='width:50px;' type='button' id='updCheck'>확인</button><button style='width:40px;' type='button' style='border:2px solid #003399;' class='btn btn-default' onclick='cancel();'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></div>";
+  	       
+  	       	$('#box').remove();
+  	       	var hereAdd = $(this).parent('.hereAdd');
+  			$(hereAdd).after(box);
+  			  
+	     });//do_update 
 		
- 		 $(document).on("click","#delCheck",function(){ //수정
- 				var gSeq = $(this).val();
- 		 		alert(gSeq);  
-	    		
- 		 
-	    	/* 	if(false==confirm("삭제하시겠습니까?"))return;
-	    		   
-	    		 $.ajax({ 
-			         type:"POST",
-			         url:"save.do",
-			         dataType:"html",// JSON
-			         data:{
-			         	"gCont": $("#gCont").val(),
-			         	"gCate": "1",
-			         	"userId": "test05",
-			         	"modId": $("#gId").val(),
-			         	"gId": $("#gId").val(),
-			         	"gPw": $("#gPw").val(),
-			         	"gTitle": "방명록"
-			         },
-			         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-			             var parseData = $.parseJSON(data);
-			         	 if(parseData.flag=="1"){
-			         		 alert(parseData.message);
-				         	 doSearch();
-			         	 }else{
-			         		alert(parseData.message);
-			         	 }
-			         },
-			         complete: function(data){//무조건 수행
-			          
-			         },
-			         error: function(xhr,status,error){
-			          
-			         }
-			        });//--ajax		 */ 
-	    		  
-	    		   
-	    	 });//update
+ 		 $(document).on("click","#delCheck",function(){ //password 확인 후 삭제
+ 		 		//alert("gSeq:"+gSeq);
+ 		 		
+	    	 	if(false==confirm("삭제하시겠습니까?"))return;
+	    	 	
+	    	 	doDelete();
+	   	      		   
+	    	 });//delCheck
 		
 		
-		
+	 	 $(document).on("click","#updCheck",function(){ //password 확인 후 삭제
+	 		 	//alert("gSeq:"+gSeq);
+	 		 		
+		    	 if(false==confirm("수정하시겠습니까?"))return;
+		    	 	
+		    	 doDelete();
+		   	      		   
+		    	});//updCheck
 		
     });//-- ready
     
