@@ -91,6 +91,12 @@ position: relative;
 left: 90px;  
 } 
 
+.sangdan{
+position: relative;
+right: -90px;   
+  
+}
+
 .value{ font-size: 2px; } 
   
 </style>   
@@ -101,9 +107,9 @@ left: 90px;
 	
 			<div class="container">
 			 <div class="row">
-			<div class="text-center col-xs-4 col-sm-4 col-md-4 col-lg-4"><h2>${name}</h2></div>
-			<div></div> 
-			<div></div>
+			 <div class="sangdan">
+			<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12"><h2>${name}</h2></div>
+			</div> 
     	   </div>   
     	   
     	  
