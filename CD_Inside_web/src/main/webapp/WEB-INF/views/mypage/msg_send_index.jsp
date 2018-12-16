@@ -114,14 +114,8 @@
 	<!-- 검색영역 -->
 	<div class="container-fluid">
 		<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<form action="#" class="form-inline">
-			
-				<strong>보낸쪽지함  <%=totalCnt %>   </strong>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				
-				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/get.do'">글쓰기</button>			
-			
-			
+			<form action="#" class="form-inline">		
+
 				<div class="form-group">
 					<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
 				</div>
@@ -164,11 +158,11 @@
 				style="table-layout :fixed">
 				<thead class="bg-primary">
 				    <tr>
-				        <th class="text-center"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
+				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
 						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
-						<th class="text-center col-xs-4 col-sm-4 col-md-4 col-lg-4">내용</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">날짜</th>
+						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
+						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
 					</tr>
 				</thead>
 				<tbody>  
@@ -205,7 +199,7 @@
 		
 		<!--pagenation ---------------------------------------------------->
 		<div class="form-inline text-center">
-			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "search.do", "search_page") %>
+			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "sendIndex.do", "search_page") %>
 		</div>
 		<!--// pagenation영역 ----------------------------------------------->
 	</form>	
@@ -286,9 +280,9 @@
 				console.log("index="+index);
 				//console.log("row="+row);
 				var record = $(row).parents("tr");
-				var userId = $(record).find("td").eq(2).text()
-				console.log("userId="+userId);
-				items.push(userId);
+				var userId = $(record).find("td").eq(1).text()
+				console.log("msgSeq="+msgSeq);
+				items.push(msgSeq);
 			});
 			console.log("items.length="+items.length);
 			if(items.length<=0){
@@ -430,8 +424,8 @@
 			
 			var tr = $(this);
 			var td = tr.children();
-			var userId = td.eq(2).text();
-			console.log("2 userId="+userId);
+			var userId = td.eq(1).text();
+			console.log("2 msgSeq="+msgSeq);
 			
 			if(""==userId)return;
 			
@@ -440,7 +434,7 @@
 	            url:"do_search_one.do",
 	            dataType:"html",// JSON
 	            data:{
-	            "userId": userId
+	            "msgSeq": msgSeq
 	            },
 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 	              var parseData = $.parseJSON(data);

@@ -17,7 +17,8 @@
 	String search_div ="";//검색구분
 	String search_word="";//검색어
 	
-	int nCnt          =0;
+	int tCnt          =0; //받은쪽지수
+	int nCnt          =0; //안읽은쪽지수
 	int totalCnt      =0;
 	int bottomCount   =10;
     
@@ -41,11 +42,12 @@
 	int oPageSize = Integer.parseInt(page_size);
 	int oPageNum  = Integer.parseInt(page_num);
 	
-	
+	String itCnt = (null == request.getAttribute("t_cnt"))?"0":request.getAttribute("t_cnt").toString();
 	String inCnt = (null == request.getAttribute("n_cnt"))?"0":request.getAttribute("n_cnt").toString();
 	String iTotalCnt = (null == request.getAttribute("total_cnt"))?"0":request.getAttribute("total_cnt").toString();
 	totalCnt = Integer.parseInt(iTotalCnt);
 	nCnt = Integer.parseInt(inCnt);
+	tCnt = Integer.parseInt(itCnt);
 
 	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
 			     ?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
@@ -101,7 +103,7 @@
 		<ul class="nav nav-pills">
 				<li role="presentation"class="active"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
 				<li role="presentation"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
-				<li role="presentation"><a href="<%=context%>/mypage/mypage_send.jsp">쪽지쓰기</a></li>
+				<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
 		  </ul>	
 		
 		<!--// 이동 버튼 영역----------------------------------------------------->
@@ -122,17 +124,19 @@
 
 	<!-- 검색영역 -->
 	<div class="container-fluid">
-		<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>
+		</div>
+				
+		<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">		
 			<form action="#" class="form-inline">
-			
-				<strong>받은쪽지함  <%=nCnt %> / <%=totalCnt %></strong>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/get.do'">글쓰기</button>			
-			
 				<div class="form-group">
-					<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
-				</div>
-				<div class="form-group">
+					<strong>받은쪽지함  <%=nCnt %> / <%=tCnt %></strong>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+					<div class="form-group">
+						<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
+					</div>
 					<select name="search_div" id="search_div"
 						class="form-control input-sm">
 						<option value="">::전체::</option>
@@ -148,14 +152,15 @@
 					<!-- 버튼 -->
 					<button type="button" class="btn btn-default btn-sm"
 						onclick="javascript:doSearch();">검색</button>
-
-					<a href="javascript:check()">안 읽은 쪽지 삭제</a>
+					<button type="button" class="btn btn-default btn-sm"
+						onclick="javascript:doSearch();">안 읽은 쪽지 삭제</button>
+					<br/><br/>
+					
 				</div>
 			</form>
 		</div>
 	</div>	
 	
-					<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>
 					
 			</div>					
 		</form>
@@ -173,12 +178,12 @@
 				style="table-layout :fixed">
 				<thead class="bg-primary">
 				    <tr>
-				        <th class="text-center"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
+				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
 						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
-						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-2">받는이</th>
-						<th class="text-center col-xs-4 col-sm-4 col-md-4 col-lg-4">내용</th>
-						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-2">날짜</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-1">읽음여부</th>
+						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
+						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
+						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
+						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">읽음여부</th>
 					</tr>
 				</thead>
 				<tbody>  
@@ -203,7 +208,7 @@
 					</c:when>
 					<c:otherwise>
 						<tr>
-						    <td class="text-center" colspan="99">등록된 게시글이 없습니다.</td>
+						    <td class="text-center" colspan="99">받은 쪽지가 없습니다.</td>
 						</tr>					
 					</c:otherwise>
 				</c:choose>						
@@ -215,7 +220,7 @@
 		
 		<!--pagenation ---------------------------------------------------->
 		<div class="form-inline text-center">
-			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "search.do", "search_page") %>
+			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "receiveIndex.do", "search_page") %>
 		</div>
 		<!--// pagenation영역 ----------------------------------------------->
 	</form>	
@@ -249,7 +254,7 @@
 	//쪽지 쓰기 팝업창 호출 msg_send.jsp
 	function showPopup() {
 		var comSubmit = new comSubmit();
-		comSubmit.setUrl("<c:url value='send.do' />");
+		comSubmit.setUrl("<c:url value='msg/send.do' />");
 		comSubmit.submit();
 		window.open("msg_send.jsp", "msg_send",
 				"width=500, height=500, left=100, top=50");
@@ -265,11 +270,7 @@
    	 
     }
    
-    function onReset(){
-   	 $("#upsert_div").val("save");
-   	 $("#userId").prop("disabled",false);
-   	 
-    }
+
 	 //check 전체 선택
      function checkAll(){
 	   	 //alert("checkAll");
@@ -304,7 +305,7 @@
 				console.log("index="+index);
 				//console.log("row="+row);
 				var record = $(row).parents("tr");
-				var userId = $(record).find("td").eq(1).text()
+				var msgSeq = $(record).find("td").eq(1).text()
 				console.log("msgSeq="+msgSeq);
 				items.push(msgSeq);
 			});
@@ -325,7 +326,7 @@
 	            url:"delete.do",
 	            dataType:"html",
 	            data:{
-	            	"userId_list": jsonIdList
+	            	"msgSeq_list": jsonIdList
 	            },
 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);
@@ -444,7 +445,7 @@
 			
 	        $.ajax({
 	            type:"POST",
-	            url:"do_search_one.do",
+	            url:"get.do",
 	            dataType:"html",// JSON
 	            data:{
 	            "msgSeq": msgSeq

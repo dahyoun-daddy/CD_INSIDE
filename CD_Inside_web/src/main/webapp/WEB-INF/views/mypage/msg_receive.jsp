@@ -32,39 +32,44 @@
     	<div class="page-header">
     		<h3>쪽지읽기</h3>
 
-    	
-    	
-    		
 		<!-- 입력폼 -->
 		<hr/>
-        <form  name="frm" id="frm" action="receive.do" method="get" class="form-horizontal">
+        <form  name="frm" id="frm" action="get.do" method="get" class="form-horizontal">
 		  <div class="form-group">
-		    <label for="inputRecvId" class="col-sm-2 control-label">보낸 사람</label>
-		      <div class="col-xs-2">		    
-		      <input type="text" class="form-control" id="send_id" readonly maxlength="20">
-		    </div>
-		  </div>
-
-		  <div class="form-group">
-		    <label for="inputRecvId" class="col-sm-2 control-label">받은 시간</label>
-		      <div class="col-xs-2">		    
-		      <input type="text" class="form-control" id="send_time" readonly maxlength="20">
+	  		<input type="hidden" name="msgSeq" id="msgSeq" value="${list.msgSeq}">		  
+		    <label for="msgRectRecvId" class="col-sm-2 control-label">보낸이</label>
+		      <div class="col-sm-2">			    
+		      <input type="text" class="form-control" name="userId" id="userId" value="${list.userId}" readonly maxlength="20"/>
 		    </div>
 		  </div>
 		  
 		  <div class="form-group">
-		    <label for="inputContent" class="col-sm-2 control-label">메시지 내용</label>
-		    <div class="col-sm-10">
-				<textarea name="cont" rows="10" cols="40" readonly maxlength="400"></textarea>
+		    <label for="msgRectRecvId" class="col-sm-2 control-label">받는이</label>
+		      <div class="col-sm-2">			    
+		      <input type="text" class="form-control" name="msgRecvId" id="msgRecvId" value="${list.msgRecvId}" readonly maxlength="20"/>
 		    </div>
 		  </div>
+		  
+		  <div class="form-group">
+		    <label for="inputRecvId" class="col-sm-2 control-label">보낸 시간</label>
+		      <div class="col-xs-2">		    
+		      <input type="text" class="form-control" name="regDt" id="regDt" value="${list.regDt}" readonly >
+		    </div>
+		  </div>
+		  		  
+		  <div class="form-group">
+		    <label for="inputContent" class="col-sm-2 control-label">메시지 내용</label>
+		    <div class="col-sm-10">
+				<textarea name="msgCont" id="msgCont" rows="10" cols="40" readonly maxlength="400">${list.msgCont}</textarea>
+		    </div>
+		  </div> 
 		<!--// 입력폼 -->
 
 		<!-- 버튼 -->
 		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">
-		    <button type="submit" class="btn btn-default" id="do_resend">전송</button>
-		    <button type="submit" class="btn btn-default" id="do_delete">삭제</button>	
+		    <button type="submit" class="btn btn-default" id="do_delete" value="${msgVO.msgSeq}">삭제</button>	
+			<button type="submit" class="btn btn-default" onClick="history.go(-1)">닫기</button>
 
 		  </div>
 		</div>
@@ -76,57 +81,37 @@
 	    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
 	    <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
 	    <script type="text/javascript">
+	    
+        function doDelete(msgSeq){ // 삭제
+        	var frm = document.frm;
+        	frm.msgSeq.value = msgSeq;
+        	frm.action = "delete.do";
+        	frm.submit();
+        }
 
-	    $(document).ready(function(){   
-		    
-		  //do_resend 전송
-			$("#do_resend").on("click",function(){
-			
-			});
-		  
-		 //do_delete 삭제
-			$("#do_delete").on("click",function(){
-				
-			});
-		 
-		 
-			$("#do_update").on("click",function(){
-				 if(false==confirm("수정 하시겠습니까?"))return;
-				  
-				 var upsert_div = $("#upsert_div").val();
-				 upsert_div = (upsert_div == "")?"update":"";
-				 console.log("upsert_div:"+upsert_div);			 
-				 
-			     $.ajax({
-			         type:"POST",
-			         url:"update.do",
-			         dataType:"html",// JSON
-			         data:{
-			         	"upsert_div": upsert_div,
-			         	"msgRecvId": $("#msgRecvId").val(),
-			         	"msgCont": $("#msgCont").val(),
-			         	"regDt": $("#regDt").val()
+	    $(document).ready(function(){
+	    	//alert("ready");
+	    	
+	    	$("#appendBtn").click(function(){ 
+	    		   var dlt = "<button type='button' id='do_delete'/>";
+	    		   var tag = "<input type='text' name='${msgVO.msgSeq}' id='${msgVO.msgSeq}'/>"
+	    		   $("body").append(dlt);
+	    		   $("body").append(tag);
+	    		});
+	    	
+	    		$(document).on("click","#do_delete",function(){ //삭제
+	    			var msgSeq = $(this).val();
+	    		   console.log("msgSeq:"+msgSeq);
+	    		   
+	    		   if(false==confirm("삭제하시겠습니까?"))return;
+	    		    
+	    		   doDelete(msgSeq);
+	    		   
+	    		 });//delete
+	    		 
 
-			         },
-			         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-			             var parseData = $.parseJSON(data);
-			         	 if(parseData.flag=="1"){
-			         		 alert(parseData.message);
-			         		 doSearch();
-			         	 }else{
-			         		alert(parseData.message);
-			         	 }
-			         },
-			         complete: function(data){//무조건 수행
-			          
-			         },
-			         error: function(xhr,status,error){
-			          
-			         }
-			        });//--ajax					
-				
-				
-			});//--do_update
+		    		 	    	
+	    });//ready
 	    
 		</script>
 

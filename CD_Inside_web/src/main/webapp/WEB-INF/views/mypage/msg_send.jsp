@@ -34,19 +34,22 @@
 
 		<!-- 입력폼 -->
 		<hr/>
-        <form  name="frm" id="frm" action="send.do" method="get" class="form-horizontal">
+
+	
+        <form  name="frm" id="frm" action="save.do" method="get" class="form-horizontal">
 		  <div class="form-group">
-		    <label for="inputRecvId" class="col-sm-2 control-label">받는 사람</label>
+	  		<input type="hidden" name="msgSeq" id="msgSeq" value="${list.msgSeq}">		  
+		    <label for="msgRectRecvId" class="col-sm-2 control-label">받는이</label>
 		      <div class="col-sm-2">			    
-		      <input type="text" class="form-control" id="recv_id" placeholder="아이디 입력" maxlength="20">
+		      <input type="text" class="form-control" name="msgRecvId" id="msgRecvId" value="${list.msgRecvId}" placeholder="아이디 입력" maxlength="20"/>
 		    </div>
 		  </div>
 		  		  
 		  <div class="form-group">
 		    <label for="inputContent" class="col-sm-2 control-label">메시지 내용</label>
 		    <div class="col-sm-10">
-				<textarea name="cont" rows="10" cols="40" maxlength="400" placeholder="내용을 입력하세요"
-					onKeyUp="javascript:fnChkByte(this,'400')"></textarea>
+				<textarea name="msgCont" id="msgCont" rows="10" cols="40" maxlength="400" placeholder="내용을 입력하세요"
+					onKeyUp="javascript:fnChkByte(this,'400')">${list.msgCont}</textarea>
 				<span id="byteInfo">0</span>/400 Byte
 		    </div>
 		  </div>
@@ -56,7 +59,7 @@
 		<!-- 버튼 -->
 		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">
-		    <button type="submit" class="btn btn-default" id="do_send" onclick="closePopup();">보내기</button>
+		    <button type="submit" class="btn btn-default" id="do_save">보내기</button>
 		    <button type="submit" class="btn btn-default" id="do_cancel" onclick="closePopup();">취소</button>	
 
 		  </div>
@@ -75,7 +78,7 @@
 	    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
 	    <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
 	    <script type="text/javascript">
-
+	    
 	    //보내기 버튼 누르면 보내고  팝업 닫기
 	    function closePopup(){
 	    	 javascript:window.close();
@@ -121,6 +124,48 @@
 	    	}	    
 	    	
 	    }
+	    
+	    $(document).ready(function(){   
+	    	
+	    	$("#do_save").on("click",function(){
+	    		
+				 if(false==confirm("등록 하시겠습니까?"))return;
+				  
+			     $.ajax({
+			         type:"POST",
+			         url:"save.do",
+			         dataType:"html",// JSON
+			         data:{
+			        	"msgSeq": "msgSeq",
+			         	"userId": "test",
+				        "msgRecvId": $("#msgRecvId").val(),
+				        "msgCont": $("#msgCont").val()
+			         },
+			         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+			              var parseData = $.parseJSON(data);
+
+			              $("#msgSeq").val(parseData.msgSeq);
+			              $("#userId").val(parseData.userId);
+			              $("#msgRecvId").val(parseData.msgRecvId);		              
+			              $("#msgCont").val(parseData.msgCont);
+			              $("#regDt").val(parseData.regDt);
+			              $("#msgReadYn").val(parseData.msgReadYn);
+			              
+			              $("#msgSeq").prop("disabled",true);
+			              
+			         },
+			         complete: function(data){//무조건 수행
+				    	 javascript:window.close();
+
+			         },
+			         error: function(xhr,status,error){
+			          
+			         }
+			        });//--ajax					
+				
+				
+			});//--do_save
+	    });//ready
 
 		</script>
 
