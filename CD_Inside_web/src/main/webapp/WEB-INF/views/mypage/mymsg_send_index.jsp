@@ -17,8 +17,6 @@
 	String search_div ="";//검색구분
 	String search_word="";//검색어
 	
-	int tCnt          =0; //받은쪽지수
-	int nCnt          =0; //안읽은쪽지수
 	int totalCnt      =0;
 	int bottomCount   =10;
     
@@ -42,13 +40,9 @@
 	int oPageSize = Integer.parseInt(page_size);
 	int oPageNum  = Integer.parseInt(page_num);
 	
-	String itCnt = (null == request.getAttribute("t_cnt"))?"0":request.getAttribute("t_cnt").toString();
-	String inCnt = (null == request.getAttribute("n_cnt"))?"0":request.getAttribute("n_cnt").toString();
 	String iTotalCnt = (null == request.getAttribute("total_cnt"))?"0":request.getAttribute("total_cnt").toString();
 	totalCnt = Integer.parseInt(iTotalCnt);
-	nCnt = Integer.parseInt(inCnt);
-	tCnt = Integer.parseInt(itCnt);
-
+	
 	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
 			     ?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
 	
@@ -96,47 +90,36 @@
 	<div class="container-fluid">
 		<!-- Title영역 -->
 		<div class="page-header">
-			<h1>받은쪽지함</h1>
+			<h1>보낸쪽지함</h1>
 		</div>
-
-		<!-- 이동 버튼 영역------------------------------------------------------->
-		<ul class="nav nav-pills">
-				<li role="presentation"class="active"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
-				<li role="presentation"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
-				<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
-		  </ul>	
-		
-		<!--// 이동 버튼 영역----------------------------------------------------->
-
 		
 		<!-- 버튼 -->
+		<ul class="nav nav-pills">
+		<li role="presentation"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
+		<li role="presentation" class="active"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
+		<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
+		</ul>	
+		
 		<input type="button" class="btn btn-default" value="쪽지쓰기"
 			onclick="showPopup();" />
 		<!--// 버튼 -->
-				
+
+			
 	</div>
 	<!--// Title영역 -->
-	<form name="frm" id="frm" action="receiveIndex.do" method="get"
+	<form name="frm" id="frm" action="sendIndex.do" method="get"
 		class="form-inline">
 		<input type="hidden" name="page_num" id="page_num">
-		<input type="hidden" name="msgSeq" id="msgSeq">
-		
 
 	<!-- 검색영역 -->
 	<div class="container-fluid">
-		<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		</div>
-				
-		<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">		
-			<form action="#" class="form-inline">
+		<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<form action="#" class="form-inline">		
+
 				<div class="form-group">
-				
-					<strong>받은쪽지함  <%=nCnt %> / <%=tCnt %></strong>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			
-					<div class="form-group">
-						<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
-					</div>
+					<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
+				</div>
+				<div class="form-group">
 					<select name="search_div" id="search_div"
 						class="form-control input-sm">
 						<option value="">::전체::</option>
@@ -153,20 +136,21 @@
 					<button type="button" class="btn btn-default btn-sm"
 						onclick="javascript:doSearch();">검색</button>
 					<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
-					<button type="button" class="btn btn-default btn-sm"
-						onclick="javascript:doSearch();">안 읽은 쪽지 삭제</button>
-					<br/><br/>					
+					<button type="button" class="btn btn-default btn-sm" id="do_deleteSAll">전부삭제</button>						
+
 				</div>
 			</form>
 		</div>
 	</div>	
 	
+					<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>
 					
 			</div>					
 		</form>
 	  </div>	
 	</div>
 		<!--// 검색영역----------------------------------------------------->
+
 		
 		<!-- Grid영역 -->
 		<div class="container-fluid" 
@@ -179,10 +163,9 @@
 				    <tr>
 				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
 						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">보낸이</th>
+						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">읽음여부</th>
 					</tr>
 				</thead>
 				<tbody>  
@@ -192,7 +175,7 @@
 							<tr>
 							    <td class="text-center"><input type="checkbox" id="check" name="check"></td>								
 								<td class="text-center"><c:out value="${msgVo.msgSeq}"></c:out></td>																							
-								<td class="text-center"><c:out value="${msgVo.userId}"></c:out></td>																															
+								<td class="text-center"><c:out value="${msgVo.msgRecvId}"></c:out></td>																							
 								
 								<td class="text-center"
 								style="position:relative; width:200px; text-overflow:ellipsis; overflow:hidden; cursor:hand">
@@ -202,13 +185,12 @@
 								</td>								
 
 								<td class="text-center"><c:out value="${msgVo.regDt}"></c:out></td>																							
-								<td class="text-center"><c:out value="${msgVo.msgReadYn}"></c:out></td>
 							</tr>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
 						<tr>
-						    <td class="text-center" colspan="99">받은 쪽지가 없습니다.</td>
+						    <td class="text-center" colspan="99">등록된 게시글이 없습니다.</td>
 						</tr>					
 					</c:otherwise>
 				</c:choose>						
@@ -220,7 +202,7 @@
 		
 		<!--pagenation ---------------------------------------------------->
 		<div class="form-inline text-center">
-			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "receiveIndex.do", "search_page") %>
+			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "sendIndex.do", "search_page") %>
 		</div>
 		<!--// pagenation영역 ----------------------------------------------->
 	</form>	
@@ -243,18 +225,10 @@
     <script type="text/javascript">
     
     
-	//보낸쪽지함 호출 msg_send.jsp
-	function sendIndex() {
-		var comSubmit = new comSubmit();
-		comSubmit.setUrl("<c:url value='send_index.do' />");
-		comSubmit.submit();
-	}
-    
-    
 	//쪽지 쓰기 팝업창 호출 msg_send.jsp
 	function showPopup() {
 		var comSubmit = new comSubmit();
-		comSubmit.setUrl("<c:url value='msg/send.do' />");
+		comSubmit.setUrl("<c:url value='send.do' />");
 		comSubmit.submit();
 		window.open("msg_send.jsp", "msg_send",
 				"width=500, height=500, left=100, top=50");
@@ -270,7 +244,11 @@
    	 
     }
    
-
+    function onReset(){
+   	 $("#upsert_div").val("save");
+   	 $("#userId").prop("disabled",false);
+   	 
+    }
 	 //check 전체 선택
      function checkAll(){
 	   	 //alert("checkAll");
@@ -288,11 +266,64 @@
 	   	 frm.action = "search.do";
 	   	 frm.submit();
      }
- 	 
- 	$(document).ready(function(){   
- 		
- 		
+   
+     $(document).ready(function(){   
+		//alert("ready");
+		
+		//var items = [];
+		//$('input:checkbox[type=checkbox]:checked').each(function () {
+		//    items.push($(this).val());
+		//});
+		
 
+		$("#do_deleteSAll").on("click",function(){
+			//alert("do_delete");
+			
+			var items = [];//var items=new Array(); 
+			$( "input[name='check']:checked" ).each(function( index,row ) {
+				console.log("index="+index);
+				//console.log("row="+row);
+				var record = $(row).parents("tr");
+				var userId = $(record).find("td").eq(1).text()
+				console.log("msgSeq="+msgSeq);
+				items.push(msgSeq);
+			});
+			
+			if(false==confirm("삭제 하시겠습니까?"))return;
+			
+			var jsonIdList = JSON.stringify(items);
+			//jsonIdList=["107","108"]
+			console.log("jsonIdList="+jsonIdList);
+			
+	        $.ajax({
+	            type:"POST",
+	            url:"deleteSAll.do",
+	            dataType:"html",
+	            data:{
+	            	"userId_list": jsonIdList
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+	                 console.log("parseData.flag="+parseData.flag);
+	                 console.log("parseData.message="+parseData.message);
+		         	 if(parseData.flag > 0){
+		         		alert(parseData.message);
+		         		doSearch();
+		         	 }else{
+		         		alert(parseData.message);
+		         		
+		         	 }				             
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+			
+		});//--do_deleteSAll
+		
 		$("#do_delete").on("click",function(){
 			//alert("do_delete");
 			
@@ -301,7 +332,7 @@
 				console.log("index="+index);
 				//console.log("row="+row);
 				var record = $(row).parents("tr");
-				var msgSeq = $(record).find("td").eq(1).text()
+				var userId = $(record).find("td").eq(1).text()
 				console.log("msgSeq="+msgSeq);
 				items.push(msgSeq);
 			});
@@ -345,7 +376,6 @@
 	         });//--ajax
 			
 		});//--do_delete
-
 		
 		//do_save
 		//등록
@@ -366,8 +396,7 @@
 		         	"userId": $("#userId").val(),
 		         	"msgRecvId": $("#msgRecvId").val(),
 		         	"msgCont": $("#msgCont").val(),
-		         	"regDt": $("#regDt").val(),
-		         	"msgReadYn": $("#msgReadYn").val()
+		         	"regDt": $("#regDt").val()
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);
@@ -394,7 +423,19 @@
 			  
 			 var upsert_div = $("#upsert_div").val();
 			 upsert_div = (upsert_div == "")?"update":"";
-			 console.log("upsert_div:"+upsert_div);			 
+			 console.log("upsert_div:"+upsert_div);
+			 var tmpLevel = "BASIC";
+			 
+			 if($("#userIntLevel").val()=="1"){
+				 tmpLevel = "BASIC";
+			 }else if($("#userIntLevel").val()=="2"){
+				 tmpLevel = "SILVER";
+			 }else if($("#userIntLevel").val()=="3"){
+				 tmpLevel = "GOLD";
+			 }
+			 
+			 
+			 
 			 
 		     $.ajax({
 		         type:"POST",
@@ -435,21 +476,31 @@
 			
 			var tr = $(this);
 			var td = tr.children();
-			var msgSeq = td.eq(1).text();
+			var userId = td.eq(1).text();
 			console.log("2 msgSeq="+msgSeq);
 			
-			if(""==msgSeq)return;
+			if(""==userId)return;
 			
 	        $.ajax({
 	            type:"POST",
-	            url:"get.do",
+	            url:"do_search_one.do",
 	            dataType:"html",// JSON
 	            data:{
 	            "msgSeq": msgSeq
 	            },
 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 	              var parseData = $.parseJSON(data);
+	              /* console.log("3 parseData.u_id="+parseData.u_id);
+	              console.log("3 parseData.name="+parseData.name);
+	              console.log("3 parseData.password="+parseData.password);
+	              console.log("3 parseData.login="+parseData.login);
+	              console.log("3 parseData.recommend="+parseData.recommend);
+	              console.log("3 parseData.email="+parseData.email);
+	              console.log("3 parseData.userIntLevel="+parseData.userIntLevel);
+	              console.log("3 parseData.regDt="+parseData.regDt); */
 	              
+	              console.log("3 parseData.userIntLevel="+parseData.userIntLevel);
+
 	              $("#msgSeq").val(parseData.msgSeq);
 	              $("#userId").val(parseData.userId);
 	              $("#msgRecvId").val(parseData.msgRecvId);
@@ -458,7 +509,7 @@
 	              $("#regDt").val(parseData.regDt);
 	              $("#msgReadYn").val(parseData.msgReadYn);
 	              
-	              $("#msgSeq").prop("disabled",true);
+	              $("#userId").prop("disabled",true);
 	            },
 	            complete: function(data){//무조건 수행
 	             
