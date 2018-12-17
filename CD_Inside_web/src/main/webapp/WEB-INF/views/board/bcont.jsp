@@ -63,22 +63,27 @@
 			
 
 							<div class="panel-body">
-								<c:out value="${list.bTitle}"></c:out>
+								<b><c:out value="${list.bTitle}"></c:out></b>
 							</div>
 							<div class="panel-footer">
-								<c:out value="${list.userId}"></c:out>
+								<b><c:out value="${list.userId}"></c:out></b>
+								<d>time:</d><c:out value="${list.regDt}"></c:out>
 							</div>
 		</div>
 
-		<div class="row"></div>
+		<div class="row"></div> 
 
 		<c> <c:out value="${list.bCont}"></c:out> </c>
 
-
 		
 
-
-		<hr style="border: solid 2px gray;">
+		<!-- <hr style="border: solid 2px gray;"> -->
+		
+		<div class="row">
+		  <div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		     <button type="submit" class="btn btn-info">reco+1</button>
+		  </div>
+		</div>
 
 	</div>
 
