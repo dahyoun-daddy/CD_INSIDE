@@ -103,6 +103,7 @@
 	    	}
 	    	
 	    	
+	    	
 
 	    	if(rbyte > maxByte){
 	    	    alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");

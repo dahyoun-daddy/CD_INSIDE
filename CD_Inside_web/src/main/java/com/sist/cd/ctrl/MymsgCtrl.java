@@ -341,6 +341,7 @@ public class MymsgCtrl {
 		
 		int flag = this.msgSvc.deleteRAll(userId);
 		
+		
 		JSONObject object=new JSONObject();
 		
 		if(flag>0) {

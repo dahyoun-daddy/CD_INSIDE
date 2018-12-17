@@ -5,6 +5,7 @@
 <%
 	String context = request.getContextPath();//context path
 
+	
 %>
 <!DOCTYPE html>
 <html lang="ko">

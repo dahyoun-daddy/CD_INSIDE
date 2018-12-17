@@ -297,6 +297,7 @@
 			var jsonIdList = JSON.stringify(items);
 			//jsonIdList=["107","108"]
 			console.log("jsonIdList="+jsonIdList);
+		
 			
 	        $.ajax({
 	            type:"POST",

@@ -356,6 +356,7 @@
 			//jsonIdList=["107","108"]
 			console.log("jsonIdList="+jsonIdList);
 			
+			
 	        $.ajax({
 	            type:"POST",
 	            url:"deleteRAll.do",
