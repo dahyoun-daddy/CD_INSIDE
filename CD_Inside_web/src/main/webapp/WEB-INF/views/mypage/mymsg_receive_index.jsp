@@ -93,21 +93,34 @@
 	<!-- contents -------------------------------------------------------->
 	<div class="container">
 		<!-- Title영역 -->
-		<div class="page-header">
+	
+	<!-- 마이페이지 공통------------------------------------------------------->
+	 <div class="container" style="padding-top:3%">
+	    <div class="col-sm-1" ></div>
+		<div class="col-sm-2" >
+			<a >일반회원</a>님<br/>
+			쪽지<a >value</a> 
 		</div>
-
+		<ul class="nav nav-pills col-sm-9" align="center" >
+		  <li role="presentation" ><a href=user_list.do>회원관리</a></li>
+		  <li role="presentation" ><a href="user_update.jsp">개인정보 수정</a></li>
+		  <li role="presentation" ><a href="user_act.do">활동내역</a></li>
+		  <li role="presentation" class="active"><a href="/cd/msg/receiveIndex.do">쪽지함</a></li>
+		  <li role="presentation" ><a href="/cd/gallog/notebook_home.do">갤로그 가기</a></li>
+		</ul>
+	</div>
+	<!--// 마이페이지 공통------------------------------------------------------->
+	
 		<!-- 이동 버튼 영역------------------------------------------------------->
-		<ul class="nav nav-pills">
+		<div class="container" style="padding-top:3%">
+		<ul class="nav nav-pills col-sm-9">
 			<li role="presentation"class="active"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
 			<li role="presentation"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
 			<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
-		</ul>	
+		</ul>		
+		</div>
+		
 		<!--// 이동 버튼 영역----------------------------------------------------->
-
-		<!-- 버튼 -->
-		<input type="button" class="btn btn-default" value="쪽지쓰기"
-			onclick="showPopup();" />
-		<!--// 버튼 -->
 		
 	</div>
 	<!-- //contents -------------------------------------------------------->
@@ -123,10 +136,10 @@
 
 		<!-- 검색영역 -->
 		<div class="container">
-			<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="text-left col-xs-10 col-sm-10 col-md-10 col-lg-10">
 			</div>
 					
-			<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">		
+			<div class="text-right col-xs-10 col-sm-10 col-md-10 col-lg-10">		
 				<form action="#" class="form-inline">
 					<div class="form-group">
 					

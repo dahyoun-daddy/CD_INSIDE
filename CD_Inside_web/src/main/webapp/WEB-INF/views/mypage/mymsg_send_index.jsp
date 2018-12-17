@@ -91,17 +91,33 @@
 		<!-- Title영역 -->
 		<div class="page-header">
 		</div>
+
+	<!-- 마이페이지 공통------------------------------------------------------->
+	 <div class="container" style="padding-top:3%">
+	    <div class="col-sm-1" ></div>
+		<div class="col-sm-2" >
+			<a >일반회원</a>님<br/>
+			쪽지<a >value</a> 
+		</div>
+		<ul class="nav nav-pills col-sm-9" align="center" >
+		  <li role="presentation" ><a href=user_list.do>회원관리</a></li>
+		  <li role="presentation" ><a href="user_update.jsp">개인정보 수정</a></li>
+		  <li role="presentation" ><a href="user_act.do">활동내역</a></li>
+		  <li role="presentation" class="active"><a href="/cd/msg/receiveIndex.do">쪽지함</a></li>
+		  <li role="presentation" ><a href="/cd/gallog/notebook_home.do">갤로그 가기</a></li>
+		</ul>
+	</div>
+	<br/>
+	<!--// 마이페이지 공통------------------------------------------------------->
+
 		
-		<!-- 버튼 -->
-		<ul class="nav nav-pills">
+		<!-- 이동 버튼 영역------------------------------------------------------->
+		<ul class="nav nav-pills col-sm-9" align="center" >
 		<li role="presentation"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
 		<li role="presentation" class="active"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
 		<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
 		</ul>	
-		
-		<input type="button" class="btn btn-default" value="쪽지쓰기"
-			onclick="showPopup();" />
-		<!--// 버튼 -->
+		<!--// 이동 버튼 영역----------------------------------------------------->
 
 	<!-- 내용 누르면 받은편지 세부내역 나옴 frm_get ----------------------------------------------------------------------->	
 	<form name="frm_get" id="frm" action="sendIndex.do" method="get" class="form-inline">
@@ -118,7 +134,7 @@
 
 		<!-- 검색영역 -->
 		<div class="container">
-			<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<div class="text-right col-xs-10 col-sm-10 col-md-10 col-lg-10">
 				<form action="#" class="form-inline">		
 		
 					<div class="form-group">
@@ -142,12 +158,11 @@
 							onclick="javascript:doSearch();">검색</button>
 						<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
 						<button type="button" class="btn btn-default btn-sm" id="do_deleteSAll">전부삭제</button>						
-		
 					</div>
 				</form>
 			</div>
 		</div>	
-		
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<!--// 검색영역----------------------------------------------------->
 		
 		<!-- Grid영역 -->
@@ -159,11 +174,11 @@
 				style="table-layout :fixed">
 				<thead class="bg-primary">
 				    <tr>
-				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
-						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
-						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
-						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
+				        <th class="text-center col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
+						<th class="text-center col-lg-1">번호</th>
+						<th class="text-center col-lg-2">받는이</th>
+						<th class="text-center col-lg-3">내용</th>
+						<th class="text-center col-lg-3">날짜</th>
 					</tr>
 				</thead>
 				<tbody>  

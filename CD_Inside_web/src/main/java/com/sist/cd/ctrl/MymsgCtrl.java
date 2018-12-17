@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -88,7 +89,8 @@ public class MymsgCtrl {
 	}
 	
 	@RequestMapping(value="/msg/receiveIndex.do")
-	public String do_receiveIndex(@ModelAttribute SearchVO invo,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
+	public String do_receiveIndex(@ModelAttribute SearchVO invo,Model model,  HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
+	
 		log.info("SearchVO: "+invo);
 		//param -> view
 		
@@ -120,12 +122,16 @@ public class MymsgCtrl {
 			log.info("total_cnt: "+total_cnt);
 		}
 		
+		//세션받기
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		
 		//읽지않은쪽지수
-		int n_cnt = msgSvc.getNCount("test");//test가 받은 쪽지 중 안 읽은 쪽지
+		int n_cnt = msgSvc.getNCount(userId);//test가 받은 쪽지 중 안 읽은 쪽지
 		log.info("n_cnt: "+n_cnt);
 
 		//받은쪽지수
-		int t_cnt = msgSvc.getAllCount("test"); //test가 받은 전체 쪽지
+		int t_cnt = msgSvc.getAllCount(userId); //test가 받은 전체 쪽지
 		log.info("t_cnt: "+t_cnt);
 		
 		
