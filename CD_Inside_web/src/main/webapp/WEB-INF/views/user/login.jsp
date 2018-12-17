@@ -94,7 +94,7 @@
 		         	}
 		         	 if(parseData.flag>0){
 		         		alert(parseData.message);
-		         		location.href ="/cd/mypage/user_act.do";
+		         		location.href ="/cd/main/main.do";
 		         	 }else{
 		         		alert(parseData.message);
 		         	 }

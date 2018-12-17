@@ -62,13 +62,13 @@
 	 <div class="container" style="padding-top:3%">
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
-			<a >일반회원</a>님<br/>
+			<a >${sessionName}</a>님<br/>
 			쪽지<a >value</a> 
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
-		  <li role="presentation" ><a href=user_list.do>회원관리</a></li>
-		  <li role="presentation" ><a href="user_update.jsp">개인정보 수정</a></li>
-		  <li role="presentation" class="active" ><a href="user_act.do">활동내역</a></li>
+		  <li role="presentation" ><a href=/cd/mypage/user_list.do>회원관리</a></li>
+		  <li role="presentation" ><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
+		  <li role="presentation" class="active" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
 		  <li role="presentation"><a href="/cd/msg/receiveIndex.do">쪽지함</a></li>
 		  <li role="presentation"><a href="/cd/gallog/notebook_home.do">갤로그 가기</a></li>
 		</ul>

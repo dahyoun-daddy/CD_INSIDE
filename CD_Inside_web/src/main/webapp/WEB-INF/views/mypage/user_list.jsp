@@ -60,12 +60,12 @@
 	 <div class="container" style="padding-top:3%">
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
-			<a >관리자</a>님<br/>
+			<a >${sessionName}</a>님<br/>
 			쪽지 <a > value</a> 
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
-		  <li role="presentation" class="active" ><a href="user_list.do" >회원관리</a></li>
-		  <li role="presentation" ><a href="user_act.do" >활동내역</a></li>
+		  <li role="presentation" class="active" ><a href="/cd/mypage/user_list.do" >회원관리</a></li>
+		  <li role="presentation" ><a href="/cd/mypage/user_act.do" >활동내역</a></li>
 		  <li role="presentation"><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
 		  <li role="presentation"><a href="/cd/gallog/notebook_home.do" >갤로그 가기</a></li>
 		</ul>
@@ -176,6 +176,41 @@
 	
     $(document).ready(function(){   
 		
+    	
+    	$("#listTable>tbody").on("dblclick","tr",function(){
+			var record = $(row).parents("tr");
+			var userId = $(record).find("td").eq(2).text();
+			
+	        $.ajax({
+	            type:"POST",
+	            url:"selectOne.do",
+	            dataType:"html",
+	            data:{
+	            	"userId": userId
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+	                 console.log("parseData.flag="+parseData.flag);
+	                 console.log("parseData.message="+parseData.message);
+		         	 if(parseData.flag > 0){
+		         		alert(parseData.message);
+		         		location.href=""
+		         	 }else{
+		         		alert(parseData.message);
+		         		
+		         	 }				             
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+    		
+    	});
+    	
+    	
 		$("#do_delete").on("click",function(){
 			//alert("do_delete");
 			
@@ -184,7 +219,7 @@
 				console.log("index="+index);
 				//console.log("row="+row);
 				var record = $(row).parents("tr");
-				var userId = $(record).find("td").eq(2).text()
+				var userId = $(record).find("td").eq(2).text();
 				console.log("userId="+userId);
 				items.push(userId);
 			});
