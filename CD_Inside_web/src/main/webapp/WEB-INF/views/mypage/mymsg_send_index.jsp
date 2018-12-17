@@ -87,10 +87,9 @@
   </head>
   <body>
 	<!-- contents -------------------------------------------------------->
-	<div class="container-fluid">
+	<div class="container">
 		<!-- Title영역 -->
 		<div class="page-header">
-			<h1>보낸쪽지함</h1>
 		</div>
 		
 		<!-- 버튼 -->
@@ -118,7 +117,7 @@
 		<input type="hidden" name="page_num" id="page_num">
 
 		<!-- 검색영역 -->
-		<div class="container-fluid">
+		<div class="container">
 			<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<form action="#" class="form-inline">		
 		
@@ -152,7 +151,7 @@
 		<!--// 검색영역----------------------------------------------------->
 		
 		<!-- Grid영역 -->
-		<div class="container-fluid" 
+		<div class="container" 
 		style="position:relative; width=200px; text-overflow:ellipsis;overflow:hidden; cursor:hand" >
 			<nobr>
 			

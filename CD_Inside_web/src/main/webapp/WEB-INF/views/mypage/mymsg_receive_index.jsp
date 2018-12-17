@@ -91,10 +91,9 @@
   </head>
   <body>
 	<!-- contents -------------------------------------------------------->
-	<div class="container-fluid">
+	<div class="container">
 		<!-- Title영역 -->
 		<div class="page-header">
-			<h1>받은쪽지함</h1>
 		</div>
 
 		<!-- 이동 버튼 영역------------------------------------------------------->
@@ -123,7 +122,7 @@
 		<input type="hidden" name="msgSeq" id="msgSeq">
 
 		<!-- 검색영역 -->
-		<div class="container-fluid">
+		<div class="container">
 			<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			</div>
 					
@@ -164,7 +163,7 @@
 		<!--// 검색영역----------------------------------------------------->
 		
 		<!-- Grid영역 -->
-		<div class="container-fluid" 
+		<div class="container" 
 		style="position:relative; width=200px; text-overflow:ellipsis;overflow:hidden; cursor:hand" >
 			<nobr>
 			
