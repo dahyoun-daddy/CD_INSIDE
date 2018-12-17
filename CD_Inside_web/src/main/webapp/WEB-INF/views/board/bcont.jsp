@@ -45,47 +45,50 @@
 	/* inline-block space fix */
 	margin-right: -4px;
 }
-</style>
 
 
-</head>
+</style> 
+ 
+
+</head>  
 <body>
 
-	<div class="container">
-		<div>
-		<button class="update" href="/cd/board/update.do"> 수정 버튼 </button>
-		<button class="update"> 삭제 버튼  </button> 
-		</div>
-
-
-
-		<div class="panel panel-primary">
-			
-
-							<div class="panel-body">
-								<b><c:out value="${list.bTitle}"></c:out></b>
-							</div>
-							<div class="panel-footer">
-								<b><c:out value="${list.userId}"></c:out></b>
-								<d>time:</d><c:out value="${list.regDt}"></c:out>
-							</div>
-		</div>
-
-		<div class="row"></div> 
-
-		<c> <c:out value="${list.bCont}"></c:out> </c>
-
+	<div style="width:900px;" class="container">
+		<div style="padding-top : 40px;">
+		  <input style="float:right; " class="btn btn-default" type="button"  value="수정" />
+		  <button style="float:right;" type="submit" class="btn btn-default">삭제</button>
 		
+   
+		      
+		     <div style=" color:black; font-size:20px;"  class="row" >
+		     <div style="float:left;"> <b><c:out value="${list.bTitle}"></c:out> </b></div>
+		     </div>
+		     </div> 
+		     
+		    <div style="color:white; background-color:#BF00FF; border-top:3px solid black; padding:7px; " class="row" >
+  				<div style="float:left;"><b><c:out value="${list.userId}"></c:out></b></div>
+              <div style="float:left;"><b><c:out value="${list.regDt}"></c:out></b></div>
+		       <div style="float:right;"><b>+<c:out value="${list.bHit}"></c:out></b></div>
+           </div>  
+           
+              <div class="row" >
+              <!-- float 속성에 따른 div의 겹침 현상 -->
+                <div style=”clear:both;”></div>
+	             <div style="border-bottom:1px solid;"><c:out value="${list.bCont}"></c:out></div> 
+	     		  </div>  
+		 <div style=”clear:both;”></div>
 
+		 
+    
 		<!-- <hr style="border: solid 2px gray;"> -->
-		
+		 
 		<div class="row">
 		  <div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		     <button type="submit" class="btn btn-info">reco+1</button>
+		     <button type="submit" class="btn btn-default">추천+1</button>
 		  </div>
 		</div>
+</div>
 
-	</div>
 
 
 </body>

@@ -70,13 +70,13 @@
 				b_cont,
 				b_cate,
 				b_hit,
-				CASE WHEN to_char(b.reg_dt,'YYYY/MM/DD HH') =to_char(sysdate,'YYYY/MM/DD HH')THEN to_number(to_char(sysdate, 'HHMI'))-to_number(to_char(b.reg_dt, 'HHMI'))||' '||'분 전'
-         				     WHEN to_char(b.reg_dt,'YYYY/MM/DD')    =to_char(sysdate,'YYYY/MM/DD')   THEN to_number(to_char(sysdate, 'HH'))  -to_number(to_char(b.reg_dt, 'HH'))  ||' '||'시간 전'
-	       			     WHEN to_char(b.reg_dt,'YYYY/MM')       =to_char(sysdate,'YYYY/MM')      THEN to_number(to_char(sysdate, 'DD'))  -to_number(to_char(b.reg_dt, 'DD'))  ||' '||'일 전'
-                          ELSE to_char(b.reg_dt,'YYYY/MM/DD') end  reg_dt,
+						CASE WHEN to_char(reg_dt,'YYYY/MM/DD HH') =to_char(sysdate,'YYYY/MM/DD HH')THEN to_number(to_char(sysdate, 'HHMI'))-to_number(to_char(reg_dt, 'HHMI'))||' '||'분 전'
+         				     WHEN to_char(reg_dt,'YYYY/MM/DD')    =to_char(sysdate,'YYYY/MM/DD')   THEN to_number(to_char(sysdate, 'HH'))  -to_number(to_char(reg_dt, 'HH'))  ||' '||'시간 전'
+	       			     WHEN to_char(reg_dt,'YYYY/MM')       =to_char(sysdate,'YYYY/MM')      THEN to_number(to_char(sysdate, 'DD'))  -to_number(to_char(reg_dt, 'DD'))  ||' '||'일 전'
+                          ELSE to_char(reg_dt,'YYYY/MM/DD') end  reg_dt,
 				mod_id,
-				mod_dt,
-				b_visit_cnt
+				mod_dt, 
+				b_visit_cnt  
 		   FROM board
 		  WHERE b_num = #{bNum}
 	</select>
