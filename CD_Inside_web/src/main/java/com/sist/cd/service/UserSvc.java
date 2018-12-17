@@ -3,6 +3,8 @@ package com.sist.cd.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.sist.cd.common.DuplicateUserIdException;
@@ -23,7 +25,7 @@ public interface UserSvc {
 	int loginIdFind (UserVO userVO)throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
 	
 	/** 로그인*/
-	int login (UserVO userVO)throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
+	int login (UserVO userVO )throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
 	
 	int uUpdate (UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException ;
 	
