@@ -35,8 +35,7 @@
 		<!-- 입력폼 -->
 		<hr/>
 
-	
-        <form  name="frm" id="frm" action="save.do" method="get" class="form-horizontal">
+        <form  name="frm" id="frm" action="add.do" method="get" class="form-horizontal">
 		  <div class="form-group">
 	  		<input type="hidden" name="msgSeq" id="msgSeq" value="${list.msgSeq}">		  
 		    <label for="msgRectRecvId" class="col-sm-2 control-label">받는이</label>
@@ -59,7 +58,7 @@
 		<!-- 버튼 -->
 		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">
-		    <button type="submit" class="btn btn-default" id="do_save">보내기</button>
+		    <button type="submit" class="btn btn-default" id="do_add">보내기</button>
 		    <button type="submit" class="btn btn-default" id="do_cancel" onclick="closePopup();">취소</button>	
 		  </div>
 		</div>
@@ -118,17 +117,17 @@
 	    
 	    $(document).ready(function(){   
 	    	
-	    	$("#do_save").on("click",function(){
+	    	$("#do_add").on("click",function(){
 	    		
 				 if(false==confirm("전송 하시겠습니까?"))return;
 				  
 			     $.ajax({
 			         type:"POST",
-			         url:"save.do",
+			         url:"add.do",
 			         dataType:"html",// JSON
 			         data:{
 			        	"msgSeq": "msgSeq",
-			         	"userId": "test",
+			         	"userId": $("#msgRecvId").val(),
 				        "msgRecvId": $("#msgRecvId").val(),
 				        "msgCont": $("#msgCont").val()
 			         },

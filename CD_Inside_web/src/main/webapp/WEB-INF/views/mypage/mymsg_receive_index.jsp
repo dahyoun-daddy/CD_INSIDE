@@ -320,6 +320,7 @@
 	                 console.log("parseData.message="+parseData.message);
 		         	 if(parseData.flag > 0){
 		         		alert(parseData.message);
+		         		location.href="receiveIndex.do";
 		         	//	doSearch();
 		         	 }else{
 		         		alert(parseData.message);
@@ -330,7 +331,7 @@
 	             
 	            },
 	            error: function(xhr,status,error){
-	             
+	            	
 	            }
 	         });//--ajax
 			
@@ -368,6 +369,8 @@
 	                 console.log("parseData.message="+parseData.message);
 		         	 if(parseData.flag > 0){
 		         		alert(parseData.message);
+		         		location.href="receiveIndex.do";
+
 		         //		doSearch();
 		         	 }else{
 		         		alert(parseData.message);
@@ -378,7 +381,7 @@
 	             
 	            },
 	            error: function(xhr,status,error){
-	             
+ 
 	            }
 	         });//--ajax
 			
@@ -431,7 +434,7 @@
 	             
 	            },
 	            error: function(xhr,status,error){
-	             
+
 	            }
 	         });//--ajax
 			

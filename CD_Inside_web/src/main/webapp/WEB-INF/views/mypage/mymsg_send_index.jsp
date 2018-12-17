@@ -311,6 +311,8 @@
 	                 console.log("parseData.message="+parseData.message);
 		         	 if(parseData.flag > 0){
 		         		alert(parseData.message);
+		         		location.href="receiveIndex.do";
+
 		         		doSearch();
 		         	 }else{
 		         		alert(parseData.message);

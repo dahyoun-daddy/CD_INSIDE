@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.sist.cd.common.SearchVO;
+import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.CodeVO;
 import com.sist.cd.domain.GallogVO;
 import com.sist.cd.domain.MsgVO;
@@ -127,7 +128,7 @@ public class MymsgCtrl {
 		String userId = (String) session.getAttribute("sessionId");
 		
 		//읽지않은쪽지수
-		int n_cnt = msgSvc.getNCount(userId);//test가 받은 쪽지 중 안 읽은 쪽지
+		int n_cnt = msgSvc.getNCount(userId);//"test"가 받은 쪽지 중 안 읽은 쪽지
 		log.info("n_cnt: "+n_cnt);
 
 		//받은쪽지수
@@ -199,11 +200,11 @@ public class MymsgCtrl {
 	        ,produces="application/json;charset=utf8"  
 	)
 	@ResponseBody
-	public String save(@ModelAttribute MsgVO msgVO, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+	public String add(@ModelAttribute MsgVO msgVO, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		
-		log.info("!2========================");
+		log.info("2========================");
 		log.info("msgVO="+msgVO);
-		log.info("!2========================");	
+		log.info("2========================");	
 		
 		//등록		
 		int flag = msgSvc.add(msgVO);
@@ -289,8 +290,11 @@ public class MymsgCtrl {
 			paramList.add(vo);
 		}
 		log.info("paramList: "+paramList);
+		//세션받기
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
 		
-		int flag = this.msgSvc.deleteSAll("test");
+		int flag = this.msgSvc.deleteSAll(userId);
 		
 		JSONObject object=new JSONObject();
 		
@@ -331,8 +335,11 @@ public class MymsgCtrl {
 			paramList.add(vo);
 		}
 		log.info("paramList: "+paramList);
+		//세션받기
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
 		
-		int flag = this.msgSvc.deleteRAll("test");
+		int flag = this.msgSvc.deleteRAll(userId);
 		
 		JSONObject object=new JSONObject();
 		
@@ -374,7 +381,11 @@ public class MymsgCtrl {
 		}
 		log.info("paramList: "+paramList);
 		
-		int flag = this.msgSvc.deleteN("test");
+		//세션받기
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		
+		int flag = this.msgSvc.deleteN(userId);
 		
 		JSONObject object=new JSONObject();
 		
@@ -398,12 +409,11 @@ public class MymsgCtrl {
 
 	@RequestMapping(value="/msg/getR.do",produces="application/json;charset=utf8"  
 	)
-	public String getR(@ModelAttribute SearchVO invo, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+	public String getR(@ModelAttribute MsgVO invo, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 	String msgSeq = req.getParameter("msgSeq");
 	log.info("2========================");
 	log.info("get="+msgSeq);
 	log.info("2========================");	
-
 	
 	//-----------------------------------------------
 	//누르면 update 써서 읽지않음 -> 읽음 으로 바꾸기   실시간 x
@@ -412,8 +422,6 @@ public class MymsgCtrl {
 	msgVO.setMsgSeq(msgSeq);	
 	int outVO1 = msgSvc.updateReadCheck(msgVO);
 
-
-	
 	return RECEIVE;
 	}
 	
@@ -431,43 +439,42 @@ public class MymsgCtrl {
 	}	
 //선택-----------------------------------------------------------------------------------
 
-	
-	@RequestMapping(value="/mypage/update.do",method=RequestMethod.POST
-	        ,produces="application/json;charset=utf8"  
-	)
-	@ResponseBody
-	public String update(@ModelAttribute MsgVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
-		String upsert_div = req.getParameter("upsert_div");
-		
-		log.info("2========================");
-		log.info("invo="+invo);
-		log.info("upsert_div="+upsert_div);
-		
-		log.info("2========================");	
-		
-		int flag = 0;
-		//수정
-		
-		//등록		
-		flag = msgSvc.do_upsert(invo);
-		 
-		JSONObject object=new JSONObject();
-		
-		if(flag>0) {
-			object.put("flag", flag);
-			object.put("message", "등록 되었습니다.");
-		}else {
-			object.put("flag", flag);
-			object.put("message", "등록 실패^^.");			
-		}
-		
-		String jsonData = object.toJSONString();
-		
-		log.info("3========================");
-		log.info("jsonData="+jsonData);
-		log.info("3========================");			
-		return jsonData;
-	}	 
+//	@RequestMapping(value="/mypage/update.do",method=RequestMethod.POST
+//	        ,produces="application/json;charset=utf8"  
+//	)
+//	@ResponseBody
+//	public String update(@ModelAttribute MsgVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+//		String upsert_div = req.getParameter("upsert_div");
+//		
+//		log.info("2========================");
+//		log.info("invo="+invo);
+//		log.info("upsert_div="+upsert_div);
+//		
+//		log.info("2========================");	
+//		
+//		int flag = 0;
+//		//수정
+//		
+//		//등록		
+//		flag = msgSvc.do_upsert(invo);
+//		 
+//		JSONObject object=new JSONObject();
+//		
+//		if(flag>0) {
+//			object.put("flag", flag);
+//			object.put("message", "등록 되었습니다.");
+//		}else {
+//			object.put("flag", flag);
+//			object.put("message", "등록 실패^^.");			
+//		}
+//		
+//		String jsonData = object.toJSONString();
+//		
+//		log.info("3========================");
+//		log.info("jsonData="+jsonData);
+//		log.info("3========================");			
+//		return jsonData;
+//	}	 
 	
 
 

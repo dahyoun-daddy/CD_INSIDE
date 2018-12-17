@@ -67,7 +67,7 @@
 		
 		
 		<!--출력 영역 ------------------------------------------------------------->
-		<form  name="frm" id="frm" action="receive.do" method="get" class="form-inline">
+		<form  name="frm" id="frm" action="get" method="get" class="form-inline">
 		<input type="hidden" name="msgSeq" id="msgSeq">
 			<c:choose>
 				<c:when test="${list.size()>0}">
@@ -125,6 +125,8 @@
         	frm.submit();
         }
 
+        
+        
 	    $(document).ready(function(){
 	    	//alert("ready");
 	    	
