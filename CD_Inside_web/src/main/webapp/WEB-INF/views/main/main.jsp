@@ -104,7 +104,7 @@ a {
 </style>
 </head>
 <body>
-
+		<div class="container">
 	<div class="mainall">
 		<div class="left-box">
 				<div class="boardTitleDiv">
@@ -179,6 +179,7 @@ a {
 		</div>
 		
 	</div>
-	
+	 
+	</div>
 </body>
 </html>

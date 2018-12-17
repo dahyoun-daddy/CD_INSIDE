@@ -49,7 +49,7 @@ public class MainCtrl {
 		List<BoardVO> hitList = boardSvc.do_hitretreive(invo);
 		model.addAttribute("hitList", hitList);
 		
-		return "/main/main";
-	}
+		return "/main/main.do";
+	} 
 	
 }

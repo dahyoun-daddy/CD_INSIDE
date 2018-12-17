@@ -35,8 +35,8 @@
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="row">
-        <div class="site-logo">
-          <a href="main.jsp" class="brand">Class D Inside</a>
+        <div class="site-logo">  
+          <a href="/cd/main/main.do" class="brand">Class D Inside</a>
         </div>
 
         <!-- Brand and toggle get grouped for better mobile display -->
