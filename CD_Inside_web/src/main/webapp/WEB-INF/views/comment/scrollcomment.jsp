@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>댓글</title>
 <style type="text/css">
-.container {
+.container{
 	margin-top: 30px;
 }
  
@@ -199,9 +199,18 @@ $(document).on('click','#coomentDelete', function() {
 	};
 	commentAjax(params,"deleteComment.do");
 
-	var replyDiv = $(parent).next();
-	var replyDivclass = $(replyDiv).attr('class');
-	parent.remove();
+	var next = parent.next();
+	var nextClass = next.attr('class');
+		
+	if(nextClass=='replyDiv'){
+		alert('대댓글까지 전부삭제');
+		$(next).remove();
+	}else if (nextClass=='addReplyDiv'){
+		alert('대댓글까지 전부삭제');
+		$(next).remove();
+	}
+	
+	$(parent).remove();
 });
   
 //댓글달기
@@ -339,9 +348,11 @@ $(document).on('click','#replyadd', function() {
 				+				'</div>'
 				+			'</div>'
 				
-		  		str +=		'<div class="container ">' 
+		  		str +=		'<divc class="addReplyDiv">'
+		  			+		'<div class="container">' 
 					+		'<div class="media_reply">' 
 					+ 			divIn
+					+		'</div>'
 					+		'</div>'
 					+		'</div>';
 					
@@ -534,7 +545,7 @@ $(document).on('click','.cursor_reply', function() {
 			    	var nextClass = next.attr('class');
 			    	alert(nextClass);
 			    		
-			    	if(nextClass=='container '){
+			    	if(nextClass=='container'){
 			    		alert('remove');
 			    		$(next).remove();
 			    	}
