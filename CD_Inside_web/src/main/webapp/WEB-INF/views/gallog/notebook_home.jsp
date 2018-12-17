@@ -109,7 +109,7 @@
 								<c:out value="${gallogVo.regDt}"></c:out>
 							</div>
 						</div>
-						<div id="contents">
+						<div id="contents" style="width:955px;word-break:break-all;word-wrap:break-word;">
 						<hr/>
 							<c:out value="${gallogVo.gCont}"></c:out>
 						</div>

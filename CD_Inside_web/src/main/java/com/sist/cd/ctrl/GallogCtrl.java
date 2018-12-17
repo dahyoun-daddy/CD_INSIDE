@@ -459,4 +459,37 @@ public class GallogCtrl {
 		return GUEST_BOOK;
 	}
 	
+	@RequestMapping(value="/gallog/pwCheck.do",method=RequestMethod.POST
+	        ,produces="application/json;charset=utf8"  
+	)
+	@ResponseBody
+	public String pwCheck(@ModelAttribute GallogVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		
+		log.info("!2========================");
+		log.info("invo="+invo);
+		log.info("!2========================");	
+		
+		//수정
+		
+		//등록		
+		int flag = gallogSvc.pwCheck(invo);
+		 
+		JSONObject object=new JSONObject();
+		
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "비밀번호 일치");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "비밀번호를 확인해주세요.");			
+		}
+		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+	}	 
+	
 }

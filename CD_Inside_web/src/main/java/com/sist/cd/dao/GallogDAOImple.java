@@ -111,4 +111,15 @@ public class GallogDAOImple implements GallogDAO {
 		return flag;
 	}
 
+	@Override
+	public int pwCheck(GallogVO gallogVO) throws SQLException {
+		String statement = NAME_SPACE+".pwCheck";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+gallogVO);
+		int flag  = this.sqlSession.selectOne(statement, gallogVO);
+		log.debug("3.flag: "+flag);
+		
+		return flag;
+	}
+
 }
