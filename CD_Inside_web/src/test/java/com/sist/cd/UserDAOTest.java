@@ -121,7 +121,7 @@ public class UserDAOTest {
 	}
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void deleteComm() throws SQLException, EmptyResultDataAccessException, ClassNotFoundException {
 		CommentVO vo = new CommentVO();	
 		vo.setPage_size(10);
@@ -145,7 +145,7 @@ public class UserDAOTest {
 	}
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void idCommnet() throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		CommentVO vo = new CommentVO();
 		vo.setPage_size(10);
@@ -163,7 +163,9 @@ public class UserDAOTest {
 		UserVO vo = new UserVO();
 		vo.setUserId("user");
 		vo.setUserPw("1212");
-		int flag = userDao.login(vo);
+//		UserVO outVo = userDao.login(vo);
+		LOG.info(";;;;;;;;;;;;;outVo;;;;;;;;;;"+userDao.selectOne(vo));
+		int flag = userDao.loginIdFind(vo);
 		if(flag>0) {
 			LOG.info("login()***로그인 성공 flag = "+flag);
 		}else {
@@ -173,14 +175,14 @@ public class UserDAOTest {
 	}
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void do_retrieve() throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		List<UserVO> list =userDao.do_retrieve(searchVO);
 		LOG.info("*do_retrieve* : "+list);
 	}
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void pwFind() throws SQLException, ClassNotFoundException {
 		UserVO inVo = new UserVO();
 		inVo.setUserId("uuser");
@@ -202,7 +204,7 @@ public class UserDAOTest {
 	}
 
 	@Test
-//	@Ignore
+	@Ignore
 	public void uUpdate() throws SQLException, ClassNotFoundException {
 		UserVO inVo = new UserVO();
 		inVo.setUserId("14user");
@@ -224,7 +226,7 @@ public class UserDAOTest {
 	}
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void idFind() throws SQLException, ClassNotFoundException {
 		UserVO vo = new UserVO();
 		vo.setUserName("dlfma4");
@@ -236,7 +238,7 @@ public class UserDAOTest {
 	}
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void idCheck() throws SQLException, ClassNotFoundException {
 		UserVO vo = new UserVO();
 		vo.setUserId("111user");
@@ -245,7 +247,7 @@ public class UserDAOTest {
 	}
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void selectOne() throws SQLException, ClassNotFoundException {
 		UserVO vo = new UserVO();
 		vo.setUserId("11user");
@@ -254,7 +256,7 @@ public class UserDAOTest {
 	
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void update() throws SQLException, ClassNotFoundException {
 		//회원 개인정보 수정
 		UserVO vo = new UserVO("11user","test22","11234","22@z.z","수정2","수정2","11user");
@@ -266,7 +268,7 @@ public class UserDAOTest {
 	
 	
 	@Test
-//	@Ignore
+	@Ignore
 	public void deleteAndSave() throws SQLException, ClassNotFoundException {
 		userDao.delete(inVO1);
 		userDao.delete(inVO2);

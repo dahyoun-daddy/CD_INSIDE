@@ -98,9 +98,10 @@ public class UserDAOImple implements UserDAO{
 	public int login(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		String statement = NAME_SPACE+".user_login";
 		log.info("1.statement: "+statement);
-		log.info("2.param: "+userVO);
-
-		int flag  = this.sqlSession.selectOne(statement, userVO);
+		log.debug("2.param: "+userVO);
+//		UserVO outVO = this.sqlSession.selectOne(statement, userVO);
+//		log.debug("3.outVO: "+outVO);
+		int flag = this.sqlSession.selectOne(statement, userVO);
 		log.debug("3.flag: "+flag);
 		return flag;
 	}

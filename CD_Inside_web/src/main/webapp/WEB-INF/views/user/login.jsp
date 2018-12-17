@@ -22,7 +22,7 @@
 	     </div>
 	     
 	      <div class=" col-xs-10 col-sm-10 col-md-10 col-lg-10">
-		      <form class="form-horizontal" action="" method="post" name="frmLogin" id="frmLogin">
+		      <form class="form-horizontal" action="" method="POST" name="frmLogin" id="frmLogin">
 		         <input type="hidden" name="work_div"  >
 		   		 <div class="form-group input-sm" align="center">
 		   		    <input type="text"  class="form-control" style="WIDTH: 300px" name="userId"  id="userId"  placeholder="아이디">
@@ -80,7 +80,7 @@
 			
 			$.ajax({
 		         type:"POST",
-		         url:"user_login.do",
+		         url:"login_act.do",
 		         dataType:"html",// JSON
 		         data:{
 		         	"userId"  : $("#userId").val(),
@@ -94,9 +94,10 @@
 		         	}
 		         	 if(parseData.flag>0){
 		         		alert(parseData.message);
+		         		location.href ="/cd/mypage/user_act.do";
 		         	 }else{
 		         		alert(parseData.message);
-		         	 }				          
+		         	 }
 		         },
 		         complete: function(data){//무조건 수행
 		          

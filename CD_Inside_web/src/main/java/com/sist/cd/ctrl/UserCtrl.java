@@ -1,10 +1,14 @@
 package com.sist.cd.ctrl;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.sist.cd.common.SearchVO;
+import com.sist.cd.common.StringUtil;
 import com.sist.cd.ctrl.UserCtrl;
 import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.CodeVO;
@@ -46,7 +51,10 @@ public class UserCtrl {
 		String aTag = req.getParameter("aTag");
 		log.info(">>>>>>>aTag:" + aTag);
 		
-		invo.setUserId("test"); //TODO 세션 받을곳
+		//세션받기
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		invo.setUserId(userId); //TODO 세션 받을곳
 		
 		String page_num = (String) req.getParameter("page_num");
 		if (page_num == null) {
@@ -226,46 +234,92 @@ public class UserCtrl {
 	 * 로그인 
 	 * (아이디 없으면 등록한정보없음)
 	 * (아이디와 비밀번호가 틀리면 다시확인)
+	 * @throws IOException 
 	 */
-	@RequestMapping(value="/user/user_login.do",method=RequestMethod.POST
-	        ,produces="application/json;charset=UTF-8" )
+	@RequestMapping(value="/user/login_act.do",method=RequestMethod.POST 
+			  ,produces="application/json;charset=UTF-8" )
 	@ResponseBody
-	public String login(HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+	public String login(HttpServletResponse res,HttpServletRequest req, HttpSession session, Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, IOException {
+		//TODO 로그인좀제발
 		String userId = req.getParameter("userId");
 		String userPw = req.getParameter("userPw");
 		
 		UserVO loginVo = new UserVO();
 		
 		
-		loginVo.setUserId(userId);
-		loginVo.setUserPw(userPw);
-		log.info("userVO : "+loginVo);
-
-		int flag1 = this.userSvc.loginIdFind(loginVo);
-		int flag = this.userSvc.login(loginVo);
-		JSONObject object=new JSONObject();
+		loginVo.setUserId(StringUtil.nvl(userId,""));
+		loginVo.setUserPw(StringUtil.nvl(userPw,""));
+		log.info("***userVO : "+loginVo);
 		
+	    
+	    
+		int flag1 = userSvc.loginIdFind(loginVo); //아이디 있는지 확인
+		int flag = userSvc.login(loginVo);//로그인 맞게입력시 result=1
+		JSONObject object=new JSONObject();
+		UserVO outVO = new UserVO();
 		if(flag1<=0) {
 			object.put("flag1", flag1);
 		}
+		
+		if(flag>0) {
+//			out.println("<script>alert('"+outVO.getUserName()+"님 로그인 되었습니다.'); </script>");
+			object.put("flag", flag);
+			object.put("message", outVO.getUserName()+"님 환영합니다.");
+			
+			outVO=userSvc.selectOne(loginVo);
+//			boolean create = true;         
+//			session = req.getSession(create);
+			// Step 2: Get the session data value
+			Integer ival = null;         
+			session.getAttribute ("session_counter");         
+			if (ival == null) ival = new Integer (1);         
+			else ival = new Integer (ival.intValue () + 1);  
+			session.setAttribute("sessionId", outVO.getUserId());
+			session.setAttribute("sessionName", outVO.getUserName());
+			session.setAttribute("sessionYn", outVO.getUserYn());
+			log.info("****session : "+session.getAttribute("sessionId"));
+			
+		}else {
+//			out.println("<script>alert('아이디와 비밀번호를 확인하세요.'); </script>");
+			object.put("flag", flag);
+			object.put("message", "비밀번호를 확인하세요.");
+		}
+
 		log.info("****flag1 : "+flag1);
-		UserVO outVO = this.userSvc.selectOne(loginVo);
+		
+		// Step 1: Get the Session object
+
+		
+//		log.info("***outVO!!! : "+outVO);
 		if(flag>0) {
 			object.put("flag", flag);
 			object.put("message", outVO.getUserName()+"님 환영합니다.");
-		}else {
-			object.put("flag", flag);
-			object.put("message", "아이디와 비밀번호를 확인하세요.");			
 		}
-		
+		else {
+			object.put("flag", flag);
+			object.put("message", "비밀번호를 확인하세요.");
+		}
 		String jsonData = object.toJSONString();
-		
-		log.info("3========================");
-		log.info("jsonData="+jsonData);
-		log.info("3========================");			
+//		
+//		log.info("3========================");
+//		log.info("jsonData="+jsonData);
+//		log.info("3========================");
+//		return "/mypage/user_act.do";
 		return jsonData;
 		
 	}
+	
+    // 로그아웃
+	@RequestMapping(value="/user/logout.do",method=RequestMethod.GET )
+    public String logout(HttpSession session, HttpServletRequest req, HttpServletResponse res) {
+//		
+//		session.setAttribute("sessionId", null);
+//		session.setAttribute("sessionName", null);
+//		session.setAttribute("sessionYn", null);
+//		
+    	session.invalidate();//세션 해제
+        return "redirect:/user/login.do";
+    }
 	
 	/**
 	 * 이름 중복확인
@@ -547,8 +601,6 @@ public class UserCtrl {
 	@RequestMapping(value="/user/user_id.do")	
 	public String user_id_view() {
 		log.info("=====user_id_view======");
-		
-		
 		return "/user/user_id.do";
 	}
 	
