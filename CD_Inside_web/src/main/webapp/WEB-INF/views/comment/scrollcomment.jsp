@@ -91,6 +91,15 @@
 	margin-top: 10px;
 }
 
+.cursor_reply_hide {
+	color: black;
+	cursor: pointer;
+}
+
+.cursor_reply_hide:hover {
+	text-decoration:none;
+}
+
 </style>
 <script src="<%=context%>/resources/js/jquery.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -189,7 +198,10 @@ $(document).on('click','#coomentDelete', function() {
 		commGroupNo : commGroupNo
 	};
 	commentAjax(params,"deleteComment.do");
-	$(parent).remove();
+
+	var replyDiv = $(parent).next();
+	var replyDivclass = $(replyDiv).attr('class');
+	parent.remove();
 });
   
 //댓글달기
@@ -277,11 +289,77 @@ $(document).on('click','#replyadd', function() {
 	var commTextNum = $(parent).find(".commTextNum").val();
 	var cont   = $(parent).find("#commentReplyTextarea").val(); 
 	var commGroupNo = $(parent).find(".commGroupNo").val();
-	var params = {
-			commCont    : cont,
-			commGroupNo : commGroupNo
-	};
-	commentAjax(params,"addreplyComment.do");
+	var next = parent.next();
+	var nextClass = next.attr('class');
+	
+	$.ajax({
+		 type : "POST", 
+		 url : "addreplyComment.do",    
+      dataType:"json",// JSON
+      data:{
+          "userId": 'test',
+          "commCont": cont,
+          "bNum": '1',
+          "commGroupNo" : commGroupNo,
+          "modId": '1'
+      },
+		success : function(data) {//통신이 성공적으로 이루어 졌을때 받을 함수
+			var str ='';
+			var divIn = '';
+			divIn += 	'<div class="media-heading">'
+				+				'<div id="container">'
+				+					'<div>'
+				+						'<label class="commId">' + data.userId + '</label>&nbsp;'
+				+						'<label class="commTime">' + data.regDt + '</label>'
+				+					'</div>'
+				+					'<input type="hidden" class="commTextNum" value="' + data.commTextNum + '"/>'
+				+					'<input type="hidden" class="commGroupNo" value="' + data.commGroupNo + '"/>'
+				+					'<input type="hidden" class="commDepth" value="' + data.commDepth + '"/>'
+				+				'</div>'
+				+			'</div>'
+				+			'<div class="p">'
+				+				'<p>'+data.commCont+'</p>'
+				+			'</div>'
+				+				'<img class="cursor" id="like" src="/cd/resources/img/like.jpg"'
+				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
+				+					'width="30px" height="30px"/>&nbsp;'
+				+				'<label class="hitNum">'+'0'+'</label>'
+				+				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-expanded="false" aria-controls="commentReplyadd' + data.commTextNum + '" href="#commentReplyadd' + data.commTextNum + '">답글</a>'
+				+				'&nbsp;'
+				+				'<a class="cursor" id="commentUpdate" >수정</a>'
+				+				'&nbsp;'
+				+				'<a class="cursor" id="coomentDelete" >삭제</a>'
+				+			'<div class="comment-meta">'
+				+				'<div class="bocollapse collapse" id="commentReplyadd' + data.commTextNum + '">'
+				+					'<div class="form-group">'
+				+						'<label for="comment">답글</label>'
+				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
+				+					'</div>'
+				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
+				+				'</div>'
+				+			'</div>'
+				
+		  		str +=		'<div class="container ">' 
+					+		'<div class="media_reply">' 
+					+ 			divIn
+					+		'</div>'
+					+		'</div>';
+					
+			if(nextClass=='replyDiv'){
+				alert('comehere');
+				$(next).prepend(str);
+			}else{
+				$(parent).after(str); 
+			}
+		},
+      complete: function(data){//무조건 수행
+      	
+      },
+      error: function(xhr,status,error){
+   	   
+      }
+	});
+	
 });
 
 function bigImg(x) {
@@ -349,11 +427,144 @@ function commentAjax(params,url){
 	});
 }
 
+//대댓글 감추기
+$(document).on('click','.cursor_reply_hide', function() {
+	var text = $(this).attr('replyNum');
+	var parent = $(this).parents(".container");
+	var replyDiv = parent.next();
+	replyDiv.hide();
+	$('.onlyHidden').show();
+	$(this).attr("class","cursor_reply");
+	$(this).text(text);
+});
+
+//대댓글 출력
+$(document).on('click','.cursor_reply', function() {
+	var parent = $(this).parents(".container");
+	var commTextNum = $(parent).find(".commTextNum").val();
+	var commGroupNo = $(parent).find(".commGroupNo").val();
+	
+	var page_num = 1;
+	var page_size = 10;
+	
+	var target = $(this).text();
+	var num = target.replace(/[^0-9]/g,"");
+	
+	var body = $(this);
+	
+	$('.fakeLoading2').remove();
+	$(this).after('<div class="fakeLoading2">&nbsp;</div>')
+	$(".fakeLoading2").oLoader({
+		  backgroundColor: '255,255,255',
+		  fadeInTime: 500,
+		  fadeLevel: 0.8,
+		  image: '<%=context%>/resources/img/ajax-loader.gif',
+		  imagePadding: 5,
+		  imageBgColor: 'white',
+		  hideAfter: 1000
+	});
+	 
+	setTimeout(	function replyRetrieve(){
+		
+	    $.ajax({
+	        type:"POST",
+	        url:"comm/scroll_reply_retrieve.do",
+	        dataType:"json",// JSON
+	        data:{
+	            "page_num": page_num,
+	            "bNum": '1',
+	            "page_size": num,
+	            "commGroupNo":commGroupNo,
+	            "userId":'test'
+	        },
+	        success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+				  	 var str = '<div class=replyDiv>';
+		            var depth = '';
+		            $.each(data.list, function(key, value){
+		            	var divIn = "";
+		            		divIn += 	'<div class="media-heading">'
+			    				+				'<div id="container">'
+			    				+					'<div>'
+			    				+						'<label class="commId">' + value.userId + '</label>&nbsp;'
+			    				+						'<label class="commTime">' + value.regDt + '</label>'
+			    				+					'</div>'
+			    				+					'<input type="hidden" class="commTextNum" value="' + value.commTextNum + '"/>'
+			    				+					'<input type="hidden" class="commGroupNo" value="' + value.commGroupNo + '"/>'
+			    				+					'<input type="hidden" class="commDepth" value="' + value.commDepth + '"/>'
+			    				+				'</div>'
+			    				+			'</div>'
+			    				+			'<div class="p">'
+			    				+				'<p>'+value.commCont+'</p>'
+			    				+			'</div>'
+			    				+				'<img class="cursor" id="like" src="/cd/resources/img/like.jpg"'
+			    				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
+			    				+					'width="30px" height="30px"/>&nbsp;'
+			    				+				'<label class="hitNum">'+value.commHit+'</label>'
+			    				+				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-expanded="false" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
+			    				+				'&nbsp;'
+			    				+				'<a class="cursor" id="commentUpdate" >수정</a>'
+			    				+				'&nbsp;'
+			    				+				'<a class="cursor" id="coomentDelete" >삭제</a>'
+			    				+			'<div class="comment-meta">'
+			    				+				'<div class="bocollapse collapse" id="commentReplyadd' + value.commTextNum + '">'
+			    				+					'<div class="form-group">'
+			    				+						'<label for="comment">답글</label>'
+			    				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
+			    				+					'</div>'
+			    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
+			    				+				'</div>'
+			    				+			'</div>'
+		            	if(value.commDepth == 0) {
+		          		str +=		'<div class="container">' 
+		    				+		'<div class="media">' 
+							+			divIn
+		    				+		'</div>'
+		    				+		'</div>';
+		            	}else {
+			          		str +=		'<div class="container">' 
+			    				+		'<div class="media_reply">' 
+								+ 			divIn
+			    				+		'</div>'
+			    				+	   '</div>';
+		            	}
+		            });
+		          str += '</div>';
+		          	
+			    	var next = parent.next();
+			    	var nextClass = next.attr('class');
+			    	alert(nextClass);
+			    		
+			    	if(nextClass=='container '){
+			    		alert('remove');
+			    		$(next).remove();
+			    	}
+					
+		          parent.after(str);
+					page_num++;
+					body.attr("class","cursor_reply_hide");
+					var text = body.text();
+					body.attr("replyNum",text);
+					body.text("답글 숨기기△");
+					$('.onlyHidden').hide();
+	        },
+	        complete: function(data){//무조건 수행
+	         	
+	        },
+	        error: function(xhr,status,error){
+	         
+	        }
+	   }); //--ajax
+	   
+		}, 1000); // --setTimeout
+	
+
+	
+});
+
 
 
 var page_num = 1;
-var page_size = 20;
-
+var page_size = 10;
 
 
 function pagingList(){
@@ -416,13 +627,14 @@ function pagingList(){
 	    				+		'<div class="media">' 
 						+			divIn
 	    				+		'</div>'
-	    				+		'</div>';
+	    				+		'</div>'
+	    				+ 		'<div class="addReplayDiv"></div>';
 	            	}else {
 		          		str +=		'<div class="container">' 
 		    				+		'<div class="media_reply">' 
 							+ 			divIn
 		    				+		'</div>'
-		    				+	'</div>';
+		    				+		'</div>';
 	            	}
 	            });
 	        	$('.fakeLoading').remove();
@@ -463,13 +675,6 @@ $(window).scroll(function(){
 		};
 	});
 	
-
-
-
-
-$(document).ready(function(){
-});
-
 </script>
 </head>
 <body>
@@ -486,7 +691,7 @@ $(document).ready(function(){
 		</div>
 		<button id="commentadd" class="btn btn-default btn-sm">댓글달기</button>
 	</div>
-	
+
 	<div class="fakeLoading">&nbsp;</div>
 	
 	<div class="absoluteDiv"></div>

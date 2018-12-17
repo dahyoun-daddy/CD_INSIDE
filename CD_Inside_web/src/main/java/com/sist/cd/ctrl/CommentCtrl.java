@@ -75,12 +75,16 @@ public class CommentCtrl {
 		return "123";
 	}
 	
-	@RequestMapping(value = "/comment/addreplyComment.do",method=RequestMethod.POST)
+	@RequestMapping(value = "/comment/addreplyComment.do",method=RequestMethod.POST , produces = "application/json;charset=utf8")
 	@ResponseBody
 	public String addreplyComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
-		log.info("commentVO:"+commentVO);
 		commentSvc.addreply(commentVO);
-		return "123";
+		log.info("commentVO:"+commentVO);
+		CommentVO outVO = commentSvc.get(commentVO);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonList="";
+		jsonList += mapper.writeValueAsString(outVO);
+		return jsonList;
 	}
 	
 	@RequestMapping(value = "/comment/do_hitComment.do",method=RequestMethod.POST , produces = "application/json;charset=utf8")
@@ -136,6 +140,25 @@ public class CommentCtrl {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonList="";
 		jsonList += mapper.writeValueAsString(listVO);
+		return jsonList;
+	}
+	
+	@RequestMapping(value = "/comment/comm/scroll_reply_retrieve.do", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String scroll_reply_retrieve(CommentVO invo) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		List<CommentVO> listVO = commentSvc.scroll_reply_retrieve(invo);
+		int total_cnt = 0;
+		if(null != listVO && listVO.size()>0) {
+			total_cnt = listVO.get(0).getTotalCnt();
+			log.info("total_cnt: "+total_cnt);
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonList="{\"list\":";
+		jsonList += mapper.writeValueAsString(listVO);
+		jsonList += ",\"TOTAL\":"+total_cnt+"}";
+		
+		log.info("jsonList:"+jsonList);
+
 		return jsonList;
 	}
 	

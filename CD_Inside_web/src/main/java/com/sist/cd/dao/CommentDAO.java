@@ -129,5 +129,7 @@ public interface CommentDAO {
 	 * @throws SQLException
 	 */
 	int GROUP_SEQ() throws SQLException;
+
+	List<CommentVO> scroll_reply_retrieve(CommentVO commentVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 }
