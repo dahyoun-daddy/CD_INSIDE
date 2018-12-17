@@ -64,7 +64,43 @@
 		    </div>
 		  </div> 
 		<!--// 입력폼 -->
-
+		
+		
+		<!--출력 영역 ------------------------------------------------------------->
+		<form  name="frm" id="frm" action="receive.do" method="get" class="form-inline">
+		<input type="hidden" name="msgSeq" id="msgSeq">
+			<c:choose>
+				<c:when test="${list.size()>0}">
+					<c:forEach var="msgVO" items="${list}">
+						<div class="form-group">
+							<input type="hidden" name="${msgVO.msgSeq}" id="${msgVO.msgSeq}">
+								<c:out value="${msgVO.msgSeq}"></c:out>
+								<c:out value="${msgVO.userId}"></c:out>
+								<c:out value="${msgVO.msgRecvId}"></c:out>
+								<c:out value="${msgVO.msgCont}"></c:out>
+								<c:out value="${msgVO.regDt}"></c:out>
+								<c:out value="${msgVO.msgReadYn}"></c:out>
+						</div>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					............
+				</c:otherwise>
+			</c:choose>
+			<!--// 출력 영역 ------------------------------------------------------------->	
+		
+		
+		<!-- 출력 -->
+		<c:forEach items="${list}" var="msgVO">
+		<input type="hidden" class="form-control" name="msgSeq" id="msgSeq" value="${list.msgSeq}">		  
+		<input type="text" class="form-control" name="userId" id="userId" value="${list.userId}" readonly maxlength="20"/>
+		<input type="text" class="form-control" name="msgRecvId" id="msgRecvId" value="${list.msgRecvId}" readonly maxlength="20"/>
+		<input type="text" class="form-control" name="regDt" id="regDt" value="${list.regDt}" readonly >
+		<textarea name="msgCont" id="msgCont" rows="10" cols="40" readonly maxlength="400">${list.msgCont}</textarea>
+		<input type="hidden" class="form-control" name="msgReadYn" id="msgReadYn" value="${list.msgReadYn}" readonly >	    
+		</c:forEach>
+		<!--//출력  -->
+		
 		<!-- 버튼 -->
 		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">

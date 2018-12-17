@@ -383,99 +383,50 @@ public class MymsgCtrl {
 		
 		log.info("3========================");
 		log.info("jsonData="+jsonData);
-		log.info("3========================");			
-		return jsonData;
+		log.info("3========================");	
+		
+		return RECEIVEINDEX;
 	}		
 	
-//선택 + 읽음여부 수정-----------------------------------------------------------------------------------
+//받은쪽지 읽기+ 읽음여부 수정-----------------------------------------------------------------------------------
 
-	@RequestMapping(value="/msg/get.do",method=RequestMethod.POST
-	        ,produces="application/json;charset=utf8"  
+	@RequestMapping(value="/msg/getR.do",produces="application/json;charset=utf8"  
 	)
-	@ResponseBody
-	public String get(@ModelAttribute SearchVO invo, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+	public String getR(@ModelAttribute SearchVO invo, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 	String msgSeq = req.getParameter("msgSeq");
 	log.info("2========================");
-	log.info("get=");
+	log.info("get="+msgSeq);
 	log.info("2========================");	
-	MsgVO msgVO=new MsgVO();
-	msgVO.setMsgSeq(msgSeq);
-	
-	//JSON Convertor
-	MsgVO outVO = msgSvc.get(msgVO);
-	JSONObject object=new JSONObject();   
-	object.put("msgSeq", outVO.getMsgSeq());
-	object.put("userId", outVO.getUserId());
-	object.put("msgRecvId", outVO.getMsgRecvId());
-	object.put("msgCont", outVO.getMsgCont());   
-	object.put("regDt", outVO.getRegDt());
-	object.put("msgReadYn", outVO.getMsgReadYn());
-	
-	String jsonData = object.toJSONString();
-	
-	log.info("3========================");
-	log.info("jsonData="+jsonData);
-	log.info("3========================");			
-	model.addAttribute("msgVO", msgSvc.get(msgVO));
+
 	
 	//-----------------------------------------------
 	//누르면 update 써서 읽지않음 -> 읽음 으로 바꾸기   실시간 x
 	//-----------------------------------------------
-	
+	MsgVO msgVO=new MsgVO();
+	msgVO.setMsgSeq(msgSeq);	
 	int outVO1 = msgSvc.updateReadCheck(msgVO);
-	JSONObject object1=new JSONObject();   
-	object.put("msgSeq", outVO.getMsgSeq());
-	object.put("userId", outVO.getUserId());
-	object.put("msgRecvId", outVO.getMsgRecvId());
-	object.put("msgCont", outVO.getMsgCont());   
-	object.put("regDt", outVO.getRegDt());
-	object.put("msgReadYn", outVO.getMsgReadYn());
-	
-	String jsonData1 = object1.toJSONString();
-	
-	log.info("4========================");
-	log.info("jsonData1="+jsonData1);
-	log.info("4========================");			
-	model.addAttribute("msgVO", msgSvc.updateReadCheck(msgVO));
-	
-	//--------------------------------------------------------
-	List<MsgVO> list = msgSvc.do_retrieve(invo);
-	log.info("list: "+list);
-	
-	//받은쪽지 수
-	int total_cnt = 0;
-	if(null != list && list.size()>0) {
-		total_cnt = list.get(0).getTotalCnt();
-		log.info("total_cnt: "+total_cnt);
-	}
-	
-	//읽지않은쪽지수
-	int n_cnt = msgSvc.getNCount("test"); //test 는 아이디임
-	log.info("n_cnt: "+n_cnt);
-	
-	//읽지않은쪽지수
-	int t_cnt = msgSvc.getAllCount("test"); 
-	log.info("t_cnt: "+t_cnt);
-	
-	
-	CodeVO codePage=new CodeVO();
-	codePage.setCd_id("C_001");
-	
-	model.addAttribute("code_page",codeSvc.do_retrieve(codePage));
-	model.addAttribute("n_cnt",n_cnt);
-	model.addAttribute("t_cnt",t_cnt);
-	
-	model.addAttribute("total_cnt",total_cnt);
-	model.addAttribute("list",list);
-	
-	
-	
-	
+
+
 	
 	return RECEIVE;
 	}
 	
-	@RequestMapping(value="/msg/update.do",method=RequestMethod.POST
+//보낸쪽지 읽기-----------------------------------------------------------------------------------
+
+	@RequestMapping(value="/msg/getS.do",produces="application/json;charset=utf8"  
+	)
+	public String getS(@ModelAttribute SearchVO invo, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+	String msgSeq = req.getParameter("msgSeq");
+	log.info("2========================");
+	log.info("get="+msgSeq);
+	log.info("2========================");	
+	
+	return RECEIVE;
+	}	
+//선택-----------------------------------------------------------------------------------
+
+	
+	@RequestMapping(value="/mypage/update.do",method=RequestMethod.POST
 	        ,produces="application/json;charset=utf8"  
 	)
 	@ResponseBody

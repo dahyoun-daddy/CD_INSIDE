@@ -104,53 +104,52 @@
 			onclick="showPopup();" />
 		<!--// 버튼 -->
 
-			
+	<!-- 내용 누르면 받은편지 세부내역 나옴 frm_get ----------------------------------------------------------------------->	
+	<form name="frm_get" id="frm" action="sendIndex.do" method="get" class="form-inline">
+		<input type="hidden" name="msgSeq" id="msgSeq">
+	</form>	
+		
 	</div>
+	<!-- contents -------------------------------------------------------->
+	
 	<!--// Title영역 -->
 	<form name="frm" id="frm" action="sendIndex.do" method="get"
 		class="form-inline">
 		<input type="hidden" name="page_num" id="page_num">
 
-	<!-- 검색영역 -->
-	<div class="container-fluid">
-		<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<form action="#" class="form-inline">		
-
-				<div class="form-group">
-					<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
-				</div>
-				<div class="form-group">
-					<select name="search_div" id="search_div"
-						class="form-control input-sm">
-						<option value="">::전체::</option>
-						<option value="30"
-							<%if (search_div.equals("30"))out.print("selected='selected'");%>>보낸이</option>
-						<option value="60"
-							<%if (search_div.equals("60"))out.print("selected='selected'");%>>내용</option>
-						</select>
-					<input type="text" name="search_word" id="search_word"
-						value="${param.search_word}" class="form-control input-sm"
-						placeholder="쪽지검색" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-					<!-- 버튼 -->
-					<button type="button" class="btn btn-default btn-sm"
-						onclick="javascript:doSearch();">검색</button>
-					<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
-					<button type="button" class="btn btn-default btn-sm" id="do_deleteSAll">전부삭제</button>						
-
-				</div>
-			</form>
-		</div>
-	</div>	
-	
-					<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>
-					
-			</div>					
-		</form>
-	  </div>	
-	</div>
+		<!-- 검색영역 -->
+		<div class="container-fluid">
+			<div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<form action="#" class="form-inline">		
+		
+					<div class="form-group">
+						<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
+					</div>
+					<div class="form-group">
+						<select name="search_div" id="search_div"
+							class="form-control input-sm">
+							<option value="">::전체::</option>
+							<option value="30"
+								<%if (search_div.equals("30"))out.print("selected='selected'");%>>보낸이</option>
+							<option value="60"
+								<%if (search_div.equals("60"))out.print("selected='selected'");%>>내용</option>
+							</select>
+						<input type="text" name="search_word" id="search_word"
+							value="${param.search_word}" class="form-control input-sm"
+							placeholder="쪽지검색" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		
+						<!-- 버튼 -->
+						<button type="button" class="btn btn-default btn-sm"
+							onclick="javascript:doSearch();">검색</button>
+						<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
+						<button type="button" class="btn btn-default btn-sm" id="do_deleteSAll">전부삭제</button>						
+		
+					</div>
+				</form>
+			</div>
+		</div>	
+		
 		<!--// 검색영역----------------------------------------------------->
-
 		
 		<!-- Grid영역 -->
 		<div class="container-fluid" 
@@ -206,18 +205,8 @@
 		</div>
 		<!--// pagenation영역 ----------------------------------------------->
 	</form>	
-				</div>																
-			</form>
-			<!--// Form영역--------------------------------------------->
-		
-		</div>
-		<!--// 입력 Form영역---- ----------------------------------------------->				  
-	</div>
-
-	<!--// contents ------------------------------------------------------>
-
+	
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
-    
     
     <script src="<%=context%>/resources/js/jquery.min.js"></script>
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
@@ -423,19 +412,7 @@
 			  
 			 var upsert_div = $("#upsert_div").val();
 			 upsert_div = (upsert_div == "")?"update":"";
-			 console.log("upsert_div:"+upsert_div);
-			 var tmpLevel = "BASIC";
-			 
-			 if($("#userIntLevel").val()=="1"){
-				 tmpLevel = "BASIC";
-			 }else if($("#userIntLevel").val()=="2"){
-				 tmpLevel = "SILVER";
-			 }else if($("#userIntLevel").val()=="3"){
-				 tmpLevel = "GOLD";
-			 }
-			 
-			 
-			 
+			 console.log("upsert_div:"+upsert_div);			 
 			 
 		     $.ajax({
 		         type:"POST",
@@ -466,59 +443,24 @@
 		          
 		         }
 		        });//--ajax					
-			
-			
-		});//--do_update
-		
+					
+		});//--do_update	
 		
 		$("#listTable>tbody").on("click","tr",function(){
 			console.log("1 #listTable>tbody");
 			
 			var tr = $(this);
 			var td = tr.children();
-			var userId = td.eq(1).text();
+			var msgSeq = td.eq(1).text();
 			console.log("2 msgSeq="+msgSeq);
 			
-			if(""==userId)return;
+		   	var frm = document.frm_get;
+		   	frm.msgSeq.value = msgSeq;
+		   	frm.action = 'getS.do';
+		   	frm.submit();
 			
-	        $.ajax({
-	            type:"POST",
-	            url:"do_search_one.do",
-	            dataType:"html",// JSON
-	            data:{
-	            "msgSeq": msgSeq
-	            },
-	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-	              var parseData = $.parseJSON(data);
-	              /* console.log("3 parseData.u_id="+parseData.u_id);
-	              console.log("3 parseData.name="+parseData.name);
-	              console.log("3 parseData.password="+parseData.password);
-	              console.log("3 parseData.login="+parseData.login);
-	              console.log("3 parseData.recommend="+parseData.recommend);
-	              console.log("3 parseData.email="+parseData.email);
-	              console.log("3 parseData.userIntLevel="+parseData.userIntLevel);
-	              console.log("3 parseData.regDt="+parseData.regDt); */
-	              
-	              console.log("3 parseData.userIntLevel="+parseData.userIntLevel);
+			if(""==msgSeq)return;
 
-	              $("#msgSeq").val(parseData.msgSeq);
-	              $("#userId").val(parseData.userId);
-	              $("#msgRecvId").val(parseData.msgRecvId);
-	              
-	              $("#msgCont").val(parseData.msgCont);
-	              $("#regDt").val(parseData.regDt);
-	              $("#msgReadYn").val(parseData.msgReadYn);
-	              
-	              $("#userId").prop("disabled",true);
-	            },
-	            complete: function(data){//무조건 수행
-	             
-	            },
-	            error: function(xhr,status,error){
-	             
-	            }
-	       }); //--ajax
-			
 		});//--#listTable>tbody
 			
 			
