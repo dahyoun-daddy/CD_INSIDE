@@ -108,7 +108,7 @@ a {
 	<div class="mainall">
 		<div class="left-box">
 				<div class="boardTitleDiv">
-					<a class="boardTitle">인기글 커뮤니티</a>
+					<a class="boardTitle" href="">인기글 커뮤니티</a>
 				</div>
 				<div class="boardTitleMargin"></div> 
 				<c:forEach var="boardVo" items="${hitList}">
