@@ -27,8 +27,8 @@ p {
 
 .btn-primary {
   padding: 8px 20px;
-  background: #fff;
-  color: #000;
+  background: #6d1471;
+  color: #fff;
   border-radius: 0;
   border:none;
   margin-top: 10px;
@@ -36,8 +36,8 @@ p {
 
 .btn-primary:hover, 
 .btn-primary:focus{
-  background: #fff;
-  color:#2487cd;
+  background: #a133ca;
+  color:#fff;
   outline: none;
   box-shadow: none;
 } 
@@ -51,7 +51,7 @@ p {
 }
 
 .site-logo a.brand {
-	color: #2487cd;	
+	color: #a133ca;	
 	font-size: 30px;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 900;

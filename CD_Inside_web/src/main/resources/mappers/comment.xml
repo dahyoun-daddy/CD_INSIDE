@@ -187,7 +187,47 @@ NATURAL JOIN
 		--WHERE
 )Y
 	</select>
-	
+
+		<!-- select list -->
+	<select id="scroll_reply_retrieve" parameterType="CommentVO" resultType="CommentVO">
+SELECT C.*,Y.*
+  FROM (
+        SELECT BB.*
+          FROM (SELECT X.*,
+                       ROW_NUMBER() OVER(ORDER BY CASE WHEN USER_ID = #{userId} THEN USER_ID END ASC,COMM_HIT desc,REG_DT desc ) AS rnum
+                  FROM(
+                        SELECT T.COMM_TEXT_NUM,
+                               T.B_NUM,
+                               T.COMM_CONT,
+                               T.USER_ID,
+                               T.COMM_HIT,
+                               T.COMM_GROUP_NO,
+                               T.COMM_DEPTH,
+                               T.reg_dt,
+                               T.MOD_ID,
+                               T.MOD_DT,
+                               T.commentNo AS commentNo
+                        FROM(
+                              SELECT hr.* 
+                                    ,COUNT(*) OVER(PARTITION BY COMM_GROUP_NO )-1 AS commentNo
+                              FROM COMM hr
+                              WHERE B_NUM = 1
+                        ) T
+                              WHERE COMM_DEPTH = 1
+                                AND COMM_GROUP_NO = #{commGroupNo}
+                )X
+          )BB
+       WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) AND (#{page_size} * (#{page_num}-1)+#{page_size})
+)C
+NATURAL JOIN
+(
+		SELECT COUNT(*) AS total_cnt
+		  FROM COMM
+		 WHERE B_NUM = 1
+          AND COMM_GROUP_NO = #{commGroupNo}
+)Y
+	</select>
+
 
 	<select id="do_code_getCount" parameterType="CommentVO"
 		resultType="int">

@@ -128,25 +128,26 @@ hr.hr{
 			<c:choose> 
 				<c:when test="${list.size()>0}">
 					<c:forEach var="gallogVo" items="${list}">
-						<div style="width:955px; height:100px;">
+						<div class="parent" style="width:955px;" >
 							<table style="margin-top:20px; width:955px">
 							<tr>
 								<td class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><c:out value="${gallogVo.gId}"></c:out></td>
-								<td class="col-xs-7 col-sm-7 col-md-7 col-lg-7"><c:out value="${gallogVo.gCont}"></c:out></td>
+								<td style="width:955px;word-break:break-all;word-wrap:break-word;" class="col-xs-7 col-sm-7 col-md-7 col-lg-7"><c:out value="${gallogVo.gCont}"></c:out></td>
 								<td align="center" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"><c:out value="${gallogVo.regDt}"></c:out></td>
 							</tr>
 							</table>
-						<div class="chooseBox" id="chooseBox" style="float:right; margin-top:60px; margin-right:150px;">
-							<div style="bottom:5px;">
-								
-									<div class="hereAdd" style="float:right;">
-									<button type="button" class="btn btn-default btn-sm" id="do_update" value="${gallogVo.gSeq}">수정</button>
-									<button type="button" class="btn btn-default btn-sm" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
-								 </div>
-						</div>
-						</div>
+								<div class="chooseBox" id="chooseBox" style="float:right; margin-top:60px; margin-right:150px;">
+									<div style="bottom:5px;">
+										<div class="hereAdd" style="float:right;">
+									<!-- 	<button type="button" class="btn btn-default btn-sm" id="do_update" value="${gallogVo.gSeq}">수정</button>  -->
+											<button type="button" class="btn btn-default btn-sm" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
+								 		</div>
+									</div>
+								</div>
 						<br/><br/><br/>
-								 </div>
+						</div>
+							<div class="mama">
+							</div>
 						<hr class="hr">
 					</c:forEach>
 				</c:when>
@@ -201,6 +202,7 @@ hr.hr{
     	frm.action = "delete2.do";
     	frm.submit();
     }
+    
     
     $(document).ready(function(){   
     	
@@ -258,15 +260,15 @@ hr.hr{
  			
  		 });//do_delete
  		 
- 		 $(document).on("click","#do_update",function(){ //수정
+/*  		 $(document).on("click","#do_update",function(){ //수정
  			$gSeq2 = $(this).val();
   	       	var box="<div id='box' style='border:2px solid #003399; height:35px; width:244px; display:flex;'><input type='text' id='gPw2' style='width:150px;'><button style='width:50px;' type='button' id='updCheck'>확인</button><button style='width:40px;' type='button' style='border:2px solid #003399;' class='btn btn-default' onclick='cancel();'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span></button></div>";
-  	       
+  	       	
   	       	$('#box').remove();
   	       	var hereAdd = $(this).parent('.hereAdd');
   			$(hereAdd).after(box);
   			  
-	     });//do_update 
+	     });//do_update  */
 		
  		 $(document).on("click","#delCheck",function(){ //password 확인 후 삭제
  		 		//alert("gSeq:"+gSeq);
@@ -278,14 +280,45 @@ hr.hr{
 	    	 });//delCheck
 		
 		
-	 	 $(document).on("click","#updCheck",function(){ //password 확인 후 삭제
+/* 	 	 $(document).on("click","#updCheck",function(){ //password 확인 후 수정
 	 		 	//alert("gSeq:"+gSeq);
-	 		 		
+  	 		     var hereUpd = $(this).parents(".parent");
+  	 		     
+  	 		     	
 		    	 if(false==confirm("수정하시겠습니까?"))return;
 		    	 	
-		    	 doDelete();
+			     $.ajax({
+			         type:"POST",
+			         url:"pwCheck.do",
+			         dataType:"html",// JSON
+			         data:{
+			         	"gSeq": $gSeq2,
+			         	"gPw": $("#gPw2").val()
+			         },
+			         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+			             var parseData = $.parseJSON(data);
+			         	 if(parseData.flag=="1"){
+			         		//alert(parseData.message);
+			         		$(hereUpd).attr('style','display:none'); 
+			        	 	//var bo = hereUpd.attr('class');
+			        	 	//alert(bo);
+			        	 	
+			            	var Upd = "<div style='display:block' id='box2'><textarea>123112421412321321321323</textarea></div>";    	
+			        		$(hereUpd).append(Upd);
+			        		
+			         	 }else{
+			         		alert(parseData.message);
+			         	 }
+			         },
+			         complete: function(data){//무조건 수행
+			          
+			         },
+			         error: function(xhr,status,error){
+			          
+			         }
+			        });//--ajax		
 		   	      		   
-		    	});//updCheck
+		    	});//updCheck */
 		
     });//-- ready
     

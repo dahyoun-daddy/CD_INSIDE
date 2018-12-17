@@ -100,5 +100,7 @@ public interface CommentSvc {
 	 * @throws EmptyResultDataAccessException
 	 */
 	List<CommentVO> scroll_retrieve(CommentVO commentVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+
+	List<CommentVO> scroll_reply_retrieve(CommentVO commentVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 }

@@ -31,4 +31,6 @@ public interface GallogDAO {
 	
 	//방명록 삭제
 	int delete2(GallogVO gallogVO) throws SQLException;
+	
+	int pwCheck(GallogVO gallogVO) throws SQLException;
 }

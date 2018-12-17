@@ -105,11 +105,20 @@
 	</select>
 	
 	
-	<!-- 방명록 삭제 -->
+	<!-- 방명록 비밀번호 일치시 삭제 -->
 	<delete id="delete2" parameterType="GallogVO">
 		DELETE FROM gallog
 		 WHERE g_seq = #{gSeq}
 		   AND g_pw = #{gPw}
 	</delete>
+	
+	<!-- 방명록 수정시 비밀번호 검사 -->
+	<select id="pwCheck"	parameterType="GallogVO" 
+						resultType="java.lang.Integer">
+      	SELECT COUNT(*) AS no
+      	  FROM gallog
+		 WHERE g_seq = #{gSeq}
+		   AND g_pw = #{gPw}
+      </select>
     
 </mapper>

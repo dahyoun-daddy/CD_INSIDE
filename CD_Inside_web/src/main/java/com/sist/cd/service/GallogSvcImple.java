@@ -54,5 +54,10 @@ public class GallogSvcImple implements GallogSvc {
 		return gallogDao.delete2(gallogVO);
 	}
 
+	@Override
+	public int pwCheck(GallogVO gallogVO) throws SQLException {
+		return gallogDao.pwCheck(gallogVO);
+	}
+
 
 }
