@@ -314,9 +314,7 @@ public class BoardCtrl {
 	
 	
 	
-	@RequestMapping(value="update.do",method=RequestMethod.POST
-	        ,produces="application/json;charset=utf8"  
-	)
+	@RequestMapping(value="update.do",method=RequestMethod.POST ,produces="application/json;charset=utf8" )
 	@ResponseBody
 	public String update(@ModelAttribute BoardVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		
@@ -324,6 +322,12 @@ public class BoardCtrl {
 		log.info("invo="+invo);
 		log.info("!2========================");	
 		
+		log.info("!2========================");
+		log.info("invo="+invo);
+		log.info("!2========================");	
+		log.info("!2========================");
+		log.info("invo="+invo);
+		log.info("!2========================");	
 		//수정
 		
 		//등록		

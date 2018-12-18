@@ -10,25 +10,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title> 
+<title>Insert title here</title>
 
 <%
-String context = request.getContextPath();
+	String context = request.getContextPath();
 
-// 	BoardVO vo = (BoardVO) request.getAttribute("list");
-
+	// 	BoardVO vo = (BoardVO) request.getAttribute("list");
 %>
- 
-
-	 <!-- html 에디터 추가 스크립트 설정----------------------------------- -->
-	<script src="https://code.jquery.com/jquery-latest.js"></script>
-    <script type="text/javascript" src="<%=context%>/resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
-	<!-- https://handcoding.tistory.com/16 -->
-
-	
-
-
-	 
+<!-- html 에디터 추가 스크립트 설정----------------------------------- -->
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript"
+	src="<%=context%>/resources/editor/js/HuskyEZCreator.js"
+	charset="utf-8"></script>
+<!-- https://handcoding.tistory.com/16 -->
 
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet"
@@ -41,9 +35,9 @@ String context = request.getContextPath();
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	
-	
-	
+
+
+
 
 
 
@@ -52,8 +46,8 @@ String context = request.getContextPath();
 </head>
 
 
- <!--  html 에디터  헤더에 추가----------------------------------------------- -->
-<script type="text/javascript">
+<!--  html 에디터  헤더에 추가----------------------------------------------- -->
+<%-- <script type="text/javascript">
     $(function(){
         //전역변수
         var obj = [];              
@@ -79,63 +73,82 @@ String context = request.getContextPath();
             $("#insertBoardFrm").submit();
         });
     });   
-</script>	 
+</script>	  --%>
 
 
 <body>
 
-		<div class="container">
-			
-			
-				<div class="row">
-			<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12"><h2>${name}</h2></div>
-    	      </div>    
-			  
-		
-			
-				<div class="form-group">
-					 <label for="Name">Title</label><br/> 
-					 
-					 <input type="text" name="bTitle" id="bTitle" maxlength="50" style="width:1000px" value="${list.bTitle}"/>
-				</div> 
-				<div> 
-					<label for="textarea">Context</label><br/>
-					
-					<!-- html 에디터 바디에 추가---------------- -->
-	<form action="addSY.do" method="post" id="insertBoardFrm" enctype="multipart/form-data">
-        <textarea name="editor" id="editor" style="width: 1000px; height: 400px;">${list.bCont} </textarea>
-    </form> 
-   
-					
-  
+	<div class="container">
+		<form name="frm" id="frm" action="bsy.do" method="get"
+			class="form-inline">
+			<input type="hidden" name="page_num" id="page_num">
+			<%-- 		<input type="hidden" name="gSeq" id="gSeq" value="${list.gSeq}"> --%>
 
-					
-					
- <%-- textarea name="gCont" id="gCont" rows=20 cols=115  maxlength="3000" style="width:1000px;height:500px;">${list.gCont}</textarea> --%>
-				 </div>  
-				  <p></p>
-				  <input class="btn btn-info" type="button" id="insertBoard" value="등록아님 낚시용" />
-				<button type="submit" class="btn btn-info">취소</button>
-		</div>
-  
-  
-  <button type="button" class="btn btn-default" onClick="history.go(-1)">취소</button>
-   <%
-			BoardVO check =  (BoardVO)request.getAttribute("list");
-			if(check==null){
+			<div class="row">
+				<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h2>${name}</h2>
+				</div>
+			</div>
+
+
+			<input type="hidden" id="bNum" value="<c:out value="${list.bNum}"></c:out>"/>
+			<div class="form-group">
+				<label for="Name">Title</label><br /> 
+				<input type="text" name="bTitle" id="bTitle" maxlength="50" style="width: 1000px" value="<c:out value="${list.bTitle}"></c:out>" />
+			</div>
+			<br /> <label for="textarea">Context</label><br/>
+
+			<div>
+				<textarea name="bCont" id="bCont"
+					style="width: 1000px; height: 400px;"><c:out
+						value="${list.bCont}"></c:out> </textarea>
+			</div>
+		</form>
+
+
+		<button type="button" class="btn btn-default" onClick="history.go(-1)">취소</button>
+		<%
+			BoardVO check = (BoardVO) request.getAttribute("list");
+			if (check == null) {
 		%>
 		<button type="button" class="btn btn-default" id="do_save">등록</button>
 		<%
-			}
-			else{
+			} else {
 		%>
 		<button type="button" class="btn btn-default" id="do_update">수정</button>
-			<% 
-		}
+		<%
+			}
 		%>
 
-		
- 	<script type="text/javascript">
+
+	</div>
+	<!-- 					html 에디터 바디에 추가---------------- -->
+	<!-- 	<form action="addSY.do" method="post" id="insertBoardFrm" enctype="multipart/form-data"> -->
+	<%--         <textarea name="editor" id="editor" style="width: 1000px; height: 400px;">${list.bCont} </textarea> --%>
+	<!--     </form>  -->
+
+
+
+
+
+
+	<%-- textarea name="gCont" id="gCont" rows=20 cols=115  maxlength="3000" style="width:1000px;height:500px;">${list.gCont}</textarea> --%>
+
+
+<!-- 	<input class="btn btn-info" type="button" id="insertBoard"
+		value="등록아님 낚시용" />
+	<button type="submit" class="btn btn-info">취소</button>
+	</div> -->
+
+
+
+
+	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+
+	<script src="<%=context%>/resources/js/jquery.min.js"></script>
+	<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+	<script src="<%=context%>/resources/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
     
     
     function doSearch(){ // 등록후 1페이지로 가서 전체조회
@@ -145,13 +158,20 @@ String context = request.getContextPath();
       	 frm.submit();
     }
     
-//     function doSearch1(){ // 수정후 그페이지로 다시가서 조회
-//      	 var frm = document.frm;
-<%--          frm.page_num.value = <%=oPageNum%>; --%>
-// //       alert(frm.page_num.value);
-//     	 frm.action = "notebook_home.do";
-//     	 frm.submit();
-//    }
+    function doUpdate(){ // 등록후 1페이지로 가서 전체조회
+     	 var frm = document.frm;
+   	     frm.page_num.value = 1;
+     	 frm.action = "update.do";
+     	 frm.submit();
+   }
+    
+<%--     function doSearch1(){ // 수정후 그페이지로 다시가서 조회
+     	 var frm = document.frm;
+         frm.page_num.value = <%=oPageNum%>;
+        alert(frm.page_num.value);
+    	 frm.action = "notebook_home.do";
+    	 frm.submit();
+   } --%>
     
     
     $(document).ready(function(){   
@@ -159,7 +179,8 @@ String context = request.getContextPath();
     	$("#do_save").on("click",function(){
     		
 			 if(false==confirm("등록 하시겠습니까?"))return;
-			  
+			 
+			 
 		     $.ajax({
 		         type:"POST",
 		         url:"addSY.do",
@@ -167,7 +188,8 @@ String context = request.getContextPath();
 		         data:{
 		         	"bTitle": $("#bTitle").val(),
 		         	"bCont": $("#bCont").val(),
-		         	"bCate": "0",
+		         	"bCate": "쌍용",
+		         	"bHit": "0",
 		         	"userId": "test05",
 		         	"modId": "test05"
 		         },
@@ -192,29 +214,28 @@ String context = request.getContextPath();
 		});//--do_save
 		
 		
-		$("#do_update").on("click",function(){
+		$("#do_update").on("click",function(){ 
     		
 			 if(false==confirm("수정 하시겠습니까?"))return;
-			  
+			 
+	         alert($("#bTitle").val());
+	         alert($("#bCont").val());
+	         alert($("#bNum").val());
+			 
 		     $.ajax({
 		         type:"POST",
 		         url:"update.do",
-		         dataType:"html",// JSON
+		         dataType:"json",// JSON
 		         data:{
-		        	"bSeq": $("#bSeq").val(),
-		         	"bTitle": $("#bTitle").val(),
-		         	"bCont": $("#bCont").val(),
-		         	"bCate": "1",
-		         	"modId": "test05"
+		        	    "bNum": $("#bNum").val(),
+		        	    "bTitle": $("#bTitle").val(),
+			         	"bCont" : $("#bCont").val(),
+			         	"userId": "test05",
+			         	"modId" : "test05"
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-		             var parseData = $.parseJSON(data);
-		         	 if(parseData.flag=="1"){
-		         		 alert(parseData.message);
-		         		 doSearch1();
-		         	 }else{
-		         		alert(parseData.message);
-		         	 }
+		         		doSearch();
+		         		alert('수정완료');
 		         },
 		         complete: function(data){//무조건 수행
 		          
@@ -227,20 +248,19 @@ String context = request.getContextPath();
 			
 		});//--do_update
    
+		
+		
+		
+		
+		
    	
     });//ready
     
     
     
-    
-    
     </script>
- 				 
- 			
- 				 
- 				 
- 				  
- 				  
+
+
 
 
 

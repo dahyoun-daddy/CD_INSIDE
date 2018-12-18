@@ -376,13 +376,68 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 
 	<div style="width:900px;" class="container">
 		<div style="padding-top : 40px;">
-		  <input style="float:right; " class="btn btn-default" type="button"  value="수정" />
+		  <input style="float:right; " class="btn btn-default" type="button" id="update" value="수정" />
 		  <button style="float:right;" type="submit" class="btn btn-default">삭제</button>
 		
+		
+		
+	
+  
+   <script type="text/javascript">
+    
+	    function search_page(url,page_num){
+		   	 alert(url+":search_page:"+page_num);
+		   	 var frm = document.frm;
+		   	 frm.page_num.value = page_num;
+        	 console.log(frm.page_num.value);
+		   	 frm.action = url;
+		   	 frm.submit();
+	    }
+	    
+       function doUpdate(gSeq){ //수정
+        	var frm = document.frm;
+        	frm.gSeq.value = gSeq;
+        	frm.action = "get.do";
+        	frm.submit();
+        }
+	    
+	    $(document).ready(function(){
+	    	//alert("ready");
+	    	
+	    	$("#note").on("click","button",function(){
+	    		alert("delete");
+	    		
+	    	});
+		    
+			$("#update").on("click",function(){
+				alert('수정할께여');
+				
+				var bNum = $(".hiddenbNum").text();
+				var bTitle = $("#bTitlebofrm").text();
+				var bCont =$('.bContbofrm').text();
+				
+				var frm = document.boform;
+			        	frm.bNum.value = bNum;
+			        	frm.bTitle.value = bTitle;
+			        	frm.bCont.value = bCont;
+			        	frm.action = "write.do"; 
+			        	frm.submit(); 
+
+			});//--#listTable>tbody
+	    	
+	    });
+ 
+	    </script>
    
+   
+		    <form  name="boform" id="boform" action="/board.do" method="get" class="form-inline">
+				<input type="hidden" name="bNum" id="bNum">
+				<input type="hidden" name="bTitle" id="bTitle">
+				<input type="hidden" name="bCont" id="bCont">
+			</form>
 		      
 		     <div style=" color:black; font-size:20px;"  class="row" >
-		     <div style="float:left;"> <b><c:out value="${list.bTitle}"></c:out> </b></div>
+		     <div id="bTitlebofrm" style="float:left;"> <b><c:out value="${list.bTitle}"></c:out> </b></div>
 		     </div>
 		     </div> 
 		     
@@ -390,17 +445,19 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
   				<div style="float:left;"><b><c:out value="${list.userId}"></c:out></b></div>
               <div style="float:left;"><b><c:out value="${list.regDt}"></c:out></b></div>
 		       <div style="float:right;"><b>+<c:out value="${list.bHit}"></c:out></b></div>
+		       
 		       <div class="hiddenbNum"><c:out value="${list.bNum}"></c:out></div>
+		       
            </div>  
            
               <div class="row" >
               <!-- float 속성에 따른 div의 겹침 현상 -->
                 <div style=”clear:both;”></div>
-	             <div style="border-bottom:1px solid;"><c:out value="${list.bCont}"></c:out></div> 
+	             <div class="bContbofrm" style="border-bottom:1px solid;"><c:out value="${list.bCont}"></c:out></div> 
 	     		  </div>  
 		 <div style=”clear:both;”></div>
 
-		 
+		
     
 		<!-- <hr style="border: solid 2px gray;"> -->
 		 
@@ -410,6 +467,15 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		  </div>
 		</div>
 </div>
+
+<!--  ----------------------------------------------------------------------------------------- -->
+<form  name="cform" id="cform" action="/bcont.do" method="get" class="form-inline">
+				<input type="hidden" name="bNum" id="bNum">
+				</form>
+
+<!--  ----------------------------------------------------------------------------------------- -->
+
+
 
 
 <!------------------------------------댓글-------------------------------------------------------------------------------------------------->
