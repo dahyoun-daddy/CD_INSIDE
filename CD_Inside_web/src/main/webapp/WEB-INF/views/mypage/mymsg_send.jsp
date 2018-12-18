@@ -146,7 +146,7 @@
 			              
 			         },
 			         complete: function(data){//무조건 수행
-		         		 location.href="receiveIndex.do";
+		         		 location.href="sendIndex.do";
 
 			         },
 			         error: function(xhr,status,error){
