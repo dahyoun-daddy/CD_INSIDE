@@ -75,17 +75,14 @@
 		  		 value ="${userVo.userEmail }" style="WIDTH: 200pt" maxlength="20" placeholder="이메일을 입력하세요.">
 	        </div>
 	        
-			<div style="height: 200px">
 	        <div class="col-sm-2" ></div>
 	        <label class="col-sm-3 control-label"><br/>회원 등급 </label>
-	        <div class="col-sm-2" ><br/>
-	        	<input type="radio" align="left" name="userYn" id="userYn0" 
+	        <div class="col-sm-7" align="left"><br/>
+	        	<input type="radio"  name="userYn" id="userYn0" 
 	        		value="0" <c:if test="${userVo.userYn==0 }">checked="checked"</c:if> />일반회원 &nbsp;&nbsp;&nbsp;&nbsp;
-	        	<input type="radio" align="left" name="userYn" id="userYn1" 
+	        	<input type="radio"  name="userYn" id="userYn1" 
 	        		value="1" <c:if test="${userVo.userYn==1 }">checked="checked"</c:if> />관리자
 	        </div>
-	        <div class="col-sm-5" ><br/></div>
-	         </div>
 	        
 	         <div class="col-sm-12" ><hr/></div>
 	         
@@ -102,6 +99,41 @@
 	   </div>
 	<script type="text/javascript">
     $(document).ready(function(){ 
+    	
+		$("#do_delete").on("click",function(){
+			//alert("do_delete");
+			
+			var userId =$("#userId").val();
+			
+			if(false==confirm("삭제 하시겠습니까?"))return;
+			
+			
+	        $.ajax({
+	            type:"POST",
+	            url:"deleteOne.do",
+	            dataType:"html",
+	            data:{
+	            	"userId": userId
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+		         	 if(parseData.flag>0){
+		         		 alert(parseData.message);
+		         		 location.href="user_list.do";
+		         	 }else{
+		         		alert(parseData.message);
+		         	 }
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+			
+		});//--do_delete
+    	
     	
     	$("#do_update").on("click",function(){
     		

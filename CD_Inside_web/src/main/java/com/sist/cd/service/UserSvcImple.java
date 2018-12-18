@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.common.SearchVO;
+import com.sist.cd.dao.CommentDAO;
 import com.sist.cd.dao.UserDAO;
 import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.CommentVO;
@@ -26,6 +27,8 @@ public class UserSvcImple implements UserSvc{
 		
 	@Autowired
 	private UserDAO userDao;
+	@Autowired
+	private CommentDAO commentDAO;
 
 
 	@Override
@@ -133,6 +136,26 @@ public class UserSvcImple implements UserSvc{
 	@Override
 	public String pwFind(UserVO userVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		return userDao.pwFind(userVO);
+	}
+
+	@Override
+	public int co_deleteMulti(List<CommentVO> list) throws RuntimeException, SQLException {
+		int flag = 0;
+		try {
+			for(CommentVO vo :list) {
+				flag+=commentDAO.delete(vo);
+			}
+			
+		}catch(RuntimeException e) {
+			log.debug("========================");
+			log.debug("RuntimeException: "+e.getMessage());
+			log.debug("========================");			
+			throw e;
+		}
+		log.debug("========================");
+		log.debug("=flag="+flag);
+		log.debug("========================");
+		return flag;
 	}
 
 

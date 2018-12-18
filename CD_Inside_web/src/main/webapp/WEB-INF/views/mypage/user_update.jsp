@@ -102,6 +102,7 @@
 	         <div class="col-sm-3" ></div>
 	         <div class="col-sm-6" align="center"><br/>
 		     	<input class="btn btn-primary " type="button" id ="do_update" value="수정">
+		     	<input class="btn btn-primary " type="button" id ="do_delete" value="삭제">
 		  	</div>
 	         <div class="col-sm-3" ></div>
 	    </form>

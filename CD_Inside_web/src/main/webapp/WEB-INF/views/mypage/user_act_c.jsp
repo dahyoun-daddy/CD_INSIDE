@@ -1,6 +1,6 @@
+<%@page import="com.sist.cd.domain.CommentVO"%>
 <%@page import="org.slf4j.LoggerFactory"%>
 <%@page import="org.slf4j.Logger"%>
-<%@page import="com.sist.cd.domain.BoardVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.sist.cd.domain.CodeVO"%>
 <%@page import="java.util.List"%>
@@ -19,7 +19,7 @@
 	int totalCnt      =0;
 	int bottomCount   =10;
 	
-	BoardVO vo =  (BoardVO)request.getAttribute("param");
+	CommentVO vo =  (CommentVO)request.getAttribute("param");
 	//out.print("vo:"+vo);
 	
 	if(null !=vo ){
@@ -81,33 +81,32 @@
 		<div class="col-xs-12"><hr/></div>
 		<div class="col-xs-1"></div>
 		<div class="table-responsive col-xs-10" >
+     	<div class="row">
 	         <div class="col-sm-12" >
 	         	<ul class="nav nav-tabs">
-					<li role="presentation" class="active"><a href="/cd/mypage/user_act.do">등록한 게시글</a></li>
-					<li role="presentation"><a href="/cd/mypage/user_act_c.do">등록한 댓글</a></li>
+					<li role="presentation"><a href="user_act.do">등록한 게시글</a></li>
+					<li role="presentation" class="active"><a href="user_act_c.do">등록한 댓글</a></li>
 				</ul>
 
 <!-- 	          <ul class="nav nav-tabs"> -->
 <!-- 	              <li class="active"><a href="#first" >등록한 게시글</a></li> -->
 <!-- 	              <li><a href="#second" >등록한 댓글</a></li> -->
 <!-- 	          </ul> -->
-		         <input type="hidden" id="aTag" name="aTag" value="board" >
+<!-- 		         <input type="hidden" id="aTag" name="aTag" value="board" > -->
 		     </div>
 <!-- 	         <div class="col-sm-12" ><hr/></div> -->
-	         <div style="text-align: right">
+	         <div style="text-align: right"><br/>
 	         	<input type="button" class="btn btn-default btn-sm" style="height: 35px" id="do_delete" value="삭제"/> 
+	         </div>
 	         </div>
 			<table id="listTable" class="table table-striped table-bordered table-hover ">
 			<thead class="bg-primary">
 			    <tr>
-			        <th class="col-lg-1" style="text-align: center">전체<br/>
-			        	<input type="checkbox" id="checkAll" name="checkAll" onclick="checkAlla();" >
-			        </th> 
-					<th class="text-center col-lg-1" >번호</th>
-					<th class="text-center col-lg-2" >게시판</th>
-					<th class="text-center col-lg-3" >제목</th>
+			        <th class=" col-lg-1" style="text-align: center" > 전체<br/><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAlls();" ></th> 
+					<th style="display:none" class="text-center col-lg-2" >게시판번호 본문이동</th>
+					<th class="text-center col-lg-5" >내용</th>
 					<th class="text-center col-lg-3" >작성일</th>
-					<th class="text-center col-lg-2" >조회수</th>
+					<th style="display:none" class=" col-lg-1">댓글번호 삭제용</th>
 				</tr>
 			</thead>
 			</div>
@@ -115,14 +114,13 @@
 			 <tbody>
 				<c:choose>
 					<c:when test="${list.size()>0}">
-						<c:forEach var="boardVo" items="${list}">
+						<c:forEach var="commentVo" items="${list}">
 							<tr>
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
-								<td align="center" ><c:out value="${boardVo.bNum}"></c:out></td>
-								<td align="center" ><c:out value="${boardVo.bCate}"></c:out></td>
-								<td align="center" ><c:out value="${boardVo.bTitle}"></c:out></td>
-								<td align="center" ><c:out value="${boardVo.regDt}"></c:out></td>
-								<td align="center" ><c:out value="${boardVo.bCnt}"></c:out></td>
+								<td style="display:none" align="center" ><c:out value="${commentVo.bNum}"></c:out></td>
+								<td align="center" ><c:out value="${commentVo.commCont}"></c:out></td>
+								<td align="center" ><c:out value="${commentVo.regDt}"></c:out></td>
+								<td style="display:none" align="center" ><c:out value="${commentVo.commTextNum}"></c:out></td>
 							</tr>
 						</c:forEach>
 					</c:when>
@@ -138,7 +136,7 @@
 		<div class="col-xs-1"></div>
 		<!--// Grid영역 ---------------------------------------------------->
 		<div class="form-inline">
-			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "user_act.do", "search_page") %>
+			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "user_act_c.do", "search_page") %>
 		</div>
 	    </form>
 	   </div>
@@ -147,7 +145,7 @@
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-
+    
     //page
     function search_page(url,page_num){
    	 //alert(url+":search_page:"+page_num);
@@ -159,7 +157,7 @@
     }
     
 	//check 전체 선택
-	function checkAlla(){
+	function checkAlls(){
 	//alert("checkAll");
 		if($("#checkAll").is(':checked') == true  ){
 			$("input[name='check']").prop("checked",true);
@@ -168,62 +166,69 @@
 		}
 	   
 	}
-    
+	
+	//검색
+    function doSearch(){
+	 	var frm = document.frm;
+		frm.page_num.value =1;
+	   	frm.action = "user_act_c.do";
+	   	frm.submit();
+    }
     
 	$(document).ready(function(){   
 		
-// 		$("#do_delete").on("click",function(){
-// 			//alert("do_delete");
+		$("#do_delete").on("click",function(){
+			//alert("do_delete");
 			
-// 			var items = [];//var items=new Array(); 
-// 			$( "input[name='check']:checked" ).each(function( index,row ) {
-// 				console.log("index="+index);
-// 				//console.log("row="+row);
-// 				var record = $(row).parents("tr");
-// 				var userId = $(record).find("td").eq(1).text();
-// 				console.log("userId="+userId);
-// 				items.push(userId);
-// 			});
-// 			console.log("items.length="+items.length);
-// 			if(items.length<=0){
-// 				alert("삭제할 데이터를 선택 하세요.")
-// 				return;
-// 			}
+			var items = [];//var items=new Array(); 
+			$( "input[name='check']:checked" ).each(function( index,row ) {
+				console.log("index="+index);
+				//console.log("row="+row);
+				var record = $(row).parents("tr");
+				var coNum = $(record).find("td").eq(4).text();
+				console.log("coNum="+coNum);
+				items.push(coNum);
+			});
+			console.log("items.length="+items.length);
+			if(items.length<=0){
+				alert("삭제할 데이터를 선택 하세요.")
+				return;
+			}
 			
-// 			if(false==confirm("삭제 하시겠습니까?"))return;
+			if(false==confirm("삭제 하시겠습니까?"))return;
 			
-// 			var jsonIdList = JSON.stringify(items);
-// 			//jsonIdList=["107","108"]
-// 			console.log("jsonIdList="+jsonIdList);
+			var jsonIdList = JSON.stringify(items);
+			//jsonIdList=["107","108"]
+			console.log("jsonIdList="+jsonIdList);
 			
-// 	        $.ajax({
-// 	            type:"POST",
-// 	            url:"delete.do",
-// 	            dataType:"html",
-// 	            data:{
-// 	            	"userId_list": jsonIdList
-// 	            },
-// 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-// 		             var parseData = $.parseJSON(data);
-// 	                 console.log("parseData.flag="+parseData.flag);
-// 	                 console.log("parseData.message="+parseData.message);
-// 		         	 if(parseData.flag > 0){
-// 		         		alert(parseData.message);
-// 		         		doSearch();
-// 		         	 }else{
-// 		         		alert(parseData.message);
+	        $.ajax({
+	            type:"POST",
+	            url:"co_delete.do",
+	            dataType:"html",
+	            data:{
+	            	"commNum": jsonIdList
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+	                 console.log("parseData.flag="+parseData.flag);
+	                 console.log("parseData.message="+parseData.message);
+		         	 if(parseData.flag > 0){
+		         		alert(parseData.message);
+		         		doSearch();
+		         	 }else{
+		         		alert(parseData.message);
 		         		
-// 		         	 }				             
-// 	            },
-// 	            complete: function(data){//무조건 수행
+		         	 }				             
+	            },
+	            complete: function(data){//무조건 수행
 	             
-// 	            },
-// 	            error: function(xhr,status,error){
+	            },
+	            error: function(xhr,status,error){
 	             
-// 	            }
-// 	         });//--ajax
+	            }
+	         });//--ajax
 			
-// 		});//--do_delete
+		});//--do_delete
 		
  	});
     

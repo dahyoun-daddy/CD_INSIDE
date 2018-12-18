@@ -28,6 +28,7 @@ import com.sist.cd.common.StringUtil;
 import com.sist.cd.ctrl.UserCtrl;
 import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.CodeVO;
+import com.sist.cd.domain.CommentVO;
 import com.sist.cd.domain.UserVO;
 import com.sist.cd.service.CodeSvc;
 import com.sist.cd.service.UserSvc;
@@ -41,15 +42,103 @@ public class UserCtrl {
 	private UserSvc userSvc;
 	@Autowired
 	private CodeSvc codeSvc;
-    
 	
+	@RequestMapping(value="/mypage/co_delete.do",method=RequestMethod.POST
+			,consumes= {"text/plain", "application/*"}
+			,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public String co_deleteMulti(HttpServletRequest req,Model model) throws RuntimeException, SQLException{
+		String commNum = req.getParameter("commNum");
+		log.info("commNum : "+commNum);
+		
+		Gson gson=new Gson();
+		List<String>  listParam = gson.fromJson(commNum, List.class);
+		log.info("commNum: "+listParam);
+		
+		List<CommentVO> paramList = new ArrayList<CommentVO>();
+		for(int i=0;i<listParam.size();i++) {
+			CommentVO vo =new CommentVO();
+			vo.setCommTextNum(listParam.get(i));//삭제 where조건
+			
+			paramList.add(vo);
+		}
+		log.info("paramList: "+paramList);
+		
+		int flag = this.userSvc.co_deleteMulti(paramList);
+//		CommentVO coVo = new CommentVO();
+//		int flag = this.userSvc.delete(userVO);
+		log.info("====================");
+		log.info("flag : "+flag);
+		log.info("====================");
+		JSONObject object=new JSONObject();
+		
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "삭제 되었습니다.\n("+flag+"건 삭제.)");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "삭제 실패....");			
+		}		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+	}
+	
+	
+	
+	//mypage 활동내역 조회(게시글/댓글)------------------------------
+	@RequestMapping(value="/mypage/user_act_c.do",method = RequestMethod.GET )
+	public String idCommnet(@ModelAttribute CommentVO  invo,Model model, HttpServletRequest req) 
+			throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		log.info("CommentVO" + invo);
+//		String aTag = req.getParameter("aTag");
+//		log.info(">>>>>>>aTag:" + aTag);
+		
+		//세션받기
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		invo.setUserId(userId); //TODO 세션 받을곳
+		
+		String page_num = (String) req.getParameter("page_num");
+		if (page_num == null) {
+			invo.setPage_num(1);
+		} else {
+			invo.setPage_num(Integer.parseInt(page_num));
+		}
+
+		if(invo.getPage_size() == 0) {
+			invo.setPage_size(10);
+		}
+		
+		log.info("page_num:" + page_num);
+		log.info("***page_size:" + invo.getPage_size());
+
+
+		List<CommentVO> list = userSvc.idCommnet(invo);
+
+		int total_cnt = 0;
+		if (null != list && list.size() > 0) {
+			total_cnt = list.get(0).getTotalCnt();
+			log.info("totalCnt: " + total_cnt);
+		}
+		log.info("list: " + list);
+		model.addAttribute("param", invo);
+		model.addAttribute("total_cnt",total_cnt);
+		model.addAttribute("list", list);
+		
+		return "/mypage/user_act_c.do";
+	}
+		
 	//mypage 활동내역 조회(게시글/댓글)------------------------------
 	@RequestMapping(value="/mypage/user_act.do",method = RequestMethod.GET )
 	public String idBoard(@ModelAttribute BoardVO  invo,Model model, HttpServletRequest req) 
 			throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		log.info("BoardVO" + invo);
-		String aTag = req.getParameter("aTag");
-		log.info(">>>>>>>aTag:" + aTag);
+//		String aTag = req.getParameter("aTag");
+//		log.info(">>>>>>>aTag:" + aTag);
 		
 		//세션받기
 		HttpSession session = req.getSession(true);
@@ -80,13 +169,41 @@ public class UserCtrl {
 		}
 		log.info("list: " + list);
 		model.addAttribute("param", invo);
-		
 		model.addAttribute("total_cnt",total_cnt);
 		model.addAttribute("list", list);
 
 		return "/mypage/user_act.do";
 	}
 		
+	
+	@RequestMapping(value="/mypage/deleteUser.do",method=RequestMethod.POST
+			,consumes= {"text/plain", "application/*"}
+			,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public String deleteUser(@ModelAttribute UserVO invo,HttpServletRequest req,Model model) throws RuntimeException, SQLException{
+		String userId = req.getParameter("userId");
+		
+		invo.setUserId(userId);
+		
+		int flag = this.userSvc.delete(invo);
+		
+		JSONObject object=new JSONObject();
+		
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "삭제 되었습니다.");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "삭제 실패....");			
+		}		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+	}
+	
 	
 	
 	//mypage 관리자 회원목록 조회------------------------------
@@ -494,6 +611,36 @@ public class UserCtrl {
 		if(flag>0) {
 			object.put("flag", flag);
 			object.put("message", "삭제 되었습니다.\n("+flag+"건 삭제.)");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "삭제 실패....");			
+		}		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+	}
+	
+	
+	
+	@RequestMapping(value="/mypage/deleteOne.do",method=RequestMethod.POST
+			,consumes= {"text/plain", "application/*"}
+			,produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public String deleteOne(@ModelAttribute UserVO invo,HttpServletRequest req,Model model) throws RuntimeException, SQLException{
+		String userId = req.getParameter("userId");
+		
+		invo.setUserId(userId);
+		
+		int flag = this.userSvc.delete(invo);
+		
+		JSONObject object=new JSONObject();
+		
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "삭제 되었습니다.");
 		}else {
 			object.put("flag", flag);
 			object.put("message", "삭제 실패....");			
