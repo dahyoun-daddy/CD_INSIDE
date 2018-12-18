@@ -128,7 +128,7 @@
 			         dataType:"html",// JSON
 			         data:{
 			        	"msgSeq": "msgSeq",
-			         	"userId": $("#msgRecvId").val(),
+			         	"userId": $("#userId").val(),
 				        "msgRecvId": $("#msgRecvId").val(),
 				        "msgCont": $("#msgCont").val()
 			         },
