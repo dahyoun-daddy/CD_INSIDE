@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%	String userId = (String) session.getAttribute("sessionId");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -168,7 +171,7 @@ function commentAjax(params,url){
 		 url : url,    
         dataType:"json",// JSON
         data:{
-            "userId": 'test',
+            "userId": '<%=userId %>',
             "commCont": commCont,
             "bNum": '1',
             "modId": '1',
@@ -461,11 +464,13 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		    				+					'width="30px" height="30px"/>&nbsp;'
 		    				+				'<label class="hitNum">'+value.commHit+'</label>'
 		    				+				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-expanded="false" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
-		    				+				'&nbsp;'
-		    				+				'<a class="cursor" id="commentUpdate" >수정</a>'
-		    				+				'&nbsp;'
-		    				+				'<a class="cursor" id="coomentDelete" >삭제</a>'
-		    				+			'<div class="comment-meta">'
+		    				+				'&nbsp;' 
+			    				if(value.userId == '<%=userId%>') {
+				    					   divIn +=				'<a class="cursor" id="commentUpdate" >수정</a>'
+				    				       +				'&nbsp;'
+				    				       +				'<a class="cursor" id="coomentDelete" >삭제</a>'
+			    				}
+		    				divIn +=			'<div class="comment-meta">'
 		    				+				'<div class="bocollapse collapse" id="commentReplyadd' + value.commTextNum + '">'
 		    				+					'<div class="form-group">'
 		    				+						'<label for="comment">답글</label>'
