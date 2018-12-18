@@ -168,7 +168,14 @@
 		}
 	   
 	}
-    
+	
+	//검색
+    function doSearch(){
+	 	var frm = document.frm;
+		frm.page_num.value =1;
+	   	frm.action = "user_act.do";
+	   	frm.submit();
+    }
     
 	$(document).ready(function(){   
 		
