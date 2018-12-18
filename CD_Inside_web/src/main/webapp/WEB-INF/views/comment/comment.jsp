@@ -416,7 +416,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		    				+					'width="30px" height="30px"/>&nbsp;'
 		    				+				'<label class="hitNum">'+value.commHit+'</label>'
 		    				if('<%=userId%>' != 'null') {
-			    	divIn  +=				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-expanded="false" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
+			    	divIn  +=				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
 			    			+				'&nbsp;' 
 		    				}
 

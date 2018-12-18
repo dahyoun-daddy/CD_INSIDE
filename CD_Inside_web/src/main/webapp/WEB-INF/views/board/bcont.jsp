@@ -13,25 +13,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-<!-- 부가적인 테마 -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
 <%
 // 	BoardVO vo = (BoardVO) request.getAttribute("list");
 
 %>
-
-
-
 
 <style>
 .row-centered {
@@ -51,12 +40,13 @@
 </style> 
  
 <link href="/cd/resources/css/comment.css" rel="stylesheet" type="text/css">
-</head> 
-
-
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head> 
+
+
+
 <script type="text/javascript">
 
 //수정버튼 눌렸을때
@@ -115,17 +105,19 @@ $(document).on('click','#commentUpdateCancel', function() {
 
 //추천
 $(document).on('click','#like', function() {
-	var userId = <%=userId%>;
-	if(userId = 'null'){
+	var userId = '<%=userId%>';
+	if(userId != 'null'){
+		var parent = $(this).parents(".container");
+		var commTextNum = $(parent).find(".commTextNum").val();
+		var params = {
+				commTextNum : commTextNum
+		};
+		commentAjax(params,"do_hitComment.do");
+	}else{
 		alert('비회원은 추천할수 없습니다.');
 		return false;
 	}
-	var parent = $(this).parents(".container");
-	var commTextNum = $(parent).find(".commTextNum").val();
-	var params = {
-			commTextNum : commTextNum
-	};
-	commentAjax(params,"do_hitComment.do");
+
 });
 
 //삭제
@@ -428,6 +420,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 	</div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 	<form id="commonForm" name="commonForm"></form>
+	
 	<%if(userId == null){ %>
 	<div class="container">
 		<div class="form-group">
@@ -481,58 +474,58 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 	            var depth = "";
 	            $.each(data.list, function(key, value){
 	            	var divIn = "";
-	            		divIn += 	'<div class="media-heading">'
-		    				+				'<div id="container">'
-		    				+					'<div>'
-		    				+						'<label class="commId">' + value.userId + '</label>&nbsp;'
-		    				+						'<label class="commTime">' + value.regDt + '</label>'
-		    				+					'</div>'
-		    				+					'<input type="hidden" class="commTextNum" value="' + value.commTextNum + '"/>'
-		    				+					'<input type="hidden" class="commGroupNo" value="' + value.commGroupNo + '"/>'
-		    				+					'<input type="hidden" class="commDepth" value="' + value.commDepth + '"/>'
-		    				+				'</div>'
-		    				+			'</div>'
-		    				+			'<div class="p">'
-		    				+				'<p>'+value.commCont+'</p>'
-		    				+			'</div>'
-		    				+				'<img class="cursor" id="like" src="/cd/resources/img/like.jpg"'
-		    				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
-		    				+					'width="30px" height="30px"/>&nbsp;'
-		    				+				'<label class="hitNum">'+value.commHit+'</label>'
-		    				if('<%=userId%>' != 'null') {
-			    	divIn  +=				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-expanded="false" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
-			    			+				'&nbsp;' 
-		    				}
+            		divIn += 	'<div class="media-heading">'
+	    				+				'<div id="container">'
+	    				+					'<div>'
+	    				+						'<label class="commId">' + value.userId + '</label>&nbsp;'
+	    				+						'<label class="commTime">' + value.regDt + '</label>'
+	    				+					'</div>'
+	    				+					'<input type="hidden" class="commTextNum" value="' + value.commTextNum + '"/>'
+	    				+					'<input type="hidden" class="commGroupNo" value="' + value.commGroupNo + '"/>'
+	    				+					'<input type="hidden" class="commDepth" value="' + value.commDepth + '"/>'
+	    				+				'</div>'
+	    				+			'</div>'
+	    				+			'<div class="p">'
+	    				+				'<p>'+value.commCont+'</p>'
+	    				+			'</div>'
+	    				+				'<img class="cursor" id="like" src="/cd/resources/img/like.jpg"'
+	    				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
+	    				+					'width="30px" height="30px"/>&nbsp;'
+	    				+				'<label class="hitNum">'+value.commHit+'</label>'
+	    				if('<%=userId%>' != 'null') {
+		    	divIn  +=				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
+		    			+				'&nbsp;' 
+	    				}
 
-			    				if(value.userId == '<%=userId%>') {
-				    					   divIn +=				'<a class="cursor" id="commentUpdate" >수정</a>'
-				    				       +				'&nbsp;'
-				    				       +				'<a class="cursor" id="coomentDelete" >삭제</a>'
-			    				}
-		    							if('<%=userId%>' != 'null') {
-			    	 divIn +=	 		'<div class="comment-meta">'
-							+				'<div class="bocollapse collapse" id="commentReplyadd' + value.commTextNum + '">'
-		    				+					'<div class="form-group">'
-		    				+						'<label for="comment">답글</label>'
-		    				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
-		    				+					'</div>'
-		    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
-		    				+				'</div>'
-		    				+			'</div>'
-		    						}
+		    				if(value.userId == '<%=userId%>') {
+			    					   divIn +=				'<a class="cursor" id="commentUpdate" >수정</a>'
+			    				       +				'&nbsp;'
+			    				       +				'<a class="cursor" id="coomentDelete" >삭제</a>'
+		    				}
+	    							if('<%=userId%>' != 'null') {
+		    	 divIn +=	 		'<div class="comment-meta">'
+						+				'<div class="bocollapse collapse" id="commentReplyadd' + value.commTextNum + '">'
+	    				+					'<div class="form-group">'
+	    				+						'<label for="comment">답글</label>'
+	    				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
+	    				+					'</div>'
+	    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
+	    				+				'</div>'
+	    				+			'</div>'
+	    						}
 	            	if(value.commDepth == 0) {
-	          		str +=		'<div class="container">' 
-	    				+		'<div class="media">' 
-						+			divIn
-	    				+		'</div>'
-	    				+		'</div>';
-	            	}else {
 		          		str +=		'<div class="container">' 
-		    				+		'<div class="media_reply">' 
-							+ 			divIn
+		    				+		'<div class="media">' 
+							+			divIn
 		    				+		'</div>'
-		    				+	'</div>';
-	            	}
+		    				+		'</div>';
+		            	}else {
+			          		str +=		'<div class="container">' 
+			    				+		'<div class="media_reply">' 
+								+ 			divIn
+			    				+		'</div>'
+			    				+	'</div>';
+		            	}
 	            });
 				body.append(str);
 			}
