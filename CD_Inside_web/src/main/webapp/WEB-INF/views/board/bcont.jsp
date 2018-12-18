@@ -115,6 +115,11 @@ $(document).on('click','#commentUpdateCancel', function() {
 
 //추천
 $(document).on('click','#like', function() {
+	var userId = <%=userId%>;
+	if(userId = 'null'){
+		alert('비회원은 추천할수 없습니다.');
+		return false;
+	}
 	var parent = $(this).parents(".container");
 	var commTextNum = $(parent).find(".commTextNum").val();
 	var params = {
