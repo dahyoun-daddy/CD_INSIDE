@@ -261,7 +261,7 @@ public class UserDAOTest {
 		//회원 개인정보 수정
 		UserVO vo = new UserVO("11user","test22","11234","22@z.z","수정2","수정2","11user");
 		vo.setUserYn("0");
-		userDao.update(vo);
+		userDao.uUpdate(vo);
 
 		LOG.info("UserVO update:"+userDao.selectOne(vo));
 	}

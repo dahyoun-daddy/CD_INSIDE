@@ -61,8 +61,8 @@ public class UserSvcImple implements UserSvc{
 	}
 
 	@Override
-	public int update(UserVO userVO) throws SQLException {
-		return userDao.update(userVO);
+	public int aUpdate(UserVO userVO) throws SQLException {
+		return userDao.aUpdate(userVO);
 	}
 
 	@Override

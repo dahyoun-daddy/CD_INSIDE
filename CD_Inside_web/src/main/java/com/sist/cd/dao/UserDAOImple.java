@@ -219,7 +219,7 @@ public class UserDAOImple implements UserDAO{
 	 * 수정
 	 */
 	@Override
-	public int update(UserVO userVO) throws SQLException {
+	public int aUpdate(UserVO userVO) throws SQLException {
 		String statement = NAME_SPACE+".update";
 		log.debug("1.statement: "+statement);
 		log.debug("2.param: "+userVO);

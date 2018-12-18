@@ -227,7 +227,6 @@
 			,MOD_ID     = #{modId}  
 			,MOD_DT     = sysdate
 		WHERE USER_ID   = #{userId} 
-		AND   USER_PW   = #{userPw}
 	</update>
 
 <!-- 	등록 -->

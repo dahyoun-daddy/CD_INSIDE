@@ -532,20 +532,8 @@ public class UserCtrl {
 		int flag1 = userSvc.login(invo);//로그인 맞게입력시 result=1
 
 		JSONObject object=new JSONObject();
-//		String outName = userSvc.nameCheck(outVO.getUserName());//db에 값이 없으면 null 리턴?
-//		if(null!=outName) {
-//			object.put("outName", outName);
-//			object.put("message1", outName+"은(는) 중복된 이름(닉네임) 입니다.");
-//		}else {
-//			object.put("outName", outName);
-//			object.put("message1", "사용 가능한 이름(닉네임) 입니다.");
-//		}
-//
-//		model.addAttribute("outName",outName);
-//		model.addAttribute("nameChk", userSvc.nameCheck(outVO.getUserName()));
 
 		if(flag1>0) {
-//			out.println("<script>alert('"+outVO.getUserName()+"님 로그인 되었습니다.'); </script>");
 			
 			invo.setUserPw(req.getParameter("userPw1"));
 			log.info("-*-*-*-invo"+invo);
@@ -561,7 +549,6 @@ public class UserCtrl {
 			}
 			
 		}else {
-//			out.println("<script>alert('아이디와 비밀번호를 확인하세요.'); </script>");
 			object.put("flag", flag1);
 			object.put("message", "현재 비밀번호가 맞지 않습니다.");
 		}
@@ -579,7 +566,29 @@ public class UserCtrl {
 		return jsonData;
 	}
 
-	
+	@RequestMapping(value="/mypage/aUpdate.do",method=RequestMethod.POST
+	        ,produces="application/json;charset=UTF-8" )
+	@ResponseBody
+	public String aUpdate(@ModelAttribute UserVO invo, HttpSession session,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		String userId = (String) session.getAttribute("sessionId");
+		invo.setModId(userId); //관리자로 로그인 한 사람이 수정함
+		JSONObject object=new JSONObject();
+		log.info("userVO : "+invo);
+		
+		int flag = userSvc.aUpdate(invo);
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "수정 되었습니다.");
+			
+		}else {
+			object.put("flag", flag);
+			object.put("message", "수정 실패....");			
+		}
+		
+		String jsonData = object.toJSONString();
+		return jsonData;
+	}
+		
 	/**
 	 * 저장
 	 * @param invo
@@ -668,5 +677,20 @@ public class UserCtrl {
 		log.info("=====user_update_view======");
 		return "/mypage/user_update.do";
 	}
-
+	
+	@RequestMapping(value="/mypage/user_list_update.do", method=RequestMethod.GET)	
+	public String user_list_update_view(HttpServletRequest req, Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		UserVO invo = new UserVO();
+		
+		
+		invo.setUserId(req.getParameter("userId")); //수정할 아이디
+		log.info("---/*/---"+invo);
+		
+		UserVO outVO = userSvc.selectOne(invo);
+		model.addAttribute("userVo",outVO);
+		log.info("---*outVO*---"+outVO);
+		
+		log.info("=====user_list_update_view======");
+		return "/mypage/user_list_update.do";
+	}
 }

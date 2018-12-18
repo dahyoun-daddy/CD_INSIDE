@@ -178,27 +178,31 @@
 		
     	
     	$("#listTable>tbody").on("dblclick","tr",function(){
-			var record = $(row).parents("tr");
-			var userId = $(record).find("td").eq(2).text();
+			var tr = $(this);
+			var td = tr.children();
+			var userId = td.eq(2).text();
+			console.log("2 userId="+userId);
+			
+			if(confirm(userId+"를 수정하시겠습니까?"))
 			
 	        $.ajax({
-	            type:"POST",
-	            url:"selectOne.do",
+	            type:"GET",
+	            url:"user_list_update.do",
 	            dataType:"html",
 	            data:{
 	            	"userId": userId
 	            },
 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-		             var parseData = $.parseJSON(data);
-	                 console.log("parseData.flag="+parseData.flag);
-	                 console.log("parseData.message="+parseData.message);
-		         	 if(parseData.flag > 0){
-		         		alert(parseData.message);
-		         		location.href=""
-		         	 }else{
-		         		alert(parseData.message);
+// 		             var parseData = $.parseJSON(data);
+// 	                 console.log("parseData.flag="+parseData.flag);
+// 	                 console.log("parseData.message="+parseData.message);
+// 		         	 if(parseData.flag > 0){
+// 		         		alert(parseData.message);
+		         		location.href="user_list_update.do?userId="+userId;
+// 		         	 }else{
+// 		         		alert(parseData.message);
 		         		
-		         	 }				             
+// 		         	 }				             
 	            },
 	            complete: function(data){//무조건 수행
 	             

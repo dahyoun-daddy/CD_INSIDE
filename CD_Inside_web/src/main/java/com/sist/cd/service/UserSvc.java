@@ -62,7 +62,7 @@ public interface UserSvc {
 	/**
 	 * 수정
 	 */
-	int update(UserVO userVO) throws SQLException;
+	int aUpdate(UserVO userVO) throws SQLException;
 	
 	/**
 	 * 추가:115

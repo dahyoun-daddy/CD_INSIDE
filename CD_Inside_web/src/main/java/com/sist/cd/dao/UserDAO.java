@@ -55,7 +55,7 @@ public interface UserDAO {
 	/**
 	 * 수정
 	 */
-	int update(UserVO userVO) throws SQLException;
+	int aUpdate(UserVO userVO) throws SQLException;
 	
 	/**
 	 * 조회 COUNT

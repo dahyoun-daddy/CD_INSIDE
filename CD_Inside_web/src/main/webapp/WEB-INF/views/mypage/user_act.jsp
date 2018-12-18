@@ -66,7 +66,11 @@
 			쪽지<a >value</a> 
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
-		  <li role="presentation" ><a href=/cd/mypage/user_list.do>회원관리</a></li>
+		<c:choose>
+			<c:when test="${sessionYn==1 }">
+		  <li role="presentation" class="active" ><a href="/cd/mypage/user_list.do" >회원관리</a></li>
+			</c:when>
+		</c:choose>
 		  <li role="presentation" ><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
 		  <li role="presentation" class="active" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
 		  <li role="presentation"><a href="/cd/msg/receiveIndex.do">쪽지함</a></li>
