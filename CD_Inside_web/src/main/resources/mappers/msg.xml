@@ -9,20 +9,19 @@
 	    <where> 
 	    	<choose>
 	    		<when test="'40'==search_div">
-	    		    hr.userId like  #{search_word}||'%'
+	    		    hr.user_id like  #{search_word}||'%'
 	    		</when>
 	    		<when test="'50'==search_div">
-	    		    hr.msgRecvId like  #{search_word}||'%'
+	    		    hr.msg_recv_id like  #{search_word}||'%'
 	    		</when>
 	    		<when test="'30'==search_div">
-	    		    hr.msgCont like  #{search_word}||'%'
+	    		    hr.msg_cont like  #{search_word}||'%'
 	    		</when>		    		
 	    		<otherwise></otherwise>
 	    	</choose>
 	    </where>     
     </sql>
 
-	
 	<!-- 등록 -->
 	<insert id="add"  parameterType="MsgVO" >
 		 INSERT INTO MSG ( 
@@ -115,7 +114,9 @@
 		     msg_read_yn   
 	      FROM MSG
 	     ORDER BY MSG_READ_YN DESC, REG_DT DESC  
-    </select>			
+    </select>		
+
+
     
     <!-- select list -->
     <select id="do_retrieve" 

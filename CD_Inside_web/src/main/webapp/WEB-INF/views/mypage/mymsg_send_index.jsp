@@ -144,10 +144,10 @@
 						<select name="search_div" id="search_div"
 							class="form-control input-sm">
 							<option value="">::전체::</option>
+							<option value="50"
+								<%if (search_div.equals("50"))out.print("selected='selected'");%>>받는이</option>
 							<option value="30"
-								<%if (search_div.equals("30"))out.print("selected='selected'");%>>보낸이</option>
-							<option value="60"
-								<%if (search_div.equals("60"))out.print("selected='selected'");%>>내용</option>
+								<%if (search_div.equals("30"))out.print("selected='selected'");%>>내용</option>
 							</select>
 						<input type="text" name="search_word" id="search_word"
 							value="${param.search_word}" class="form-control input-sm"
@@ -266,7 +266,7 @@
      function doSearch(){
 	   	 var frm = document.frm;
 	   	 frm.page_num.value =1;
-	   	 frm.action = "search.do";
+	   	 frm.action = "sendIndex.do";
 	   	 frm.submit();
      }
    

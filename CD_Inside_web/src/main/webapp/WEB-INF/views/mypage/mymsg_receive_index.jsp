@@ -132,7 +132,6 @@
 	<form name="frm" id="frm" action="receiveIndex.do" method="get"
 		class="form-inline">
 		<input type="hidden" name="page_num" id="page_num">
-		<input type="hidden" name="msgSeq" id="msgSeq">
 
 		<!-- 검색영역 -->
 		<div class="container">
@@ -149,17 +148,15 @@
 						<div class="form-group">
 							<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
 						</div>
-						<select name="search_div" id="search_div"
-							class="form-control input-sm">
-							<option value="">::전체::</option>
-							<option value="30"
-								<%if (search_div.equals("30"))out.print("selected='selected'");%>>보낸이</option>
-							<option value="60"
-								<%if (search_div.equals("60"))out.print("selected='selected'");%>>내용</option>
-							</select>
-						<input type="text" name="search_word" id="search_word"
-							value="${param.search_word}" class="form-control input-sm"
-							placeholder="쪽지검색" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<select name="search_div" id="search_div" class="form-control input-sm">
+								<option value="">::전체::</option>
+								<option value="50" <%if(search_div.equals("50"))out.print("selected='selected'"); %> >보낸이</option>					
+								<option value="30" <%if(search_div.equals("30"))out.print("selected='selected'"); %> >내용</option>					
+								
+							</select>							
+						<input type="text" name="search_word" id="search_word" value="${param.search_word}" class="form-control input-sm" placeholder="쪽지검색" />
+							
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		
 						<!-- 버튼 -->
 						<button type="button" class="btn btn-default btn-sm"
@@ -248,17 +245,7 @@
 		comSubmit.setUrl("<c:url value='send_index.do' />");
 		comSubmit.submit();
 	}
-    
-    
-	//쪽지 쓰기 팝업창 호출 msg_send.jsp
-	function showPopup() {
-		var comSubmit = new comSubmit();
-		comSubmit.setUrl("<c:url value='msg/send.do' />");
-		comSubmit.submit();
-		window.open("msg_send.jsp", "msg_send",
-				"width=500, height=500, left=100, top=50");
-	}
-    
+        
     
     function search_page(url,page_num){
    	 //alert(url+":search_page:"+page_num);
@@ -282,7 +269,7 @@
      function doSearch(){
 	   	 var frm = document.frm;
 	   	 frm.page_num.value =1;
-	   	 frm.action = "do_receiveIndex.do";
+	   	 frm.action = "receiveIndex.do";
 	   	 frm.submit();
      }
  	 
@@ -321,7 +308,7 @@
 		         	 if(parseData.flag > 0){
 		         		alert(parseData.message);
 		         		location.href="receiveIndex.do";
-		         	//	doSearch();
+		         		doSearch();
 		         	 }else{
 		         		alert(parseData.message);
 		         		
@@ -372,7 +359,7 @@
 		         		alert(parseData.message);
 		         		location.href="receiveIndex.do";
 
-		         //		doSearch();
+		         		doSearch();
 		         	 }else{
 		         		alert(parseData.message);
 		         		
@@ -425,7 +412,7 @@
 	                 console.log("parseData.message="+parseData.message);
 		         	 if(parseData.flag > 0){
 		         		alert(parseData.message);
-		     //    		doSearch();
+		        		doSearch();
 		         	 }else{
 		         		alert(parseData.message);
 		         		

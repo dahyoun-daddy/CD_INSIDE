@@ -46,7 +46,7 @@ public class MymsgCtrl {
 	@Autowired
 	private CodeSvc codeSvc;	
 	
-	private static final String RESEND="/mypage/msg_resend.do";
+	private static final String RESEND="/mypage/msg.do";
 	private static final String SEND="/mypage/mymsg_send.do";
 	private static final String RECEIVE="/mypage/mymsg_receive.do";
 	private static final String RECEIVEINDEX="/mypage/mymsg_receive_index.do";
