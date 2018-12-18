@@ -35,7 +35,7 @@
 		<!-- 입력폼 -->
 		<hr/>
 
-        <form  name="frm" id="frm" action="add.do" method="get" class="form-horizontal">
+        <form  name="frm" id="frm" action="add.do" method="post" class="form-horizontal">
 		  <div class="form-group">
 	  		<input type="hidden" name="msgSeq" id="msgSeq" value="${list.msgSeq}">		  
 		    <label for="msgRectRecvId" class="col-sm-2 control-label">받는이</label>
@@ -146,7 +146,7 @@
 			              
 			         },
 			         complete: function(data){//무조건 수행
-				    	 javascript:window.close();
+		         		 location.href="receiveIndex.do";
 
 			         },
 			         error: function(xhr,status,error){
@@ -155,7 +155,7 @@
 			        });//--ajax					
 				
 				
-			});//--do_save
+			});//--do_add
 	    });//ready
 
 		</script>

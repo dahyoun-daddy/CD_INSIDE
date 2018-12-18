@@ -196,7 +196,7 @@ public class MymsgCtrl {
 	
 	
 //전송--------------------------------------------------------------------------------------------	
-	@RequestMapping(value= "/msg/save.do",method=RequestMethod.POST
+	@RequestMapping(value= "/msg/add.do",method=RequestMethod.POST
 	        ,produces="application/json;charset=utf8"  
 	)
 	@ResponseBody
@@ -223,7 +223,8 @@ public class MymsgCtrl {
 		
 		log.info("3========================");
 		log.info("jsonData="+jsonData);
-		log.info("3========================");			
+		log.info("3========================");	
+		
 		return jsonData;
 	}
 	
