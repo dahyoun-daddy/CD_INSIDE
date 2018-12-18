@@ -21,11 +21,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.BoardVO;
+import com.sist.cd.domain.CommentVO;
 import com.sist.cd.domain.GallogVO;
 import com.sist.cd.service.BoardSvc;
+import com.sist.cd.service.CommentSvc;
 
 @Controller
 @RequestMapping(value = "/board")
@@ -35,6 +40,9 @@ public class BoardCtrl {
 	
 	@Autowired
 	private BoardSvc boardSvc;
+	
+	@Autowired
+	private CommentSvc commentSvc;
 
 	private static final String BOARD_ALLRET = "/board/ball.do";
 	private static final String BOARD_SSANGYONG = "/board/bsy.do";
@@ -340,5 +348,137 @@ public class BoardCtrl {
 	}	 
 	
 	
+	
+	
+/**
+ * 댓글 컨트롤러----------------------------------------------------------------------------------------------------------------------------
+ * @return
+ * @throws Exception
+ */
+	
+	@RequestMapping(value = "/addComment.do",method=RequestMethod.POST, produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String addComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		commentSvc.add(commentVO);
+		log.info("commentVO:"+commentVO);
+		CommentVO outVO = commentSvc.get(commentVO);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonList="";
+		jsonList += mapper.writeValueAsString(outVO);
+		return jsonList;
+	}
+	
+	@RequestMapping(value = "/updateComment.do",method=RequestMethod.POST)
+	@ResponseBody
+	public String updateComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		commentSvc.update(commentVO);
+		log.info("commentVO:"+commentVO);
+		return "123";
+	}
+	
+	@RequestMapping(value = "/deleteComment.do",method=RequestMethod.POST)
+	@ResponseBody
+	public String deleteComment (CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		log.info("====================");
+		log.info("commentVO:"+commentVO);
+		log.info("====================");
+		commentSvc.delete(commentVO);
+		return "123";
+	}
+	
+	@RequestMapping(value = "/addreplyComment.do",method=RequestMethod.POST , produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String addreplyComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		commentSvc.addreply(commentVO);
+		log.info("commentVO:"+commentVO);
+		CommentVO outVO = commentSvc.get(commentVO);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonList="";
+		jsonList += mapper.writeValueAsString(outVO);
+		return jsonList;
+	}
+	
+	@RequestMapping(value = "/do_hitComment.do",method=RequestMethod.POST , produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String do_hitComment(CommentVO commentVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		log.info("commentVO:"+commentVO);
+		int flag = commentSvc.do_hit(commentVO);
+		
+		JSONObject object=new JSONObject();
+		
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "추천 되었습니다.");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "이미 추천한 댓글입니다.");			
+		}		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+	}
+	 
+	@RequestMapping(value = "/comm/do_retrieve.do", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String getUserList(CommentVO invo) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		log.info("invo:"+invo.getPage_num());
+		log.info("invo:"+invo.getbNum());
+		
+		log.info("invo:"+invo);
+		List<CommentVO> listVO = commentSvc.do_retrieve(invo);
+		int total_cnt = 0;
+		if(null != listVO && listVO.size()>0) {
+			total_cnt = listVO.get(0).getTotalCnt();
+			log.info("total_cnt: "+total_cnt);
+		}
+		log.info("listVO:"+listVO);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonList="{\"list\":";
+		log.info(jsonList);
+		jsonList += mapper.writeValueAsString(listVO);
+		log.info(jsonList);
+		jsonList += ",\"TOTAL\":"+total_cnt+"}";
+		return jsonList;
+	}
+	
+	@RequestMapping(value = "/comm/paging_retrieve.do", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String getPagingList(CommentVO invo) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		List<CommentVO> listVO = commentSvc.scroll_retrieve(invo);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonList="";
+		jsonList += mapper.writeValueAsString(listVO);
+		return jsonList;
+	}
+	
+	@RequestMapping(value = "/comm/scroll_reply_retrieve.do", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String scroll_reply_retrieve(CommentVO invo) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		List<CommentVO> listVO = commentSvc.scroll_reply_retrieve(invo);
+		int total_cnt = 0;
+		if(null != listVO && listVO.size()>0) {
+			total_cnt = listVO.get(0).getTotalCnt();
+			log.info("total_cnt: "+total_cnt);
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonList="{\"list\":";
+		jsonList += mapper.writeValueAsString(listVO);
+		jsonList += ",\"TOTAL\":"+total_cnt+"}";
+		
+		log.info("jsonList:"+jsonList);
+
+		return jsonList;
+	}
+	
+	
+	
+	
+	
 
 }
+
+
+

@@ -2,74 +2,15 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%	String userId = (String) session.getAttribute("sessionId");
+	String context = request.getContextPath();
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>댓글</title>
-<style type="text/css">
-.container {
-	margin-top: 30px;
-}
- 
-.media {
-	margin-bottom: 5px;
-	padding-left: 30px;
-}
- 
-.media_reply {
-	margin-bottom: 5px;
-	padding-left: 100px;
-}
-
-.hitNum {
-	width: 18px;
-	height: 18px;
-	color: gray;
-}
-
-.cursor {
-	cursor: pointer;
-}
-
-#commentReply {
-	padding-left: 8px;
-}
-
-#commentUpdateComplete {
-	padding-left: 8px;
-}
-
-.commTime {
-	color: gray;
-}
-
-.wdp_90 {
-	width: 90%
-}
-
-.pad_5 {
-	padding: 5px;
-    color: black;
-	loat: left;
-	padding: 8px 16px;
-	text-decoration: none;
- 	border: 1px solid #ddd
-}
-
-.pad_5strong {
-	background-color: rgb(217,229,255);
-}
-
-#PAGE_NAVI {
-	padding-left: 200px;
-}
-
-.form-group {
-	padding-top: 20px;
-}
-</style>
+<link href="/cd/resources/css/comment.css" rel="stylesheet" type="text/css">
+</head>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -391,22 +332,33 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 });
 
 </script>
-</head>
+
 <body>
+<%=userId %>
 	<div id="bocomment"></div>
 	<div class="container">
 		<div id="PAGE_NAVI"></div>
 	</div>
 	<input type="hidden" id="PAGE_INDEX" name="PAGE_INDEX" />
 	<form id="commonForm" name="commonForm"></form>
+	<%if(userId == null){ %>
 	<div class="container">
 		<div class="form-group">
 			<label for="comment">댓글</label>
 			<textarea id="commentcont" class="form-control" rows="3"
-				placeholder="댓글을 입력하세요."></textarea>
+				placeholder="로그인을 해주세요" readonly="readonly" ></textarea>
+		</div>
+	</div>
+	<%}else {%>
+	<div class="container">
+		<div class="form-group">
+			<label for="comment">댓글</label>
+			<textarea id="commentcont" class="form-control" rows="3"
+				placeholder="댓글을 입력하세요." ></textarea>
 		</div>
 		<button id="commentadd" class="btn btn-default">댓글달기</button>
 	</div>
+<%} %>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			fn_selectBoardList();
@@ -440,7 +392,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 					eventName : "fn_selectBoardList",
 				};
 				gfn_renderPaging(params);
-				
+
 				  var str = "";
 	            var depth = "";
 	            $.each(data.list, function(key, value){
@@ -463,15 +415,19 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		    				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
 		    				+					'width="30px" height="30px"/>&nbsp;'
 		    				+				'<label class="hitNum">'+value.commHit+'</label>'
-		    				+				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-expanded="false" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
-		    				+				'&nbsp;' 
+		    				if('<%=userId%>' != 'null') {
+			    	divIn  +=				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-expanded="false" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
+			    			+				'&nbsp;' 
+		    				}
+
 			    				if(value.userId == '<%=userId%>') {
 				    					   divIn +=				'<a class="cursor" id="commentUpdate" >수정</a>'
 				    				       +				'&nbsp;'
 				    				       +				'<a class="cursor" id="coomentDelete" >삭제</a>'
 			    				}
-		    				divIn +=			'<div class="comment-meta">'
-		    				+				'<div class="bocollapse collapse" id="commentReplyadd' + value.commTextNum + '">'
+		    							if('<%=userId%>' != 'null') {
+			    	 divIn +=	 		'<div class="comment-meta">'
+							+				'<div class="bocollapse collapse" id="commentReplyadd' + value.commTextNum + '">'
 		    				+					'<div class="form-group">'
 		    				+						'<label for="comment">답글</label>'
 		    				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
@@ -479,6 +435,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
 		    				+				'</div>'
 		    				+			'</div>'
+		    						}
 	            	if(value.commDepth == 0) {
 	          		str +=		'<div class="container">' 
 	    				+		'<div class="media">' 
