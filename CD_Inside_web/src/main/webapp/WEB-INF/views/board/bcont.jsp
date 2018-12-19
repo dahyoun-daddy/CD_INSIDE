@@ -5,7 +5,7 @@
 <%@page import="com.sist.cd.domain.BoardVO"%>
 <%	String userId = (String) session.getAttribute("sessionId");
 	String context = request.getContextPath();
-	
+	String sessionYn = (String) session.getAttribute("sessionYn");
 %>
 
 <!DOCTYPE html>
@@ -123,6 +123,9 @@ $(document).on('click','#like', function() {
 
 //삭제
 $(document).on('click','#coomentDelete', function() {
+	
+	if(false==confirm("삭제를 하시겠습니까?"))return;
+	
 	var parent = $(this).parents(".container");
 
 	var commTextNum = $(parent).find(".commTextNum").val();
@@ -189,8 +192,43 @@ function commentAjax(params,url){
 
 //댓글달기
 $(document).on('click','#commentadd', function() {
+
+	 
 	var cont = $("#commentcont").val();
 	var n = cont.length;
+	
+	var regexp = /[A-Za-z0-9]{140}/g;
+	
+	if(cont.length == 0){
+		alert('내용을 입력해주세요.');
+		return false;
+	}
+	
+	if(cont.match(regexp)){
+		alert('연속된영어및숫자140개는 입력하실수없습니다.')
+		return false;
+	}
+	
+	if(false==confirm("댓글을 다시겠습니까?"))return;
+	
+	var params = {
+			commCont : cont
+	};
+	commentAjax(params,"addComment.do");
+	$("#commentcont").val('');
+});
+
+//답글달기
+$(document).on('click','#replyadd', function() {
+	var parent = $(this).parents(".container");
+	var commTextNum = $(parent).find(".commTextNum").val();
+	var cont   = $(parent).find("#commentReplyTextarea").val(); 
+	var n = cont.length;
+	
+	if(cont.length == 0){
+		alert('내용을 입력해주세요.');
+		return false;
+	}
 	
 	var regexp = /[A-Za-z0-9]{140}/g;
 	
@@ -199,17 +237,8 @@ $(document).on('click','#commentadd', function() {
 		return false;
 	}
 	
-	var params = {
-			commCont : cont
-	};
-	commentAjax(params,"addComment.do");
-});
-
-//답글달기
-$(document).on('click','#replyadd', function() {
-	var parent = $(this).parents(".container");
-	var commTextNum = $(parent).find(".commTextNum").val();
-	var cont   = $(parent).find("#commentReplyTextarea").val(); 
+	if(false==confirm("답글을 다시겠습니까?"))return;
+	
 	var commGroupNo = $(parent).find(".commGroupNo").val();
 	var params = {
 			commCont    : cont,
@@ -374,7 +403,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 </script>
  
 <body>
-
+<%=sessionYn %>
 	<div style="width:900px;" class="container">
 		<div style="padding-top : 40px;">
 		
@@ -650,15 +679,25 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 	    				+					'width="30px" height="30px"/>&nbsp;'
 	    				+				'<label class="hitNum">'+value.commHit+'</label>'
 	    				if('<%=userId%>' != 'null') {
-		    	divIn  +=				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
-		    			+				'&nbsp;' 
+						    	divIn  +=				'<a class="cursor" data-toggle="collapse" id="commentReply" aria-controls="commentReplyadd' + value.commTextNum + '" href="#commentReplyadd' + value.commTextNum + '">답글</a>'
+						    			+				'&nbsp;' 
 	    				}
-
-		    				if(value.userId == '<%=userId%>') {
+ 
+		    				if(<%=sessionYn%> == '1') {
+			    				if(value.userId == '<%=userId%>' ) {
 			    					   divIn +=				'<a class="cursor" id="commentUpdate" >수정</a>'
 			    				       +				'&nbsp;'
 			    				       +				'<a class="cursor" id="coomentDelete" >삭제</a>'
-		    				}
+		    					}else{
+		    					   divIn +=				'<a class="cursor" id="coomentDelete" >삭제</a>'
+		    					}
+	    					}else {
+			    				if(value.userId == '<%=userId%>' ) {
+			    					   divIn +=				'<a class="cursor" id="commentUpdate" >수정</a>'
+			    				       +				'&nbsp;'
+			    				       +				'<a class="cursor" id="coomentDelete" >삭제</a>'
+		    					}
+	    					}
 	    							if('<%=userId%>' != 'null') {
 		    	 divIn +=	 		'<div class="comment-meta">'
 						+				'<div class="bocollapse collapse" id="commentReplyadd' + value.commTextNum + '">'
