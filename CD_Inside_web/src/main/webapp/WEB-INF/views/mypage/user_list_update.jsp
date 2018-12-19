@@ -88,6 +88,18 @@
 		  		<input class ="form-control input-sm" type="email" id ="userEmail" name = "userEmail"
 		  		 value ="${userVo.userEmail }" style="WIDTH: 200pt" maxlength="20" placeholder="이메일을 입력하세요.">
 	        </div>
+	        <div class="col-sm-2" ></div>
+	        <label class="col-sm-3 control-label"><br/>수정자 </label>
+	        <div class="col-sm-7"><br/>
+		  		<input class ="form-control" type="text" id =modId name = "modId" 
+		  		 value ="${userVo.modId }" style="WIDTH: 200pt" maxlength="20" disabled>
+	        </div>
+	        <div class="col-sm-2" ></div>
+	        <label class="col-sm-3 control-label"><br/>수정일 </label>
+	        <div class="col-sm-7"><br/>
+		  		<input class ="form-control" type="text" id ="modDt" name = "modDt"
+		  		 value ="${userVo.modDt }" style="WIDTH: 200pt" maxlength="20" disabled>
+	        </div>
 	        
 	        <div class="col-sm-2" ></div>
 	        <label class="col-sm-3 control-label"><br/>회원 등급 </label>
@@ -175,8 +187,7 @@
 		         	"userQues": $("#userQues").val(),
 		         	"userAnsw": $("#userAnsw").val(),
 		         	"userEmail": $("#userEmail").val(),
-		         	"userYn" : radioVal,
-		         	"modId": $("#modId").val()
+		         	"userYn" : radioVal
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);

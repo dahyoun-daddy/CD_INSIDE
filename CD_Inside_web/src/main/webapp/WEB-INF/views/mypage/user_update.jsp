@@ -107,6 +107,7 @@
 		  		<input class ="form-control" type="text" id ="userEmail" name = "userEmail"
 		  		 value ="${userVo.userEmail }" style="WIDTH: 200pt" maxlength="20" placeholder="이메일을 입력하세요.">
 	        </div>
+
 	        
 	         <div class="col-sm-12" ><hr/></div>
 	         
