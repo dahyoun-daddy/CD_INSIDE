@@ -17,16 +17,18 @@
   #sideleft {
         width: 15%;
         padding: 0px;
-        margin-bottom: 20px;
-        float: left;
-        border: 1px solid #bcbcbc;
+        margin-bottom: 0px; 
+        float: left;  
+/*         height: 1500px;  */
+/*         background-color:gray; */
+       
       }
    #sideright {
         width: 15%;
         padding: 0px;
         margin-bottom: 20px;
         float: right;
-        border: 1px solid #bcbcbc;
+       /*  border: 1px solid #bcbcbc; */
       }
   
   
@@ -40,8 +42,8 @@
 
     <section id="#siderigth">
         <tiles:insertAttribute name="menu" />
-    </section>
-	             
+    </section> 
+	              
     <section id="siteContent">
 								<!-- 오른쪽  왼쪽  타일즈 사이드박스 -->
 						        <div>
