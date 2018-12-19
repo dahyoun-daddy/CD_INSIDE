@@ -3,6 +3,7 @@ package com.sist.cd.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,17 @@ import org.springframework.stereotype.Service;
 import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.dao.BoardDAO;
 import com.sist.cd.domain.BoardVO;
+import com.sist.cd.domain.CommentVO;
+
+
+
 
 @Service
 public class BoardSvcImple implements BoardSvc {
 	private Logger log = LoggerFactory.getLogger(UserSvcImple.class);
+	
+	private SqlSessionTemplate sqlSession;
+	private final String NAME_SPACE ="com.sist.cd.mappers.board";
 	
 	@Autowired
 	private BoardDAO bd;
@@ -92,6 +100,22 @@ public class BoardSvcImple implements BoardSvc {
 		}
 		return flag;
 	}
+	
+	@Override
+	public int cnt(BoardVO boardVO) throws SQLException, RuntimeException {
+		String statement = NAME_SPACE + ".update";
+		log.debug("1.statement: " + statement);
+		log.debug("2.param: " + boardVO);
+		int flag = this.sqlSession.insert(statement, boardVO);
+		log.debug("3.flag: " + flag);
+		return flag;
+
+	}
+	
+	
+	
+	}
+	
 
 	
-}
+

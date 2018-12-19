@@ -294,6 +294,50 @@ public class BoardCtrl {
 		log.info("jsonData="+jsonData);
 		log.info("3========================");			
 		return jsonData;
+	}	
+	
+	
+	@RequestMapping(value= "/addLK.do",method=RequestMethod.POST
+	        ,produces="application/json;charset=utf8"  
+	)
+	@ResponseBody
+	public String addLK(@ModelAttribute BoardVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		
+		log.info("!2========================");
+		log.info("invo="+invo);
+		log.info("!2========================");	
+
+		//log.info("++++++++++++++++++"+invo.getgCate());
+		//수정
+		
+		//등록
+		
+//		if(null == invo.getUserId()) {
+//			invo.setUserId("갓미니");
+//		}
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		invo.setUserId(userId); //TODO 세션 받을곳
+		
+		
+		int flag = boardSvc.addLK(invo);
+		 
+		JSONObject object=new JSONObject();
+		
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "등록 성공");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "등록 실패");			
+		}
+		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
 	}	 
 	
 	/*파일까지 업로드 할수 있는 에디터*/ 

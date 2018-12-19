@@ -94,5 +94,7 @@ public interface BoardSvc {
 	int do_code_insert(BoardVO boardVO) throws SQLException;
 
 	int do_hit(BoardVO boardVO) throws SQLException;
+
+	int cnt(BoardVO boardVO) throws SQLException, RuntimeException;
 	
 }
