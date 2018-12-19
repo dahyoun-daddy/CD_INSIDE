@@ -424,8 +424,7 @@ public class MymsgCtrl {
 	//누르면 update 써서 읽지않음 -> 읽음 으로 바꾸기   실시간 x
 	//-----------------------------------------------
 
-	
-	
+
 	MsgVO msgVO=new MsgVO();
 	msgVO.setMsgSeq(msgSeq);	
 	

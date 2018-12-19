@@ -26,7 +26,6 @@ public interface MsgSvc {
 	 * 11.검색(retrieve) 
 	 * 12.다중삭제(do_deleteMulti)
 	*/
-
 	
 	int add(MsgVO msgVO) throws DuplicateUserIdException;
 	int delete(MsgVO msgVO) throws SQLException;

@@ -150,13 +150,6 @@ public class MsgDAOImple implements MsgDAO{
 		
 		String statement = NAME_SPACE+".getAll";
 		log.debug("1.statement: "+statement);
-		
-		
-		StringBuilder sb=new StringBuilder();		
-		sb.append(" SELECT hr.*          \n"); 
-		sb.append("   FROM msg hr   \n");
-		sb.append("  ORDER by user_id       \n");
-
 		return this.sqlSession.selectList(statement);				
 	}
 
