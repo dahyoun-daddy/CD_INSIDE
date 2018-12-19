@@ -289,9 +289,14 @@ public class MymsgCtrl {
 			paramList.add(vo);
 		}
 		log.info("paramList: "+paramList);
+		
+
 		//세션받기
 		HttpSession session = req.getSession(true);
 		String userId = (String) session.getAttribute("sessionId");
+		
+		MsgVO vo = new MsgVO();
+		vo.setUserId(userId);
 		
 		int flag = this.msgSvc.deleteSAll(userId);
 		

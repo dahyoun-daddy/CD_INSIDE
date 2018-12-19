@@ -104,7 +104,9 @@ public class MsgSvcImple implements MsgSvc {
 		int flag = 0;
 		try {
 			for(MsgVO vo :list) {
-				flag+=msgDao.delete(vo);
+				String userId = null;
+				vo.setUserId(userId);
+				flag+=msgDao.deleteSAll(userId);
 			}
 			
 		}catch(RuntimeException e) {
