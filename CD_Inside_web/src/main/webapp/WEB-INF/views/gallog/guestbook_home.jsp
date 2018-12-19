@@ -220,6 +220,14 @@ hr.hr{
     	
     	$("#do_save").on("click",function(){
     		
+            	  if ($("#gId").val()=="" ||
+                    $("#gPw").val()=="" ||
+                    $("#gCont").val()==""){
+                    alert('내용이없심니더');
+                  		return;  
+            	  }
+
+    		
 			 if(false==confirm("등록 하시겠습니까?"))return;
 			  
 		     $.ajax({
