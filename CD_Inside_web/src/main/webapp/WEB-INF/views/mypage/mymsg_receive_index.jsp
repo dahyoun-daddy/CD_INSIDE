@@ -12,7 +12,6 @@
  
 <%
 
-
 	String context = request.getContextPath();//context path
 	
 	//세션 타임아웃시 경고창과 함께 로그인페이지로 이동하는 부분!!
@@ -179,8 +178,6 @@
 						<button type="button" class="btn btn-default btn-sm"
 							onclick="javascript:doSearch();">검색</button>
 						<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
-						<button type="button" class="btn btn-default btn-sm" id="do_deleteRAll">전부삭제</button>						
-						<button type="button" class="btn btn-default btn-sm" id="do_deleteN">안 읽은 쪽지 삭제</button>
 						<br/><br/>					
 					</div>
 				</form>
@@ -293,55 +290,7 @@
  	 
  	$(document).ready(function(){   
  		
-		$("#do_deleteN").on("click",function(){
-			//alert("do_delete");
-			
-			var items = [];//var items=new Array(); 
-			$( "input[name='check']:checked" ).each(function( index,row ) {
-				console.log("index="+index);
-				//console.log("row="+row);
-				var record = $(row).parents("tr");
-				var userId = $(record).find("td").eq(1).text()
-				console.log("msgSeq="+msgSeq);
-				items.push(msgSeq);
-			});
-			
-			if(false==confirm("삭제 하시겠습니까?"))return;
-			
-			var jsonIdList = JSON.stringify(items);
-			//jsonIdList=["107","108"]
-			console.log("jsonIdList="+jsonIdList);
-			
-	        $.ajax({
-	            type:"POST",
-	            url:"deleteN.do",
-	            dataType:"html",
-	            data:{
-	            	"userId_list": jsonIdList
-	            },
-	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-		             var parseData = $.parseJSON(data);
-	                 console.log("parseData.flag="+parseData.flag);
-	                 console.log("parseData.message="+parseData.message);
-		         	 if(parseData.flag > 0){
-		         		alert(parseData.message);
-		         		location.href="receiveIndex.do";
-		         		doSearch();
-		         	 }else{
-		         		alert(parseData.message);
-		         		
-		         	 }				             
-	            },
-	            complete: function(data){//무조건 수행
-	             
-	            },
-	            error: function(xhr,status,error){
-	            	
-	            }
-	         });//--ajax
-			
-		});//--do_deleteSAll
- 		
+	
 		$("#do_deleteRAll").on("click",function(){
 			//alert("do_delete");
 			
@@ -433,7 +382,8 @@
 		        		doSearch();
 		         	 }else{
 		         		alert(parseData.message);
-		         		
+		         		location.href="receiveIndex.do";
+
 		         	 }				             
 	            },
 	            complete: function(data){//무조건 수행
