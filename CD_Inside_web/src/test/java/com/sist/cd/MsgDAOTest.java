@@ -47,6 +47,7 @@ public class MsgDAOTest {
 	private MockMvc mockMvc;
 	
 	
+	
 	@Autowired
 	private MsgDAO msgDao;
 	MsgVO  inVO1 = null;
