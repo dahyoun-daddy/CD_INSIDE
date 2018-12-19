@@ -79,7 +79,7 @@
 		  <li role="presentation" ><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
 		  <li role="presentation" class="active" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
 		  <li role="presentation"><a href="/cd/msg/receiveIndex.do">쪽지함</a></li>
-		  <li role="presentation"><a href="/cd/gallog/notebook_home.do">갤로그 가기</a></li>
+		  <li role="presentation"><a><button type="button" class="btn btn-default" style="border:none; padding:0; background:none;" value="${sessionId}" id="gallog"><p class="text-primary">갤로그 가기</p></button></a></li>
 		<c:choose>
 			<c:when test="${sessionYn==1 }">
 		  <li role="presentation" ><a href="/cd/mypage/user_list.do" >회원관리</a></li>
@@ -275,6 +275,30 @@
 	         });//--ajax
 			
 		});//--do_delete
+		
+		$(document).on("click","#gallog",function(){ 
+			var userId5 = $(this).val();
+		   console.log("userId5:"+userId5); 
+		   
+		   $.ajax({
+	            type:"GET",
+	            url:"/cd/gallog/gallog_home.do", 
+	            dataType:"html",
+	            data:{
+	            	"userId": userId5
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		         		location.href="/cd/gallog/gallog_home.do?userId="+userId5;
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+		   
+		 });//gallog
 		
  	});
     
