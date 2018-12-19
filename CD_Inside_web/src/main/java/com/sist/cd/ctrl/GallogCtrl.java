@@ -268,7 +268,6 @@ public class GallogCtrl {
 	public String save(@ModelAttribute GallogVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		
 		String aaa= req.getParameter("userId");
-		
 		log.info("!2========================");
 		log.info("invo="+invo);
 		log.info("!2========================");	
