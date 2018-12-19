@@ -91,8 +91,8 @@ public class MsgSvcImple implements MsgSvc {
 
 	
 	@Override
-	public List<MsgVO> do_retrieve(SearchVO searchVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException{
-		return msgDao.do_retrieve(searchVO);
+	public List<MsgVO> do_retrieve(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException{
+		return msgDao.do_retrieve(msgVO);
 	}
 	
 
