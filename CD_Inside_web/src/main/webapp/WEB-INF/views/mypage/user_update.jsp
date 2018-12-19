@@ -114,8 +114,8 @@
 	         <div class="col-sm-3" ></div>
 	         <div class="col-sm-6" align="center">
 	         	<input type="hidden" id="userId" name="userId" value="${userVo.userId }">
+		     	<input class="btn btn-primary " style="background-color: red" type="button" id ="do_delete" value="회원탈퇴">
 		     	<input class="btn btn-primary " type="button" id ="do_update" value="수정">
-		     	<input class="btn btn-primary " type="button" id ="do_delete" value="탈퇴">
 		  	</div>
 	         <div class="col-sm-3" ></div>
 	         <div class="col-sm-12" ><br/></div>
@@ -145,7 +145,8 @@
 			
 			var userId =$("#userId").val();
 			
-			if(false==confirm("삭제 하시겠습니까?"))return;
+			if(false==confirm("Class D Inside 회원을 탈퇴 하시겠습니까?"))return;
+			if(false==confirm("정말 탈퇴하실 건가요...?"))return;
 			
 			
 	        $.ajax({
@@ -156,6 +157,7 @@
 	            	"userId": userId
 	            },
 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+
 		             var parseData = $.parseJSON(data);
 		         	 if(parseData.flag>0){
 		         		 alert(parseData.message);
@@ -311,8 +313,7 @@
 		         	"userPw1": $("#userPw1").val(),
 		         	"userQues": $("#userQues").val(),
 		         	"userAnsw": $("#userAnsw").val(),
-		         	"userEmail": $("#userEmail").val(),
-		         	"modId": $("#modId").val()
+		         	"userEmail": $("#userEmail").val()
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);

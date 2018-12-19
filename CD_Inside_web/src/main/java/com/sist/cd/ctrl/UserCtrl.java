@@ -239,10 +239,10 @@ public class UserCtrl {
 		
 		if(flag>0) {
 			object.put("flag", flag);
-			object.put("message", "삭제 되었습니다.");
+			object.put("message", "정상적으로 탈퇴 되었습니다.");
 		}else {
 			object.put("flag", flag);
-			object.put("message", "삭제 실패....");			
+			object.put("message", "탈퇴 실패....");			
 		}		
 		String jsonData = object.toJSONString();
 		session.invalidate();
