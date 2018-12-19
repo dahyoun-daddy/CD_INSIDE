@@ -286,7 +286,11 @@ right: -90px;
 				var frm = document.boform;
 			        	frm.bNum.value = bNum;
 			        	frm.action = "/cd/board/get.do";
+			        	//frm.action = "cnt.do";
 			        	alert('전송');
+			        	
+			        	
+			        	
 			        	frm.submit();
 				
 

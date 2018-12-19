@@ -439,6 +439,19 @@ public class BoardCtrl {
 		return "123";  
 	}
 	
+	@RequestMapping(value="cnt.do")
+	@ResponseBody
+	public String cnt(BoardVO invo,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		
+		log.info("=======================");
+		log.info("invo:"+invo);
+		log.info("=======================");
+		
+		boardSvc.cnt(invo);
+		
+		return "123";  
+	}
+	
 	
 	
 	

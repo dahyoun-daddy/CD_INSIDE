@@ -103,7 +103,7 @@ public class BoardSvcImple implements BoardSvc {
 	
 	@Override
 	public int cnt(BoardVO boardVO) throws SQLException, RuntimeException {
-		String statement = NAME_SPACE + ".update";
+		String statement = NAME_SPACE + ".viewcnt";
 		log.debug("1.statement: " + statement);
 		log.debug("2.param: " + boardVO);
 		int flag = this.sqlSession.insert(statement, boardVO);
