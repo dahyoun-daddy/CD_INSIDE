@@ -65,7 +65,7 @@
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
 		<div class="bg-success" style="width:955px;">
 			<div class="text-primary">
-			(<%= userId2%>)님의 갤로그입니다.   
+			(<%= userId2%>)님의 갤로그입니다.
 			</div>	
 			<div class="text-right text-primary" >
 		    <span class="today_num">Today <em>()</em></span>

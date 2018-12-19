@@ -38,8 +38,8 @@ public class GallogCtrl {
 	private GallogSvc gallogSvc;
 	
 	private static final String GALLOG_HOME="/gallog/gallog_home.do";
-	private static final String NOTE_BOOK="gallog/notebook_home.do";
-	private static final String GUEST_BOOK="gallog/guestbook_home.do";
+	private static final String NOTE_BOOK="/gallog/notebook_home.do";
+	private static final String GUEST_BOOK="/gallog/guestbook_home.do";
 	private static final String NOTE_BOOK_WRITE="/gallog/notebook_write.do";
 	
 	
@@ -97,7 +97,7 @@ public class GallogCtrl {
 	public String delete(@ModelAttribute SearchVO invo,HttpSession session, Model model,HttpServletRequest req) throws RuntimeException, SQLException, ClassNotFoundException{
 		
 		String userId = (String) session.getAttribute("sessionId");
-		
+		String aaa= req.getParameter("userId");
 		String gSeq = req.getParameter("gSeq");
 		String gCate = req.getParameter("gCate");
 		GallogVO vo = new GallogVO();
@@ -194,7 +194,7 @@ public class GallogCtrl {
 				totalCnt2 = list2.get(0).getTotalCnt();
 				log.info("totalCnt: "+totalCnt2);
 			}
-			
+			model.addAttribute("userId",aaa);		
 			model.addAttribute("totalCnt",totalCnt2);
 			model.addAttribute("list",list2);
 			model.addAttribute("page_num",page_num2);
@@ -207,7 +207,7 @@ public class GallogCtrl {
 			}
 		}
 		}
-
+		model.addAttribute("userId",aaa);
 		model.addAttribute("totalCnt",totalCnt);
 		model.addAttribute("list",list);
 		model.addAttribute("page_num",page_num);
@@ -376,7 +376,7 @@ public class GallogCtrl {
 			invo.setPage_num(Integer.parseInt(page_num)-1);
 		}
 
-		
+		model.addAttribute("userId",aaa);		
 		model.addAttribute("totalCnt",totalCnt);
 		model.addAttribute("list",list);
 		model.addAttribute("page_num",page_num);

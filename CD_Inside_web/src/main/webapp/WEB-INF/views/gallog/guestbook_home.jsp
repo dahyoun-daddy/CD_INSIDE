@@ -30,7 +30,7 @@
 	totalCnt = Integer.parseInt(iTotalCnt);
 	
 	String userId = (String) session.getAttribute("sessionId");
-	String userId2 = request.getParameter("userId");
+	String userId2 = request.getParameter("userId"); 
 %>
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,7 +76,7 @@ hr.hr{
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
 		<div class="bg-success" style="width:955px;">
 			<div class="text-primary">
-			(<%= userId2%>)님의 갤로그입니다.
+			(<%= userId2%>)님의 갤로그입니다.asdsad
 			</div>	
 			<div class="text-right text-primary" >
 		    <span class="today_num">Today <em>()</em></span>
@@ -145,7 +145,7 @@ hr.hr{
 									<div style="bottom:5px;">
 										<div class="hereAdd" style="float:right;">
 									<!-- 	<button type="button" class="btn btn-default btn-sm" id="do_update" value="${gallogVo.gSeq}">수정</button>  -->
-											<%if(userId.equals(userId2)){%>	
+											<%if(userId != null&& userId.equals(userId2)){%>	
 											<button type="button" class="btn btn-default btn-sm" id="do_delete2" value="${gallogVo.gSeq}">삭제</button>
 											<%} else{ %>
 											<button type="button" class="btn btn-default btn-sm" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
