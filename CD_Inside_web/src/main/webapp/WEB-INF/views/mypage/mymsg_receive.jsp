@@ -42,7 +42,7 @@
 
 		<!-- 입력폼 -->
 		<hr/>
-        <form  name="frm" id="frm" action="get.do" method="get" class="form-horizontal">
+        <form  name="frm" id="frm" action="receiveIndex.do" method="post" class="form-horizontal">
 		  <div class="form-group">
 	  		<input type="hidden" name="msgSeq" id="msgSeq" value="${list.msgSeq}">		  
 		    <label for="msgRectRecvId" class="col-sm-2 control-label">보낸이</label>
@@ -71,60 +71,27 @@
 				<textarea name="msgCont" id="msgCont" rows="10" cols="40" readonly maxlength="400">${list.msgCont}</textarea>
 		    </div>
 		  </div> 
-		<!--// 입력폼 -->
-		
-		
-		<!--출력 영역 ------------------------------------------------------------->
-		<form  name="frm" id="frm" action="get" method="get" class="form-inline">
-		<input type="hidden" name="msgSeq" id="msgSeq">
-			<c:choose>
-				<c:when test="${list.size()>0}">
-					<c:forEach var="msgVO" items="${list}">
-						<div class="form-group">
-							<input type="hidden" name="${msgVO.msgSeq}" id="${msgVO.msgSeq}">
-								<c:out value="${msgVO.msgSeq}"></c:out>
-								<c:out value="${msgVO.userId}"></c:out>
-								<c:out value="${msgVO.msgRecvId}"></c:out>
-								<c:out value="${msgVO.msgCont}"></c:out>
-								<c:out value="${msgVO.regDt}"></c:out>
-								<c:out value="${msgVO.msgReadYn}"></c:out>
-						</div>
-					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					............
-				</c:otherwise>
-			</c:choose>
-			<!--// 출력 영역 ------------------------------------------------------------->	
-		
-		
-		<!-- 출력 -->
-		<c:forEach items="${list}" var="msgVO">
-		<input type="hidden" class="form-control" name="msgSeq" id="msgSeq" value="${list.msgSeq}">		  
-		<input type="text" class="form-control" name="userId" id="userId" value="${list.userId}" readonly maxlength="20"/>
-		<input type="text" class="form-control" name="msgRecvId" id="msgRecvId" value="${list.msgRecvId}" readonly maxlength="20"/>
-		<input type="text" class="form-control" name="regDt" id="regDt" value="${list.regDt}" readonly >
-		<textarea name="msgCont" id="msgCont" rows="10" cols="40" readonly maxlength="400">${list.msgCont}</textarea>
-		<input type="hidden" class="form-control" name="msgReadYn" id="msgReadYn" value="${list.msgReadYn}" readonly >	    
-		</c:forEach>
-		<!--//출력  -->
-		
+		  
 		<!-- 버튼 -->
 		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">
 		    <button type="submit" class="btn btn-default" id="do_delete" value="${msgVO.msgSeq}">삭제</button>	
-			<button type="submit" class="btn btn-default" onClick="history.go(-1)">닫기</button>
-
+			<button type="submit" class="btn btn-default" onclick="back()">닫기</button>
 		  </div>
 		</div>
-		<!--// 버튼 -->
-		  
+		<!--// 버튼 -->  		  
 		</form>
+		<!--// 입력폼 -->
 	
 	    <script src="<%=context%>/resources/js/jquery.min.js"></script>
 	    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
 	    <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
 	    <script type="text/javascript">
+	    
+
+	    function back(){
+	    	window.history.back();
+	    }
 	    
         function doDelete(msgSeq){ // 삭제
         	var frm = document.frm;

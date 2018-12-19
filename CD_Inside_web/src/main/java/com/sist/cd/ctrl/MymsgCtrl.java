@@ -49,7 +49,7 @@ public class MymsgCtrl {
 	
 	private static final String RESEND="/mypage/msg.do";
 	private static final String SEND="/mypage/mymsg_send.do";
-	private static final String RECEIVE="/mypage/mymsg_receive.do";
+	private static final String RECEIVE="mypage/mymsg_receive.do";
 	private static final String RECEIVEINDEX="/mypage/mymsg_receive_index.do";
 	private static final String SENDINDEX="/mypage/mymsg_send_index.do";
 	
@@ -86,7 +86,10 @@ public class MymsgCtrl {
 	}
 	
 	@RequestMapping(value="/msg/receive.do")
-	public String receive() {
+	public String receive(MsgVO invo,Model model) {
+		
+
+		
 		return RECEIVE;
 	}
 	
@@ -404,8 +407,7 @@ public class MymsgCtrl {
 	
 //받은쪽지 읽기+ 읽음여부 수정-----------------------------------------------------------------------------------
 
-	@RequestMapping(value="/msg/getR.do",produces="application/json;charset=utf8"  
-	)
+	@RequestMapping(value="/msg/getR.do")
 	public String getR(@ModelAttribute MsgVO invo, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 	String msgSeq = req.getParameter("msgSeq");
 	log.info("2========================");
@@ -427,20 +429,40 @@ public class MymsgCtrl {
 	
 	int outVO1 = msgSvc.updateReadCheck(msgVO);
 
-	return RECEIVE;
+		
+	model.addAttribute("list",invo);
+	
+	return "/mypage/mymsg_receive";
 	}
 	
 //보낸쪽지 읽기-----------------------------------------------------------------------------------
 
 	@RequestMapping(value="/msg/getS.do",produces="application/json;charset=utf8"  
 	)
-	public String getS(@ModelAttribute SearchVO invo, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
-	String msgSeq = req.getParameter("msgSeq");
-	log.info("2========================");
-	log.info("get="+msgSeq);
-	log.info("2========================");	
-	
-	return RECEIVE;
+	public String getS(@ModelAttribute MsgVO invo, HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		String msgSeq = req.getParameter("msgSeq");
+		log.info("2========================");
+		log.info("get="+msgSeq);
+		log.info("2========================");	
+		
+		//-----------------------------------------------
+		//누르면 update 써서 읽지않음 -> 읽음 으로 바꾸기   실시간 x
+		//-----------------------------------------------
+
+
+		MsgVO msgVO=new MsgVO();
+		msgVO.setMsgSeq(msgSeq);	
+		
+		//세션받기
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		msgVO.setUserId(userId);
+		
+
+			
+		model.addAttribute("list",invo);
+		
+		return "/mypage/mymsg_receive";
 	}	
 //선택-----------------------------------------------------------------------------------
 

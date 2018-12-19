@@ -140,10 +140,15 @@
 		
 	</div>
 	<!-- //contents -------------------------------------------------------->
-	
 	<form name="frm_get" id="frm" action="receiveIndex.do" method="get" class="form-inline">
 		<input type="hidden" name="msgSeq" id="msgSeq">
+		<input type="hidden" name="userId" id="userId">
+		<input type="hidden" name="msgRecvId" id="msgRecvId">
+		
+		<input type="hidden" name="msgCont" id="msgCont">
+		<input type="hidden" name="regDt" id="regDt">
 	</form>
+
 	<!--// Title영역 -->
 	<form name="frm" id="frm" action="receiveIndex.do" method="get"
 		class="form-inline">
@@ -185,7 +190,7 @@
 		</div>	
 
 		<!--// 검색영역----------------------------------------------------->
-		
+
 		<!-- Grid영역 -->
 		<div class="container" 
 		style="position:relative; width=200px; text-overflow:ellipsis;overflow:hidden; cursor:hand" >
@@ -198,6 +203,8 @@
 				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
 						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">보낸이</th>
+						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
+						
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">읽음여부</th>
@@ -208,9 +215,10 @@
 					<c:when test="${list.size()>0}">
 						<c:forEach var="msgVo" items="${list}">
 							<tr>
-							    <td class="text-center"><input type="checkbox" id="check" name="check"></td>								
-								<td class="text-center"><c:out value="${msgVo.msgSeq}"></c:out></td>																							
+							    <td class="text-center" onclick='event.cancelBubble=true;'><input type="checkbox" id="check" name="check"></td>								
+								<td class="text-center" ><c:out value="${msgVo.msgSeq}"></c:out></td>																							
 								<td class="text-center"><c:out value="${msgVo.userId}"></c:out></td>																															
+								<td class="text-center"><c:out value="${msgVo.msgRecvId}"></c:out></td>																															
 								
 								<td class="text-center"
 								style="position:relative; width:200px; text-overflow:ellipsis; overflow:hidden; cursor:hand">
@@ -416,7 +424,10 @@
 		         	"msgRecvId": $("#msgRecvId").val(),
 		         	"msgCont": $("#msgCont").val(),
 		         	"regDt": $("#regDt").val(),
-		         	"msgReadYn": $("#msgReadYn").val()
+		         	"msgReadYn": $("#msgReadYn").val(),
+		         	"msgSdelYn": $("#msgSdelYn").val(),
+		         	"msgRdelYn": $("#msgRdelYn").val()
+
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);
@@ -483,10 +494,18 @@
 			var tr = $(this);
 			var td = tr.children();
 			var msgSeq = td.eq(1).text();
-			console.log("2 msgSeq="+msgSeq);
+			var userId = td.eq(2).text();
+			var msgRecvId = td.eq(3).text();
+			var msgCont = td.eq(4).text();
+			var regDt = td.eq(5).text();
+			
 			
 		   	var frm = document.frm_get;
-		   	frm.msgSeq.value = msgSeq;
+			frm.msgSeq.value = msgSeq;
+			frm.userId.value = userId;
+			frm.msgRecvId.value = msgRecvId;
+			frm.msgCont.value = msgCont;
+		   	frm.regDt.value = regDt;
 		   	frm.action = 'getR.do';
 		   	frm.submit();
 			

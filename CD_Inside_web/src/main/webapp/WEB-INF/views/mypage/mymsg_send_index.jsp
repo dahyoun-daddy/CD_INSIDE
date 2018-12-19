@@ -12,7 +12,6 @@
  
 <%
 
-
 	String context = request.getContextPath();//context path
 	
 	//세션 타임아웃시 경고창과 함께 로그인페이지로 이동하는 부분!!
@@ -28,6 +27,8 @@
 	String search_div ="";//검색구분
 	String search_word="";//검색어
 	
+	int tCnt          =0; //받은쪽지수
+	int nCnt          =0; //안읽은쪽지수
 	int totalCnt      =0;
 	int bottomCount   =10;
     
@@ -50,8 +51,12 @@
 	int oPageNum  = Integer.parseInt(page_num);
 	
 	String iTotalCnt = (null == request.getAttribute("total_cnt"))?"0":request.getAttribute("total_cnt").toString();
+	String inCnt = (null == request.getAttribute("n_cnt"))?"0":request.getAttribute("n_cnt").toString();
+	String itCnt = (null == request.getAttribute("t_cnt"))?"0":request.getAttribute("t_cnt").toString();
 
 	totalCnt = Integer.parseInt(iTotalCnt);
+	nCnt = Integer.parseInt(inCnt);
+	tCnt = Integer.parseInt(itCnt);
 
 	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
 			     ?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
@@ -125,8 +130,8 @@
 		<!-- 이동 버튼 영역------------------------------------------------------->
 		<div class="container" style="padding-top:3%">
 		<ul class="nav nav-pills col-sm-9">
-			<li role="presentation"class="active"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
-			<li role="presentation"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
+			<li role="presentation"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
+			<li role="presentation"class="active"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
 			<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
 		</ul>		
 		</div>
@@ -135,10 +140,15 @@
 		
 	</div>
 	<!-- //contents -------------------------------------------------------->
-	
 	<form name="frm_get" id="frm" action="sendIndex.do" method="get" class="form-inline">
 		<input type="hidden" name="msgSeq" id="msgSeq">
+		<input type="hidden" name="userId" id="userId">
+		<input type="hidden" name="msgRecvId" id="msgRecvId">
+		
+		<input type="hidden" name="msgCont" id="msgCont">
+		<input type="hidden" name="regDt" id="regDt">
 	</form>
+
 	<!--// Title영역 -->
 	<form name="frm" id="frm" action="sendIndex.do" method="get"
 		class="form-inline">
@@ -172,7 +182,6 @@
 						<button type="button" class="btn btn-default btn-sm"
 							onclick="javascript:doSearch();">검색</button>
 						<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
-						<button type="button" class="btn btn-default btn-sm" id="do_deleteRAll">전부삭제</button>						
 						<br/><br/>					
 					</div>
 				</form>
@@ -180,7 +189,7 @@
 		</div>	
 
 		<!--// 검색영역----------------------------------------------------->
-		
+
 		<!-- Grid영역 -->
 		<div class="container" 
 		style="position:relative; width=200px; text-overflow:ellipsis;overflow:hidden; cursor:hand" >
@@ -192,7 +201,9 @@
 				    <tr>
 				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
 						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
+						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">보낸이</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
+						
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">읽음여부</th>
@@ -203,8 +214,9 @@
 					<c:when test="${list.size()>0}">
 						<c:forEach var="msgVo" items="${list}">
 							<tr>
-							    <td class="text-center"><input type="checkbox" id="check" name="check"></td>								
-								<td class="text-center"><c:out value="${msgVo.msgSeq}"></c:out></td>																							
+							    <td class="text-center" onclick='event.cancelBubble=true;'><input type="checkbox" id="check" name="check"></td>								
+								<td class="text-center" ><c:out value="${msgVo.msgSeq}"></c:out></td>																							
+								<td class="text-center"><c:out value="${msgVo.userId}"></c:out></td>																															
 								<td class="text-center"><c:out value="${msgVo.msgRecvId}"></c:out></td>																															
 								
 								<td class="text-center"
@@ -279,12 +291,14 @@
      function doSearch(){
 	   	 var frm = document.frm;
 	   	 frm.page_num.value =1;
-	   	 frm.action = "receiveIndex.do";
+	   	 frm.action = "sendIndex.do";
 	   	 frm.submit();
      }
  	 
+ 	$(document).ready(function(){   
  		
-		$("#do_deleteSAll").on("click",function(){
+	
+		$("#do_deleteRAll").on("click",function(){
 			//alert("do_delete");
 			
 			var items = [];//var items=new Array(); 
@@ -306,7 +320,7 @@
 			
 	        $.ajax({
 	            type:"POST",
-	            url:"deleteSAll.do",
+	            url:"deleteRAll.do",
 	            dataType:"html",
 	            data:{
 	            	"userId_list": jsonIdList
@@ -317,7 +331,7 @@
 	                 console.log("parseData.message="+parseData.message);
 		         	 if(parseData.flag > 0){
 		         		alert(parseData.message);
-		         		location.href="sendIndex.do";
+		         		location.href="receiveIndex.do";
 
 		         		doSearch();
 		         	 }else{
@@ -375,7 +389,8 @@
 		        		doSearch();
 		         	 }else{
 		         		alert(parseData.message);
-		         		
+		         		location.href="receiveIndex.do";
+
 		         	 }				             
 	            },
 	            complete: function(data){//무조건 수행
@@ -451,9 +466,7 @@
 		         	"msgRecvId": $("#msgRecvId").val(),
 		         	"msgCont": $("#msgCont").val(),
 		         	"regDt": $("#regDt").val(),
-		         	"msgReadYn": $("#msgReadYn").val(),
-		         	"msgSdelYn": $("#msgSdelYn").val(),
-		         	"msgRdelYn": $("#msgRdelYn").val()		         	
+		         	"msgReadYn": $("#msgReadYn").val()
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);
@@ -480,10 +493,18 @@
 			var tr = $(this);
 			var td = tr.children();
 			var msgSeq = td.eq(1).text();
-			console.log("2 msgSeq="+msgSeq);
+			var userId = td.eq(2).text();
+			var msgRecvId = td.eq(3).text();
+			var msgCont = td.eq(4).text();
+			var regDt = td.eq(5).text();
+			
 			
 		   	var frm = document.frm_get;
-		   	frm.msgSeq.value = msgSeq;
+			frm.msgSeq.value = msgSeq;
+			frm.userId.value = userId;
+			frm.msgRecvId.value = msgRecvId;
+			frm.msgCont.value = msgCont;
+		   	frm.regDt.value = regDt;
 		   	frm.action = 'getS.do';
 		   	frm.submit();
 			
