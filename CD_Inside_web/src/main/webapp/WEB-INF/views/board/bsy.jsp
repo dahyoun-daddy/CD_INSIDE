@@ -167,7 +167,7 @@ right: -90px;
 									    <c:out value="${boardVo.userId}"></c:out>
 									  </a> 
 									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-									    <li><a class="dropdown-item" href="/cd/gallog/notebook_home.do">Gallog</a></li>
+										<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">Gallog</button></li>
 									    <li> <a class="dropdown-item" href="#">쪽지</a> <li>  
 									    <li> <a class="dropdown-item" href="#">음 뭐추가 하지</a> <li>
 									  </div>
@@ -291,6 +291,30 @@ right: -90px;
 				
 
 			});//--#listTable>tbody
+			
+			$(document).on("click","#gallog",function(){ 
+    			var userId = $(this).val();
+    		   console.log("userId:"+userId); 
+    		   
+    		   $.ajax({
+   	            type:"GET",
+   	            url:"/cd/gallog/gallog_home.do", 
+   	            dataType:"html",
+   	            data:{
+   	            	"userId": userId
+   	            },
+   	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+   		         		location.href="/cd/gallog/gallog_home.do?userId="+userId;
+   	            },
+   	            complete: function(data){//무조건 수행
+   	             
+   	            },
+   	            error: function(xhr,status,error){
+   	             
+   	            }
+   	         });
+    		   
+    		 });//gallog
 	    	
 	    });
  
