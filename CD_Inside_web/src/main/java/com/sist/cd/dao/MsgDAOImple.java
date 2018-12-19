@@ -76,7 +76,7 @@ public class MsgDAOImple implements MsgDAO{
 		String statement = NAME_SPACE+".deleteSAll";
 		log.debug("1.statement: "+statement);		
 		log.debug("2.param: "+userId);
-		int flag  = this.sqlSession.delete(statement, userId);
+		int flag  = this.sqlSession.update(statement, userId);
 		log.debug("3.flag: "+flag);
 		return flag;
 	}
@@ -85,7 +85,7 @@ public class MsgDAOImple implements MsgDAO{
 		String statement = NAME_SPACE+".deleteRAll";
 		log.debug("1.statement: "+statement);		
 		log.debug("2.param: "+userId);
-		int flag  = this.sqlSession.delete(statement, userId);
+		int flag  = this.sqlSession.update(statement, userId);
 		log.debug("3.flag: "+flag);
 		return flag;
 	}		
@@ -94,7 +94,7 @@ public class MsgDAOImple implements MsgDAO{
 		String statement = NAME_SPACE+".deleteN";
 		log.debug("1.statement: "+statement);		
 		log.debug("2.param: "+userId);
-		int flag  = this.sqlSession.delete(statement, userId);
+		int flag  = this.sqlSession.update(statement, userId);
 		log.debug("3.flag: "+flag);
 		return flag;
 	}	

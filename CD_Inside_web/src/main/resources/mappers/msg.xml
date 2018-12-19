@@ -30,14 +30,18 @@
 		     msg_recv_id,          
 		     msg_cont,           
 		     reg_dt,             
-		     msg_read_yn                 
+		     msg_read_yn,
+		     msg_sdel_yn,
+  		     msg_rdel_yn	                      
 		 ) VALUES (             
 		     msg_seq.nextVal,                 
 		     #{userId},                 
 		     #{msgRecvId},                 
 		     #{msgCont},                 
 		     SYSDATE,                 
-		     '읽지않음'
+		     '읽지않음',
+		     '0',
+		     '0'
 		 )                      	
 	</insert> 
 
@@ -45,27 +49,36 @@
 	<delete id="delete"  parameterType="MsgVO"  >
 		DELETE FROM MSG 
 		WHERE msg_seq = #{msgSeq}
+		  AND msg_sdel_yn = '1'
+		  AND msg_rdel_yn = '1'	  
 	</delete> 
-	
 	
 	<!-- 보낸쪽지 전부 삭제 -->
-	<delete id="deleteSAll"  parameterType="MsgVO"  >
-		DELETE FROM MSG 
-		WHERE USER_ID = #{userId}
-	</delete> 
+	<update id="deleteSAll"  parameterType="MsgVO" >
+		 UPDATE MSG          
+	        SET MSG_SDEL_YN  = '1'    
+	    WHERE USER_ID = #{userId}  
+	      AND MSG_SDEL_YN = '0'                     
+	</update>	
+	
 
 	<!-- 받은쪽지 전부 삭제 -->
-	<delete id="deleteRAll"  parameterType="MsgVO"  >
-		DELETE FROM MSG 
-		WHERE MSG_RECV_ID = #{msgRecvId}
-	</delete> 	
+	<update id="deleteRAll"  parameterType="MsgVO" >
+		 UPDATE MSG          
+	        SET MSG_RDEL_YN  = '1'    
+	    WHERE USER_ID = #{userId}   
+	      AND MSG_RDEL_YN = '0'                
+	</update>	
 
 	<!-- 안읽은쪽지 전부 삭제 -->
-	<delete id="deleteN"  parameterType="MsgVO"  >
-		DELETE FROM MSG 
-		WHERE MSG_READ_YN = '읽지않음'
- 		  AND MSG_RECV_ID = #{msgRecvId}
-	</delete> 	
+	<update id="deleteN"  parameterType="MsgVO" >
+		 UPDATE MSG          
+	        SET MSG_RDEL_YN  = '1'    
+	    WHERE USER_ID = #{userId}   
+	      AND MSG_READ_YN = '읽지않음'  
+	      AND MSG_RDEL_YN = '0'                
+	      
+	</update>
 	
 	<!-- 수정 -->
 	<update id="updateReadCheck"  parameterType="MsgVO" >
@@ -82,7 +95,9 @@
 		     msg_recv_id,          
 		     msg_cont,           
 		     reg_dt,             
-		     msg_read_yn                    
+		     msg_read_yn,
+		     msg_sdel_yn,
+		     msg_rdel_yn                   
 	   FROM MSG                            
 	  WHERE msg_seq = #{msgSeq}                       		
 	</select>
@@ -93,6 +108,7 @@
 		SELECT COUNT(*) CNT 
 		  FROM MSG     
 		 WHERE msg_recv_id = #{msgRecvId}
+		   AND msg_rdel_yn = '0'
 	</select>
 
 	<!-- 안읽은쪽지 갯수 -->
@@ -101,7 +117,9 @@
 		SELECT COUNT(*) CNT 
 		  FROM MSG     
 		 WHERE msg_recv_id = #{msgRecvId}
- 		   AND msg_read_yn = '읽지않음'		 
+ 		   AND msg_read_yn = '읽지않음'		
+ 		   AND msg_rdel_yn = '0'
+ 		    
 	</select>	
 	
     <!-- 전체 조회 -->
@@ -111,13 +129,13 @@
 		     msg_recv_id,          
 		     msg_cont,           
 		     reg_dt,             
-		     msg_read_yn   
+		     msg_read_yn,
+		     msg_sdel_yn,
+		     msg_rdel_yn   
 	      FROM MSG
 	     ORDER BY MSG_READ_YN DESC, REG_DT DESC  
     </select>		
 
-
-    
     <!-- select list -->
     <select id="do_retrieve" 
       parameterType="SearchVO"
