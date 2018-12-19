@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -36,15 +37,18 @@ public class GallogCtrl {
 	@Autowired
 	private GallogSvc gallogSvc;
 	
-	private static final String GALLOG_HOME="/gallog/gallog_home";
+	private static final String GALLOG_HOME="/gallog/gallog_home.do";
 	private static final String NOTE_BOOK="gallog/notebook_home.do";
 	private static final String GUEST_BOOK="gallog/guestbook_home.do";
 	private static final String NOTE_BOOK_WRITE="/gallog/notebook_write.do";
 	
 	
-	@RequestMapping(value= "/gallog/notebook_home.do")	
-	public String do_retrieve(@ModelAttribute SearchVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
-		
+	@RequestMapping(value= "/gallog/notebook_home.do", method=RequestMethod.GET)	
+	public String do_retrieve(@ModelAttribute SearchVO invo,HttpSession session, Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+	
+		String aaa= req.getParameter("userId");
+		log.info("@@@@@:"+aaa);
+		//String userId = (String) session.getAttribute("sessionId");
 		
 		String page_num = (String) req.getParameter("page_num");
 		if(page_num == null) {
@@ -64,7 +68,7 @@ public class GallogCtrl {
 		}
 		
 		if(null == invo.getSearch_word()) {
-			invo.setSearch_word("test05");
+			invo.setSearch_word(aaa);
 		}		
 		
 		model.addAttribute("param",invo);
@@ -81,7 +85,7 @@ public class GallogCtrl {
 			invo.setPage_num(Integer.parseInt(page_num)-1);
 		}
 
-		
+		model.addAttribute("userId",aaa);
 		model.addAttribute("totalCnt",totalCnt);
 		model.addAttribute("list",list);
 		model.addAttribute("page_num",page_num);
@@ -90,13 +94,17 @@ public class GallogCtrl {
 	}
 	
 	@RequestMapping(value="/gallog/delete.do")
-	public String delete(@ModelAttribute SearchVO invo,Model model,HttpServletRequest req) throws RuntimeException, SQLException, ClassNotFoundException{
+	public String delete(@ModelAttribute SearchVO invo,HttpSession session, Model model,HttpServletRequest req) throws RuntimeException, SQLException, ClassNotFoundException{
+		
+		String userId = (String) session.getAttribute("sessionId");
 		
 		String gSeq = req.getParameter("gSeq");
+		String gCate = req.getParameter("gCate");
 		GallogVO vo = new GallogVO();
 		vo.setgSeq(gSeq);
 		log.info("GallogVO:"+vo);
 		gallogSvc.delete(vo);
+		log.info("%%%%"+gCate);
 		
 		String page_num = (String) req.getParameter("page_num");
 		if(page_num == null) {
@@ -108,20 +116,27 @@ public class GallogCtrl {
 		log.info("page_num:"+page_num);
 		
 		if(invo.getPage_size() == 0) {
-			invo.setPage_size(5);
+			if(gCate != null) {
+				invo.setPage_size(10);
+			}else {
+				invo.setPage_size(5);
+			}
 		}
 		
 		if(null == invo.getSearch_div()) {
+			if(gCate != null) {
+				invo.setSearch_div("1");
+			}else {
 			invo.setSearch_div("0");
+			}
 		}
 		
 		if(null == invo.getSearch_word()) {
-			invo.setSearch_word("test05");
+			invo.setSearch_word(userId);
 		}		
 		
 		model.addAttribute("param",invo);
 
-		
 		List<GallogVO> list = gallogSvc.do_retrieve(invo);
 		log.info("list: "+list);
 		
@@ -150,15 +165,23 @@ public class GallogCtrl {
 			log.info("page_num2:"+page_num2);
 			
 			if(invo.getPage_size() == 0) {
-				invo.setPage_size(5);
+				if(gCate != null) {
+					invo.setPage_size(10);
+				}else {
+					invo.setPage_size(5);
+				}
 			}
 			
 			if(null == invo.getSearch_div()) {
+				if(gCate != null) {
+					invo.setSearch_div("1");
+				}else {
 				invo.setSearch_div("0");
+				}
 			}
 			
 			if(null == invo.getSearch_word()) {
-				invo.setSearch_word("test05");
+				invo.setSearch_word(userId);
 			}		
 			
 			model.addAttribute("param",invo);
@@ -176,7 +199,12 @@ public class GallogCtrl {
 			model.addAttribute("list",list2);
 			model.addAttribute("page_num",page_num2);
 			
+			if(gCate != null) {
+				return GUEST_BOOK;
+				
+			}else {
 			return NOTE_BOOK;
+			}
 		}
 		}
 
@@ -184,12 +212,19 @@ public class GallogCtrl {
 		model.addAttribute("list",list);
 		model.addAttribute("page_num",page_num);
 		
-		
+		if(gCate != null) {
+			return GUEST_BOOK;
+			
+		}else {
 		return NOTE_BOOK;
+		}
 	}
 	
 	@RequestMapping(value="/gallog/get.do")
-	public String get(@ModelAttribute SearchVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+	public String get(@ModelAttribute SearchVO invo,Model model,HttpSession session, HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		
+		String userId = (String) session.getAttribute("sessionId");
+		String aaa= req.getParameter("userId");
 		
 		String gSeq = req.getParameter("gSeq");
 		GallogVO vo = new GallogVO();
@@ -215,7 +250,7 @@ public class GallogCtrl {
 		}
 		
 		if(null == invo.getSearch_word()) {
-			invo.setSearch_word("test05");
+			invo.setSearch_word(aaa);
 		}		
 		
 		GallogVO list = gallogSvc.get(vo);
@@ -235,10 +270,12 @@ public class GallogCtrl {
 	@ResponseBody
 	public String save(@ModelAttribute GallogVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		
+		String aaa= req.getParameter("userId");
+		
 		log.info("!2========================");
 		log.info("invo="+invo);
 		log.info("!2========================");	
-
+		invo.setUserId(aaa);
 		log.info("++++++++++++++++++"+invo.getgCate());
 		//수정
 		
@@ -269,10 +306,12 @@ public class GallogCtrl {
 	@ResponseBody
 	public String update(@ModelAttribute GallogVO invo,HttpServletRequest req,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		
+		String aaa= req.getParameter("userId");
+		
 		log.info("!2========================");
 		log.info("invo="+invo);
 		log.info("!2========================");	
-		
+		invo.setUserId(aaa);
 		//수정
 		
 		//등록		
@@ -300,8 +339,8 @@ public class GallogCtrl {
 	@RequestMapping(value="/gallog/guestbook_home.do")	
 	public String do_retrieve2(@ModelAttribute SearchVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 		log.info("SearchVO: "+invo);
-		
-		
+		String aaa= req.getParameter("userId");
+		log.info("######: "+aaa);		
 		String page_num = (String) req.getParameter("page_num");
 		if(page_num == null) {
 			invo.setPage_num(1);
@@ -320,7 +359,7 @@ public class GallogCtrl {
 		}
 		
 		if(null == invo.getSearch_word()) {
-			invo.setSearch_word("test05");
+			invo.setSearch_word(aaa);
 		}		
 		
 		model.addAttribute("param",invo);
@@ -348,6 +387,7 @@ public class GallogCtrl {
 	@RequestMapping(value="/gallog/delete2.do")
 	public String delete2(@ModelAttribute SearchVO invo,Model model,HttpServletRequest req, HttpServletResponse response) throws RuntimeException, SQLException, ClassNotFoundException, IOException{
 		
+		String aaa= req.getParameter("userId");
 		String gSeq = req.getParameter("gSeq");
 		String gPw = req.getParameter("gPw");
 		GallogVO vo = new GallogVO();
@@ -388,7 +428,7 @@ public class GallogCtrl {
 		}
 		
 		if(null == invo.getSearch_word()) {
-			invo.setSearch_word("test05");
+			invo.setSearch_word(aaa);
 		}	
 		
 		model.addAttribute("param",invo);
@@ -430,7 +470,7 @@ public class GallogCtrl {
 			}
 			
 			if(null == invo.getSearch_word()) {
-				invo.setSearch_word("test05");
+				invo.setSearch_word(aaa);
 			}	
 			
 			model.addAttribute("param",invo);
@@ -491,5 +531,78 @@ public class GallogCtrl {
 		log.info("3========================");			
 		return jsonData;
 	}	 
+	
+	@RequestMapping(value= "/gallog/gallog_home.do", method=RequestMethod.GET)	
+	public String do_retrieve3(@ModelAttribute SearchVO invo,HttpSession session, Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+	
+		SearchVO invo2 = new SearchVO();
+		String aaa= req.getParameter("userId");
+		log.info("@@@@@:"+aaa);
+		//String userId = (String) session.getAttribute("sessionId");
+		
+		
+		String page_num = (String) req.getParameter("page_num");
+		if(page_num == null) {
+			invo.setPage_num(1);
+			invo2.setPage_num(1);
+		}else {
+			invo.setPage_num(Integer.parseInt(page_num));
+			invo2.setPage_num(Integer.parseInt(page_num));
+		}
+		
+		log.info("page_num:"+page_num);
+		
+		if(invo.getPage_size() == 0) {
+			invo.setPage_size(3);
+			invo2.setPage_size(5);
+		}
+		
+		if(null == invo.getSearch_div()) {
+			invo.setSearch_div("0");
+			invo2.setSearch_div("1");
+		}
+		
+		if(null == invo.getSearch_word()) {
+			invo.setSearch_word(aaa);
+			invo2.setSearch_word(aaa);
+		}		
+		
+		model.addAttribute("param",invo);
+		
+		List<GallogVO> list = gallogSvc.do_retrieve(invo);
+		log.info("list: "+list);
+		
+		List<GallogVO> list2 = gallogSvc.do_retrieve(invo2);
+		log.info("list2: "+list2);
+		
+		
+		
+		int totalCnt = 0;
+		if(null != list && list.size()>0) {
+			totalCnt = list.get(0).getTotalCnt();
+			log.info("totalCnt: "+totalCnt);
+		}else{
+			totalCnt = list.get(0).getTotalCnt();
+			invo.setPage_num(Integer.parseInt(page_num)-1);
+		}
+		
+		int totalCnt2 = 0;
+		if(null != list2 && list2.size()>0) {
+			totalCnt2 = list2.get(0).getTotalCnt();
+			log.info("totalCnt2: "+totalCnt2);
+		}else{
+			totalCnt2 = list2.get(0).getTotalCnt();
+			invo.setPage_num(Integer.parseInt(page_num)-1);
+		}
+
+		model.addAttribute("userId",aaa);
+		model.addAttribute("totalCnt",totalCnt);
+		model.addAttribute("totalCnt2",totalCnt2);
+		model.addAttribute("list",list);
+		model.addAttribute("list2",list2);
+		model.addAttribute("page_num",page_num);
+		
+		return GALLOG_HOME;
+	}
 	
 }

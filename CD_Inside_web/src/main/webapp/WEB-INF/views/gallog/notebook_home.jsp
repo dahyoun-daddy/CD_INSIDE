@@ -29,6 +29,9 @@
 	
 	String iTotalCnt = (null == request.getAttribute("totalCnt"))?"0":request.getAttribute("totalCnt").toString();
 	totalCnt = Integer.parseInt(iTotalCnt);
+	
+	String userId = (String) session.getAttribute("sessionId");
+	String userId2 = request.getParameter("userId");
 %>
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -58,7 +61,7 @@
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
 		<div class="bg-success" style="width:955px;">
 			<div class="text-primary">
-			()님의 갤로그입니다.
+			(<%= userId2%>)님의 갤로그입니다.   
 			</div>	
 			<div class="text-right text-primary" >
 		    <span class="today_num">Today <em>()</em></span>
@@ -68,34 +71,38 @@
 		</div>
 		<!--// 갤로그 공통 부분 ------------------------------------------------------->
 		<br>
-		
+		       
 		<!-- 갤로그 이동 버튼 영역------------------------------------------------------->
 		<ul class="nav nav-pills">
-				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.jsp">갤로그홈</a></li>
-				<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do">메모장</a></li>
-				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do">방명록</a></li>
+				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.do?userId=<%=userId2%>">갤로그홈</a></li>
+				<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do?userId=<%=userId2%>">메모장</a></li>
+				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId2%>">방명록</a></li>
 		  </ul>	
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
 		<br>
-		
+
 		<!-- 메모장 상단 영역------------------------------------------------------------>
 		<div class="text-danger" style="width:955px;height:70px;">
 			<div style="float:left;">
 				<strong>·메모장 (<%=totalCnt %>)</strong>
 			</div>
 			<div style="float:right;">
+				<%if(userId.equals(userId2)){%>
 				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/get.do'">글쓰기</button>
+				<%} %>
 			</div>
 		</div>
 		<!--// 메모장 상단 영역------------------------------------------------------------>
-		
-		
+
+
+
 		<!-- 메모장 출력 영역 ------------------------------------------------------------->
 		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
 		<div style="width:955px;">
 		<input type="hidden" name="gSeq" id="gSeq">
 		<input type="hidden" name="page_num" id="page_num">
+		<input type="hidden" name="userId" value="<%=userId2%>">  
 			<c:choose>
 				<c:when test="${list.size()>0}">
 					<c:forEach var="gallogVo" items="${list}">
@@ -115,8 +122,10 @@
 						</div>
 						<hr/>
 						<div style="float:right;">
+							<%if(userId.equals(userId2)){ %> 
 							<button type="button" class="btn btn-default" id="do_update" value="${gallogVo.gSeq}">수정</button>
 							<button type="button" class="btn btn-default" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
+							<%} %>
 						</div>
 						<br><br><br><br><br>
 					</div>
@@ -144,9 +153,8 @@
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript">
      
-    
+       
 	    function search_page(url,page_num){
-		   	 //alert(url+":search_page:"+page_num);
 		   	 var frm = document.frm;
 		   	 frm.page_num.value = page_num;
         	 console.log(frm.page_num.value);

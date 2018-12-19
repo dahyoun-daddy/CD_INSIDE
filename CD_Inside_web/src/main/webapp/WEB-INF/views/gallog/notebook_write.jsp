@@ -15,6 +15,8 @@
 	LOG.info("vo:"+vo);
 	int oPageNum  = vo.getPage_num();
 	LOG.info("oPageNum:"+oPageNum);
+	String userId = (String) session.getAttribute("sessionId");
+	String userId2 = request.getParameter("userId");
 %>
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,7 +44,7 @@
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
 		<div class="bg-success" style="width:955px;">
 			<div class="text-primary">
-			()님의 갤로그입니다.
+			(<%=userId%>)님의 갤로그입니다.              
 			</div>	
 			<div class="text-right text-primary" >
 		    <span class="today_num">Today <em>()</em></span>
@@ -55,9 +57,9 @@
 				
 		<!-- 갤로그 이동 버튼 영역------------------------------------------------------->
 		<ul class="nav nav-pills">
-				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.jsp">갤로그홈</a></li>
-				<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do">메모장</a></li>
-				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do">방명록</a></li>
+				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.do?userId=<%=userId%>">갤로그홈</a></li>
+			<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do?userId=<%=userId%>">메모장</a></li>
+				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId%>">방명록</a></li>
 		  </ul>	
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
@@ -65,6 +67,7 @@
 		<!-- 메모장 글쓰기 영역 --------------------------------------------------------->
 		<form  name="frm" id="frm" action="notebook_home.do" method="get" class="form-inline">
 		<input type="hidden" name="page_num" id="page_num">
+		<input type="hidden" name="userId" id="userId">
 		<input type="hidden" name="gSeq" id="gSeq" value="${list.gSeq}">
 		<div>
 			<input type="text" name="gTitle" id="gTitle" maxlength="50" style="width:800px" value="${list.gTitle}"/>
@@ -103,13 +106,6 @@
     <script type="text/javascript">
     
     
-    function doSearch(){ // 등록후 1페이지로 가서 전체조회
-      	 var frm = document.frm;
-    	 frm.page_num.value = 1;
-      	 frm.action = "notebook_home.do";
-      	 frm.submit();
-    }
-    
     function doSearch1(){ // 수정후 그페이지로 다시가서 조회
      	 var frm = document.frm;
          frm.page_num.value = <%=oPageNum%>;
@@ -133,17 +129,11 @@
 		         	"gTitle": $("#gTitle").val(),
 		         	"gCont": $("#gCont").val(),
 		         	"gCate": "0",
-		         	"userId": "test05",
-		         	"modId": "test05"
+		         	"userId": '<%=userId%>',
+		         	"modId": '<%=userId%>'
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-		             var parseData = $.parseJSON(data);
-		         	 if(parseData.flag=="1"){
-		         		 alert(parseData.message);
-			         	 doSearch();
-		         	 }else{
-		         		alert(parseData.message);
-		         	 }
+		         		location.href="/cd/gallog/notebook_home.do?userId="+'<%=userId%>';
 		         },
 		         complete: function(data){//무조건 수행
 		          
@@ -169,17 +159,10 @@
 		        	"gSeq": $("#gSeq").val(),
 		         	"gTitle": $("#gTitle").val(),
 		         	"gCont": $("#gCont").val(),
-		         	"gCate": "1",
-		         	"modId": "test05"
+		         	"modId": '<%=userId%>'
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-		             var parseData = $.parseJSON(data);
-		         	 if(parseData.flag=="1"){
-		         		 alert(parseData.message);
-		         		 doSearch1();
-		         	 }else{
-		         		alert(parseData.message);
-		         	 }
+		         		location.href="/cd/gallog/notebook_home.do?userId="+'<%=userId%>';
 		         },
 		         complete: function(data){//무조건 수행
 		          
