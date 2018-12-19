@@ -99,7 +99,7 @@
 		     msg_sdel_yn,
 		     msg_rdel_yn                   
 	   FROM MSG                            
-	   WHERE  WHERE NOT (msg_sdel_yn = 1  and msg_rdel_yn = 1)
+	   WHERE NOT (msg_sdel_yn = 1  and msg_rdel_yn = 1)
 	   AND msg_seq = #{msgSeq}
 		 
 	</select>
