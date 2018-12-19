@@ -3,6 +3,8 @@
 <!-- 뷰단에서 뿌려주는거 포 이치해서 -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.sist.cd.domain.BoardVO"%>
+
+
 <%	String userId = (String) session.getAttribute("sessionId");
 	String context = request.getContextPath();
 %>
