@@ -189,9 +189,8 @@
 		         	"bTitle": $("#bTitle").val(),
 		         	"bCont": $("#bCont").val(),
 		         	"bCate": "쌍용",
-		         	"bHit": "0",
-		         	"userId": "test05",
-		         	"modId": "test05"
+		         	"bHit": "0"
+		         
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);

@@ -3,10 +3,9 @@
 <!-- 뷰단에서 뿌려주는거 포 이치해서 -->
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.sist.cd.domain.BoardVO"%>
-
-
 <%	String userId = (String) session.getAttribute("sessionId");
 	String context = request.getContextPath();
+	
 %>
 
 <!DOCTYPE html>
@@ -378,10 +377,24 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 
 	<div style="width:900px;" class="container">
 		<div style="padding-top : 40px;">
-		  <input style="float:right; " class="btn btn-default" type="button" id="update" value="수정" />
+		
+		
+
+
+			<c:choose>
+				<c:when test="${list.userId eq sessionId  }">
+  <input style="float:right; " class="btn btn-default" type="button" id="update" value="수정" />
+		  
 		  <button style="float:right;" type="submit" class="btn btn-default" id="delete">삭제</button>
+				</c:when>
+				<c:otherwise>
+				
+				</c:otherwise>
+			</c:choose>
+		 
 		
 		
+<%-- 					<% } %> --%>
 		
 	
   

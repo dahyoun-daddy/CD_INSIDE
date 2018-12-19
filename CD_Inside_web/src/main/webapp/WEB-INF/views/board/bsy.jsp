@@ -4,7 +4,9 @@
 <%@page import="com.sist.cd.domain.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%	String userId = (String) session.getAttribute("sessionId");
+%>
+	
 <%@page import="org.slf4j.LoggerFactory"%>
 <%@page import="org.slf4j.Logger"%>
 
@@ -105,6 +107,9 @@ right: -90px;
 <body>
 	
 	
+	
+	
+	
 			<div class="container">
 			 <div class="row">
 			 <div class="sangdan">
@@ -113,13 +118,17 @@ right: -90px;
     	   </div>   
     	   
     	  
-    	  <!--  이거슨 세션값 가져왓을때 쓰기 나와야함 -->
-    		 <div class="row"> 
-    		  <div class="wr">
-			   <div class="text-right col-xs-11 col-sm-11 col-md-11 col-lg-11"><a class="update" href="/cd/board/write.do">쓰기 </a></div>
-			  </div>
-			 </div>  
-			       
+				 <%	
+				if(userId == null){
+				%>
+    		
+				<% } else { %>
+				 <div class="row"> 
+		    		  <div class="wr">
+					   <div class="text-right col-xs-11 col-sm-11 col-md-11 col-lg-11"><a class="update" href="/cd/board/write.do">쓰기 </a></div>
+					  </div>
+					 </div>  
+				<% } %>	       
 			     
 			
 			   <p></p>

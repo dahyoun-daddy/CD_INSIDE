@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.xml.ws.RespectBinding;
 
 import org.json.simple.JSONObject;
@@ -217,8 +218,9 @@ public class BoardCtrl {
 		BoardVO list = boardSvc.get(invo);
 		
 		log.info("list: "+list);
+		log.info("invo.getUserId()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : "+invo.getUserId());
 		
-		
+//		model.addAttribute("userid", invo.getUserId());
 		model.addAttribute("list",list);
 		
 		
@@ -266,9 +268,12 @@ public class BoardCtrl {
 		
 		//등록
 		
-		if(null == invo.getUserId()) {
-			invo.setUserId("갓미니");
-		}
+//		if(null == invo.getUserId()) {
+//			invo.setUserId("갓미니");
+//		}
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		invo.setUserId(userId); //TODO 세션 받을곳
 		
 		
 		int flag = boardSvc.addSY(invo);
