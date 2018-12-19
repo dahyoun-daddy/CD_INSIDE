@@ -174,7 +174,7 @@ public class MsgDAOTest {
 //	@Ignore		
 	@Test
 	public void do_retrieve() throws SQLException, ClassNotFoundException {
-		List<MsgVO> list = msgDao.do_retrieve(searchVO);
+		List<MsgVO> list = msgDao.do_retrieve(inVO1);
 			LOG.info("do_retrieve_list:"+list);
 	}	
 	
