@@ -1,3 +1,4 @@
+<%@page import="java.io.PrintWriter"%>
 <%@page import="com.sist.cd.common.SearchVO"%>
 <%@page import="java.util.List"%>
 <%@page import="com.sist.cd.domain.CodeVO"%>
@@ -10,7 +11,17 @@
     uri="http://tiles.apache.org/tags-tiles" %>    
  
 <%
+
+
 	String context = request.getContextPath();//context path
+	
+	//세션 타임아웃시 경고창과 함께 로그인페이지로 이동하는 부분!!
+	session = request.getSession(false);
+	PrintWriter outt = response.getWriter();
+	if(null==session || session.getAttribute("sessionId")==null){
+		outt.print("<script>alert('로그인이 필요한 화면입니다.');location.href='/cd/user/login.do'</script>");
+		return;
+	}
 	
 	String page_size ="10";//page_size
 	String page_num  ="1";//page_num
@@ -34,15 +45,14 @@
 		page_size = StringUtil.nvl(request.getParameter("page_size"), "10");
 		page_num = StringUtil.nvl(request.getParameter("page_num"), "1");
 	}
-	
 
-	
 	int oPageSize = Integer.parseInt(page_size);
 	int oPageNum  = Integer.parseInt(page_num);
 	
 	String iTotalCnt = (null == request.getAttribute("total_cnt"))?"0":request.getAttribute("total_cnt").toString();
+
 	totalCnt = Integer.parseInt(iTotalCnt);
-	
+
 	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
 			     ?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
 	
@@ -83,50 +93,52 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     
-
   </head>
   <body>
 	<!-- contents -------------------------------------------------------->
 	<div class="container">
 		<!-- Title영역 -->
-		<div class="page-header">
-		</div>
-
+	
 	<!-- 마이페이지 공통------------------------------------------------------->
-	 <div class="container" style="padding-top:3%">
+		 <div class="container" style="padding-top:3%">
+	<thead>
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
-			<a >일반회원</a>님<br/>
-			쪽지<a >value</a> 
+			<a >${sessionName}</a>님<br/>
+			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer" >&nbsp;&nbsp;${sessionMsg}</a>개
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
-		  <li role="presentation" ><a href=user_list.do>회원관리</a></li>
-		  <li role="presentation" ><a href="user_update.jsp">개인정보 수정</a></li>
-		  <li role="presentation" ><a href="user_act.do">활동내역</a></li>
-		  <li role="presentation" class="active"><a href="/cd/msg/receiveIndex.do">쪽지함</a></li>
-		  <li role="presentation" ><a href="/cd/gallog/notebook_home.do">갤로그 가기</a></li>
+		  <li role="presentation" ><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
+		  <li role="presentation" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
+		  <li role="presentation"><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
+		  <li role="presentation"><a href="/cd/gallog/notebook_home.do" >갤로그 가기</a></li>
+		<c:choose>
+			<c:when test="${sessionYn==1 }">
+		  <li role="presentation" class="active" ><a href="/cd/mypage/user_list.do" >회원관리</a></li>
+			</c:when>
+		</c:choose>
 		</ul>
-	</div>
-	<br/>
+	</thead>
+		</div>
 	<!--// 마이페이지 공통------------------------------------------------------->
-
-		
+	
 		<!-- 이동 버튼 영역------------------------------------------------------->
-		<ul class="nav nav-pills col-sm-9" align="center" >
-		<li role="presentation"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
-		<li role="presentation" class="active"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
-		<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
-		</ul>	
+		<div class="container" style="padding-top:3%">
+		<ul class="nav nav-pills col-sm-9">
+			<li role="presentation"class="active"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
+			<li role="presentation"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
+			<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
+		</ul>		
+		</div>
+		
 		<!--// 이동 버튼 영역----------------------------------------------------->
-
-	<!-- 내용 누르면 받은편지 세부내역 나옴 frm_get ----------------------------------------------------------------------->	
+		
+	</div>
+	<!-- //contents -------------------------------------------------------->
+	
 	<form name="frm_get" id="frm" action="sendIndex.do" method="get" class="form-inline">
 		<input type="hidden" name="msgSeq" id="msgSeq">
-	</form>	
-		
-	</div>
-	<!-- contents -------------------------------------------------------->
-	
+	</form>
 	<!--// Title영역 -->
 	<form name="frm" id="frm" action="sendIndex.do" method="get"
 		class="form-inline">
@@ -134,35 +146,39 @@
 
 		<!-- 검색영역 -->
 		<div class="container">
-			<div class="text-right col-xs-10 col-sm-10 col-md-10 col-lg-10">
-				<form action="#" class="form-inline">		
-		
+			<div class="text-left col-xs-10 col-sm-10 col-md-10 col-lg-10">
+			</div>
+					
+			<div class="text-right col-xs-10 col-sm-10 col-md-10 col-lg-10">		
+				<form action="#" class="form-inline">
 					<div class="form-group">
-						<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
-					</div>
-					<div class="form-group">
-						<select name="search_div" id="search_div"
-							class="form-control input-sm">
-							<option value="">::전체::</option>
-							<option value="50"
-								<%if (search_div.equals("50"))out.print("selected='selected'");%>>받는이</option>
-							<option value="30"
-								<%if (search_div.equals("30"))out.print("selected='selected'");%>>내용</option>
-							</select>
-						<input type="text" name="search_word" id="search_word"
-							value="${param.search_word}" class="form-control input-sm"
-							placeholder="쪽지검색" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				
+						<div class="form-group">
+							<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
+						</div>
+							<select name="search_div" id="search_div" class="form-control input-sm">
+								<option value="">::전체::</option>
+								<option value="40" <%if(search_div.equals("40"))out.print("selected='selected'"); %> >받는이</option>					
+								<option value="30" <%if(search_div.equals("30"))out.print("selected='selected'"); %> >내용</option>					
+								
+							</select>							
+						<input type="text" name="search_word" id="search_word" value="${param.search_word}" class="form-control input-sm" placeholder="쪽지검색" />
+							
+						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		
 						<!-- 버튼 -->
 						<button type="button" class="btn btn-default btn-sm"
 							onclick="javascript:doSearch();">검색</button>
 						<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
-						<button type="button" class="btn btn-default btn-sm" id="do_deleteSAll">전부삭제</button>						
+						<button type="button" class="btn btn-default btn-sm" id="do_deleteRAll">전부삭제</button>						
+						<br/><br/>					
 					</div>
 				</form>
 			</div>
 		</div>	
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 		<!--// 검색영역----------------------------------------------------->
 		
 		<!-- Grid영역 -->
@@ -174,11 +190,12 @@
 				style="table-layout :fixed">
 				<thead class="bg-primary">
 				    <tr>
-				        <th class="text-center col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
-						<th class="text-center col-lg-1">번호</th>
-						<th class="text-center col-lg-2">받는이</th>
-						<th class="text-center col-lg-3">내용</th>
-						<th class="text-center col-lg-3">날짜</th>
+				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
+						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
+						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
+						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
+						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
+						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">읽음여부</th>
 					</tr>
 				</thead>
 				<tbody>  
@@ -188,7 +205,7 @@
 							<tr>
 							    <td class="text-center"><input type="checkbox" id="check" name="check"></td>								
 								<td class="text-center"><c:out value="${msgVo.msgSeq}"></c:out></td>																							
-								<td class="text-center"><c:out value="${msgVo.msgRecvId}"></c:out></td>																							
+								<td class="text-center"><c:out value="${msgVo.msgRecvId}"></c:out></td>																															
 								
 								<td class="text-center"
 								style="position:relative; width:200px; text-overflow:ellipsis; overflow:hidden; cursor:hand">
@@ -198,12 +215,14 @@
 								</td>								
 
 								<td class="text-center"><c:out value="${msgVo.regDt}"></c:out></td>																							
+								<td class="text-center"><c:out value="${msgVo.msgReadYn}"></c:out></td>
+								
 							</tr>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
 						<tr>
-						    <td class="text-center" colspan="99">등록된 게시글이 없습니다.</td>
+						    <td class="text-center" colspan="99">받은 쪽지가 없습니다.</td>
 						</tr>					
 					</c:otherwise>
 				</c:choose>						
@@ -219,24 +238,24 @@
 		</div>
 		<!--// pagenation영역 ----------------------------------------------->
 	</form>	
-	
+
+	<!--// contents ------------------------------------------------------>
+
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+    
     
     <script src="<%=context%>/resources/js/jquery.min.js"></script>
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript">
     
-    
-	//쪽지 쓰기 팝업창 호출 msg_send.jsp
-	function showPopup() {
+	//보낸쪽지함 호출 msg_send.jsp
+	function sendIndex() {
 		var comSubmit = new comSubmit();
-		comSubmit.setUrl("<c:url value='send.do' />");
+		comSubmit.setUrl("<c:url value='send_index.do' />");
 		comSubmit.submit();
-		window.open("msg_send.jsp", "msg_send",
-				"width=500, height=500, left=100, top=50");
 	}
-    
+        
     
     function search_page(url,page_num){
    	 //alert(url+":search_page:"+page_num);
@@ -244,14 +263,9 @@
 	   	frm.page_num.value = page_num;
 	   	frm.action = url;
 	   	frm.submit();
-   	 
     }
    
-    function onReset(){
-   	 $("#upsert_div").val("save");
-   	 $("#userId").prop("disabled",false);
-   	 
-    }
+
 	 //check 전체 선택
      function checkAll(){
 	   	 //alert("checkAll");
@@ -260,25 +274,16 @@
 	   	 }else{
 	   		 $("input[name='check']").prop("checked",false);
 	   	 }
-    	   
      }
         
      function doSearch(){
 	   	 var frm = document.frm;
 	   	 frm.page_num.value =1;
-	   	 frm.action = "sendIndex.do";
+	   	 frm.action = "receiveIndex.do";
 	   	 frm.submit();
      }
-   
-     $(document).ready(function(){   
-		//alert("ready");
-		
-		//var items = [];
-		//$('input:checkbox[type=checkbox]:checked').each(function () {
-		//    items.push($(this).val());
-		//});
-		
-
+ 	 
+ 		
 		$("#do_deleteSAll").on("click",function(){
 			//alert("do_delete");
 			
@@ -297,7 +302,7 @@
 			var jsonIdList = JSON.stringify(items);
 			//jsonIdList=["107","108"]
 			console.log("jsonIdList="+jsonIdList);
-		
+			
 			
 	        $.ajax({
 	            type:"POST",
@@ -312,7 +317,7 @@
 	                 console.log("parseData.message="+parseData.message);
 		         	 if(parseData.flag > 0){
 		         		alert(parseData.message);
-		         		location.href="receiveIndex.do";
+		         		location.href="sendIndex.do";
 
 		         		doSearch();
 		         	 }else{
@@ -324,11 +329,11 @@
 	             
 	            },
 	            error: function(xhr,status,error){
-	             
+ 
 	            }
 	         });//--ajax
 			
-		});//--do_deleteSAll
+		});//--do_deleteRAll
 		
 		$("#do_delete").on("click",function(){
 			//alert("do_delete");
@@ -338,7 +343,7 @@
 				console.log("index="+index);
 				//console.log("row="+row);
 				var record = $(row).parents("tr");
-				var userId = $(record).find("td").eq(1).text()
+				var msgSeq = $(record).find("td").eq(1).text()
 				console.log("msgSeq="+msgSeq);
 				items.push(msgSeq);
 			});
@@ -367,7 +372,7 @@
 	                 console.log("parseData.message="+parseData.message);
 		         	 if(parseData.flag > 0){
 		         		alert(parseData.message);
-		         		doSearch();
+		        		doSearch();
 		         	 }else{
 		         		alert(parseData.message);
 		         		
@@ -377,7 +382,7 @@
 	             
 	            },
 	            error: function(xhr,status,error){
-	             
+
 	            }
 	         });//--ajax
 			
@@ -402,13 +407,17 @@
 		         	"userId": $("#userId").val(),
 		         	"msgRecvId": $("#msgRecvId").val(),
 		         	"msgCont": $("#msgCont").val(),
-		         	"regDt": $("#regDt").val()
+		         	"regDt": $("#regDt").val(),
+		         	"msgReadYn": $("#msgReadYn").val(),
+		         	"msgSdelYn": $("#msgSdelYn").val(),
+		         	"msgRdelYn": $("#msgRdelYn").val()
+
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);
 		         	 if(parseData.flag=="1"){
 		         		 alert(parseData.message);
-		         		 doSearch();
+		   //      		 doSearch();
 		         	 }else{
 		         		alert(parseData.message);
 		         	 }				          
@@ -442,13 +451,15 @@
 		         	"msgRecvId": $("#msgRecvId").val(),
 		         	"msgCont": $("#msgCont").val(),
 		         	"regDt": $("#regDt").val(),
-		         	"msgReadYn": $("#msgReadYn").val()
+		         	"msgReadYn": $("#msgReadYn").val(),
+		         	"msgSdelYn": $("#msgSdelYn").val(),
+		         	"msgRdelYn": $("#msgRdelYn").val()		         	
 		         },
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);
 		         	 if(parseData.flag=="1"){
 		         		 alert(parseData.message);
-		         		 doSearch();
+		      //   		 doSearch();
 		         	 }else{
 		         		alert(parseData.message);
 		         	 }
@@ -460,7 +471,7 @@
 		          
 		         }
 		        });//--ajax					
-					
+			
 		});//--do_update	
 		
 		$("#listTable>tbody").on("click","tr",function(){

@@ -1,3 +1,4 @@
+<%@page import="java.io.PrintWriter"%>
 <%@page import="com.sist.cd.common.SearchVO"%>
 <%@page import="java.util.List"%>
 <%@page import="com.sist.cd.domain.CodeVO"%>
@@ -10,7 +11,17 @@
     uri="http://tiles.apache.org/tags-tiles" %>    
  
 <%
+
+
 	String context = request.getContextPath();//context path
+	
+	//세션 타임아웃시 경고창과 함께 로그인페이지로 이동하는 부분!!
+	session = request.getSession(false);
+	PrintWriter outt = response.getWriter();
+	if(null==session || session.getAttribute("sessionId")==null){
+		outt.print("<script>alert('로그인이 필요한 화면입니다.');location.href='/cd/user/login.do'</script>");
+		return;
+	}
 	
 	String page_size ="10";//page_size
 	String page_num  ="1";//page_num
@@ -95,20 +106,26 @@
 		<!-- Title영역 -->
 	
 	<!-- 마이페이지 공통------------------------------------------------------->
-	 <div class="container" style="padding-top:3%">
+		 <div class="container" style="padding-top:3%">
+	<thead>
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
-			<a >일반회원</a>님<br/>
-			쪽지<a >value</a> 
+			<a >${sessionName}</a>님<br/>
+			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer" >&nbsp;&nbsp;${sessionMsg}</a>개
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
-		  <li role="presentation" ><a href=user_list.do>회원관리</a></li>
-		  <li role="presentation" ><a href="user_update.jsp">개인정보 수정</a></li>
-		  <li role="presentation" ><a href="user_act.do">활동내역</a></li>
-		  <li role="presentation" class="active"><a href="/cd/msg/receiveIndex.do">쪽지함</a></li>
-		  <li role="presentation" ><a href="/cd/gallog/notebook_home.do">갤로그 가기</a></li>
+		  <li role="presentation" ><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
+		  <li role="presentation" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
+		  <li role="presentation"><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
+		  <li role="presentation"><a href="/cd/gallog/notebook_home.do" >갤로그 가기</a></li>
+		<c:choose>
+			<c:when test="${sessionYn==1 }">
+		  <li role="presentation" class="active" ><a href="/cd/mypage/user_list.do" >회원관리</a></li>
+			</c:when>
+		</c:choose>
 		</ul>
-	</div>
+	</thead>
+		</div>
 	<!--// 마이페이지 공통------------------------------------------------------->
 	
 		<!-- 이동 버튼 영역------------------------------------------------------->
