@@ -81,7 +81,7 @@ public class MsgSvcImple implements MsgSvc {
 
 	@Override
 	public int getNCount(String userId) throws SQLException{
-		return msgDao.getAllCount(userId);
+		return msgDao.getNCount(userId);
 	}
 	
 	@Override

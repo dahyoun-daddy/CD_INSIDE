@@ -99,7 +99,11 @@
 		     msg_sdel_yn,
 		     msg_rdel_yn                   
 	   FROM MSG                            
-	  WHERE msg_seq = #{msgSeq}                       		
+		<!--[CDATA[
+		WHERE msg_seq = #{msgSeq}   
+		AND msg_sdel_yn < 1
+		AND msg_rdel_yn <1 
+		]]-->
 	</select>
 	
 	<!-- 받은쪽지 갯수 -->
@@ -132,8 +136,12 @@
 		     msg_read_yn,
 		     msg_sdel_yn,
 		     msg_rdel_yn   
-	      FROM MSG
-	     ORDER BY MSG_READ_YN DESC, REG_DT DESC  
+	      FROM MSG	      	    
+		<!--[CDATA[
+		WHERE msg_sdel_yn <1   
+		AND msg_rdel_yn <1 
+		]]-->
+	    ORDER BY MSG_READ_YN DESC, REG_DT DESC  
     </select>		
 
     <!-- select list -->
@@ -147,8 +155,10 @@
 				T.MSG_RECV_ID AS msgRecvId,                              
 				T.MSG_CONT  AS msgCont,                              
 				TO_CHAR(T.REG_DT,'YYYY-MM-DD HH24:MI:SS') AS regDt,                                  
-				T.MSG_READ_YN AS msgReadYn,                                                    
-				T.rnum AS no    						                         
+				T.MSG_READ_YN AS msgReadYn, 
+				T.MSG_SDEL_YN AS msgSdelYn,
+				T.MSG_RDEL_YN AS msgRdelYn,			                                                   
+				T.rnum AS no 						                         
 		  FROM(                                          
 			SELECT hr.*                                  
 				  ,ROW_NUMBER() OVER(ORDER BY MSG_READ_YN desc , REG_DT desc ) AS rnum       

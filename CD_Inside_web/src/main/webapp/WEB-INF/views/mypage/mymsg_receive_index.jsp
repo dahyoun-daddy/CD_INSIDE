@@ -207,6 +207,7 @@
 
 								<td class="text-center"><c:out value="${msgVo.regDt}"></c:out></td>																							
 								<td class="text-center"><c:out value="${msgVo.msgReadYn}"></c:out></td>
+								
 							</tr>
 						</c:forEach>
 					</c:when>

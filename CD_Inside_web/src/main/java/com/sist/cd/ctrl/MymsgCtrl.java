@@ -205,6 +205,9 @@ public class MymsgCtrl {
 		log.info("2========================");
 		log.info("msgVO="+msgVO);
 		log.info("2========================");	
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		msgVO.setUserId(userId);
 		
 		//등록		
 		int flag = msgSvc.add(msgVO);
@@ -420,8 +423,17 @@ public class MymsgCtrl {
 	//-----------------------------------------------
 	//누르면 update 써서 읽지않음 -> 읽음 으로 바꾸기   실시간 x
 	//-----------------------------------------------
+
+	
+	
 	MsgVO msgVO=new MsgVO();
 	msgVO.setMsgSeq(msgSeq);	
+	
+	//세션받기
+	HttpSession session = req.getSession(true);
+	String userId = (String) session.getAttribute("sessionId");
+	msgVO.setUserId(userId);
+	
 	int outVO1 = msgSvc.updateReadCheck(msgVO);
 
 	return RECEIVE;
