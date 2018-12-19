@@ -1,10 +1,17 @@
+<%@page import="java.io.PrintWriter"%>
 <%@page import="com.sist.cd.common.StringUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
 <%
 	String context = request.getContextPath();//context path
-
+	//세션 타임아웃시 경고창과 함께 로그인페이지로 이동하는 부분!!
+	session = request.getSession(false);
+	PrintWriter outt = response.getWriter();
+	if(null==session || session.getAttribute("sessionId")==null){
+		outt.print("<script>alert('로그인이 필요한 화면입니다.');location.href='/cd/user/login.do'</script>");
+		return;
+	}
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -35,7 +42,7 @@
 		<!-- 입력폼 -->
 		<hr/>
 
-        <form  name="frm" id="frm" action="add.do" method="post" class="form-horizontal">
+        <form  name="frm" id="frm" action="sendIndex.do" method="post" class="form-horizontal">
 		  <div class="form-group">
 	  		<input type="hidden" name="msgSeq" id="msgSeq" value="${list.msgSeq}">		  
 		    <label for="msgRectRecvId" class="col-sm-2 control-label">받는이</label>
@@ -59,7 +66,7 @@
 		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">
 		    <button type="submit" class="btn btn-default" id="do_add">보내기</button>
-		    <button type="submit" class="btn btn-default" id="do_cancel" onclick="closePopup();">취소</button>	
+		    <button type="submit" class="btn btn-default" onclick="back()">취소</button>	
 		  </div>
 		</div>
 		<!--// 버튼 -->
@@ -69,14 +76,9 @@
 	    <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
 	    <script type="text/javascript">
 	    
-	    //보내기 버튼 누르면 보내고  팝업 닫기
-	    function closePopup(){
-	    	 javascript:window.close();
-	    }
-	    
-	    //취소 버튼 누르면 팝업 닫기
-	    function closePopup(){
-	    	 javascript:window.close();
+
+	    function back(){
+	    	window.history.back();
 	    }
 	    
 	    //글자수 세기

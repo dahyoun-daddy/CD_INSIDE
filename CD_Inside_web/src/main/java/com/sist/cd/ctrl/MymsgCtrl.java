@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.BoardVO;
 import com.sist.cd.domain.CodeVO;
+import com.sist.cd.domain.CommentVO;
 import com.sist.cd.domain.GallogVO;
 import com.sist.cd.domain.MsgVO;
 import com.sist.cd.domain.UserVO;
@@ -90,43 +91,37 @@ public class MymsgCtrl {
 	}
 	
 	@RequestMapping(value="/msg/receiveIndex.do")
-	public String do_receiveIndex(@ModelAttribute SearchVO invo,Model model,  HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
+	public String do_receiveIndex(@ModelAttribute MsgVO invo,Model model,  HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
 	
-		log.info("SearchVO: "+invo);
-		//param -> view
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		invo.setUserId(userId); //TODO 세션 받을곳
+
 		
+		String page_num = (String) req.getParameter("page_num");
+		if (page_num == null) {
+			invo.setPage_num(1);
+		} else {
+			invo.setPage_num(Integer.parseInt(page_num));
+		}
+
 		if(invo.getPage_size() == 0) {
 			invo.setPage_size(10);
 		}
 		
-		if(invo.getPage_num() == 0) {
-			invo.setPage_num(1);
-		}
-		
-		if(null == invo.getSearch_div()) {
-			invo.setSearch_div("");
-		}
-		
-		if(null == invo.getSearch_word()) {
-			invo.setSearch_word("");
-		}		
-			
-		model.addAttribute("param",invo);
-		
+		log.info("page_num:" + page_num);
+		log.info("***page_size:" + invo.getPage_size());
+
 		List<MsgVO> list = msgSvc.do_retrieve(invo);
-		log.info("list: "+list);
-		
-		//글수
+		log.info("list: " + list);
+
 		int total_cnt = 0;
-		if(null != list && list.size()>0) {
+		if (null != list && list.size() > 0) {
 			total_cnt = list.get(0).getTotalCnt();
-			log.info("total_cnt: "+total_cnt);
+			log.info("totalCnt: " + total_cnt);
 		}
-		
-		//세션받기
-		HttpSession session = req.getSession(true);
-		String userId = (String) session.getAttribute("sessionId");
-		
+
+
 		//읽지않은쪽지수
 		int n_cnt = msgSvc.getNCount(userId);//"test"가 받은 쪽지 중 안 읽은 쪽지
 		log.info("n_cnt: "+n_cnt);
@@ -150,44 +145,41 @@ public class MymsgCtrl {
 	}	
 	
 	@RequestMapping(value="/msg/sendIndex.do")
-	public String do_sendIndex(@ModelAttribute SearchVO invo,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
-		log.info("SearchVO: "+invo);
-		//param -> view
+	public String do_sendIndex(@ModelAttribute MsgVO invo,Model model,  HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		invo.setUserId(userId); //TODO 세션 받을곳
+
 		
-		MsgVO msgVO = new MsgVO();
-		msgVO.setUserId("test");
-		
+		String page_num = (String) req.getParameter("page_num");
+		if (page_num == null) {
+			invo.setPage_num(1);
+		} else {
+			invo.setPage_num(Integer.parseInt(page_num));
+		}
+
 		if(invo.getPage_size() == 0) {
 			invo.setPage_size(10);
 		}
 		
-		if(invo.getPage_num() == 0) {
-			invo.setPage_num(1);
-		}
-		
-		if(null == invo.getSearch_div()) {
-			invo.setSearch_div("");
-		}
-		
-		if(null == invo.getSearch_word()) {
-			invo.setSearch_word("");
-		}		
-			
-		model.addAttribute("param",invo);
-		
+		log.info("page_num:" + page_num);
+		log.info("***page_size:" + invo.getPage_size());
+
 		List<MsgVO> list = msgSvc.do_retrieve(invo);
-		log.info("list: "+list);
-		//총글수
+		log.info("list: " + list);
+
 		int total_cnt = 0;
-		if(null != list && list.size()>0) {
+		if (null != list && list.size() > 0) {
 			total_cnt = list.get(0).getTotalCnt();
-			log.info("total_cnt: "+total_cnt);
+			log.info("totalCnt: " + total_cnt);
 		}
+	
 		
 		CodeVO codePage=new CodeVO();
 		codePage.setCd_id("C_001");
 		
 		model.addAttribute("code_page",codeSvc.do_retrieve(codePage));
+
 		model.addAttribute("total_cnt",total_cnt);
 		model.addAttribute("list",list);
 		

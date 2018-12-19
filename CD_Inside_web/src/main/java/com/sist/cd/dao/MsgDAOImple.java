@@ -153,13 +153,13 @@ public class MsgDAOImple implements MsgDAO{
 		return this.sqlSession.selectList(statement);				
 	}
 
-	public List<MsgVO> do_retrieve(SearchVO searchVO)
+	public List<MsgVO> do_retrieve(MsgVO msgVO)
 			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		        
 		String statement = NAME_SPACE+".do_retrieve";
 		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+searchVO);
-		List<MsgVO> list  = this.sqlSession.selectList(statement, searchVO);
+		log.debug("2.param: "+msgVO);
+		List<MsgVO> list  = this.sqlSession.selectList(statement, msgVO);
 		log.debug("*****************************");
 		log.debug("3.list: "+list);
 		log.debug("*****************************");

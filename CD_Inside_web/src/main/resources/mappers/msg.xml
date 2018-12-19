@@ -141,7 +141,7 @@
     </select>		
 
     <select id="do_retrieve" 
-       parameterType="SearchVO"
+       parameterType="MsgVO"
        resultType="MsgVO"  >
  		SELECT X.*,Y.*
  		  FROM(
