@@ -1,3 +1,6 @@
+<%@page import="org.slf4j.LoggerFactory"%>
+<%@page import="org.slf4j.Logger"%>
+<%@page import="java.io.PrintWriter"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.sist.cd.domain.CodeVO"%>
 <%@page import="java.util.List"%>
@@ -8,7 +11,16 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String context = request.getContextPath();//context path
+	Logger logs = LoggerFactory.getLogger(this.getClass());
 	
+	//세션 타임아웃시 경고창과 함께 로그인페이지로 이동하는 부분!!
+	session = request.getSession(false);
+	PrintWriter outt = response.getWriter();
+	if(null==session || session.getAttribute("sessionId")==null||!session.getAttribute("sessionYn").equals("1")){
+		outt.print("<script>alert('!!!!!접근불가!!!!!관리자용 페이지입니다.');location.href='/cd/main/main.do'</script>");
+		return;
+	}
+	logs.info("----sessionYn----"+session.getAttribute("sessionYn"));
 	String page_size ="10";//page_size
 	String page_num  ="1";//page_num
 	String search_div ="";//검색구분

@@ -1,3 +1,4 @@
+<%@page import="java.io.PrintWriter"%>
 <%@page import="org.slf4j.LoggerFactory"%>
 <%@page import="org.slf4j.Logger"%>
 <%@page import="com.sist.cd.domain.BoardVO"%>
@@ -10,6 +11,15 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String context = request.getContextPath();//context path
+	
+	//세션 타임아웃시 경고창과 함께 로그인페이지로 이동하는 부분!!
+	session = request.getSession(false);
+	PrintWriter outt = response.getWriter();
+	if(null==session || session.getAttribute("sessionId")==null){
+		outt.print("<script>alert('로그인이 필요한 화면입니다.');location.href='/cd/user/login.do'</script>");
+		return;
+	}
+	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	String page_size ="10";//page_size
 	String page_num  ="1";//page_num

@@ -1,6 +1,19 @@
+<%@page import="java.io.PrintWriter"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+	//세션 타임아웃시 경고창과 함께 로그인페이지로 이동하는 부분!!
+	//관리자용 페이지이기 때문에 관리자가 아니라면 접근할수 없다는 알림창이 뜬다.
+	//메인창으로 이동함.
+	session = request.getSession(false);
+	PrintWriter outt = response.getWriter();
+	if(null==session || session.getAttribute("sessionId")==null||!session.getAttribute("sessionYn").equals("1")){
+		outt.print("<script>alert('!!!!!접근불가!!!!!관리자용 페이지입니다.');location.href='/cd/main/main.do'</script>");
+		return;
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
