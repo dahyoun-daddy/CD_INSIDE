@@ -17,7 +17,7 @@
 	session = request.getSession(false);
 	PrintWriter outt = response.getWriter();
 	if(null==session || session.getAttribute("sessionId")==null||!session.getAttribute("sessionYn").equals("1")){
-		outt.print("<script>alert('!!!!!접근불가!!!!!관리자용 페이지입니다.');location.href='/cd/main/main.do'</script>");
+		outt.print("<script>alert('!!!!!접근불가!!!!!');location.href='/cd/main/main.do'</script>");
 		return;
 	}
 	logs.info("----sessionYn----"+session.getAttribute("sessionYn"));

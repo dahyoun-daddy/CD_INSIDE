@@ -113,8 +113,8 @@
 			<thead class="bg-primary">
 			    <tr>
 			        <th class=" col-lg-1" style="text-align: center" > 전체<br/><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAlls();" ></th> 
-					<th style="display:none" class="text-center col-lg-2" >게시판번호 본문이동</th>
-					<th class="text-center col-lg-5" >내용</th>
+					<th style="display:none" class="text-center col-lg-1" >게시판번호 본문이동</th>
+					<th class="text-center col-lg-6" >내용</th>
 					<th class="text-center col-lg-3" >작성일</th>
 					<th style="display:none" class=" col-lg-1">댓글번호 삭제용</th>
 				</tr>
@@ -127,10 +127,15 @@
 						<c:forEach var="commentVo" items="${list}">
 							<tr>
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
-								<td style="display:none" align="center" ><c:out value="${commentVo.bNum}"></c:out></td>
-								<td align="center" ><c:out value="${commentVo.commCont}"></c:out></td>
-								<td align="center" ><c:out value="${commentVo.regDt}"></c:out></td>
-								<td style="display:none" align="center" ><c:out value="${commentVo.commTextNum}"></c:out></td>
+								<td style="display:none" align="center" class="boardNum"><c:out value="${commentVo.bNum}"/></td>
+								<td align="center" class="up">
+									<a style="cursor:pointer"><c:out value="${commentVo.commCont}"/></a>
+								</td>
+								<td align="center" ><c:out value="${commentVo.regDt}"/></td>
+								<td style="display:none" align="center" ><c:out value="${commentVo.commTextNum}"/></td>
+<!-- 								<td align="center"> -->
+<!-- 									<a class="btn btn-default up" style="cursor:pointer ">이동</a> -->
+<!-- 								</td> -->
 							</tr>
 						</c:forEach>
 					</c:when>
@@ -186,6 +191,37 @@
     }
     
 	$(document).ready(function(){   
+		
+		$(".up").click(function(){
+            
+			var tr = $(this).parent();
+			var td = tr.children();
+			var bNum = td.eq(1).text();
+            console.log("클릭한 Row의 모든 데이터 : "+tr.text());
+			console.log("2. bNum="+bNum);
+//          var bNum = $(".boardNum").text();//등록한댓글이 있는 게시판번호
+// 	        alert(bNum);//클릭시 이동하기 전 해당댓글이 존재하는 게시판 번호로 이동하기위해 불러옴
+			if(confirm("원 게시글로 이동하시겠습니까?")==false){return;}
+       		
+			 $.ajax({
+	            type:"POST",
+	            url:"/cd/board/get.do",
+	            dataType:"html",
+	            data:{
+	            	"bNum": bNum
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+	    	    	location.href = "/cd/board/get.do?bNum="+bNum;
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+		});
+		
 		
 		$("#do_delete").on("click",function(){
 			//alert("do_delete");

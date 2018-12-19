@@ -128,11 +128,13 @@
 						<c:forEach var="boardVo" items="${list}">
 							<tr>
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
-								<td align="center" ><c:out value="${boardVo.bNum}"></c:out></td>
-								<td align="center" ><c:out value="${boardVo.bCate}"></c:out></td>
-								<td align="center" ><c:out value="${boardVo.bTitle}"></c:out></td>
-								<td align="center" ><c:out value="${boardVo.regDt}"></c:out></td>
-								<td align="center" ><c:out value="${boardVo.bCnt}"></c:out></td>
+								<td align="center" class="boardNum"><c:out value="${boardVo.bNum}"/></td>
+								<td align="center" ><c:out value="${boardVo.bCate}"/></td>
+								<td align="center" class="up">
+									<a style="cursor:pointer"><c:out value="${boardVo.bTitle}"/></a>
+								</td>
+								<td align="center" ><c:out value="${boardVo.regDt}"/></td>
+								<td align="center" ><c:out value="${boardVo.bCnt}"/></td>
 							</tr>
 						</c:forEach>
 					</c:when>
@@ -188,6 +190,38 @@
     }
     
 	$(document).ready(function(){   
+		
+		
+		$(".up").click(function(){
+            
+			var tr = $(this).parent();
+			var td = tr.children();
+			var bNum = td.eq(1).text();
+            console.log("클릭한 Row의 모든 데이터 : "+tr.text());
+			console.log("2. bNum="+bNum);
+//          var bNum = $(".boardNum").text();//등록한댓글이 있는 게시판번호
+// 	        alert(bNum);//클릭시 이동하기 전 해당댓글이 존재하는 게시판 번호로 이동하기위해 불러옴
+			if(confirm("원 게시글로 이동하시겠습니까?")==false){return;}
+    		
+			 $.ajax({
+	            type:"POST",
+	            url:"/cd/board/get.do",
+	            dataType:"html",
+	            data:{
+	            	"bNum": bNum
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+	    	    	location.href = "/cd/board/get.do?bNum="+bNum;
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+		});
+		
 		
 // 		$("#do_delete").on("click",function(){
 // 			//alert("do_delete");
