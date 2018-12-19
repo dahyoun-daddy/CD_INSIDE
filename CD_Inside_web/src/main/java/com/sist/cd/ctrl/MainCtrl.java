@@ -44,7 +44,7 @@ public class MainCtrl {
 		List<BoardVO> linkList = boardSvc.do_cateret(invo);
 		model.addAttribute("linkList", linkList);
 		
-		invo.setbHit("10");
+		invo.setbHit("1");
 		
 		List<BoardVO> hitList = boardSvc.do_hitretreive(invo);
 		model.addAttribute("hitList", hitList);
