@@ -26,7 +26,7 @@
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
 			<a >${sessionName}</a>님<br/>
-			쪽지<a >value</a> 
+			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer" >&nbsp;&nbsp;${sessionMsg}</a>개
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
 		<c:choose>

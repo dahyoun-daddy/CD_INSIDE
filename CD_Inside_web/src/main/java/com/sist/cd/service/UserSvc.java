@@ -79,6 +79,8 @@ public interface UserSvc {
 	
 	int co_deleteMulti(List<CommentVO> list) throws RuntimeException, SQLException;
 	
+	int bo_deleteMulti(List<BoardVO> list) throws RuntimeException, SQLException;
+	
 	/**
 	 * 단건조회
 	 * @param userVO

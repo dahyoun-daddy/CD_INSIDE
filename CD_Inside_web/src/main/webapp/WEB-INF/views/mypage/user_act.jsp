@@ -73,7 +73,7 @@
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
 			<a >${sessionName}</a>님<br/>
-			쪽지<a >value</a> 
+			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer" >&nbsp;&nbsp;${sessionMsg}</a>개
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
 		<c:choose>
@@ -91,6 +91,7 @@
 		<div class="col-xs-12"><hr/></div>
 		<div class="col-xs-1"></div>
 		<div class="table-responsive col-xs-10" >
+		<div class="row">
 	         <div class="col-sm-12" >
 	         	<ul class="nav nav-tabs">
 					<li role="presentation" class="active"><a href="/cd/mypage/user_act.do">등록한 게시글</a></li>
@@ -106,6 +107,7 @@
 <!-- 	         <div class="col-sm-12" ><hr/></div> -->
 	         <div style="text-align: right">
 	         	<input type="button" class="btn btn-default btn-sm" style="height: 35px" id="do_delete" value="삭제"/> 
+	         </div>
 	         </div>
 			<table id="listTable" class="table table-striped table-bordered table-hover ">
 			<thead class="bg-primary">
@@ -223,58 +225,58 @@
 		});
 		
 		
-// 		$("#do_delete").on("click",function(){
-// 			//alert("do_delete");
+		$("#do_delete").on("click",function(){
+			//alert("do_delete");
 			
-// 			var items = [];//var items=new Array(); 
-// 			$( "input[name='check']:checked" ).each(function( index,row ) {
-// 				console.log("index="+index);
-// 				//console.log("row="+row);
-// 				var record = $(row).parents("tr");
-// 				var userId = $(record).find("td").eq(1).text();
-// 				console.log("userId="+userId);
-// 				items.push(userId);
-// 			});
-// 			console.log("items.length="+items.length);
-// 			if(items.length<=0){
-// 				alert("삭제할 데이터를 선택 하세요.")
-// 				return;
-// 			}
+			var items = [];//var items=new Array(); 
+			$( "input[name='check']:checked" ).each(function( index,row ) {
+				console.log("index="+index);
+				//console.log("row="+row);
+				var record = $(row).parents("tr");
+				var boardNum = $(record).find("td").eq(1).text();
+				console.log("boardNum="+boardNum);
+				items.push(boardNum);
+			});
+			console.log("items.length="+items.length);
+			if(items.length<=0){
+				alert("삭제할 데이터를 선택 하세요.")
+				return;
+			}
 			
-// 			if(false==confirm("삭제 하시겠습니까?"))return;
+			if(false==confirm("삭제 하시겠습니까?"))return;
 			
-// 			var jsonIdList = JSON.stringify(items);
-// 			//jsonIdList=["107","108"]
-// 			console.log("jsonIdList="+jsonIdList);
+			var jsonIdList = JSON.stringify(items);
+			//jsonIdList=["107","108"]
+			console.log("jsonIdList="+jsonIdList);
 			
-// 	        $.ajax({
-// 	            type:"POST",
-// 	            url:"delete.do",
-// 	            dataType:"html",
-// 	            data:{
-// 	            	"userId_list": jsonIdList
-// 	            },
-// 	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-// 		             var parseData = $.parseJSON(data);
-// 	                 console.log("parseData.flag="+parseData.flag);
-// 	                 console.log("parseData.message="+parseData.message);
-// 		         	 if(parseData.flag > 0){
-// 		         		alert(parseData.message);
-// 		         		doSearch();
-// 		         	 }else{
-// 		         		alert(parseData.message);
+	        $.ajax({
+	            type:"POST",
+	            url:"bo_delete.do",
+	            dataType:"html",
+	            data:{
+	            	"boardNum": jsonIdList
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+	                 console.log("parseData.flag="+parseData.flag);
+	                 console.log("parseData.message="+parseData.message);
+		         	 if(parseData.flag > 0){
+		         		alert(parseData.message);
+		         		doSearch();
+		         	 }else{
+		         		alert(parseData.message);
 		         		
-// 		         	 }				             
-// 	            },
-// 	            complete: function(data){//무조건 수행
+		         	 }				             
+	            },
+	            complete: function(data){//무조건 수행
 	             
-// 	            },
-// 	            error: function(xhr,status,error){
+	            },
+	            error: function(xhr,status,error){
 	             
-// 	            }
-// 	         });//--ajax
+	            }
+	         });//--ajax
 			
-// 		});//--do_delete
+		});//--do_delete
 		
  	});
     

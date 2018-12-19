@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.sist.cd.common.DuplicateUserIdException;
 import com.sist.cd.common.SearchVO;
+import com.sist.cd.dao.BoardDAO;
 import com.sist.cd.dao.CommentDAO;
 import com.sist.cd.dao.UserDAO;
 import com.sist.cd.domain.BoardVO;
@@ -29,6 +30,8 @@ public class UserSvcImple implements UserSvc{
 	private UserDAO userDao;
 	@Autowired
 	private CommentDAO commentDAO;
+	@Autowired
+	private BoardDAO boardDao;
 
 
 	@Override
@@ -144,6 +147,26 @@ public class UserSvcImple implements UserSvc{
 		try {
 			for(CommentVO vo :list) {
 				flag+=commentDAO.delete(vo);
+			}
+			
+		}catch(RuntimeException e) {
+			log.debug("========================");
+			log.debug("RuntimeException: "+e.getMessage());
+			log.debug("========================");			
+			throw e;
+		}
+		log.debug("========================");
+		log.debug("=flag="+flag);
+		log.debug("========================");
+		return flag;
+	}
+
+	@Override
+	public int bo_deleteMulti(List<BoardVO> list) throws RuntimeException, SQLException {
+		int flag = 0;
+		try {
+			for(BoardVO vo :list) {
+				flag+=boardDao.delete(vo);
 			}
 			
 		}catch(RuntimeException e) {

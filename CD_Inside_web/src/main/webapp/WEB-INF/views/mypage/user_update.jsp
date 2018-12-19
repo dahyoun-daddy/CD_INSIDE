@@ -33,7 +33,7 @@
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
 			<a >${sessionName}</a>님<br/>
-			쪽지<a >value</a> 
+			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer" >&nbsp;&nbsp;${sessionMsg}</a>개
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
 		<c:choose>
@@ -111,11 +111,13 @@
 	         <div class="col-sm-12" ><hr/></div>
 	         
 	         <div class="col-sm-3" ></div>
-	         <div class="col-sm-6" align="center"><br/>
+	         <div class="col-sm-6" align="center">
+	         	<input type="hidden" id="userId" name="userId" value="${userVo.userId }">
 		     	<input class="btn btn-primary " type="button" id ="do_update" value="수정">
-		     	<input class="btn btn-primary " type="button" id ="do_delete" value="삭제">
+		     	<input class="btn btn-primary " type="button" id ="do_delete" value="탈퇴">
 		  	</div>
 	         <div class="col-sm-3" ></div>
+	         <div class="col-sm-12" ><br/></div>
 	    </form>
 	</tbody>
 	   </div>
@@ -136,6 +138,41 @@
     
     
     $(document).ready(function(){ 
+    	
+		$("#do_delete").on("click",function(){
+			//alert("do_delete");
+			
+			var userId =$("#userId").val();
+			
+			if(false==confirm("삭제 하시겠습니까?"))return;
+			
+			
+	        $.ajax({
+	            type:"POST",
+	            url:"deleteUser.do",
+	            dataType:"html",
+	            data:{
+	            	"userId": userId
+	            },
+	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+		             var parseData = $.parseJSON(data);
+		         	 if(parseData.flag>0){
+		         		 alert(parseData.message);
+		         		 location.href="/cd/main/main.do";
+		         	 }else{
+		         		alert(parseData.message);
+		         	 }
+	            },
+	            complete: function(data){//무조건 수행
+	             
+	            },
+	            error: function(xhr,status,error){
+	             
+	            }
+	         });//--ajax
+			
+		});//--do_delete
+    	
     	
     	//name 중복체크 및 유효성 검사
 		$("#nameCheck").on("click",function(){
