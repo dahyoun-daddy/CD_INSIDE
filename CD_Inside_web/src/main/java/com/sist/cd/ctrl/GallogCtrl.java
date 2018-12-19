@@ -80,9 +80,6 @@ public class GallogCtrl {
 		if(null != list && list.size()>0) {
 			totalCnt = list.get(0).getTotalCnt();
 			log.info("totalCnt: "+totalCnt);
-		}else{
-			totalCnt = list.get(0).getTotalCnt();
-			invo.setPage_num(Integer.parseInt(page_num)-1);
 		}
 
 		model.addAttribute("userId",aaa);
@@ -371,9 +368,6 @@ public class GallogCtrl {
 		if(null != list && list.size()>0) {
 			totalCnt = list.get(0).getTotalCnt();
 			log.info("totalCnt: "+totalCnt);
-		}else{
-			totalCnt = list.get(0).getTotalCnt();
-			invo.setPage_num(Integer.parseInt(page_num)-1);
 		}
 
 		model.addAttribute("userId",aaa);		
@@ -581,18 +575,12 @@ public class GallogCtrl {
 		if(null != list && list.size()>0) {
 			totalCnt = list.get(0).getTotalCnt();
 			log.info("totalCnt: "+totalCnt);
-		}else{
-			totalCnt = list.get(0).getTotalCnt();
-			invo.setPage_num(Integer.parseInt(page_num)-1);
 		}
 		
 		int totalCnt2 = 0;
 		if(null != list2 && list2.size()>0) {
 			totalCnt2 = list2.get(0).getTotalCnt();
 			log.info("totalCnt2: "+totalCnt2);
-		}else{
-			totalCnt2 = list2.get(0).getTotalCnt();
-			invo.setPage_num(Integer.parseInt(page_num)-1);
 		}
 
 		model.addAttribute("userId",aaa);
