@@ -36,15 +36,15 @@
 			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer" >&nbsp;&nbsp;${sessionMsg}</a>개
 		</div>
 		<ul class="nav nav-pills col-sm-9" align="center" >
+		  <li role="presentation" class="active"><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
+		  <li role="presentation" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
+		  <li role="presentation"><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
+		  <li role="presentation"><a href="/cd/gallog/notebook_home.do" >갤로그 가기</a></li>
 		<c:choose>
 			<c:when test="${sessionYn==1 }">
 		  <li role="presentation" ><a href="/cd/mypage/user_list.do" >회원관리</a></li>
 			</c:when>
 		</c:choose>
-		  <li role="presentation" class="active"><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
-		  <li role="presentation" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
-		  <li role="presentation"><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
-		  <li role="presentation"><a href="/cd/gallog/notebook_home.do" >갤로그 가기</a></li>
 		</ul>
 	</thead>
 	 <tbody>
