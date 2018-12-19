@@ -114,7 +114,7 @@
 		(
 		SELECT COUNT(*) AS total_cnt
 		  FROM board
-		--WHERE
+		 WHERE b_cate = #{bCate}
 		)Y
 	</select>
 
@@ -153,7 +153,7 @@
 		(
 		SELECT COUNT(*) AS total_cnt
 		  FROM board
-		--WHERE
+		 WHERE b_cate = #{bCate}
 		)Y
 	</select>
 	
@@ -208,9 +208,30 @@
 	<!--조회수 -->
 	<update id="viewcnt">
 		UPDATE board
-		SET b_visit_cnt = b_visit_cnt+1
+		   SET b_visit_cnt = b_visit_cnt+1
 		WHERE b_num = #{bNum}
 	</update>
+	
+	
+	<select id="do_code_getCount" parameterType="BoardVO" resultType="int">
+		SELECT count(*) as cnt
+		  FROM board_code
+		 WHERE b_num = #{bNum}
+		   AND user_id = #{userId}
+	</select>
+
+<!-- comm_code_seq.nextval -->
+	<insert id="do_code_insert" parameterType="BoardVO">
+		INSERT INTO board_code (
+					  b_seq,
+				      b_num,
+					  user_id
+		) VALUES (
+					  BC_B_SEQ.nextval,
+					  #{bNum},
+					  #{userId}
+		)
+	</insert>
 	
 	<!-- hit -->
 	<update id="do_hit" parameterType="BoardVO">

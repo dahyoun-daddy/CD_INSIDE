@@ -377,7 +377,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 	<div style="width:900px;" class="container">
 		<div style="padding-top : 40px;">
 		  <input style="float:right; " class="btn btn-default" type="button" id="update" value="수정" />
-		  <button style="float:right;" type="submit" class="btn btn-default">삭제</button>
+		  <button style="float:right;" type="submit" class="btn btn-default" id="delete">삭제</button>
 		
 		
 		
@@ -404,9 +404,39 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 	    $(document).ready(function(){
 	    	//alert("ready");
 	    	
-	    	$("#note").on("click","button",function(){
-	    		alert("delete");
+	    	$("#delete").on("click",function(){
+	    		alert("삭제하시겟습니까여?");
 	    		
+	    		 if(false==confirm("삭제 ㅇㅋ?"))return;
+	    		 
+	    		var bNum = $(".hiddenbNum").text();
+				var bTitle = $("#bTitlebofrm").text();
+				var bCont =$('.bContbofrm').text();
+	    	
+			     $.ajax({
+			         type:"POST",
+			         url:"delete.do",
+			         dataType:"json",// JSON
+			         data:{
+			         	"bNum": bNum
+			         },
+			         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+			        	 
+			         },
+			         complete: function(data){//무조건 수행
+			          
+			         },
+			         error: function(xhr,status,error){
+			          
+			         }
+			        });//--ajax		
+				    
+	    		 var frm = document.boform;
+		        	frm.bNum.value = bNum;
+		        	frm.bTitle.value = bTitle;
+		        	frm.bCont.value = bCont;
+		        	frm.action = "bsy.do";  
+		        	frm.submit(); 
 	    	});
 		    
 			$("#update").on("click",function(){
@@ -422,6 +452,51 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 			        	frm.bCont.value = bCont;
 			        	frm.action = "write.do"; 
 			        	frm.submit(); 
+
+			});//--#listTable>tbody
+			
+			//추천
+			$("#BoardHit").on("click",function(){
+				
+				if('<%=userId %>' == 'null'){
+					alert('비회원은 추천하실수 없습니다.');
+					return false;
+				}else {
+					var bNum = $(".hiddenbNum").text();
+				     $.ajax({
+				         type:"POST",
+				         url:"board_hitComment.do",
+				         dataType:"json",// JSON
+				         data:{
+				         	"bNum": bNum,
+				            "userId": '<%=userId %>'
+				         },
+				         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+				        		console.log('추천');
+					         	if(data.flag=="1"){
+					         		alert(data.message);
+					 				var frm = document.boform;
+						        	frm.bNum.value = bNum;
+						        	frm.bTitle.value = bTitle;
+						        	frm.bCont.value = bCont;
+						        	frm.action = "get.do"; 
+						        	frm.submit();  
+					         	}else{
+					         		alert(data.message);
+					         	}
+
+				         },
+				         complete: function(data){//무조건 수행
+				          
+				         },
+				         error: function(xhr,status,error){
+				          
+				         }
+				    });//--ajax	
+				}
+	
+				
+
 
 			});//--#listTable>tbody
 	    	
@@ -463,7 +538,8 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		 
 		<div class="row">
 		  <div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		     <button type="submit" class="btn btn-default">추천+1</button>
+		  <button type="button" class="btn btn-default" onClick="history.go(-1)">목록</button>
+		     <button id="BoardHit" type="submit" class="btn btn-default">추천+1</button>
 		  </div>
 		</div>
 </div>

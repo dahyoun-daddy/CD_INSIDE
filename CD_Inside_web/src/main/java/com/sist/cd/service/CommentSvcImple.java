@@ -100,6 +100,7 @@ public class CommentSvcImple implements CommentSvc {
 		}
 		return flag;
 	}
+	
 	@Override
 	public void onehit(CommentVO commentVO) throws SQLException, RuntimeException {
 		int flag = commentDAO.do_code_getCount(commentVO);

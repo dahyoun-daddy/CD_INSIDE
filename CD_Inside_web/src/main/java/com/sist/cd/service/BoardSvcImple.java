@@ -63,6 +63,35 @@ public class BoardSvcImple implements BoardSvc {
 	public List<BoardVO> do_hitretreive(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		return bd.do_hitretreive(boardVO);
 	}
+	
+	
+	@Override
+	public int do_code_getCount(BoardVO boardVO) throws SQLException {
+		return bd.do_code_getCount(boardVO);
+	}
+
+	@Override
+	public int do_code_insert(BoardVO boardVO) throws SQLException {
+		return bd.do_code_insert(boardVO);
+	}
+
+	@Override
+	public int do_hit(BoardVO boardVO) throws SQLException {
+		
+		int flag;
+		if(bd.do_code_getCount(boardVO) == 1) {
+			log.info("이미 추천한 아이디가 존재합니다.");
+			flag = -1;
+			log.info("flag\n"+flag);
+		}else {
+
+			flag = bd.do_code_insert(boardVO);
+			log.info("code테이블에 값을 주입시켰습니다.\n"+flag);
+			flag = bd.do_hit(boardVO);
+			log.info("추천수 + 1"+flag);
+		}
+		return flag;
+	}
 
 	
 }

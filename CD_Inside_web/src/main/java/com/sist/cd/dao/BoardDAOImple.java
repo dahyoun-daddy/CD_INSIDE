@@ -10,12 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.sist.cd.common.DTO;
 import com.sist.cd.common.DuplicateUserIdException;
-import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.BoardVO;
-import com.sist.cd.domain.CommentVO;
-import com.sist.cd.domain.GallogVO;
 
 
 @Repository
@@ -134,7 +130,41 @@ public class BoardDAOImple implements BoardDAO{
 		return flag;
 	}
 
+//========================================================= 추천 수 ======================================================//
+	@Override
+	public int do_code_getCount(BoardVO boardVO) throws SQLException {
+		String statement = NAME_SPACE+".do_code_getCount";
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+boardVO);
+		int flag  = this.sqlSession.selectOne(statement, boardVO);
+		log.info("3.flag: "+flag);
 
+		return flag;
+	}
+
+	@Override
+	public int do_code_insert(BoardVO boardVO) throws SQLException {
+		String statement = NAME_SPACE+".do_code_insert";
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+boardVO);
+		int flag  = this.sqlSession.update(statement, boardVO);
+		log.info("3.flag: "+flag);
+		
+		return flag;
+	}
+
+	@Override
+	public int do_hit(BoardVO boardVO) throws SQLException {
+		String statement = NAME_SPACE+".do_hit";
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+boardVO);
+		int flag  = this.sqlSession.update(statement, boardVO);
+		log.info("3.flag: "+flag);
+		
+		return flag;
+	}
+	
+//========================================================= 추천 수 ======================================================//
 	
 	/**
 	 * 게시글 삭제

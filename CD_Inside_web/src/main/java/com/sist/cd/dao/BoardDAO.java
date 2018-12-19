@@ -92,6 +92,12 @@ public interface BoardDAO {
 	 * @throws EmptyResultDataAccessException
 	 */
 	List<BoardVO> do_hitretreive(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+
+	int do_code_getCount(BoardVO boardVO) throws SQLException;
+
+	int do_code_insert(BoardVO boardVO) throws SQLException;
+
+	int do_hit(BoardVO boardVO) throws SQLException;
 	
 	
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.ws.RespectBinding;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -49,7 +50,33 @@ public class BoardCtrl {
 	private static final String BOARD_LINK = "board/blk.do";
 	private static final String BOARD_CONTEXT = "board/bcont.do";
 	private static final String BOARD_WRITE = "board/bup.do";
+	private static final String BOARD_DELSY = "board/bsy.do";
+	private static final String BOARD_DELLK = "board/bsy.do";
 
+	
+	@RequestMapping(value = "/board_hitComment.do", produces = "application/json;charset=utf8")
+	@ResponseBody
+	public String do_hitComment(BoardVO boardVO) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
+		log.info("boardVO:"+boardVO);
+		int flag = boardSvc.do_hit(boardVO);
+		
+		JSONObject object=new JSONObject();
+		
+		if(flag>0) {
+			object.put("flag", flag);
+			object.put("message", "추천 되었습니다.");
+		}else {
+			object.put("flag", flag);
+			object.put("message", "이미 추천한 댓글입니다.");			
+		}		
+		String jsonData = object.toJSONString();
+		
+		log.info("3========================");
+		log.info("jsonData="+jsonData);
+		log.info("3========================");			
+		return jsonData;
+	}
+	
 	@RequestMapping(value = "/ball.do")
 	public String do_retrieve(@ModelAttribute BoardVO invo, Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 
@@ -264,8 +291,6 @@ public class BoardCtrl {
 		return jsonData;
 	}	 
 	
-	
-	
 	/*파일까지 업로드 할수 있는 에디터*/ 
 	@RequestMapping(value = "/insertBoard.do", method = RequestMethod.POST)
     public String insertBoard(String editor) {
@@ -350,6 +375,21 @@ public class BoardCtrl {
 		log.info("3========================");			
 		return jsonData;
 	}	 
+	
+	
+	@RequestMapping(value="delete.do")
+	@ResponseBody
+	public String delete(BoardVO invo,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		
+		log.info("=======================");
+		log.info("invo:"+invo);
+		log.info("=======================");
+		
+		boardSvc.delete(invo);
+		
+		return "123";  
+	}
+	
 	
 	
 	
