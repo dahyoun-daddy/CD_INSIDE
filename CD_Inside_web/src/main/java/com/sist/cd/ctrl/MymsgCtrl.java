@@ -96,6 +96,9 @@ public class MymsgCtrl {
 	@RequestMapping(value="/msg/receiveIndex.do")
 	public String do_receiveIndex(@ModelAttribute MsgVO invo,Model model,  HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
 			
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		invo.setUserId(userId); //TODO 세션 받을곳
 		String page_num = (String) req.getParameter("page_num");
 		if (page_num == null) {
 			invo.setPage_num(1);
@@ -119,10 +122,6 @@ public class MymsgCtrl {
 			log.info("totalCnt: " + total_cnt);
 		}
 		
-		HttpSession session = req.getSession(true);
-		String userId = (String) session.getAttribute("sessionId");
-		invo.setUserId(userId); //TODO 세션 받을곳
-
 		//읽지않은쪽지수
 		int n_cnt = msgSvc.getNCount(userId);//"test"가 받은 쪽지 중 안 읽은 쪽지
 		log.info("n_cnt: "+n_cnt);
