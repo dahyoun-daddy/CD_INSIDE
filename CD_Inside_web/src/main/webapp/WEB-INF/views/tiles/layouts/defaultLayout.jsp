@@ -57,5 +57,7 @@
     <footer id="footer">
         <tiles:insertAttribute name="footer" />
     </footer>
+	<script src="<%=cPath%>/resources/js/jquery.js"></script>
+	<script src="<%=cPath%>/resources/js/bootstrap.js"></script>
 </body>
 </html>

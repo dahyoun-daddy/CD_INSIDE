@@ -13,21 +13,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-
-<%
-// 	BoardVO vo = (BoardVO) request.getAttribute("list");
-
-%>
-
+<link href="/cd/resources/css/comment.css" rel="stylesheet" type="text/css">
 <!-- 스타일 분리 -->
-<link href="/cd/resources/css/scrollcomment.css" rel="stylesheet" type="text/css">
-
-
-<script type="text/javascript" src="<%=context%>/resources/js/jquery.oLoader.min.js"></script>
 
 <script type="text/javascript">
 
@@ -177,7 +164,7 @@ $(document).on('click','#commentadd', function() {
 			divIn += 	'<div class="media-heading">'
 				+				'<div id="container">'
 				+					'<div>'
-				+						'<a class="commId" href="' + '/cd/gallog/gallog_home.do?userId=' + value.userId + '">' + value.userId + '</a>&nbsp;'
+				+						'<a class="commId" href="' + '/cd/gallog/gallog_home.do?userId=' + data.userId + '">' + data.userId + '</a>&nbsp;'
 				+						'<label class="commTime">' + data.regDt + '</label>'
 				+					'</div>'
 				+					'<input type="hidden" class="commTextNum" value="' + data.commTextNum + '"/>'
@@ -273,7 +260,7 @@ $(document).on('click','#replyadd', function() {
 			divIn += 	'<div class="media-heading">'
 				+				'<div id="container">'
 				+					'<div>'
-				+						'<a class="commId" href="' + '/cd/gallog/gallog_home.do?userId=' + value.userId + '">' + value.userId + '</a>&nbsp;'
+				+						'<a class="commId" href="' + '/cd/gallog/gallog_home.do?userId=' + data.userId + '">' + data.userId + '</a>&nbsp;'
 				+						'<label class="commTime">' + data.regDt + '</label>'
 				+					'</div>'
 				+					'<input type="hidden" class="commTextNum" value="' + data.commTextNum + '"/>'
