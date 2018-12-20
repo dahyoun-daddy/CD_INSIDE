@@ -4,6 +4,8 @@
 <%@page import="com.sist.cd.domain.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@page import="com.sist.cd.common.SearchVO"%>
+	
 <%	String userId = (String) session.getAttribute("sessionId");
 %>
 	
@@ -21,11 +23,11 @@
 	
 	String page_size ="10";//page_size
 	String page_num  ="1";//page_num
-	String search_div ="";//유저아이디
+	String search_div ="";//유저아이디 
 	String search_word="";//메모장:0 방명록:1
 	
 	int totalCnt      =0;
-	int bottomCount   =10;
+	int bottomCount   =10; 
 	
 	BoardVO vo =  (BoardVO)request.getAttribute("param");
 	LOG.info("vo:"+vo);
@@ -38,6 +40,25 @@
 
 	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
 	?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
+	
+	
+	
+	
+// 	SearchVO vo2 =  (SearchVO)request.getAttribute("param");
+// 	//out.print("vo:"+vo);
+	
+// 	if(null !=vo ){
+// 		search_div  = StringUtil.nvl(vo.getSearch_div(), ""); 
+// 		search_word = StringUtil.nvl(vo.getSearch_word(), ""); 
+// 		page_size   = StringUtil.nvl(vo.getPage_size(), "10"); 
+// 		page_num   = StringUtil.nvl(vo.getPage_num(), "1"); 
+// 	}else{ 
+// 		search_div  = StringUtil.nvl(request.getParameter("search_div"), ""); 
+// 		search_word = StringUtil.nvl(request.getParameter("search_word"), "");
+// 		page_size = StringUtil.nvl(request.getParameter("page_size"), "10");
+// 		page_num = StringUtil.nvl(request.getParameter("page_num"), "1");
+// 	}
+	
 	
 %>
 
@@ -169,7 +190,7 @@ right: -90px;
 									  </a> 
 									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 										<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　　　　Gallog</button></li>
-									    <li> <a class="dropdown-item" href="#">　　　쪽지</a> <li>  
+									    <li> <a class="dropdown-item" href="#" >　　　쪽지</a> <li>  
 									    <li> <a class="dropdown-item" href="#">　　음 뭐추가 하지</a> <li>
 									  </div>
 									</div>
@@ -218,26 +239,28 @@ right: -90px;
 <!-- 검색영역 -->
 
 
-			<div class="row">
-			  <div class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<form action="#" >
-					<%-- <div >
-						<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false) %>
-					</div> --%>
-						<select name="search_div" id="search_div" >
-						    <option value="" >::전체::</option>
-							<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
-							<option value="20" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >이름</option>					
-						</select>
-						<input type="text" name="search_word" id="search_word" value="${param.search_word}"  placeholder="검색어" />
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<button type="button" class="btn btn-default btn-sm" onclick="javascript:doSearch();">조회</button>
-						</form>
-					</div>					
-				<div></div>
-				<div></div> 
-			  </div>	  
-			</div> 
+			
+			
+			<!-- 검색영역 -->
+		<div class="row">
+		  <div class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<form action="#" class="form-inline">
+				<div class="col-xs-12"><hr/></div>
+				<div class="col-xs-1"></div>
+				<div class="form-group col-xs-10">
+					<select name="search_div" id="search_div" class="form-control input-sm" style="height: 35px" >
+					    <option value="" >::선택::</option>
+						<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
+						<option value="20" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >이름</option>					
+					</select>
+					<input type="text" name="search_word" id="search_word" value="${param.search_word}"  class="form-control input-sm" placeholder="검색어" style="height: 35px" />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-default btn-sm" style="height: 35px" onclick="javascript:doSearch();">검색</button>
+				</div>					
+				<div class="col-xs-1"></div>
+			</form>
+		  </div>	
+		</div>
 			<!--// 검색영역----------------------------------------------------->
 
 

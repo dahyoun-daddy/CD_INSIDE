@@ -29,9 +29,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sist.cd.common.SearchVO;
 import com.sist.cd.domain.BoardVO;
+import com.sist.cd.domain.CodeVO;
 import com.sist.cd.domain.CommentVO;
 import com.sist.cd.domain.GallogVO;
+import com.sist.cd.domain.UserVO;
 import com.sist.cd.service.BoardSvc;
+import com.sist.cd.service.CodeSvc;
 import com.sist.cd.service.CommentSvc;
 
 @Controller
@@ -56,6 +59,11 @@ public class BoardCtrl {
 	private static final String BOARD_DELSY = "board/bsy.do";
 	private static final String BOARD_DELLK = "board/bsy.do";
 
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/board_hitComment.do", produces = "application/json;charset=utf8")
 	@ResponseBody
@@ -182,6 +190,14 @@ public class BoardCtrl {
 			invo.setPage_num(Integer.parseInt(page_num));
 		}
 		
+		if(null == invo.getSearch_div()) {
+			invo.setSearch_div("");
+		}
+		
+		if(null == invo.getSearch_word()) {
+			invo.setSearch_word("");
+		}		
+		
 		
 		log.info("page_num:"+invo);
 		
@@ -198,12 +214,62 @@ public class BoardCtrl {
 			log.info("totalCnt: " + totalCnt);
 		}
 		
+//		CodeVO codePage=new CodeVO();
+//		codePage.setCd_id("C_001");
+//		
+//		model.addAttribute("code_page",boardSvc.do_cateret(codePage));
+		
 		model.addAttribute("totalCnt", totalCnt);
 		model.addAttribute("list", list);
 		model.addAttribute("name", name);
 
 		return BOARD_LINK; 
 	}
+	
+	
+//	//mypage 관리자 회원목록 조회------------------------------
+//			@RequestMapping(value="/mypage/user_list.do",method = RequestMethod.GET )
+//			public String do_search(@ModelAttribute SearchVO invo,Model model) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
+//				log.info("SearchVO: "+invo);
+//				//param -> view
+//				
+//				if(invo.getPage_size() == 0) {
+//					invo.setPage_size(10);
+//				}
+//				
+//				if(invo.getPage_num() == 0) {
+//					invo.setPage_num(1);
+//				}
+//				
+//				if(null == invo.getSearch_div()) {
+//					invo.setSearch_div("");
+//				}
+//				
+//				if(null == invo.getSearch_word()) {
+//					invo.setSearch_word("");
+//				}		
+//				
+//				
+//				model.addAttribute("param",invo);
+//				
+//				List<UserVO> list = userSvc.do_retrieve(invo);
+//				log.info("list: "+list);
+//				//총글수
+//				int total_cnt = 0;
+//				if(null != list && list.size()>0) {
+//					total_cnt = list.get(0).getTotalCnt();
+//					log.info("total_cnt: "+total_cnt);
+//				}
+//				
+//				CodeVO codePage=new CodeVO();
+//				codePage.setCd_id("C_001");
+//				
+//				model.addAttribute("code_page",codeSvc.do_retrieve(codePage));
+//				model.addAttribute("total_cnt",total_cnt);
+//				model.addAttribute("list",list);
+//				return "/mypage/user_list.do";  
+//			}
+	
 	
 	
 	 /*단건조회  게시글 하나 눌려서 들어가기루해요*/
