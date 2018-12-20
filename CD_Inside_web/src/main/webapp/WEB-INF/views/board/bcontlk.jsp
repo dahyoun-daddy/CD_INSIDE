@@ -406,7 +406,7 @@ $(document).on('click','.cursor_reply', function() {
 	
 	$('.fakeLoading2').remove();
 	$(this).after('<div class="fakeLoading2">&nbsp;</div>')
-<%-- 	$(".fakeLoading2").oLoader({
+	$(".fakeLoading2").oLoader({
 		  backgroundColor: '255,255,255',
 		  fadeInTime: 500,
 		  fadeLevel: 0.8,
@@ -414,9 +414,9 @@ $(document).on('click','.cursor_reply', function() {
 		  imagePadding: 5,
 		  imageBgColor: 'white',
 		  hideAfter: 1000
-	}); --%>
+	}); 
 	 
-/* 	setTimeout(	function replyRetrieve(){ */
+	setTimeout(	function replyRetrieve(){ 
 		
 	    $.ajax({
 	        type:"POST",
@@ -522,7 +522,7 @@ $(document).on('click','.cursor_reply', function() {
 	        }
 	   }); //--ajax
 	   
-/* 		}, 1000); // --setTimeout */
+ 		}, 1000); // --setTimeout */
 	
 
 	
@@ -642,7 +642,7 @@ window.onbeforeunload = function () {
 
 $(window).scroll(function(){ 
 	if($(window).scrollTop() == $(document).height() - $(window).height()){
-<%--     	$(".fakeLoading").oLoader({
+     	$(".fakeLoading").oLoader({
   		  backgroundColor: '255,255,255',
   		  fadeInTime: 500,
   		  fadeLevel: 0.8,
@@ -650,10 +650,9 @@ $(window).scroll(function(){
   		  imagePadding: 5,
   		  imageBgColor: 'white',
   		  hideAfter: 1000
-  		}); --%>
+  		});
   		
-    	/* setTimeout("pagingList()", 1000); */
- 		pagingList();
+    	setTimeout("pagingList()", 1000);
     	
 		};
 	});
@@ -846,7 +845,7 @@ $(window).scroll(function(){
 		 
 		<div class="row">
 		  <div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		  <button type="button" class="btn btn-default" onClick="history.go(-1)">목록</button>
+		  <a type="button" class="btn btn-default" href="/cd/board/blk.do">목록</a>
 		     <button id="BoardHit" type="submit" class="btn btn-default">추천+1</button>
 		  </div>
 		</div>

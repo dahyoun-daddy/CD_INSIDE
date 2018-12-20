@@ -59,5 +59,7 @@
     </footer>
 	<script src="<%=cPath%>/resources/js/jquery.js"></script>
 	<script src="<%=cPath%>/resources/js/bootstrap.js"></script>
+	<script type="text/javascript" src="<%=cPath%>/resources/js/jquery.oLoader.min.js"></script>
+	
 </body>
 </html>
