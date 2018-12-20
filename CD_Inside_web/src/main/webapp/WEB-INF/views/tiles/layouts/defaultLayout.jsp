@@ -19,8 +19,6 @@
         padding: 0px;
         margin-bottom: 0px; 
         float: left;  
-/*         height: 1500px;  */
-/*         background-color:gray; */
        
       }
    #sideright {
@@ -28,7 +26,6 @@
         padding: 0px;
         margin-bottom: 20px;
         float: right;
-       /*  border: 1px solid #bcbcbc; */
       }
   
   

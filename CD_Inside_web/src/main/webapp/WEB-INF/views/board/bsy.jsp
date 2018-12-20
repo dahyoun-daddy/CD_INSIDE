@@ -168,9 +168,9 @@ right: -90px;
 									    <c:out value="${boardVo.userId}"></c:out>
 									  </a> 
 									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">Gallog</button></li>
-									    <li> <a class="dropdown-item" href="#">쪽지</a> <li>  
-									    <li> <a class="dropdown-item" href="#">음 뭐추가 하지</a> <li>
+										<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　　　　Gallog</button></li>
+									    <li> <a class="dropdown-item" href="#">　　　쪽지</a> <li>  
+									    <li> <a class="dropdown-item" href="#">　　음 뭐추가 하지</a> <li>
 									  </div>
 									</div>
 									</td>
