@@ -50,7 +50,9 @@ public class BoardCtrl {
 	private static final String BOARD_SSANGYONG = "/board/bsy.do";
 	private static final String BOARD_LINK = "board/blk.do";
 	private static final String BOARD_CONTEXT = "board/bcont.do";
+	private static final String BOARD_CONTEXTLK = "board/bcontlk.do";
 	private static final String BOARD_WRITE = "board/bup.do";
+	private static final String BOARD_WRITELK = "board/buplk.do";
 	private static final String BOARD_DELSY = "board/bsy.do";
 	private static final String BOARD_DELLK = "board/bsy.do";
 
@@ -200,7 +202,7 @@ public class BoardCtrl {
 		model.addAttribute("list", list);
 		model.addAttribute("name", name);
 
-		return BOARD_SSANGYONG; 
+		return BOARD_LINK; 
 	}
 	
 	
@@ -233,6 +235,36 @@ public class BoardCtrl {
 	}
 	
 	
+	 /*단건조회  게시글 하나 눌려서 들어가기루해요*/
+		@RequestMapping(value="/getlk.do") 
+		public String getlk(@ModelAttribute BoardVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+			
+			log.info("!========================");
+			log.info("invo="+invo);
+			log.info("!========================");
+			
+			boardSvc.cnt(invo);
+			
+			log.info("!========================");
+			log.info("invo="+invo);
+			log.info("!========================");
+			
+			
+			BoardVO list = boardSvc.get(invo);
+			
+			log.info("list: "+list);
+			log.info("invo.getUserId()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : "+invo.getUserId());
+			
+//			model.addAttribute("userid", invo.getUserId());
+			model.addAttribute("list",list);
+			
+			
+			
+			return BOARD_CONTEXTLK;
+		}
+	
+	
+	
 	 /*글쓰기 화면만 맵핑*/
 		@RequestMapping(value="/write.do")
 		public String write(@ModelAttribute BoardVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
@@ -240,7 +272,7 @@ public class BoardCtrl {
 			log.info("!========================");
 			log.info("invo="+invo);
 			log.info("!========================");
-			String name = "게시글 작성";
+			String name = "쌍용 게시글 작성";
 			
 			
 			
@@ -254,6 +286,29 @@ public class BoardCtrl {
 			
 			
 			return BOARD_WRITE;
+		}
+		
+		/*글쓰기 화면만 맵핑*/
+		@RequestMapping(value="/writelk.do")
+		public String writeLK(@ModelAttribute BoardVO invo,Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+			
+			log.info("!========================");
+			log.info("invo="+invo);
+			log.info("!========================");
+			String name = "링크 게시글 작성";  
+			
+			
+			
+			BoardVO list = boardSvc.get(invo);
+			
+			log.info("list: "+list);
+			
+			
+			model.addAttribute("list",list);
+			model.addAttribute("name", name);
+			
+			
+			return BOARD_WRITELK;
 		}
 	
 	

@@ -327,33 +327,5 @@ right: -90px;
 	    </script>
 
 
-
-
-
-
-
-	<!-- <table class="table"> -->
-	<!--  	<tr class="active">1</tr> -->
-	<!-- 	<tr class="success">2</tr> -->
-	<!-- 	<tr class="warning">3</tr> -->
-	<!-- 	<tr class="danger">4</tr> -->
-	<!-- 	<tr class="info">5</tr> -->
-
-	<!--   </table> -->
-
-	<!-- On rows -->
-
-	<!-- On cells (`td` or `th`) -->
-	<!-- <tr> -->
-	<!--   <td class="active">...</td> -->
-	<!--   <td class="success">...</td> -->
-	<!--   <td class="warning">...</td> -->
-	<!--   <td class="danger">...</td> -->
-	<!--   <td class="info">...</td> -->
-	<!-- </tr> -->
-
-
-
-
 </body>
 </html>

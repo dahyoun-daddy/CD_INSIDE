@@ -52,7 +52,7 @@
 					#{userId},
 					#{bTitle},
 					#{bCont},
-					'쌍용',
+					'링크',
 					0,
 					SYSDATE,
 					#{userId},

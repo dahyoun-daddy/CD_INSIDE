@@ -438,16 +438,16 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 	    }
 	    
        function doUpdate(gSeq){ //수정
-        	var frm = document.frm;
+        	var frm = document.frm; 
         	frm.gSeq.value = gSeq;
-        	frm.action = "get.do";
+        	frm.action = "getlk.do";
         	frm.submit();
         }
 	    
        function delgo(gSeq){ //수정
        	var frm = document.frm;
        	frm.gSeq.value = gSeq;
-       	frm.action = "history.go(-1)";
+       	frm.action = "blk.do";
        	frm.submit();
        }
        
@@ -485,7 +485,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		        	frm.bNum.value = bNum;
 		        	frm.bTitle.value = bTitle;
 		        	frm.bCont.value = bCont;
-		        	frm.action = "bsy.do";  
+		        	frm.action = "blk.do";  
 		        	frm.submit(); 
 	    	});
 		    
@@ -500,7 +500,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 			        	frm.bNum.value = bNum;
 			        	frm.bTitle.value = bTitle;
 			        	frm.bCont.value = bCont;
-			        	frm.action = "write.do"; 
+			        	frm.action = "writelk.do"; 
 			        	frm.submit(); 
 
 			});//--#listTable>tbody

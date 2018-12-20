@@ -125,7 +125,7 @@ right: -90px;
 				<% } else { %>
 				 <div class="row"> 
 		    		  <div class="wr">
-					   <div class="text-right col-xs-11 col-sm-11 col-md-11 col-lg-11"><a class="update" href="/cd/board/write.do">쓰기 </a></div>
+					   <div class="text-right col-xs-11 col-sm-11 col-md-11 col-lg-11"><a class="update" href="/cd/board/writelk.do">쓰기 </a></div>
 					  </div>
 					 </div>  
 				<% } %>	       
@@ -266,7 +266,7 @@ right: -90px;
        function doUpdate(gSeq){ //수정
         	var frm = document.frm;
         	frm.gSeq.value = gSeq;
-        	frm.action = "get.do";
+        	frm.action = "getlk.do";
         	frm.submit();
         }
 	    
@@ -287,7 +287,7 @@ right: -90px;
 				console.log(bNum);
 				var frm = document.boform;
 			        	frm.bNum.value = bNum;
-			        	frm.action = "/cd/board/get.do";
+			        	frm.action = "/cd/board/getlk.do";
 			        	//frm.action = "cnt.do";
 			        	alert('전송');
 			        	
