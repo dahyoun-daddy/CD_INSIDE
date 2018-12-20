@@ -89,16 +89,6 @@ public class MsgSvcImple implements MsgSvc {
 		return msgDao.getAll();
 	}
 
-	
-	@Override
-	public List<MsgVO> do_retrieve(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException{
-		return msgDao.do_retrieve(msgVO);
-	}
-	
-
-	
-
-
 	@Override
 	public int do_deleteMulti(List<MsgVO> list) throws RuntimeException, SQLException {
 		int flag = 0;
@@ -171,6 +161,19 @@ public class MsgSvcImple implements MsgSvc {
 	public int do_NRDelete(MsgVO msgVO) throws SQLException{
 		return msgDao.updateNRDeleteCheck(msgVO);
 	}
+	
+	
+	@Override
+	public List<MsgVO> do_Rretrieve(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException{
+		return msgDao.do_Rretrieve(msgVO);
+	}
+	
+	
+	@Override
+	public List<MsgVO> do_Sretrieve(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException{
+		return msgDao.do_Sretrieve(msgVO);
+	}
+	
 	
 }
 

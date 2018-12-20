@@ -153,18 +153,6 @@ public class MsgDAOImple implements MsgDAO{
 		return this.sqlSession.selectList(statement);				
 	}
 
-	public List<MsgVO> do_retrieve(MsgVO msgVO)
-			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
-		        
-		String statement = NAME_SPACE+".do_retrieve";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+msgVO);
-		List<MsgVO> list  = this.sqlSession.selectList(statement, msgVO);
-		log.debug("*****************************");
-		log.debug("3.list: "+list);
-		log.debug("*****************************");
-		return list;	
-	}
 
 	@Override
 	public int do_upsert(MsgVO msgVO) throws SQLException {
@@ -211,6 +199,35 @@ public class MsgDAOImple implements MsgDAO{
 		return flag;
 	}		
 
+	public List<MsgVO> do_Rretrieve(MsgVO msgVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		        
+		String statement = NAME_SPACE+".do_Rretrieve";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+msgVO);
+		List<MsgVO> list  = this.sqlSession.selectList(statement, msgVO);
+		log.debug("*****************************");
+		log.debug("3.list: "+list);
+		log.debug("*****************************");
+		return list;	
+	}
+
+	
+
+	public List<MsgVO> do_Sretrieve(MsgVO msgVO)
+			throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		        
+		String statement = NAME_SPACE+".do_Sretrieve";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+msgVO);
+		List<MsgVO> list  = this.sqlSession.selectList(statement, msgVO);
+		log.debug("*****************************");
+		log.debug("3.list: "+list);
+		log.debug("*****************************");
+		return list;	
+	}
+	
+	
 }
 
 

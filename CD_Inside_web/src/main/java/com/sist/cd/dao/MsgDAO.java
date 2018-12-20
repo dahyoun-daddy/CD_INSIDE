@@ -35,12 +35,13 @@ public interface MsgDAO {
 	int getAllCount(String userId) throws SQLException;
 	int getNCount(String userId) throws SQLException;
 	List<MsgVO> getAll() throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
-	List<MsgVO> do_retrieve(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 
 	int do_upsert(MsgVO msgVO) throws SQLException;	
 	int updateSDeleteCheck(MsgVO msgVO) throws SQLException;
 	int updateRDeleteCheck(MsgVO msgVO) throws SQLException;
 	int updateNRDeleteCheck(MsgVO msgVO) throws SQLException;
+	List<MsgVO> do_Rretrieve(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
+	List<MsgVO> do_Sretrieve(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 
 
 }

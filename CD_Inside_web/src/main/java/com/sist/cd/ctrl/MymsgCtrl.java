@@ -62,6 +62,8 @@ public class MymsgCtrl {
 	 * 2. 보낸쪽지함 가기 /msg/sendIndex.do
 	 * 3. 쪽지 쓰기 가기 /msg/send.do     
 	 * 4. 쪽지 읽기 가기 /msg/receive.do  
+	 * 5. 쪽지 쓰기(아이디 고정) 가기 /msg/resend.do  
+
 	 */
 	
 	/**
@@ -74,6 +76,10 @@ public class MymsgCtrl {
 	 * 7. 선택+읽음여부 수정 get 선택하면 무조건 읽지않음 
 	 */
 
+	@RequestMapping(value="/msg/resend.do")
+	public String resend() {
+		return RESEND;
+	}
 
 	@RequestMapping(value="/msg/send.do")
 	public String send() {
@@ -102,7 +108,7 @@ public class MymsgCtrl {
 		log.info("page_num:" + page_num);
 		log.info("***page_size:" + invo.getPage_size());
 
-		List<MsgVO> list = msgSvc.do_retrieve(invo);
+		List<MsgVO> list = msgSvc.do_Rretrieve(invo);
 		log.info("list: " + list);
 
 		int total_cnt = 0;
@@ -158,7 +164,7 @@ public class MymsgCtrl {
 		log.info("page_num:" + page_num);
 		log.info("***page_size:" + invo.getPage_size());
 
-		List<MsgVO> list = msgSvc.do_retrieve(invo);
+		List<MsgVO> list = msgSvc.do_Sretrieve(invo);
 		log.info("list: " + list);
 
 		int total_cnt = 0;

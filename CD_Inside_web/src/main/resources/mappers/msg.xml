@@ -6,7 +6,6 @@
 <mapper namespace="com.sist.cd.mappers.msg">
 
     <sql id="baseCondition">
-
 	    	<choose>
 	    		<when test="'40'==search_div">
 	    		    hr.user_id like  #{search_word}||'%'
@@ -19,7 +18,6 @@
 	    		</when>		    		
 	    		<otherwise></otherwise>
 	    	</choose>
-  
     </sql>
 
 	<!-- 등록 -->
@@ -140,38 +138,7 @@
 	    ORDER BY MSG_READ_YN DESC, REG_DT DESC     
     </select>		
 
-    <select id="do_retrieve" 
-       parameterType="MsgVO"
-       resultType="MsgVO"  >
- 		SELECT X.*,Y.*
- 		  FROM(
- 		SELECT T.msg_seq AS msgSeq,                                  
- 				T.USER_ID AS userId,                                  
-				T.MSG_RECV_ID AS msgRecvId,                              
-				T.MSG_CONT  AS msgCont,                              
-				TO_CHAR(T.REG_DT,'YYYY-MM-DD HH24:MI:SS') AS regDt,                                   						                         
-				T.MSG_READ_YN AS msgReadYn, 
-				T.MSG_SDEL_YN AS msgSdelYn,
-				T.MSG_RDEL_YN AS msgRdelYn,			                                                   
-				T.rnum AS no 						                         
-		  FROM(                                          
-			SELECT hr.*                                  
-				  ,ROW_NUMBER() OVER(ORDER BY MSG_READ_YN desc , REG_DT desc ) AS rnum       
- 			  FROM MSG hr
-		    WHERE NOT (msg_sdel_yn = 1  and msg_rdel_yn = 1)  
-		    <include refid="baseCondition"/>
- 		  )T
- 		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
- 		    AND (#{page_size} * (#{page_num}-1)+#{page_size})
- 		)X    
- 		NATURAL JOIN
- 		(
- 		  SELECT COUNT(*) AS total_cnt   
- 		    FROM MSG hr
- 		    WHERE NOT (msg_sdel_yn = 1  and msg_rdel_yn = 1)     
- 		    <include refid="baseCondition"/>
- 		)Y      
-     </select>      
+    
      
      <!-- 수정 -->
 	<update id="updateSDeleteCheck"  parameterType="MsgVO" >
@@ -199,6 +166,77 @@
 	      AND MSG_RDEL_YN = '0'      
 	      AND MSG_READ_YN = '읽지않음'        
 	        
-	</update>	    
+	</update>	
+	
+   <select id="do_Rretrieve" 
+       parameterType="MsgVO"
+       resultType="MsgVO"  >
+ 		SELECT X.*,Y.*
+ 		  FROM(
+ 		SELECT T.MSG_SEQ AS msgSeq,                                  
+ 				T.USER_ID AS userId,                                  
+				T.MSG_RECV_ID AS msgRecvId,                              
+				T.MSG_CONT  AS msgCont,                              
+				TO_CHAR(T.REG_DT,'YYYY-MM-DD HH24:MI:SS') AS regDt,                                   						                         
+				T.MSG_READ_YN AS msgReadYn, 
+				T.MSG_SDEL_YN AS msgSdelYn,
+				T.MSG_RDEL_YN AS msgRdelYn,			                                                   
+				T.RNUM AS NO 						                         
+		  FROM(                                          
+			SELECT HR.*                                  
+				  ,ROW_NUMBER() OVER(ORDER BY MSG_READ_YN DESC , REG_DT DESC ) AS RNUM       
+ 			  FROM MSG HR
+ 		    WHERE MSG_RDEL_YN = 0
+		      AND MSG_RECV_ID = #{userId}
+		    <include refid="baseCondition"/>
+ 		  )T
+ 		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
+ 		    AND (#{page_size} * (#{page_num}-1)+#{page_size})
+ 		)X    
+ 		NATURAL JOIN
+ 		(
+ 		  SELECT COUNT(*) AS total_cnt   
+ 		    FROM MSG hr
+ 		    WHERE MSG_RDEL_YN = 0
+		      AND MSG_RECV_ID = #{userId}
+ 		    <include refid="baseCondition"/>
+ 		)Y      
+     </select>  
+     
+<select id="do_Sretrieve" 
+       parameterType="MsgVO"
+       resultType="MsgVO"  >
+ 		SELECT X.*,Y.*
+ 		  FROM(
+ 		SELECT T.msg_seq AS msgSeq,                                  
+ 				T.USER_ID AS userId,                                  
+				T.MSG_RECV_ID AS msgRecvId,                              
+				T.MSG_CONT  AS msgCont,                              
+				TO_CHAR(T.REG_DT,'YYYY-MM-DD HH24:MI:SS') AS regDt,                                   						                         
+				T.MSG_READ_YN AS msgReadYn, 
+				T.MSG_SDEL_YN AS msgSdelYn,
+				T.MSG_RDEL_YN AS msgRdelYn,			                                                   
+				T.rnum AS no 						                         
+		  FROM(                                          
+			SELECT hr.*                                  
+				  ,ROW_NUMBER() OVER(ORDER BY MSG_READ_YN desc , REG_DT desc ) AS rnum       
+ 			  FROM MSG hr
+		    WHERE msg_sdel_yn = 0
+		      AND USER_ID = #{userId}
+		    <include refid="baseCondition"/>
+ 		  )T
+ 		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
+ 		    AND (#{page_size} * (#{page_num}-1)+#{page_size})
+ 		)X    
+ 		NATURAL JOIN
+ 		(
+ 		  SELECT COUNT(*) AS total_cnt   
+ 		    FROM MSG hr
+		    WHERE msg_sdel_yn = 0
+		      AND USER_ID = #{userId}
+ 		    <include refid="baseCondition"/>
+ 		)Y      
+     </select>               	
+	    
     
 </mapper>

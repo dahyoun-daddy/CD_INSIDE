@@ -115,11 +115,11 @@
 		<ul class="nav nav-pills col-sm-9" align="center" >
 		  <li role="presentation" ><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
 		  <li role="presentation" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
-		  <li role="presentation"><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
+		  <li role="presentation" class="active" ><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
 		  <li role="presentation"><a href="/cd/gallog/notebook_home.do" >갤로그 가기</a></li>
 		<c:choose>
 			<c:when test="${sessionYn==1 }">
-		  <li role="presentation" class="active" ><a href="/cd/mypage/user_list.do" >회원관리</a></li>
+		  <li role="presentation"><a href="/cd/mypage/user_list.do" >회원관리</a></li>
 			</c:when>
 		</c:choose>
 		</ul>
@@ -456,90 +456,6 @@
 			
 		});//--do_delete		
 		
-		//do_save
-		//등록
-		$("#do_save").on("click",function(){
-			//alert("do_save");
-			var upsert_div = $("#upsert_div").val();
-			console.log("upsert_div:"+upsert_div);
-			 
-			if(false==confirm("등록 하시겠습니까?"))return;
-			 
-			$.ajax({
-		         type:"POST",
-		         url:"update.do",
-		         dataType:"html",// JSON
-		         data:{
-		         	"upsert_div": upsert_div,
-		         	"msgSeq": $("#msgSeq").val(),
-		         	"userId": $("#userId").val(),
-		         	"msgRecvId": $("#msgRecvId").val(),
-		         	"msgCont": $("#msgCont").val(),
-		         	"regDt": $("#regDt").val(),
-		         	"msgReadYn": $("#msgReadYn").val(),
-		         	"msgSdelYn": $("#msgSdelYn").val(),
-		         	"msgRdelYn": $("#msgRdelYn").val()
-
-		         },
-		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-		             var parseData = $.parseJSON(data);
-		         	 if(parseData.flag=="1"){
-		         		 alert(parseData.message);
-		   //      		 doSearch();
-		         	 }else{
-		         		alert(parseData.message);
-		         	 }				          
-		         },
-		         complete: function(data){//무조건 수행
-		          
-		         },
-		         error: function(xhr,status,error){
-		          
-		         }
-		    });//--ajax
-			
-		});//--do_save
-		
-		
-		$("#do_update").on("click",function(){
-			 if(false==confirm("수정 하시겠습니까?"))return;
-			  
-			 var upsert_div = $("#upsert_div").val();
-			 upsert_div = (upsert_div == "")?"update":"";
-			 console.log("upsert_div:"+upsert_div);			 
-			 
-		     $.ajax({
-		         type:"POST",
-		         url:"update.do",
-		         dataType:"html",// JSON
-		         data:{
-		         	"upsert_div": upsert_div,
-		         	"msgSeq": $("#msgSeq").val(),
-		         	"userId": $("#userId").val(),
-		         	"msgRecvId": $("#msgRecvId").val(),
-		         	"msgCont": $("#msgCont").val(),
-		         	"regDt": $("#regDt").val(),
-		         	"msgReadYn": $("#msgReadYn").val()
-		         },
-		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-		             var parseData = $.parseJSON(data);
-		         	 if(parseData.flag=="1"){
-		         		 alert(parseData.message);
-		      //   		 doSearch();
-		         	 }else{
-		         		alert(parseData.message);
-		         	 }
-		         },
-		         complete: function(data){//무조건 수행
-		          
-		         },
-		         error: function(xhr,status,error){
-		          
-		         }
-		        });//--ajax					
-			
-		});//--do_update	
-		
 		$("#listTable>tbody").on("click","tr",function(){
 			console.log("1 #listTable>tbody");
 			
@@ -550,8 +466,7 @@
 			var msgRecvId = td.eq(3).text();
 			var msgCont = td.eq(4).text();
 			var regDt = td.eq(5).text();
-			
-			
+					
 		   	var frm = document.frm_get;
 			frm.msgSeq.value = msgSeq;
 			frm.userId.value = userId;
