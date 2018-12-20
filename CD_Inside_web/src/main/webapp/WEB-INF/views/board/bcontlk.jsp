@@ -517,7 +517,6 @@ $(document).on('click','.cursor_reply', function() {
 		          	
 			    	var next = parent.next();
 			    	var nextClass = next.attr('class');
-			    	alert(nextClass);
 			    		
 			    	if(nextClass=='container'){
 			    		$(next).remove();

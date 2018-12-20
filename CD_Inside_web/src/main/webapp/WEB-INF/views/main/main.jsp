@@ -144,7 +144,7 @@ a {
 
 		<div class="right-box">
 				<div class="boardTitleDiv">
-					<a class="boardTitle" href="">쌍용 커뮤니티</a>
+					<a class="boardTitle" href="<%=context%>/board/bsy.do">쌍용 커뮤니티</a>
 				</div>
 				<div class="boardTitleMargin"></div>
 				<c:forEach var="boardVo" items="${sistList}">
@@ -162,11 +162,11 @@ a {
 
 		<div class="right-box">
 				<div class="boardTitleDiv">
-					<a class="boardTitle" href="">링크 커뮤니티</a>
+					<a class="boardTitle" href="<%=context%>/board/blk.do">링크 커뮤니티</a>
 				</div>
 				<div class="boardTitleMargin"></div>
 				<c:forEach var="boardVo" items="${linkList}">
-				<a href='<%=context%>/board/get.do?bNum=<c:out value="${boardVo.bNum}"></c:out>'>
+				<a href='<%=context%>/board/getlk.do?bNum=<c:out value="${boardVo.bNum}"></c:out>'>
 					<div class="boardList">
 						<span class="bCate"> [<c:out value="${boardVo.bCate}"></c:out>]</span>
 						<span class="boardText"><c:out value="${boardVo.bTitle}"></c:out></span>
