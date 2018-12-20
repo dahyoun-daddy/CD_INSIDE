@@ -669,7 +669,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
             		divIn += 	'<div class="media-heading">'
 	    				+				'<div id="container">'
 	    				+					'<div>'
-	    				+						'<label class="commId">' + value.userId + '</label>&nbsp;'
+	    				+						'<a class="commId" href="' + '/cd/gallog/gallog_home.do?userId=' + value.userId + '">' + value.userId + '</a>&nbsp;'
 	    				+						'<label class="commTime">' + value.regDt + '</label>'
 	    				+					'</div>'
 	    				+					'<input type="hidden" class="commTextNum" value="' + value.commTextNum + '"/>'
