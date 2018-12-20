@@ -34,8 +34,8 @@
 		
 		window.location = "/cd/main/main.do"; 
 	} 
-<%-- 	setTimeout('expireSession()', <%= request.getSession().getMaxInactiveInterval() * 1000 %>); --%>
-	setTimeout('expireSession()', <%= null==session.getAttribute("sessionId") %>);
+	setTimeout('expireSession()', <%= request.getSession().getMaxInactiveInterval() * 5 %>);
+<%-- 	setTimeout('expireSession()', <%= null==session.getAttribute("sessionId") %>); --%>
 
 </script>
 <body>
