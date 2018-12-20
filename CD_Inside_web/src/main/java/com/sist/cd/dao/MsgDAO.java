@@ -38,6 +38,9 @@ public interface MsgDAO {
 	List<MsgVO> do_retrieve(MsgVO msgVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 
 	int do_upsert(MsgVO msgVO) throws SQLException;	
+	int updateSDeleteCheck(MsgVO msgVO) throws SQLException;
+	int updateRDeleteCheck(MsgVO msgVO) throws SQLException;
+	int updateNRDeleteCheck(MsgVO msgVO) throws SQLException;
 
 
 }

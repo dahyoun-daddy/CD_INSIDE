@@ -42,5 +42,8 @@ public interface MsgSvc {
 	int do_deleteMulti(List<MsgVO> list) throws RuntimeException, SQLException;
 
 	int do_upsert(MsgVO msgVO) throws SQLException;
+	int do_SDeleteMulti(List<MsgVO> list) throws RuntimeException, SQLException;
+	int do_RDeleteMulti(List<MsgVO> list) throws RuntimeException, SQLException;
+	int do_NRDelete(MsgVO msgVO) throws SQLException;
 
 }

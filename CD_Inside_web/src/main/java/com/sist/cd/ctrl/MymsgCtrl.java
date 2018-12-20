@@ -60,8 +60,8 @@ public class MymsgCtrl {
 	/**
 	 * 1. 받은쪽지함 가기 /msg/receiveIndex.do
 	 * 2. 보낸쪽지함 가기 /msg/sendIndex.do
-	 * 3. 쪽지 쓰기 가기 /msg/send.do     --> 팝업띄우기
-	 * 4. 쪽지 읽기 가기 /msg/receive.do  --> 팝업 + 읽기 나오게  하기
+	 * 3. 쪽지 쓰기 가기 /msg/send.do     
+	 * 4. 쪽지 읽기 가기 /msg/receive.do  
 	 */
 	
 	/**
@@ -70,15 +70,10 @@ public class MymsgCtrl {
 	 * 3. 보낸쪽지전부삭제 deleteSAll 체크박스선택없이 전부삭제
 	 * 4. 받은쪽지전부삭제 deleteRAll 체크박스선택없이 전부삭제
 	 * 5. 안읽은쪽지전부삭제 deleteNAll 체크박스선택없이 전부삭제
-	 * 6. 검색 search/retrieve                                  ->하기
-	 * 7. 선택+읽음여부 수정 get 선택하면 무조건 읽지않음 -> 읽음 으로 수정               ->보완하기 / 보낸편지에서 클릭하면 읽음 수정됨
+	 * 6. 검색 search/retrieve                                
+	 * 7. 선택+읽음여부 수정 get 선택하면 무조건 읽지않음 
 	 */
 
-	//쪽지답장 페이지 나옴
-	@RequestMapping(value="/msg/resend.do")
-	public String resend() {
-		return RESEND;
-	}
 
 	@RequestMapping(value="/msg/send.do")
 	public String send() {
@@ -87,20 +82,12 @@ public class MymsgCtrl {
 	
 	@RequestMapping(value="/msg/receive.do")
 	public String receive(MsgVO invo,Model model) {
-		
-
-		
 		return RECEIVE;
 	}
 	
 	@RequestMapping(value="/msg/receiveIndex.do")
 	public String do_receiveIndex(@ModelAttribute MsgVO invo,Model model,  HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {	
-	
-		HttpSession session = req.getSession(true);
-		String userId = (String) session.getAttribute("sessionId");
-		invo.setUserId(userId); //TODO 세션 받을곳
-
-		
+			
 		String page_num = (String) req.getParameter("page_num");
 		if (page_num == null) {
 			invo.setPage_num(1);
@@ -123,7 +110,10 @@ public class MymsgCtrl {
 			total_cnt = list.get(0).getTotalCnt();
 			log.info("totalCnt: " + total_cnt);
 		}
-
+		
+		HttpSession session = req.getSession(true);
+		String userId = (String) session.getAttribute("sessionId");
+		invo.setUserId(userId); //TODO 세션 받을곳
 
 		//읽지않은쪽지수
 		int n_cnt = msgSvc.getNCount(userId);//"test"가 받은 쪽지 중 안 읽은 쪽지
@@ -433,7 +423,7 @@ public class MymsgCtrl {
 	msgVO.setUserId(userId);
 	
 	int outVO1 = msgSvc.updateReadCheck(msgVO);
-
+	session.setAttribute("sessionMsg",msgSvc.getNCount(userId) );
 		
 	model.addAttribute("list",invo);
 	
@@ -470,6 +460,134 @@ public class MymsgCtrl {
 		return "/mypage/mymsg_receive";
 	}	
 //선택-----------------------------------------------------------------------------------
+	
+//가짜삭제 보낸이가 삭제--------------------------------------------------------------------------------------------	
+		@RequestMapping(value="/msg/do_SDeleteMulti.do",method=RequestMethod.POST
+				,consumes= {"text/plain", "application/*"}
+				,produces="application/json;charset=UTF-8")
+		@ResponseBody
+		public String do_SDeleteMulti(HttpServletRequest req,Model model) throws RuntimeException, SQLException{
+			String uIdList = req.getParameter("userId_list");
+			log.info("uIdList: "+uIdList);
+			
+			Gson gson=new Gson();
+			List<String>  listParam = gson.fromJson(uIdList, List.class);
+			log.info("uIdList: "+listParam);
+			
+			List<MsgVO> paramList = new ArrayList<MsgVO>();
+			for(int i=0;i<listParam.size();i++) {
+				MsgVO vo =new MsgVO();
+				vo.setMsgSeq(listParam.get(i));
+				
+				paramList.add(vo);
+			}
+			log.info("paramList: "+paramList);
+			
+			int flag = this.msgSvc.do_SDeleteMulti(paramList);
+			
+			JSONObject object=new JSONObject();
+			
+			if(flag>0) {
+				object.put("flag", flag);
+				object.put("message", "삭제 되었습니다.\n("+flag+"건 삭제.)");
+			}else {
+				object.put("flag", flag);
+				object.put("message", "삭제 실패^^.");			
+			}		
+			String jsonData = object.toJSONString();
+			
+			log.info("3========================");
+			log.info("jsonData="+jsonData);
+			log.info("3========================");			
+			return jsonData;
+		}
+		
+//가짜삭제 받는이가 삭제--------------------------------------------------------------------------------------------	
+		@RequestMapping(value="/msg/do_RDeleteMulti.do",method=RequestMethod.POST
+				,consumes= {"text/plain", "application/*"}
+				,produces="application/json;charset=UTF-8")
+		@ResponseBody
+		public String do_RDeleteMulti(HttpServletRequest req,Model model) throws RuntimeException, SQLException{
+			String uIdList = req.getParameter("userId_list");
+			log.info("uIdList: "+uIdList);
+			
+			Gson gson=new Gson();
+			List<String>  listParam = gson.fromJson(uIdList, List.class);
+			log.info("uIdList: "+listParam);
+			
+			List<MsgVO> paramList = new ArrayList<MsgVO>();
+			for(int i=0;i<listParam.size();i++) {
+				MsgVO vo =new MsgVO();
+				vo.setMsgSeq(listParam.get(i));
+				
+				paramList.add(vo);
+			}
+			log.info("paramList: "+paramList);
+			
+			int flag = this.msgSvc.do_RDeleteMulti(paramList);
+			
+			JSONObject object=new JSONObject();
+			
+			if(flag>0) {
+				object.put("flag", flag);
+				object.put("message", "삭제 되었습니다.\n("+flag+"건 삭제.)");
+			}else {
+				object.put("flag", flag);
+				object.put("message", "삭제 실패^^.");			
+			}		
+			String jsonData = object.toJSONString();
+			
+			log.info("3========================");
+			log.info("jsonData="+jsonData);
+			log.info("3========================");			
+			return jsonData;
+		}		
+		
+//가짜삭제 받는이가 삭제--------------------------------------------------------------------------------------------	
+		@RequestMapping(value="/msg/do_NRDelete.do",method=RequestMethod.POST
+				,consumes= {"text/plain", "application/*"}
+				,produces="application/json;charset=UTF-8")
+		@ResponseBody
+		public String do_NRDelete(HttpServletRequest req,Model model) throws RuntimeException, SQLException{
+			String uIdList = req.getParameter("userId_list");
+			log.info("uIdList: "+uIdList);
+			
+			Gson gson=new Gson();
+			List<String>  listParam = gson.fromJson(uIdList, List.class);
+			log.info("uIdList: "+listParam);
+			
+			List<MsgVO> paramList = new ArrayList<MsgVO>();
+			for(int i=0;i<listParam.size();i++) {
+				MsgVO vo =new MsgVO();
+				vo.setMsgSeq(listParam.get(i));
+				
+				paramList.add(vo);
+			}
+			log.info("paramList: "+paramList);
+			
+			MsgVO msgVO = new MsgVO();
+			HttpSession session = req.getSession(true);
+			String userId = (String) session.getAttribute("sessionId");
+			msgVO.setUserId(userId);
+			
+			int flag = this.msgSvc.do_NRDelete(msgVO);
+			
+			JSONObject object=new JSONObject();
+			
+			if(flag>0) {
+				object.put("flag", flag);
+				object.put("message", "삭제 되었습니다.\n("+flag+"건 삭제.)");
+			}else {
+				object.put("flag", flag);
+				object.put("message", "삭제 실패^^.");			
+			}		
+			String jsonData = object.toJSONString();
+			
+			log.info("3========================");
+			log.info("jsonData="+jsonData);
+			log.info("3========================");			
+			return jsonData;
+		}		
 
 //	@RequestMapping(value="/mypage/update.do",method=RequestMethod.POST
 //	        ,produces="application/json;charset=utf8"  

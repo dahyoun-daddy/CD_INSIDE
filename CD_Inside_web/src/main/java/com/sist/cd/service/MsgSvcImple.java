@@ -104,9 +104,7 @@ public class MsgSvcImple implements MsgSvc {
 		int flag = 0;
 		try {
 			for(MsgVO vo :list) {
-				String userId = null;
-				vo.setUserId(userId);
-				flag+=msgDao.deleteSAll(userId);
+				flag+=msgDao.delete(vo);
 			}
 			
 		}catch(RuntimeException e) {
@@ -126,6 +124,54 @@ public class MsgSvcImple implements MsgSvc {
 	public int do_upsert(MsgVO msgVO) throws SQLException {
 		return msgDao.do_upsert(msgVO);
 	}
+	
+	//가짜삭제 보낸이가 삭제하면 삭제한 것처럼 보임
+	@Override
+	public int do_SDeleteMulti(List<MsgVO> list) throws RuntimeException, SQLException {
+		int flag = 0;
+		try {
+			for(MsgVO vo :list) {
+				flag+=msgDao.updateSDeleteCheck(vo);
+			}
+			
+		}catch(RuntimeException e) {
+			log.debug("========================");
+			log.debug("RuntimeException: "+e.getMessage());
+			log.debug("========================");			
+			throw e;
+		}
+		log.debug("========================");
+		log.debug("=flag="+flag);
+		log.debug("========================");
+		return flag;
+	}
+	
+	//가짜삭제 받는이가 삭제하면 삭제한 것처럼 보임
+	@Override
+	public int do_RDeleteMulti(List<MsgVO> list) throws RuntimeException, SQLException {
+		int flag = 0;
+		try {
+			for(MsgVO vo :list) {
+				flag+=msgDao.updateRDeleteCheck(vo);
+			}
+			
+		}catch(RuntimeException e) {
+			log.debug("========================");
+			log.debug("RuntimeException: "+e.getMessage());
+			log.debug("========================");			
+			throw e;
+		}
+		log.debug("========================");
+		log.debug("=flag="+flag);
+		log.debug("========================");
+		return flag;
+	}	
+
+	@Override
+	public int do_NRDelete(MsgVO msgVO) throws SQLException{
+		return msgDao.updateNRDeleteCheck(msgVO);
+	}
+	
 }
 
 

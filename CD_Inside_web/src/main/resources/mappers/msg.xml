@@ -6,7 +6,7 @@
 <mapper namespace="com.sist.cd.mappers.msg">
 
     <sql id="baseCondition">
-	    <where> 
+
 	    	<choose>
 	    		<when test="'40'==search_div">
 	    		    hr.user_id like  #{search_word}||'%'
@@ -19,7 +19,7 @@
 	    		</when>		    		
 	    		<otherwise></otherwise>
 	    	</choose>
-	    </where>     
+  
     </sql>
 
 	<!-- 등록 -->
@@ -121,7 +121,7 @@
 		 WHERE msg_recv_id = #{msgRecvId}
  		   AND msg_read_yn = '읽지않음'		
  		   AND msg_rdel_yn = '0'
- 		    
+ 		    	
 	</select>	
 	
     <!-- 전체 조회 -->
@@ -158,7 +158,8 @@
 			SELECT hr.*                                  
 				  ,ROW_NUMBER() OVER(ORDER BY MSG_READ_YN desc , REG_DT desc ) AS rnum       
  			  FROM MSG hr
-              <include refid="baseCondition"/>
+		    WHERE NOT (msg_sdel_yn = 1  and msg_rdel_yn = 1)  
+		    <include refid="baseCondition"/>
  		  )T
  		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
  		    AND (#{page_size} * (#{page_num}-1)+#{page_size})
@@ -167,9 +168,37 @@
  		(
  		  SELECT COUNT(*) AS total_cnt   
  		    FROM MSG hr
+ 		    WHERE NOT (msg_sdel_yn = 1  and msg_rdel_yn = 1)     
  		    <include refid="baseCondition"/>
  		)Y      
      </select>      
-	
+     
+     <!-- 수정 -->
+	<update id="updateSDeleteCheck"  parameterType="MsgVO" >
+		 UPDATE MSG          
+	        SET MSG_SDEL_YN  = '1'    
+	    WHERE msg_seq = #{msgSeq}   
+	      AND MSG_SDEL_YN = '0'   
+	           
+	</update>
+
+     <!-- 수정 -->
+	<update id="updateRDeleteCheck"  parameterType="MsgVO" >
+		 UPDATE MSG          
+	        SET MSG_RDEL_YN  = '1'    
+	    WHERE msg_seq = #{msgSeq}   
+	      AND MSG_RDEL_YN = '0'      
+	        
+	</update>	
+    
+     <!-- 수정 -->
+	<update id="updateNRDeleteCheck"  parameterType="MsgVO" >
+		 UPDATE MSG          
+	        SET MSG_RDEL_YN  = '1'    
+	    WHERE msg_seq = #{msgSeq}   
+	      AND MSG_RDEL_YN = '0'      
+	      AND MSG_READ_YN = '읽지않음'        
+	        
+	</update>	    
     
 </mapper>

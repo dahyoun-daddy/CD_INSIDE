@@ -181,7 +181,7 @@
 						<!-- 버튼 -->
 						<button type="button" class="btn btn-default btn-sm"
 							onclick="javascript:doSearch();">검색</button>
-						<button type="button" class="btn btn-default btn-sm" id="do_delete">삭제</button>						
+						<button type="button" class="btn btn-default btn-sm" id="do_SDeleteMulti">삭제</button>						
 						<br/><br/>					
 					</div>
 				</form>
@@ -201,12 +201,12 @@
 				    <tr>
 				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
 						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">보낸이</th>
+						<th style="display: none" class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">보낸이</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
 						
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">읽음여부</th>
+						<th style="display: none" class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">수신여부</th>
 					</tr>
 				</thead>
 				<tbody>  
@@ -215,9 +215,9 @@
 						<c:forEach var="msgVo" items="${list}">
 							<tr>
 							    <td class="text-center" onclick='event.cancelBubble=true;'><input type="checkbox" id="check" name="check"></td>								
-								<td class="text-center" ><c:out value="${msgVo.msgSeq}"></c:out></td>																							
-								<td class="text-center"><c:out value="${msgVo.userId}"></c:out></td>																															
-								<td class="text-center"><c:out value="${msgVo.msgRecvId}"></c:out></td>																															
+								<td class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.msgSeq}"></c:out></td>																							
+								<td style="display: none" class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.userId}"></c:out></td>																															
+								<td class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.msgRecvId}"></c:out></td>																															
 								
 								<td class="text-center"
 								style="position:relative; width:200px; text-overflow:ellipsis; overflow:hidden; cursor:hand">
@@ -226,8 +226,8 @@
            						</nobr>
 								</td>								
 
-								<td class="text-center"><c:out value="${msgVo.regDt}"></c:out></td>																							
-								<td class="text-center"><c:out value="${msgVo.msgReadYn}"></c:out></td>
+								<td class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.regDt}"></c:out></td>																							
+								<td style="display: none" class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.msgReadYn}"></c:out></td>
 								
 							</tr>
 						</c:forEach>
@@ -298,7 +298,7 @@
  	$(document).ready(function(){   
  		
 	
-		$("#do_deleteRAll").on("click",function(){
+		$("#do_deleteSAll").on("click",function(){
 			//alert("do_delete");
 			
 			var items = [];//var items=new Array(); 
@@ -320,7 +320,7 @@
 			
 	        $.ajax({
 	            type:"POST",
-	            url:"deleteRAll.do",
+	            url:"deleteSAll.do",
 	            dataType:"html",
 	            data:{
 	            	"userId_list": jsonIdList
@@ -331,7 +331,7 @@
 	                 console.log("parseData.message="+parseData.message);
 		         	 if(parseData.flag > 0){
 		         		alert(parseData.message);
-		         		location.href="receiveIndex.do";
+		         		location.href="sendIndex.do";
 
 		         		doSearch();
 		         	 }else{
@@ -349,7 +349,7 @@
 			
 		});//--do_deleteRAll
 		
-		$("#do_delete").on("click",function(){
+		$("#do_SDeleteMulti").on("click",function(){
 			//alert("do_delete");
 			
 			var items = [];//var items=new Array(); 
@@ -375,7 +375,7 @@
 			
 	        $.ajax({
 	            type:"POST",
-	            url:"delete.do",
+	            url:"do_SDeleteMulti.do",
 	            dataType:"html",
 	            data:{
 	            	"userId_list": jsonIdList
@@ -389,7 +389,7 @@
 		        		doSearch();
 		         	 }else{
 		         		alert(parseData.message);
-		         		location.href="receiveIndex.do";
+		         		location.href="sendIndex.do";
 
 		         	 }				             
 	            },
