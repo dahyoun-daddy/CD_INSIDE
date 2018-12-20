@@ -99,21 +99,11 @@
 	vertical-align: middle;
 }
 
-.table>tbody>tr>td {
-    font-size: 2px;
-	text-align: left;
-}
 
-.boardtext.span { 
+.boardtext.span {  
     font-size: 40px; 
 	text-align: left;
 }
-
-bordered>tfoot>tr>td {
-    border: 1px solid #ddd;
-     font-size: 40px; 
-	text-align: left;
-} 
 
 
 
@@ -143,14 +133,28 @@ right: -90px;
 .value{ font-size: 2px; } 
 
 
-.ct { 
-	color:#a133ca ;
+ .ctt { 
+ font-size: 14px;   
+	color:black ; 
+	font-weight : lighter;
 	margin-left: 15px;
 }
 
+ .ct { 
+	color:#a133ca ;
+	 font-size: 14px; 
+	margin-left: 15px; 
+}
+
 .cu { 
+	font-size: 14px;
 	color:#ff7626 ;
-	margin-left: 15px;
+	margin-left: 15px; 
+}
+  
+.hrc{
+	font-size: 14px;
+
 }
   
 </style>   
@@ -200,35 +204,32 @@ right: -90px;
 					</tr>
 				</thead>
 				<tbody>
-						<!-- 메모장 출력 영역 ------------------------------------------------------------->
-				<!-- <form  name="frm" id="frm" action="/board.do" method="get" class="form-inline"> --> 
-				
-				<div class="boardtext">
+							<!-- 메모장 출력 영역 -------------------------------------------------------------> 
+				<form  name="frm" id="frm" action="/board.do" method="get" class="form-inline">
 				<input type="hidden" name="page_num" id="page_num">
 					<c:choose> 
 						<c:when test="${list.size()>0}">
 							<c:forEach var="boardVo" items="${list}">
 								<tr>
 									<td id="bNum" class="text-center"><c:out value="${boardVo.bNum}"></c:out></td>
-									<td id="bTitle" class="text-left"><c:out value="${boardVo.bTitle}"></c:out> <span class="ct"><c:out value="${boardVo.commentNo}"></c:out></span> </td>
+									<td id="bTitle" class="text-left"><span class="ctt"><c:out value="${boardVo.bTitle}"></c:out></span> <span class="ct"><c:out value="${boardVo.commentNo}"></c:out></span></td>
 									  
-									<td class="text-center" >
-									<div class="dropdown">
- 									 <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+									<td class="text-left" >    
+									<div class="dropdown"> 
+ 									 <button class="text-center" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
  									   style="border:none; padding:0; background:none;">
-									  <span class="cu">  <c:out value="${boardVo.userId}"></c:out></span>
+									  <span class="cu" >  <c:out value="${boardVo.userId}"></c:out></span>
 									  </button> 
 									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 										<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　 Gallog</button></li>
 									    <li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item reId" >　 쪽지 보내기</button><li>  
 									    <li><a class="dropdown-item" href="/cd/mypage/user_update.do">마이페이지</a><li>
-									</ul>    
-									</div>
-									</td>
-									<td onclick='event.cancelBubble=true;'​ class="text-center"><c:out value="${boardVo.bHit}"></c:out></td>
-									<td onclick='event.cancelBubble=true;'​ class="text-center"><c:out value="${boardVo.regDt}"></c:out></td>
-									<td onclick='event.cancelBubble=true;'​ class="text-center"><c:out value="${boardVo.bCount}"></c:out></td>
-								</tr>
+									</ul>
+									</div></td>
+									<td onclick='event.cancelBubble=true;'​ class="text-center"><span class="hrc"><c:out value="${boardVo.bHit}"></c:out></span></td>
+									<td onclick='event.cancelBubble=true;'​ class="text-left"><span class="hrc"><c:out value="${boardVo.regDt}"></c:out></span></td>
+									<td onclick='event.cancelBubble=true;'​ class="text-center"><span class="hrc"><c:out value="${boardVo.bCount}"></c:out></span></td>
+								</tr> 
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
@@ -237,9 +238,7 @@ right: -90px;
 							</tr>
 						</c:otherwise>
 					</c:choose>
-					</div>
-			<!-- 	</form> -->
-				
+				</form>
 				</tbody>
 			</table>
 		</div>
