@@ -41,25 +41,6 @@
 	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
 	?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
 	
-	
-	
-	
-// 	SearchVO vo2 =  (SearchVO)request.getAttribute("param");
-// 	//out.print("vo:"+vo);
-	
-// 	if(null !=vo ){
-// 		search_div  = StringUtil.nvl(vo.getSearch_div(), ""); 
-// 		search_word = StringUtil.nvl(vo.getSearch_word(), ""); 
-// 		page_size   = StringUtil.nvl(vo.getPage_size(), "10"); 
-// 		page_num   = StringUtil.nvl(vo.getPage_num(), "1"); 
-// 	}else{ 
-// 		search_div  = StringUtil.nvl(request.getParameter("search_div"), ""); 
-// 		search_word = StringUtil.nvl(request.getParameter("search_word"), "");
-// 		page_size = StringUtil.nvl(request.getParameter("page_size"), "10");
-// 		page_num = StringUtil.nvl(request.getParameter("page_num"), "1");
-// 	}
-	
-	
 %>
 
 

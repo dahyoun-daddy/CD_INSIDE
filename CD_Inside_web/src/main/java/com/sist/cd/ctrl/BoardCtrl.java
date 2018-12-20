@@ -45,7 +45,8 @@ public class BoardCtrl {
 	
 	@Autowired
 	private BoardSvc boardSvc;
-	
+	@Autowired
+	private CodeSvc codeSvc;
 	@Autowired
 	private CommentSvc commentSvc;
 
@@ -148,6 +149,14 @@ public class BoardCtrl {
 			invo.setPage_num(Integer.parseInt(page_num));
 		}
 		
+		if(null == invo.getSearch_div()) {
+			invo.setSearch_div("");
+		}
+		
+		if(null == invo.getSearch_word()) {
+			invo.setSearch_word("");
+		}		
+		
 		
 		log.info("page_num:"+invo);
 		
@@ -164,6 +173,10 @@ public class BoardCtrl {
 			log.info("totalCnt: " + totalCnt);
 		}
 		
+		CodeVO codePage=new CodeVO();
+		codePage.setCd_id("C_001");
+		
+		model.addAttribute("code_page",codeSvc.do_retrieve(codePage));
 		model.addAttribute("totalCnt", totalCnt);
 		model.addAttribute("list", list);
 		model.addAttribute("name", name);

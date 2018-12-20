@@ -170,6 +170,7 @@
 				  SELECT bo.*
 						,ROW_NUMBER() OVER(ORDER BY b_num desc ) AS rnum
 						FROM board bo
+						<include refid="baseCondition"/>
 						WHERE b_cate = #{bCate}
 						)B
 				  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) AND (#{page_size} * (#{page_num}-1)+#{page_size})
