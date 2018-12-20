@@ -13,7 +13,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/cd/resources/css/comment.css" rel="stylesheet" type="text/css">
+<link href="/cd/resources/css/scrollcomment.css" rel="stylesheet" type="text/css">
 <!-- 스타일 분리 -->
 
 <script type="text/javascript">
