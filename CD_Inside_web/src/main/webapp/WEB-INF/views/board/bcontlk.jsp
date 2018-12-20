@@ -413,7 +413,7 @@ $(document).on('click','.cursor_reply', function() {
 		  image: '<%=context%>/resources/img/ajax-loader.gif',
 		  imagePadding: 5,
 		  imageBgColor: 'white',
-		  hideAfter: 1000
+		  hideAfter: 300
 	}); 
 	 
 	setTimeout(	function replyRetrieve(){ 
@@ -522,7 +522,7 @@ $(document).on('click','.cursor_reply', function() {
 	        }
 	   }); //--ajax
 	   
- 		}, 1000); // --setTimeout */
+ 		}, 300); // --setTimeout */
 	
 
 	
@@ -649,10 +649,10 @@ $(window).scroll(function(){
   		  image: '<%=context%>/resources/img/ajax-loader.gif',
   		  imagePadding: 5,
   		  imageBgColor: 'white',
-  		  hideAfter: 1000
+  		  hideAfter: 300
   		});
   		
-    	setTimeout("pagingList()", 1000);
+    	setTimeout("pagingList()", 300);
     	
 		};
 	});

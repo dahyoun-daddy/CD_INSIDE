@@ -333,7 +333,7 @@ eventName : 페이징 하단의 숫자 등의 버튼이 클릭되었을 때 호�
 var gfv_pageIndex = null;
 var gfv_eventName = null;
 var totalIndexCount;
-var page_size = 20;
+var page_size = 10;
 function gfn_renderPaging(params){
 	var divId = params.divId; //페이징이 그려질 div id
 	gfv_pageIndex = params.pageIndex; //현재 위치가 저장될 input 태그
