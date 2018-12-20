@@ -88,10 +88,9 @@
 				<strong>·메모장 (<%=totalCnt %>)</strong>
 			</div>
 			<div style="float:right;">
-				<%if(userId != null){ %>
-				<%if(userId.equals(userId2)){%>
+				<%if(userId != null &&  userId.equals(userId2) || userId.equals("admin")){%>
 				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/get.do'">글쓰기</button>
-				<%} }%>  
+				<%} %>  
 			</div>
 		</div>
 		<!--// 메모장 상단 영역------------------------------------------------------------>
@@ -123,11 +122,10 @@
 						</div>
 						<hr/>
 						<div style="float:right;">
-							<%if(userId != null){ %>
-							<%if(userId.equals(userId2)){ %> 
+							<%if(userId != null &&  userId.equals(userId2) || userId.equals("admin")){ %> 
 							<button type="button" class="btn btn-default" id="do_update" value="${gallogVo.gSeq}">수정</button>
 							<button type="button" class="btn btn-default" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
-							<%} }%> 
+							<%} %> 
 						</div>
 						<br><br><br><br><br>
 					</div>

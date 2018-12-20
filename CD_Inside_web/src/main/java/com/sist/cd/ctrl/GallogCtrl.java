@@ -129,7 +129,7 @@ public class GallogCtrl {
 		}
 		
 		if(null == invo.getSearch_word()) {
-			invo.setSearch_word(userId);
+			invo.setSearch_word(aaa);
 		}		
 		
 		model.addAttribute("param",invo);
@@ -178,7 +178,7 @@ public class GallogCtrl {
 			}
 			
 			if(null == invo.getSearch_word()) {
-				invo.setSearch_word(userId);
+				invo.setSearch_word(aaa);
 			}		
 			
 			model.addAttribute("param",invo);
