@@ -44,7 +44,7 @@ public class MainCtrl {
 		List<BoardVO> linkList = boardSvc.do_cateret(invo);
 		model.addAttribute("linkList", linkList);
 		
-		invo.setbHit("1");
+		invo.setbHit("2");
 		
 		List<BoardVO> hitList = boardSvc.do_hitretreive(invo);
 		model.addAttribute("hitList", hitList);
@@ -62,12 +62,12 @@ public class MainCtrl {
 		invo.setbCate("쌍용");
 		List<BoardVO> sistList = boardSvc.do_cateret(invo);
 		model.addAttribute("sistList", sistList);
-		
+		 
 		invo.setbCate("링크");
 		List<BoardVO> linkList = boardSvc.do_cateret(invo);
 		model.addAttribute("linkList", linkList);
 		
-		invo.setbHit("1");
+		invo.setbHit("2");
 		
 		List<BoardVO> hitList = boardSvc.do_hitretreive(invo);
 		model.addAttribute("hitList", hitList);
