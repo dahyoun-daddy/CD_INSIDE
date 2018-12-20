@@ -109,9 +109,6 @@ right: -90px;
 <body>
 	
 	
-	
-	
-	
 			<div class="container">
 			 <div class="row">
 			 <div class="sangdan">
@@ -188,7 +185,7 @@ right: -90px;
 							</tr>
 						</c:otherwise>
 					</c:choose>
-				</form>
+
 				</tbody>
 			</table>
 		</div>
@@ -219,9 +216,6 @@ right: -90px;
 
 <!-- 검색영역 -->
 
-
-			
-			
 			<!-- 검색영역 -->
 		<div class="row">
 		  <div class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -243,7 +237,7 @@ right: -90px;
 		  </div>	
 		</div>
 			<!--// 검색영역----------------------------------------------------->
-
+	</form>
 
 
 
@@ -257,6 +251,13 @@ right: -90px;
     <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="<%=context%>/resources/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+    
+    function doSearch(){
+	   	 var frm = document.frm;
+	   	 frm.page_num.value =1;
+	   	 frm.action = "bsy.do";
+	   	 frm.submit();
+    }
     
 	    function search_page(url,page_num){
 		   	 alert(url+":search_page:"+page_num);
