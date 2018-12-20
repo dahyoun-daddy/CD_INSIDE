@@ -27,9 +27,6 @@
 <link href="/cd/resources/css/scrollcomment.css" rel="stylesheet" type="text/css">
 
 
-<script src="<%=context%>/resources/js/jquery.min.js"></script>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=context%>/resources/js/jquery.oLoader.min.js"></script>
 
 <script type="text/javascript">
