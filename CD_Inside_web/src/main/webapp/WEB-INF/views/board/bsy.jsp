@@ -41,6 +41,21 @@
 	List<CodeVO> code_page = (null == request.getAttribute("code_page"))
 	?new ArrayList<CodeVO>():(List<CodeVO>)request.getAttribute("code_page");
 	
+	
+	
+	if(null !=vo ){
+		search_div  = StringUtil.nvl(vo.getSearch_div(), ""); 
+		search_word = StringUtil.nvl(vo.getSearch_word(), ""); 
+		page_size   = StringUtil.nvl(vo.getPage_size(), "10"); 
+		page_num   = StringUtil.nvl(vo.getPage_num(), "1"); 
+	}else{ 
+		search_div  = StringUtil.nvl(request.getParameter("search_div"), ""); 
+		search_word = StringUtil.nvl(request.getParameter("search_word"), "");
+		page_size = StringUtil.nvl(request.getParameter("page_size"), "10");
+		page_num = StringUtil.nvl(request.getParameter("page_num"), "1");
+	}
+	
+	
 %>
 
 
@@ -226,7 +241,8 @@ right: -90px;
 					<select name="search_div" id="search_div" class="form-control input-sm" style="height: 35px" >
 					    <option value="" >::선택::</option>
 						<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
-						<option value="20" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >이름</option>					
+						<option value="60" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >제목</option>					
+						<option value="70" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >제목+내용</option>					
 					</select>
 					<input type="text" name="search_word" id="search_word" value="${param.search_word}"  class="form-control input-sm" placeholder="검색어" style="height: 35px" />
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -280,7 +296,7 @@ right: -90px;
 	    	
 	    	$(".reId").on("click",function(){
 	    		var reId = $(this).val();
-	    		alert("click"+reId);
+// 	    		alert("click"+reId);
     		   
 	    		
 	    		$.ajax({

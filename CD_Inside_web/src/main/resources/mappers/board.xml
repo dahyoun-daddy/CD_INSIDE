@@ -7,23 +7,6 @@
 
 
 
-<!--     페이징 검색조건 -->
-    <sql id="baseCondition">
-	    <where>
-	    	<choose>
-	    		<when test="'10'==search_div">
-	    		    u.USER_ID like   '%'|| #{search_word}||'%'
-	    		</when>
-	    		<when test="'20'==search_div">
-	    		    u.USER_NAME like '%'|| #{search_word}||'%'
-	    		</when>
-	    		<when test="'30'==search_div">
-	    		    u.USER_EMAIL like '%'|| #{search_word}||'%'
-	    		</when>		    		
-	    		<otherwise></otherwise>
-	    	</choose>
-	    </where>     
-    </sql>
 
 
 
@@ -182,6 +165,29 @@
 		 WHERE b_cate = #{bCate}
 		)Y
 	</select>
+	
+	
+	<!--     페이징 검색조건 -->
+    <sql id="baseCondition">
+	    <where>
+	    	<choose>
+	    		<when test="'10'==search_div">
+	    		    bo.USER_ID like '%'|| #{search_word}||'%'
+	    		</when>
+	    		<when test="'60'==search_div">
+	    		    bo.USER_ID like '%'|| #{search_word}||'%'
+	    		</when>
+	    		<when test="'70'==search_div">
+	    		    bo.USER_ID like '%'|| #{search_word}||'%'
+	    		</when>		    		
+	    		<otherwise></otherwise>
+	    	</choose>
+	    </where>     
+    </sql>
+	
+	
+	
+	
 	
 		<!-- 인기글 조회 -->
 	<select id="do_hitretreive" parameterType="BoardVO" resultType="BoardVO">

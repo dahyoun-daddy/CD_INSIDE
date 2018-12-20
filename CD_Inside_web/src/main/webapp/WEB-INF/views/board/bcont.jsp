@@ -583,7 +583,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		 
 		<div class="row"> 
 		  <div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		  <button type="button" class="btn btn-default" onClick="bsy.do">목록</button>
+		  <a type="button" class="btn btn-default" href="/cd/board/bsy.do">목록</a>
 		     <button id="BoardHit" type="submit" class="btn btn-default">추천+1</button>
 		  </div>
 		</div>
