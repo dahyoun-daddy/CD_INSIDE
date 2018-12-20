@@ -5,6 +5,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="com.sist.cd.domain.BoardVO"%>
 
+<%
+     //치환 변수 선언합니다.
+      pageContext.setAttribute("crcn", "\r\n"); //Space, Enter
+      pageContext.setAttribute("br", "<br/>"); //br 태그
+%> 
+
+
 
 <!DOCTYPE html>
 <html>
@@ -77,10 +84,9 @@
 
 
 <body>
-
+   <!--  onSubmit:="return false"  폼 입력 안되게 --> 
 	<div class="container">
-		<form name="frm" id="frm" action="bsy.do" method="get"
-			class="form-inline">
+		<form name="frm" id="frm" action="bsy.do" method="get"  class="form-inline">
 			<input type="hidden" name="page_num" id="page_num">
 			<%-- 		<input type="hidden" name="gSeq" id="gSeq" value="${list.gSeq}"> --%>
 
@@ -94,14 +100,14 @@
 			<input type="hidden" id="bNum" name="bNum" value="<c:out value="${list.bNum}"></c:out>"/>
 			<div class="form-group">
 				<label for="Name">Title</label><br /> 
-				<input type="text" name="bTitle" id="bTitle" maxlength="50" style="width: 1000px" value="<c:out value="${list.bTitle}"></c:out>" />
+				 <input type="text" name="bTitle" id="bTitle" maxlength="50" style="width: 1000px" value="<c:out value="${list.bTitle}"></c:out>" /> 
+				 <input style="VISIBILITY: hidden; WIDTH: 0px">
 			</div>
-			<br /> <label for="textarea">Context</label><br/>
+			<br /> <label for="textarea">Context</label><br/> 
 
 			<div>
 				<textarea name="bCont" id="bCont"
-					style="width: 1000px; height: 400px;"><c:out
-						value="${list.bCont}"></c:out> </textarea>
+					style="width: 1000px; height: 400px;"><c:out value="${list.bCont}"></c:out>  </textarea>
 			</div>
 		</form>
 
