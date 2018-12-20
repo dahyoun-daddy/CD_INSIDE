@@ -145,7 +145,7 @@ hr.hr{
 									<div style="bottom:5px;">
 										<div class="hereAdd" style="float:right;">
 									<!-- 	<button type="button" class="btn btn-default btn-sm" id="do_update" value="${gallogVo.gSeq}">수정</button>  -->
-											<%if(userId != null &&  userId.equals(userId2) || userId.equals("admin")){ %>	
+											<%if(userId != null &&  userId.equals(userId2) || userId == "admin"){ %>	
 											<button type="button" class="btn btn-default btn-sm" id="do_delete2" value="${gallogVo.gSeq}">삭제</button>
 											<%} else{ %>
 											<button type="button" class="btn btn-default btn-sm" id="do_delete" value="${gallogVo.gSeq}">삭제</button>

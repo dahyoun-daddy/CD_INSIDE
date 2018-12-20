@@ -88,7 +88,7 @@
 				<strong>·메모장 (<%=totalCnt %>)</strong>
 			</div>
 			<div style="float:right;">
-				<%if(userId != null &&  userId.equals(userId2) || userId.equals("admin")){%>
+				<%if(userId != null &&  userId.equals(userId2) || userId == "admin"){%>
 				<button type="button" class="btn btn-default" onclick=" location='<%=context%>/gallog/get.do'">글쓰기</button>
 				<%} %>  
 			</div>
@@ -122,7 +122,7 @@
 						</div>
 						<hr/>
 						<div style="float:right;">
-							<%if(userId != null &&  userId.equals(userId2) || userId.equals("admin")){ %> 
+							<%if(userId != null &&  userId.equals(userId2) || userId == "admin"){ %> 
 							<button type="button" class="btn btn-default" id="do_update" value="${gallogVo.gSeq}">수정</button>
 							<button type="button" class="btn btn-default" id="do_delete" value="${gallogVo.gSeq}">삭제</button>
 							<%} %> 
