@@ -69,13 +69,7 @@
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="<%=cPath%>/resources/js/jquery.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="<%=cPath%>/resources/js/bootstrap.min.js"></script>
-  <script src="<%=cPath%>/resources/js/jquery.prettyPhoto.js"></script>
-  <script src="<%=cPath%>/resources/js/jquery.isotope.min.js"></script>
-  <script src="<%=cPath%>/resources/js/wow.min.js"></script>
-  <script src="<%=cPath%>/resources/js/jquery.easing.min.js"></script>
-  <script src="<%=cPath%>/resources/js/main.js"></script>
-  <script src="<%=cPath%>/resources/contactform/contactform.js"></script>
+
 
 </body>
 
