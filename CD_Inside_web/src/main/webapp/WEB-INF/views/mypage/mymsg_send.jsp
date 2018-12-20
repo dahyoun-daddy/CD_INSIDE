@@ -47,7 +47,7 @@
 	  		<input type="hidden" name="msgSeq" id="msgSeq" value="${list.msgSeq}">		  
 		    <label for="msgRectRecvId" class="col-sm-2 control-label">받는이</label>
 		      <div class="col-sm-2">			    
-		      <input type="text" class="form-control" name="msgRecvId" id="msgRecvId" value="${list.msgRecvId}" placeholder="아이디 입력" maxlength="20"/>
+		      <input type="text" class="form-control" name="msgRecvId" id="msgRecvId" value="${reId}" maxlength="20" disabled />
 		    </div>
 		  </div>
 		  		  
@@ -92,16 +92,16 @@
 	    	var str2 = "";
 
 	    	for(var i=0; i<str_len; i++){
-	    	one_char = str.charAt(i);
-	    	if(escape(one_char).length > 4){
-	    	    rbyte += 2;  //한글2Byte
-	    	}else{
-	    	    rbyte++;     //영문 등 나머지 1Byte
-	    	}
-
-	    	if(rbyte <= maxByte){
-	    	    rlen = i+1;   //return할 문자열 갯수
-	    	}
+		    	one_char = str.charAt(i);
+		    	if(escape(one_char).length > 4){
+		    	    rbyte += 2;  //한글2Byte
+		    	}else{
+		    	    rbyte++;     //영문 등 나머지 1Byte
+		    	}
+	
+		    	if(rbyte <= maxByte){
+		    	    rlen = i+1;   //return할 문자열 갯수
+		    	}
 	    	}
 	    	
 	    	
@@ -109,7 +109,7 @@
 
 	    	if(rbyte > maxByte){
 	    	    alert("한글 "+(maxByte/2)+"자 / 영문 "+maxByte+"자를 초과 입력할 수 없습니다.");
-	    	    str2 = str.substr(0,rlen);   //문자열 자르기
+	    	    str2 = str.substr(0,rlen);//문자열 자르기   
 	    	    obj.value = str2;
 	    	    fnChkByte(obj, maxByte);
 	    	}else{
@@ -122,6 +122,15 @@
 	    	
 	    	$("#do_add").on("click",function(){
 	    		
+	    		 var msgCont = $("#msgCont").val();
+	    		 
+	    		 if(msgCont.trim()==""||null==msgCont){
+	    			 alert("내용을 입력하세요.");
+	    			 return false;
+	    		 }
+	    		 
+	    		 
+	    		 
 				 if(false==confirm("전송 하시겠습니까?"))return;
 				  
 			     $.ajax({

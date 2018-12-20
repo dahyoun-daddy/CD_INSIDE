@@ -82,7 +82,9 @@ public class MymsgCtrl {
 	}
 
 	@RequestMapping(value="/msg/send.do")
-	public String send() {
+	public String send(HttpServletRequest req,Model model) {
+		String reId = req.getParameter("reId");
+		model.addAttribute("reId",reId);
 		return SEND;
 	}
 	
@@ -149,6 +151,7 @@ public class MymsgCtrl {
 		String userId = (String) session.getAttribute("sessionId");
 		invo.setUserId(userId); //TODO 세션 받을곳
 
+		session.setAttribute("sessionMsg", msgSvc.getNCount(userId));
 		
 		String page_num = (String) req.getParameter("page_num");
 		if (page_num == null) {
