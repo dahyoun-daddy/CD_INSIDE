@@ -137,17 +137,17 @@ right: -90px;
 		
 				<table id="listTable"
 					class="table table-striped table-bordered table-hover">
-						 
-			  
+						
 			
-					<thead class="bg-primary"> 
+			
+					<thead class="bg-primary">
 					<tr>
-						<th class="text-center          		 col-md-1 col-lg-1">번호</th>
-						<th class="text-center col-xs-8 col-sm-8 col-md-6 col-lg-6">제목</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">글쓴이</th>
-						<th class="text-center col-xs-2 col-sm-2 col-md-1 col-lg-1">추천수</th>
-						<th class="text-center                   col-md-1 col-lg-1">날짜</th>
-						<th class="text-center                   col-md-1 col-lg-1">조회수</th>
+						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">번호</th>
+						<th class="text-center col-xs-11 col-sm-11 col-md-6 col-lg-6">제목</th>
+						<th class="text-center col-xs-1 col-sm-1 col-md-2 col-lg-2">글쓴이</th>
+						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">추천수</th>
+						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">날짜</th>
+						<th class="text-center col-xs-0 col-sm-0 col-md-1 col-lg-1">조회수</th>
 					</tr>
 				</thead>
 				<tbody>

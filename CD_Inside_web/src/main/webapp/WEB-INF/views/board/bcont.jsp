@@ -556,13 +556,13 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 			</form>
 		      
 		     <div style=" color:black; font-size:20px;"  class="row" >
-		     <div id="bTitlebofrm" style="float:left;"> <b><c:out value="${list.bTitle}"></c:out> </b></div>
+		     <div id="bTitlebofrm" style="float:left;"> <b>제목 :<c:out value="${list.bTitle}"></c:out> </b></div>
 		     </div>
 		     </div> 
 		     
 		    <div style="color:white; background-color:#BF00FF; border-top:3px solid black; padding:7px; " class="row" >
-  				<div style="float:left;"><b><c:out value="${list.userId}"></c:out></b></div>
-              <div style="float:left;"><b>　　<c:out value="${list.regDt}"></c:out></b></div>
+  				<div style="float:left;"><b>작성자:<c:out value="${list.userId}"></c:out></b></div>  
+              <div style="float:left;"><b>　<c:out value="${list.regDt}">　</c:out>　조회수: <c:out value="${list.bCount}"></c:out>　</b></div>
 		       <div style="float:right;"><b>+<c:out value="${list.bHit}"></c:out></b></div>
 		       
 		       <div class="hiddenbNum"><c:out value="${list.bNum}"></c:out></div>
