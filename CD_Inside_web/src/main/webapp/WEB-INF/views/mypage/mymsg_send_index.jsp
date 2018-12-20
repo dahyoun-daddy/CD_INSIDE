@@ -132,7 +132,6 @@
 		<ul class="nav nav-pills col-sm-9">
 			<li role="presentation"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
 			<li role="presentation"class="active"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
-			<li role="presentation"><a href="<%=context%>/msg/send.do">쪽지쓰기</a></li>
 		</ul>		
 		</div>
 		
