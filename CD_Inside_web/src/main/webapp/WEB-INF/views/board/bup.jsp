@@ -158,6 +158,13 @@
       	 frm.submit();
     } 
     
+    function doSearch1(){ // 등록후 1페이지로 가서 전체조회
+     	 var frm = document.frm;
+   	 frm.page_num.value = 1; 
+     	 frm.action = "bsy.do";
+     	 frm.submit();
+   } 
+    
     function doUpdate(){ // 등록후 1페이지로 가서 전체조회
      	 var frm = document.frm;
    	     frm.page_num.value = 1;
@@ -196,7 +203,7 @@
 		             var parseData = $.parseJSON(data);
 		         	 if(parseData.flag=="1"){
 		         		 alert(parseData.message);
-			         	 doSearch();
+			         	 doSearch1();
 		         	 }else{
 		         		alert(parseData.message);
 		         	 }
