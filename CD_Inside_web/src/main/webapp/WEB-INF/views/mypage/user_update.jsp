@@ -5,6 +5,14 @@
 <%
 	String context = request.getContextPath();//context path
 	
+	
+	//로그아웃 후 뒤로가기 막기
+	response.setHeader("Cache-Control","no-store");
+	response.setHeader("Pragma","no-cache");
+	response.setDateHeader("Expires",0);
+	if(request.getProtocol().equals("HTTP/1.1")){
+		response.setHeader("Cache-Control","no-cache");
+	}
 	//세션 타임아웃시 경고창과 함께 로그인페이지로 이동하는 부분!!
 	session = request.getSession(false);
 	PrintWriter outt = response.getWriter();
@@ -27,7 +35,11 @@
     
 <title>:::마이페이지 개인정보 수정:::</title>
 </head>
-<body>
+<script type="text/javascript">
+ window.history.forward();
+ function noBack(){window.history.forward();}
+</script>
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
 	 <div class="container" style="padding-top:3%">
 	<thead>
 	    <div class="col-sm-1" ></div>

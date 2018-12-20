@@ -443,6 +443,12 @@ public class UserCtrl {
 			session.setAttribute("sessionName", outVO.getUserName());
 			session.setAttribute("sessionYn", outVO.getUserYn());
 			session.setAttribute("sessionMsg", msgSvc.getNCount(userId));
+			
+//	    	res.setHeader("Cache-Control", "no-cache");
+//	    	res.setHeader("Cache-Control", "no-store");
+//	    	res.setHeader("Param", "no-store");
+//	    	res.setDateHeader("Expries", 0);
+	
 			log.info("****session : "+session.getAttribute("sessionId"));
 			
 		}else {
@@ -477,13 +483,17 @@ public class UserCtrl {
 	
     // 로그아웃
 	@RequestMapping(value="/user/logout.do",method=RequestMethod.GET )
-    public String logout(HttpSession session, HttpServletRequest req, HttpServletResponse res) {
+    public String logout(HttpSession session, HttpServletRequest req, HttpServletResponse res) throws IOException {
 //		
 //		session.setAttribute("sessionId", null);
 //		session.setAttribute("sessionName", null);
 //		session.setAttribute("sessionYn", null);
-//		
+		
     	session.invalidate();//세션 해제
+//    	res.setHeader("Cache-Control", "no-cache");
+//    	res.setHeader("Cache-Control", "no-store");
+//    	res.setHeader("Param", "no-store");
+//    	res.setDateHeader("Expries", 0);
         return "redirect:/user/login.do";
     }
 	

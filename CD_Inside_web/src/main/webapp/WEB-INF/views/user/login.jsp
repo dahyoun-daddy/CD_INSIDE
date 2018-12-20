@@ -16,6 +16,7 @@
 <title>:::로그인 페이지:::</title>
 </head>
 <body>
+
 	   <div class="container">
 	     <div class="page-header">
 	       <h1>Class D Inside 로그인</h1>
@@ -89,7 +90,7 @@
 		         success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
 		             var parseData = $.parseJSON(data);
 		         	if(parseData.flag1<=0){
-		         		alert("회원가입한 정보가 없습니다.");
+		         		alert("회원가입한 아이디가 없습니다.");
 		         		return;
 		         	}
 		         	 if(parseData.flag>0){

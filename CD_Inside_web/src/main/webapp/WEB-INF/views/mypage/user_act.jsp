@@ -136,7 +136,7 @@
 									<a style="cursor:pointer"><c:out value="${boardVo.bTitle}"/></a>
 								</td>
 								<td align="center" ><c:out value="${boardVo.regDt}"/></td>
-								<td align="center" ><c:out value="${boardVo.bCnt}"/></td>
+								<td align="center" ><c:out value="${boardVo.bCount}"/></td>
 							</tr>
 						</c:forEach>
 					</c:when>

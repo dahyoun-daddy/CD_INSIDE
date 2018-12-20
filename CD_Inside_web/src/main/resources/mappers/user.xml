@@ -28,7 +28,7 @@
 		        B.b_cont,
 		        B.b_cate,
 		        B.b_hit,
-		        B.b_visit_cnt,
+		        B.bcount,
 		        B.reg_dt,
 		        B.mod_id,
 		        B.mod_dt,
