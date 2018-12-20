@@ -218,12 +218,7 @@
 								<td style="display: none" class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.userId}"></c:out></td>																															
 								<td class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.msgRecvId}"></c:out></td>																															
 								
-								<td class="text-center"
-								style="position:relative; width:200px; text-overflow:ellipsis; overflow:hidden; cursor:hand">
-           						<nobr>
-								<c:out value="${msgVo.msgCont}"></c:out>
-           						</nobr>
-								</td>								
+								<td class="text-center"style="position:relative; width:200px; text-overflow:ellipsis; overflow:hidden; cursor:hand"><nobr><c:out value="${msgVo.msgCont}"></c:out></nobr></td>								
 
 								<td class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.regDt}"></c:out></td>																							
 								<td style="display: none" class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.msgReadYn}"></c:out></td>
