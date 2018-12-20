@@ -212,7 +212,11 @@ public class BoardCtrl {
 		log.info("invo="+invo);
 		log.info("!========================");
 		
+		boardSvc.cnt(invo);
 		
+		log.info("!========================");
+		log.info("invo="+invo);
+		log.info("!========================");
 		
 		
 		BoardVO list = boardSvc.get(invo);

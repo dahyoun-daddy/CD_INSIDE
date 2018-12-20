@@ -209,7 +209,7 @@
 	</delete>
 	
 	<!--조회수 -->
-	<update id="viewcount">
+	<update id="viewcnt">
 		UPDATE board
 		   SET bcount = bcount+1
 		WHERE b_num = #{bNum}
