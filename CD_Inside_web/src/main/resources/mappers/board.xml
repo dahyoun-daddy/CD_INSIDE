@@ -17,7 +17,7 @@
 					reg_dt,
 					mod_id,
 					mod_dt,
-					b_visit_cnt
+					bcount
 					)
 		    VALUES (
 					B_B_SEQ.nextval,
@@ -45,7 +45,7 @@
 					reg_dt,
 					mod_id,
 					mod_dt,
-					b_visit_cnt
+					bcount
 					)
 		   VALUES (
 					B_L_seq.nextval,
@@ -77,7 +77,7 @@
                           ELSE to_char(reg_dt,'YYYY/MM/DD') end  reg_dt, 
 				mod_id,
 				mod_dt,  
-				b_visit_cnt  
+				bcount  
 		   FROM board
 		  WHERE b_num = #{bNum}
 	</select>
@@ -101,7 +101,7 @@
 						B.mod_id,
 						B.mod_dt,
 						B.rnum AS no,
-						B.b_visit_cnt,
+						B.bcount,
 						(SELECT COUNT (*)
 					       FROM COMM
 					      WHERE B_NUM = B.b_num) as commentNo
@@ -140,7 +140,7 @@
 						B.mod_id, 
 						B.mod_dt,
 						B.rnum AS no,
-						B.b_visit_cnt, 
+						B.bcount,  
 						(SELECT COUNT (*)
 					       FROM COMM
 					      WHERE B_NUM = B.b_num) as commentNo
@@ -176,8 +176,8 @@
 				B.mod_id,
 				B.mod_dt,
 				B.rnum AS no,
-				B.b_visit_cnt,
-				(SELECT COUNT (*)
+				B.bcount,
+				(SELECT COUNT (*) 
            		   FROM COMM
           		  WHERE B_NUM = B.b_num) as commentNo
 		   FROM (
@@ -209,9 +209,9 @@
 	</delete>
 	
 	<!--조회수 -->
-	<update id="viewcnt">
+	<update id="viewcount">
 		UPDATE board
-		   SET b_visit_cnt = b_visit_cnt+1
+		   SET bcount = bcount+1
 		WHERE b_num = #{bNum}
 	</update>
 	

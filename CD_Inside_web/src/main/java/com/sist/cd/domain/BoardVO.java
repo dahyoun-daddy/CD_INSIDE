@@ -13,9 +13,16 @@ public class BoardVO extends DTO{
 	private String regDt;
 	private String modId;
 	private String modDt;
-	private String bCnt;
+	private String bCount;
 	
 	
+
+	public String getbCount() {
+		return bCount;
+	}
+	public void setbCount(String bCount) {
+		this.bCount = bCount;
+	}
 	public String getbNum() {
 		return bNum;
 	}
@@ -70,25 +77,17 @@ public class BoardVO extends DTO{
 	public void setModDt(String modDt) {
 		this.modDt = modDt;
 	}
-	public String getbCnt() {
-		return bCnt;
-	}
-	public void setbCnt(String bCnt) {
-		this.bCnt = bCnt;
-	}
-	
-	@Override
-	public String toString() {
-		return "BoardVO [bNum=" + bNum + ", userId=" + userId + ", bTitle=" + bTitle + ", bCont=" + bCont + ", bCate="
-				+ bCate + ", bHit=" + bHit + ", regDt=" + regDt + ", modId=" + modId + ", modDt=" + modDt + ", bCnt="
-				+ bCnt + "]";
-	}
 	
 	
 	public BoardVO() {}
-	
+	@Override
+	public String toString() {
+		return "BoardVO [bNum=" + bNum + ", userId=" + userId + ", bTitle=" + bTitle + ", bCont=" + bCont + ", bCate="
+				+ bCate + ", bHit=" + bHit + ", regDt=" + regDt + ", modId=" + modId + ", modDt=" + modDt + ", bCount="
+				+ bCount + "]";
+	}
 	public BoardVO(String bNum, String userId, String bTitle, String bCont, String bCate, String bHit, String regDt,
-			String modId, String modDt, String bCnt) {
+			String modId, String modDt, String bCount) {
 		super();
 		this.bNum = bNum;
 		this.userId = userId;
@@ -99,8 +98,10 @@ public class BoardVO extends DTO{
 		this.regDt = regDt;
 		this.modId = modId;
 		this.modDt = modDt;
-		this.bCnt = bCnt;
+		this.bCount = bCount;
 	}
+	
+	
 	
 //	/**
 //	 * 데이터 조회

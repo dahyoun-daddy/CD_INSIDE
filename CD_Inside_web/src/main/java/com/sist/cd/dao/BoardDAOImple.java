@@ -107,12 +107,12 @@ public class BoardDAOImple implements BoardDAO{
 	public List<BoardVO> do_cateret(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
 		
 		String statement = NAME_SPACE+".do_cateret";
-		log.debug("1.statement: "+statement);		
-		log.debug("2.param: "+boardVO);
+		log.info("1.statement: "+statement);		
+		log.info("2.param: "+boardVO);
 		List<BoardVO> list  = this.sqlSession.selectList(statement, boardVO);
-		log.debug("*****************************");
-		log.debug("3.list: "+list);
-		log.debug("*****************************");
+		log.info("*****************************");
+		log.info("3.list: "+list);
+		log.info("*****************************");
 		return list;	
 	}
 
