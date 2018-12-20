@@ -258,7 +258,7 @@ right: -90px;
 		   	 alert(url+":search_page:"+page_num);
 		   	 var frm = document.frm;
 		   	 frm.page_num.value = page_num;
-        	 console.log(frm.page_num.value);
+//         	 console.log(frm.page_num.value);
 		   	 frm.action = url;
 		   	 frm.submit();
 	    }

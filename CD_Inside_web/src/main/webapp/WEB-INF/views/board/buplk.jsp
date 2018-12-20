@@ -88,10 +88,10 @@
 				<div class="text-left col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<h2>${name}</h2>
 				</div>
-			</div>
+			</div> 
 
 
-			<input type="hidden" id="bNum" value="<c:out value="${list.bNum}"></c:out>"/>
+			<input type="hidden" id="bNum" name="bNum" value="<c:out value="${list.bNum}"></c:out>"/>
 			<div class="form-group">
 				<label for="Name">Title</label><br /> 
 				<input type="text" name="bTitle" id="bTitle" maxlength="50" style="width: 1000px" value="<c:out value="${list.bTitle}"></c:out>" />
@@ -151,10 +151,10 @@
 	<script type="text/javascript">
     
     
-    function doSearch(){ // 등록후 1페이지로 가서 전체조회
+	 function doSearch(){ // 등록후 1페이지로 가서 전체조회
       	 var frm = document.frm;
-    	 frm.page_num.value = 1;
-      	 frm.action = "blk.do";
+    	 frm.page_num.value = 1;  
+      	 frm.action = "getlk.do";
       	 frm.submit();
     }
     
