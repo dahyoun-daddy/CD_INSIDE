@@ -668,9 +668,8 @@ window.onbeforeunload = function () {
 }
 
 $(window).scroll(function(){ 
-
-    if  ($(window).scrollTop() >= $(document).height() - $(window).height()){
-    	 
+	if($(window).scrollTop() == $(document).height() - $(window).height()){
+    	 alert('1');
     	$(".fakeLoading").oLoader({
   		  backgroundColor: '255,255,255',
   		  fadeInTime: 500,
@@ -692,8 +691,6 @@ $(window).scroll(function(){
 
 	<img src="https://t1.daumcdn.net/cfile/tistory/9940D03D5A584CCD0C"><br />
     <img src="https://t1.daumcdn.net/cfile/tistory/99F7323D5A584CCE1C"><br />
-    
-
     
    	<div class="container">
 		<div class="form-group">

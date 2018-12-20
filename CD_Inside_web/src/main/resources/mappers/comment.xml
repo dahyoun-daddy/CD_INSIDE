@@ -172,7 +172,7 @@ SELECT C.*,Y.*
                               SELECT hr.* 
                                     ,COUNT(*) OVER(PARTITION BY COMM_GROUP_NO )-1 AS commentNo
                               FROM COMM hr
-                              WHERE B_NUM = 1
+                              WHERE B_NUM = #{bNum}
                         ) T
                               WHERE COMM_DEPTH = 0
                 )X
@@ -183,7 +183,7 @@ NATURAL JOIN
 (
 		SELECT COUNT(*) AS total_cnt
 		  FROM COMM
-		 WHERE B_NUM = 1
+		 WHERE B_NUM = #{bNum}
 		--WHERE
 )Y
 	</select>
@@ -211,7 +211,7 @@ SELECT C.*,Y.*
                               SELECT hr.* 
                                     ,COUNT(*) OVER(PARTITION BY COMM_GROUP_NO )-1 AS commentNo
                               FROM COMM hr
-                              WHERE B_NUM = 1
+                              WHERE B_NUM = #{bNum}
                         ) T
                               WHERE COMM_DEPTH = 1
                                 AND COMM_GROUP_NO = #{commGroupNo}
@@ -223,7 +223,7 @@ NATURAL JOIN
 (
 		SELECT COUNT(*) AS total_cnt
 		  FROM COMM
-		 WHERE B_NUM = 1
+		 WHERE B_NUM = #{bNum}
           AND COMM_GROUP_NO = #{commGroupNo}
 )Y
 	</select>
