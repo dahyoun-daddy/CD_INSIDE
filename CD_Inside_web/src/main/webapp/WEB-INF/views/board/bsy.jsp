@@ -62,6 +62,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+ 
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
 
 <!-- 부트스트랩 -->
 
@@ -176,17 +187,33 @@ right: -90px;
 									<td id="bTitle" class="text-left"><c:out value="${boardVo.bTitle}"></c:out></td>
 									  
 									<td class="text-left" >
+									 
 									<div class="dropdown">
-									  <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" 
-									  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									    <c:out value="${boardVo.userId}"></c:out>
-									  </a> 
-									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　　　　Gallog</button></li>
+  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									 <c:out value="${boardVo.userId}"></c:out>
+									 
+									  </button>
+									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+									<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　　　　Gallog</button></li>
 									    <li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item reId" >　　　　쪽지 보내기</button><li>  
 									    <li> <a class="dropdown-item" href="#">　　음 뭐추가 하지</a> <li>
-									  </div>
+									
+									</ul>
 									</div>
+									
+<!-- 									<div class="dropdown"> -->
+<!-- 									  <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"  -->
+<!-- 									  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+									   
+<!-- 									  </a>  -->
+<!-- 									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> -->
+										
+<!-- 									  </div> -->
+<!-- 									</div> --> 
+									
+									
+									
+									
 									</td>
 									<td onclick='event.cancelBubble=true;'​ class="text-center"><c:out value="${boardVo.bHit}"></c:out></td>
 									<td onclick='event.cancelBubble=true;'​ class="text-center"><c:out value="${boardVo.regDt}"></c:out></td>

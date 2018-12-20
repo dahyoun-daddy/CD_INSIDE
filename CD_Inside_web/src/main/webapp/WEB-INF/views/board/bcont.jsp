@@ -16,10 +16,13 @@
 
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
-<%
-// 	BoardVO vo = (BoardVO) request.getAttribute("list");
 
-%>
+
+ 
+<%
+// 	BoardVO vo = (BoardVO) request.getAttribute("list"); 
+
+%> 
 
 <style>
 .row-centered {
