@@ -51,5 +51,27 @@ public class MainCtrl {
 		
 		return "/main/main.do";
 	} 
-	
+	@RequestMapping(value = "/main2.do")
+	public String do_retrieve2(@ModelAttribute BoardVO invo, Model model, DTO dto) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
+		invo.setPage_num(1);
+		invo.setPage_size(10);
+		
+		List<BoardVO> totalList = boardSvc.do_retrieve(invo);
+		model.addAttribute("totalList", totalList);
+		
+		invo.setbCate("쌍용");
+		List<BoardVO> sistList = boardSvc.do_cateret(invo);
+		model.addAttribute("sistList", sistList);
+		
+		invo.setbCate("링크");
+		List<BoardVO> linkList = boardSvc.do_cateret(invo);
+		model.addAttribute("linkList", linkList);
+		
+		invo.setbHit("1");
+		
+		List<BoardVO> hitList = boardSvc.do_hitretreive(invo);
+		model.addAttribute("hitList", hitList);
+		
+		return "/main/main2.do";
+	} 
 }

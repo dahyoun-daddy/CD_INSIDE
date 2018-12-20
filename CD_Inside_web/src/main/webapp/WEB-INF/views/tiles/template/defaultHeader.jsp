@@ -57,7 +57,7 @@
 			</c:when>
 			<c:otherwise>
 	            <li><a href="/cd/mypage/user_update.do">마이페이지</a></li>
-				<li><a id="log_out" onclick="location.href='<%=cPath%>/user/logout.do'">${sessionName}님 로그아웃</a></li>
+				<li><a id="log_out" style="cursor:pointer" onclick="location.href='<%=cPath%>/user/logout.do'">${sessionName}님 로그아웃</a></li>
 			</c:otherwise>
 		</c:choose>
           </ul>

@@ -494,7 +494,7 @@ public class UserCtrl {
 //    	res.setHeader("Cache-Control", "no-store");
 //    	res.setHeader("Param", "no-store");
 //    	res.setDateHeader("Expries", 0);
-        return "redirect:/user/login.do";
+        return "redirect:/main/main2.do";
     }
 	
 	/**
