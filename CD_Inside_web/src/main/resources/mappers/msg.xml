@@ -171,7 +171,7 @@
    <select id="do_Rretrieve" 
        parameterType="MsgVO"
        resultType="MsgVO"  >
- 		SELECT X.*,Y.*
+		SELECT X.*,Y.*
  		  FROM(
  		SELECT T.MSG_SEQ AS msgSeq,                                  
  				T.USER_ID AS userId,                                  
@@ -188,10 +188,9 @@
  			  FROM MSG HR
  		    WHERE MSG_RDEL_YN = 0
 		      AND MSG_RECV_ID = #{userId}
-		    <include refid="baseCondition"/>
  		  )T
- 		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
- 		    AND (#{page_size} * (#{page_num}-1)+#{page_size})
+ 		  WHERE rnum BETWEEN (10 * (1-1)+1) 
+ 		    AND (10 * (1-1)+10)
  		)X    
  		NATURAL JOIN
  		(
@@ -199,7 +198,6 @@
  		    FROM MSG hr
  		    WHERE MSG_RDEL_YN = 0
 		      AND MSG_RECV_ID = #{userId}
- 		    <include refid="baseCondition"/>
  		)Y      
      </select>  
      
