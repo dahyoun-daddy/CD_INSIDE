@@ -576,7 +576,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
               <div class="row" >
               <!-- float 속성에 따른 div의 겹침 현상 -->
                 <div style=”clear:both;”></div>
-	             <div class="bContbofrm" style="border-bottom:1px solid;">  <textarea rows="30" cols="125"> <c:out value="${list.bCont}"></c:out>  </textarea></div> 
+	             <div class="bContbofrm">  <textarea rows="20" cols="125"> <c:out value="${list.bCont}"></c:out>  </textarea></div> 
 	     		  </div>  
 		 <div style=”clear:both;”></div>
 
@@ -585,7 +585,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		<!-- <hr style="border: solid 2px gray;"> -->
 		 
 		<div class="row"> 
-		  <div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		  <div class="text-right col-xs-12 col-sm-12 col-md-12 col-lg-12"  style="border-bottom:1px solid;">
 		  <a type="button" class="btn btn-default" href="/cd/board/bsy.do">목록</a>
 		     <button id="BoardHit" type="submit" class="btn btn-default">추천+1</button>
 		  </div>

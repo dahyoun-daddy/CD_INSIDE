@@ -94,14 +94,14 @@
 			<input type="hidden" id="bNum" name="bNum" value="<c:out value="${list.bNum}"></c:out>"/>
 			<div class="form-group">
 				<label for="Name">Title</label><br /> 
-				<input type="text" name="bTitle" id="bTitle" maxlength="50" style="width: 1000px" value="<c:out value="${list.bTitle}"></c:out>" />
+				 <input type="text" name="bTitle" id="bTitle" maxlength="50" style="width: 1000px" value="<c:out value="${list.bTitle}"></c:out>" /> 
+				 <input style="VISIBILITY: hidden; WIDTH: 0px">
 			</div>
-			<br /> <label for="textarea">Context</label><br/>
+			<br /> <label for="textarea">Context</label><br/> 
 
 			<div>
 				<textarea name="bCont" id="bCont"
-					style="width: 1000px; height: 400px;"><c:out
-						value="${list.bCont}"></c:out> </textarea>
+					style="width: 1000px; height: 400px;"><c:out value="${list.bCont}"></c:out>  </textarea>
 			</div>
 		</form>
 

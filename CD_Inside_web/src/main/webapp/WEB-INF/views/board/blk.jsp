@@ -111,6 +111,12 @@ right: -90px;
 }
 
 .value{ font-size: 2px; } 
+ 
+ 
+.cu { 
+	color:#ff7626 ;
+	margin-left: 15px;
+}
   
 </style>   
 
@@ -170,19 +176,18 @@ right: -90px;
 							<c:forEach var="boardVo" items="${list}">
 								<tr>
 									<td id="bNum" class="text-center"><c:out value="${boardVo.bNum}"></c:out></td>
-									<td id="bTitle" class="text-left"><c:out value="${boardVo.bTitle}"></c:out></td>
+									<td id="bTitle" class="text-left"><c:out value="${boardVo.bTitle}"></c:out> <span class="ct"><c:out value="${boardVo.commentNo}"></c:out></span></td>
 									  
-									<td class="text-left" >
-									 
-									<div class="dropdown">
-  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									 <c:out value="${boardVo.userId}"></c:out>
-									 
-									  </button>
+									<td class="text-center" >  
+									<div class="dropdown"> 
+ 									 <button class="text-center" id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+ 									   style="border:none; padding:0; background:none;">
+									  <span class="cu">  <c:out value="${boardVo.userId}"></c:out></span>
+									  </button> 
 									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-									<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　　　　Gallog</button></li>
-									    <li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item reId" >　　　　쪽지 보내기</button><li>  
-									    <li> <a class="dropdown-item" href="#">　　음 뭐추가 하지</a> <li>
+										<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　 Gallog</button></li>
+									    <li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item reId" >　 쪽지 보내기</button><li>  
+									    <li><a class="dropdown-item" href="/cd/mypage/user_update.do">마이페이지</a><li>
 									
 									</ul>
 									</div>

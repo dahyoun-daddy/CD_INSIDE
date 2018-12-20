@@ -104,6 +104,19 @@
 	text-align: left;
 }
 
+.boardtext.span { 
+    font-size: 40px; 
+	text-align: left;
+}
+
+bordered>tfoot>tr>td {
+    border: 1px solid #ddd;
+     font-size: 40px; 
+	text-align: left;
+} 
+
+
+
 #listTable {
 	width: 960px;
 	height: 100px;
@@ -128,6 +141,17 @@ right: -90px;
 }
 
 .value{ font-size: 2px; } 
+
+
+.ct { 
+	color:#a133ca ;
+	margin-left: 15px;
+}
+
+.cu { 
+	color:#ff7626 ;
+	margin-left: 15px;
+}
   
 </style>   
 
@@ -177,43 +201,29 @@ right: -90px;
 				</thead>
 				<tbody>
 						<!-- 메모장 출력 영역 ------------------------------------------------------------->
-				<form  name="frm" id="frm" action="/board.do" method="get" class="form-inline">
+				<!-- <form  name="frm" id="frm" action="/board.do" method="get" class="form-inline"> --> 
+				
+				<div class="boardtext">
 				<input type="hidden" name="page_num" id="page_num">
 					<c:choose> 
 						<c:when test="${list.size()>0}">
 							<c:forEach var="boardVo" items="${list}">
 								<tr>
 									<td id="bNum" class="text-center"><c:out value="${boardVo.bNum}"></c:out></td>
-									<td id="bTitle" class="text-left"><c:out value="${boardVo.bTitle}"></c:out></td>
+									<td id="bTitle" class="text-left"><c:out value="${boardVo.bTitle}"></c:out> <span class="ct"><c:out value="${boardVo.commentNo}"></c:out></span> </td>
 									  
-									<td class="text-left" >
-									 
+									<td class="text-center" >
 									<div class="dropdown">
-  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									 <c:out value="${boardVo.userId}"></c:out>
-									 
-									  </button>
+ 									 <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+ 									   style="border:none; padding:0; background:none;">
+									  <span class="cu">  <c:out value="${boardVo.userId}"></c:out></span>
+									  </button> 
 									  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-									<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　　　　Gallog</button></li>
-									    <li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item reId" >　　　　쪽지 보내기</button><li>  
-									    <li> <a class="dropdown-item" href="#">　　음 뭐추가 하지</a> <li>
-									
-									</ul>
+										<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　 Gallog</button></li>
+									    <li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item reId" >　 쪽지 보내기</button><li>  
+									    <li><a class="dropdown-item" href="/cd/mypage/user_update.do">마이페이지</a><li>
+									</ul>    
 									</div>
-									
-<!-- 									<div class="dropdown"> -->
-<!-- 									  <a class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"  -->
-<!-- 									  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-									   
-<!-- 									  </a>  -->
-<!-- 									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> -->
-										
-<!-- 									  </div> -->
-<!-- 									</div> --> 
-									
-									
-									
-									
 									</td>
 									<td onclick='event.cancelBubble=true;'​ class="text-center"><c:out value="${boardVo.bHit}"></c:out></td>
 									<td onclick='event.cancelBubble=true;'​ class="text-center"><c:out value="${boardVo.regDt}"></c:out></td>
@@ -227,7 +237,9 @@ right: -90px;
 							</tr>
 						</c:otherwise>
 					</c:choose>
-				</form>
+					</div>
+			<!-- 	</form> -->
+				
 				</tbody>
 			</table>
 		</div>
