@@ -113,6 +113,12 @@ right: -90px;
 .value{ font-size: 2px; } 
  
  
+ .ct { 
+	color:#a133ca ;
+	margin-left: 15px;
+}
+ 
+ 
 .cu { 
 	color:#ff7626 ;
 	margin-left: 15px;
