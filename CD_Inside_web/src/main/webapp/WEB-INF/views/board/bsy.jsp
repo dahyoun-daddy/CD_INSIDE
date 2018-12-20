@@ -171,7 +171,7 @@ right: -90px;
 									  </a> 
 									  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 										<li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item" id="gallog">　　　　Gallog</button></li>
-									    <li> <a class="dropdown-item" href="#" >　　　쪽지</a> <li>  
+									    <li><button type="button" style="border:none; padding:0; background:none;" value="${boardVo.userId}" class="dropdown-item reId" >　　　　쪽지 보내기</button><li>  
 									    <li> <a class="dropdown-item" href="#">　　음 뭐추가 하지</a> <li>
 									  </div>
 									</div>
@@ -276,6 +276,30 @@ right: -90px;
 	    
 	    $(document).ready(function(){
 	    	//alert("ready");
+	    	
+	    	$(".reId").on("click",function(){
+	    		var reId = $(this).val();
+	    		alert("click"+reId);
+    		   
+	    		
+	    		$.ajax({
+      	            type:"GET",
+      	            url:"/cd/msg/send.do", 
+      	            dataType:"html",
+      	            data:{
+      	            	"reId": reId
+      	            },
+      	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+      		         	location.href="/cd/msg/send.do?reId="+reId;
+      	            },
+      	            complete: function(data){//무조건 수행
+      	             
+      	            },
+      	            error: function(xhr,status,error){
+      	             
+      	            }
+      	         });
+	    	});
 	    	
 	    	$("#note").on("click","button",function(){
 	    		alert("delete");
