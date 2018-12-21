@@ -169,7 +169,7 @@
 								<option value="30" <%if(search_div.equals("30"))out.print("selected='selected'"); %> >내용</option>					
 								
 							</select>							
-						<input type="text" name="search_word" id="search_word" value="${param.search_word}" class="form-control input-sm" placeholder="쪽지검색" />
+						<input type="text" name="search_word" id="search_word" value="${param.search_word}" class="form-control input-sm" placeholder="쪽지검색"  />
 							
 						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		
@@ -177,7 +177,6 @@
 						<button type="button" class="btn btn-default btn-sm"
 							onclick="javascript:doSearch();">검색</button>
 						<button type="button" class="btn btn-default btn-sm" id="do_RDeleteMulti">삭제</button>	
-						<button type="button" class="btn btn-default btn-sm" id="do_NRDelete">삭제</button>						
 											
 						<br/><br/>					
 					</div>
@@ -286,61 +285,10 @@
 	   	 frm.action = "receiveIndex.do";
 	   	 frm.submit();
      }
- 	 
+
+ 	
  	$(document).ready(function(){   
  		
-	
-		$("#do_deleteRAll").on("click",function(){
-			//alert("do_delete");
-			
-			var items = [];//var items=new Array(); 
-			$( "input[name='check']:checked" ).each(function( index,row ) {
-				console.log("index="+index);
-				//console.log("row="+row);
-				var record = $(row).parents("tr");
-				var userId = $(record).find("td").eq(1).text()
-				console.log("msgSeq="+msgSeq);
-				items.push(msgSeq);
-			});
-			
-			if(false==confirm("삭제 하시겠습니까?"))return;
-			
-			var jsonIdList = JSON.stringify(items);
-			//jsonIdList=["107","108"]
-			console.log("jsonIdList="+jsonIdList);
-			
-			
-	        $.ajax({
-	            type:"POST",
-	            url:"deleteRAll.do",
-	            dataType:"html",
-	            data:{
-	            	"userId_list": jsonIdList
-	            },
-	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-		             var parseData = $.parseJSON(data);
-	                 console.log("parseData.flag="+parseData.flag);
-	                 console.log("parseData.message="+parseData.message);
-		         	 if(parseData.flag > 0){
-		         		alert(parseData.message);
-		         		location.href="receiveIndex.do";
-
-		         		doSearch();
-		         	 }else{
-		         		alert(parseData.message);
-		         		
-		         	 }				             
-	            },
-	            complete: function(data){//무조건 수행
-	             
-	            },
-	            error: function(xhr,status,error){
- 
-	            }
-	         });//--ajax
-			
-		});//--do_deleteRAll
-		
 		$("#do_RDeleteMulti").on("click",function(){
 			//alert("do_delete");
 			
@@ -395,55 +343,6 @@
 			
 		});//--do_delete
 
-		$("#do_NRDelete").on("click",function(){
-			//alert("do_delete");
-			
-			var items = [];//var items=new Array(); 
-			$( "input[name='check']:checked" ).each(function( index,row ) {
-				console.log("index="+index);
-				//console.log("row="+row);
-				var record = $(row).parents("tr");
-				var msgSeq = $(record).find("td").eq(1).text()
-				console.log("msgSeq="+msgSeq);
-				items.push(msgSeq);
-			});
-			console.log("items.length="+items.length);
-			
-			if(false==confirm("삭제 하시겠습니까?"))return;
-			
-			var jsonIdList = JSON.stringify(items);
-			//jsonIdList=["107","108"]
-			console.log("jsonIdList="+jsonIdList);
-			
-	        $.ajax({
-	            type:"POST",
-	            url:"do_NRDelete.do",
-	            dataType:"html",
-	            data:{
-	            	"userId_list": jsonIdList
-	            },
-	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
-		             var parseData = $.parseJSON(data);
-	                 console.log("parseData.flag="+parseData.flag);
-	                 console.log("parseData.message="+parseData.message);
-		         	 if(parseData.flag > 0){
-		         		alert(parseData.message);
-		        		doSearch();
-		         	 }else{
-		         		alert(parseData.message);
-		         		location.href="receiveIndex.do";
-
-		         	 }				             
-	            },
-	            complete: function(data){//무조건 수행
-	             
-	            },
-	            error: function(xhr,status,error){
-
-	            }
-	         });//--ajax
-			
-		});//--do_delete		
 		
 		$("#listTable>tbody").on("click","tr",function(){
 			console.log("1 #listTable>tbody");
