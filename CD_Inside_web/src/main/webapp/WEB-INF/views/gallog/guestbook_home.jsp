@@ -74,23 +74,16 @@ hr.hr{
 <div class="container">
 
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
-		<div class="bg-success" style="width:955px;">
-			<div class="text-primary">
+		<div style="width:955px; background-color: #BE81F7; color: #FFFFFF; height:40px;">
 			(<%= userId2%>)님의 갤로그입니다.
-			</div>	
-			<div class="text-right text-primary" >
-		    <span class="today_num">Today <em>()</em></span>
-		    <span class="total_num">Total <em>()</em></span>
-		    </div>
-			 
 		</div>
 		<!--// 갤로그 공통 부분 ------------------------------------------------------->
 		<br>	
 		<!-- 갤로그 이동 버튼 영역------------------------------------------------------->
 		<ul class="nav nav-pills">          
-				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.do?userId=<%=userId2%>">갤로그홈</a></li>
-				<li role="presentation"><a href="<%=context%>/gallog/notebook_home.do?userId=<%=userId2%>">메모장</a></li>
-				<li role="presentation" class="active" ><a href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId2%>">방명록</a></li>
+				 <li role="presentation"><a style=" color: #BE81F7" href="<%=context%>/gallog/gallog_home.do?userId=<%=userId2%>">갤로그홈</a></li>
+				<li role="presentation"><a style=" color: #BE81F7" href="<%=context%>/gallog/notebook_home.do?userId=<%=userId2%>">메모장</a></li>
+				<li role="presentation" class="active" ><a style="background-color: #BE81F7; color: #FFFFFF" href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId2%>">방명록</a></li>
 		  </ul>	
 		<br>
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
@@ -106,10 +99,10 @@ hr.hr{
 		<div style="float:left;">
 			<input type="text" style="width:250px; height:40px;" id="gId" maxlength="30" placeholder="닉네임"><br/>
 			<input type="text" style="width:250px; height:40px;" id="gPw" maxlength="30" placeholder="비밀번호"><br/><br/><br/>
-			<input type="button" class="btn btn-info" value="등록" style="width:100px; margin-left:70px;" id="do_save">
+			<input type="button" class="btn btn-primary" value="등록" style="width:100px; margin-left:70px;" id="do_save">
 		</div>
 		<div style="float:right">
-			<textarea style="width:700px; height:150px;" id="gCont" maxlength="2000"></textarea>
+			<textarea style="width:700px; height:150px; resize: none;" id="gCont" maxlength="1000"></textarea>
 		</div>
 		</div>
 		<!--// 방명록 등록 영역 ----------------------------------------------------------->
@@ -136,8 +129,8 @@ hr.hr{
 						<div class="parent" style="width:955px;" >
 							<table style="margin-top:20px; width:955px">
 							<tr>
-								<td class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><c:out value="${gallogVo.gId}"></c:out></td>
-								<td style="width:955px;word-break:break-all;word-wrap:break-word;" class="col-xs-7 col-sm-7 col-md-7 col-lg-7"><c:out value="${gallogVo.gCont}"></c:out></td>
+								<td style="word-break:break-all;word-wrap:break-word;" class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><c:out value="${gallogVo.gId}"></c:out></td>
+								<td style="width:955px;word-break:break-all;word-wrap:break-word;" class="col-xs-7 col-sm-7 col-md-7 col-lg-7"><pre style="border:0; overflow: auto; white-space: pre-wrap; background-color:white;"><c:out value="${gallogVo.gCont}"></c:out></pre></td>
 								<td align="center" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"><c:out value="${gallogVo.regDt}"></c:out></td>
 							</tr>
 							</table>
@@ -219,13 +212,24 @@ hr.hr{
     $(document).ready(function(){   
     	
     	$("#do_save").on("click",function(){
+			var blank_pattern = /[\s]/g;// 공백
     		
-            	  if ($("#gId").val()=="" ||
-                    $("#gPw").val()=="" ||
-                    $("#gCont").val()==""){
-                    alert('내용이없심니더');
-                  		return;  
-            	  }
+            	  if ($("#gId").val()==""){
+            		  alert("닉네임은 필수입네다.");
+            		  return;
+            	  }else if( $("#gId").val().match(blank_pattern)){
+            		  alert("닉네임에 공백을 쓸 수 없습니다.");
+            		  return;
+            	  }else if($("#gPw").val()==""){
+            		  alert("비밀번호는 필수입니다.");
+            		  return;
+            	  }else if($("#gPw").val().match(blank_pattern)){
+            		  alert("비밀번호에 공백을 쓸 수 없습니다.");
+            		  return;
+            	  }else if($("#gCont").val()==""){
+            		  alert("내용 항목은 필수입니다.");
+            		  return;
+            	  } 
 
     		
 			 if(false==confirm("등록 하시겠습니까?"))return;

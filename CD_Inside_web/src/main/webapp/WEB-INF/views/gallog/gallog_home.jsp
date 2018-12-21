@@ -63,24 +63,17 @@
 <div class="container">
 
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
-		<div class="bg-success" style="width:955px;">
-			<div class="text-primary">
+		<div style="width:955px; background-color: #BE81F7; color: #FFFFFF; height:40px;">
 			(<%= userId2%>)님의 갤로그입니다.
-			</div>	
-			<div class="text-right text-primary" >
-		    <span class="today_num">Today <em>()</em></span>
-		    <span class="total_num">Total <em>()</em></span>
-		    </div>
-			 
 		</div>
 		<!--// 갤로그 공통 부분 ------------------------------------------------------->
 		<br>
 		       
 		<!-- 갤로그 이동 버튼 영역------------------------------------------------------->
 		<ul class="nav nav-pills">
-				<li role="presentation" class="active"><a href="<%=context%>/gallog/gallog_home.do?userId=<%=userId2%>">갤로그홈</a></li>
-				<li role="presentation"><a href="<%=context%>/gallog/notebook_home.do?userId=<%=userId2%>">메모장</a></li>
-				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId2%>">방명록</a></li>
+				<li role="presentation" class="active"><a style="background-color: #BE81F7; color: #FFFFFF" href="<%=context%>/gallog/gallog_home.do?userId=<%=userId2%>">갤로그홈</a></li>
+				<li role="presentation"><a style=" color: #BE81F7" href="<%=context%>/gallog/notebook_home.do?userId=<%=userId2%>">메모장</a></li>
+				<li role="presentation" ><a style=" color: #BE81F7" href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId2%>">방명록</a></li>
 		  </ul>	
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
@@ -113,7 +106,7 @@
 						</div>
 						<div id="contents" style="width:955px;word-break:break-all;word-wrap:break-word;">
 						<hr/>
-							<c:out value="${gallogVo.gCont}"></c:out>
+							<pre style="border:0; overflow: auto; white-space: pre-wrap; background-color:white;"><c:out value="${gallogVo.gCont}"></c:out></pre>
 						</div>
 						<hr/>
 					</div>
@@ -128,7 +121,7 @@
 		</div>
 
 		<div class="text-danger" style="width:955px;height:70px;">
-			<div style="float:left;">
+			<div style="float:left;"><br/><br/><br/>
 				<strong>·방명록 (<%=totalCnt2 %>)</strong>
 			</div>
 		</div>
@@ -140,8 +133,8 @@
 						<div class="parent" style="width:955px;" >
 							<table style="margin-top:20px; width:955px">
 							<tr>
-								<td class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><c:out value="${gallogVo.gId}"></c:out></td>
-								<td style="width:955px;word-break:break-all;word-wrap:break-word;" class="col-xs-7 col-sm-7 col-md-7 col-lg-7"><c:out value="${gallogVo.gCont}"></c:out></td>
+								<td style="word-break:break-all;word-wrap:break-word;"class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><c:out value="${gallogVo.gId}"></c:out></td>
+								<td style="width:955px;word-break:break-all;word-wrap:break-word;" class="col-xs-7 col-sm-7 col-md-7 col-lg-7"><pre style="border:0; overflow: auto; white-space: pre-wrap; background-color:white;"><c:out value="${gallogVo.gCont}"></c:out></pre></td>
 								<td align="center" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"><c:out value="${gallogVo.regDt}"></c:out></td>
 							</tr>
 							</table>

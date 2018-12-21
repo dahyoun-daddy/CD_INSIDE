@@ -59,24 +59,17 @@
 <div class="container">
 
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
-		<div class="bg-success" style="width:955px;">
-			<div class="text-primary">
-			(<%= userId2%>)님의 갤로그입니다.   
-			</div>	
-			<div class="text-right text-primary" >
-		    <span class="today_num">Today <em>()</em></span>
-		    <span class="total_num">Total <em>()</em></span>
-		    </div>
-			 
+		<div style="width:955px; background-color: #BE81F7; color: #FFFFFF; height:40px;">
+			(<%= userId2%>)님의 갤로그입니다.
 		</div>
 		<!--// 갤로그 공통 부분 ------------------------------------------------------->
 		<br>
 		       
 		<!-- 갤로그 이동 버튼 영역------------------------------------------------------->
 		<ul class="nav nav-pills">
-				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.do?userId=<%=userId2%>">갤로그홈</a></li>
-				<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do?userId=<%=userId2%>">메모장</a></li>
-				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId2%>">방명록</a></li>
+				 <li role="presentation"><a style=" color: #BE81F7"  href="<%=context%>/gallog/gallog_home.do?userId=<%=userId2%>">갤로그홈</a></li>
+				<li role="presentation" class="active"><a style="background-color: #BE81F7; color: #FFFFFF" href="<%=context%>/gallog/notebook_home.do?userId=<%=userId2%>">메모장</a></li>
+				<li role="presentation" ><a style=" color: #BE81F7"  href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId2%>">방명록</a></li>
 		  </ul>	
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
@@ -118,7 +111,8 @@
 						</div>
 						<div id="contents" style="width:955px;word-break:break-all;word-wrap:break-word;">
 						<hr/>
-							<c:out value="${gallogVo.gCont}"></c:out>
+							<pre style="border:0; overflow: auto; white-space: pre-wrap; background-color:white;"><c:out value="${gallogVo.gCont}"></c:out></pre>
+							 
 						</div>
 						<hr/>
 						<div style="float:right;">

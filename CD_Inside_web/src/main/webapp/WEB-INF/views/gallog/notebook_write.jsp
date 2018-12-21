@@ -42,24 +42,17 @@
 <div class="container">
 
 		<!-- 갤로그 공통 부분 --------------------------------------------------------->
-		<div class="bg-success" style="width:955px;">
-			<div class="text-primary">
+		<div style="width:955px; background-color: #BE81F7; color: #FFFFFF; height:40px;">
 			(<%=userId%>)님의 갤로그입니다.              
-			</div>	
-			<div class="text-right text-primary" >
-		    <span class="today_num">Today <em>()</em></span>
-		    <span class="total_num">Total <em>()</em></span>
-		    </div>
-			 
 		</div>
 		<!--// 갤로그 공통 부분 ------------------------------------------------------->
 		<br>
 				
 		<!-- 갤로그 이동 버튼 영역------------------------------------------------------->
 		<ul class="nav nav-pills">
-				 <li role="presentation"><a href="<%=context%>/gallog/gallog_home.do?userId=<%=userId%>">갤로그홈</a></li>
-			<li role="presentation" class="active"><a href="<%=context%>/gallog/notebook_home.do?userId=<%=userId%>">메모장</a></li>
-				<li role="presentation" ><a href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId%>">방명록</a></li>
+				 <li role="presentation"><a style=" color: #BE81F7" href="<%=context%>/gallog/gallog_home.do?userId=<%=userId%>">갤로그홈</a></li>
+			<li role="presentation" class="active"><a style="background-color: #BE81F7; color: #FFFFFF" href="<%=context%>/gallog/notebook_home.do?userId=<%=userId%>">메모장</a></li>
+				<li role="presentation" ><a style=" color: #BE81F7" href="<%=context%>/gallog/guestbook_home.do?userId=<%=userId%>">방명록</a></li>
 		  </ul>	
 		
 		<!--// 갤로그 이동 버튼 영역----------------------------------------------------->
@@ -71,10 +64,11 @@
 		<input type="hidden" name="gSeq" id="gSeq" value="${list.gSeq}">
 		<div>
 			<input type="text" name="gTitle" id="gTitle" maxlength="50" style="width:800px" value="${list.gTitle}"/>
+			<input style="VISIBILITY: hidden; WIDTH: 0px">
 		</div>
 		
 		<div>
-			<textarea name="gCont" id="gCont" maxlength="3000" style="width:800px;height:500px;">${list.gCont}</textarea>
+			<textarea name="gCont" id="gCont" maxlength="3000" style="width:800px;height:500px; resize: none;">${list.gCont}</textarea>
 		</div>
 		</form>
 		
@@ -119,11 +113,14 @@
     	
     	$("#do_save").on("click",function(){
     		
-      	 	   if ($("#gTitle").val()=="" ||
-                  $("#gCont").val()==""){
-                  alert('내용이없심니더');
-                		return;  
-          	  }
+      	  if ($("#gTitle").val()==""){
+    		  alert("제목 항목은 필수입니다.");
+    		  return;
+    	  }else if($("#gCont").val()==""){
+    		  alert("내용 항목은 필수입니다.");
+    		  return;
+    	  }
+          	  
     		
 			 if(false==confirm("등록 하시겠습니까?"))return;
 			  
