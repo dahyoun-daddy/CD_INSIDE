@@ -17,7 +17,7 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 
-
+ 
  
 <%
 // 	BoardVO vo = (BoardVO) request.getAttribute("list"); 
@@ -37,7 +37,7 @@
 	/* inline-block space fix */
 	margin-right: -4px;
 }
-
+ 
 
 </style> 
  

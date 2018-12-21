@@ -32,6 +32,10 @@
 	color: gray;
 }
 
+#commentcont {
+  resize: none; 
+}
+
 .cursor {
 	cursor: pointer;
 }
