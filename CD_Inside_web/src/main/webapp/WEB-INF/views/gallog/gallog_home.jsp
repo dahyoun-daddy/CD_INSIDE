@@ -121,7 +121,7 @@
 		</div>
 
 		<div class="text-danger" style="width:955px;height:70px;">
-			<div style="float:left;"><br/><br/><br/>
+			<div style="float:left;">
 				<strong>·방명록 (<%=totalCnt2 %>)</strong>
 			</div>
 		</div>
