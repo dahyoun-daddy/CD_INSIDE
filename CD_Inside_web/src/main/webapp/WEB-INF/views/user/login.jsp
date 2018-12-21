@@ -38,9 +38,9 @@
 		         <div style="height:100px">
 		    	<div class="col-sm-3"></div>
 		         <div class="form-group input-sm col-sm-7" align="center"  ><hr/>
-		         	<a style="text-left" href="user_join.do" id="login" value="login"> 회원가입  </a> ┃ 
-		         	<a style="text-left" href="user_id.do"  id="idFind" value="idFind"> 아이디 찾기 </a> ┃ 
-		         	<a style="text-left" href="user_pw.do"  id="pwFind" value="pwFind"> 비밀번호 찾기</a><hr/>
+		         	<a style="text-left; color: #BE81F7" href="user_join.do" id="login" value="login"><b> 회원가입 </b> </a> ┃ 
+		         	<a style="text-left; color: #BE81F7"" href="user_id.do"  id="idFind" value="idFind"><b> 아이디 찾기 </b></a> ┃ 
+		         	<a style="text-left; color: #BE81F7"" href="user_pw.do"  id="pwFind" value="pwFind"><b> 비밀번호 찾기</b></a><hr/>
 		         </div>
 		         </div>
 		     </form>

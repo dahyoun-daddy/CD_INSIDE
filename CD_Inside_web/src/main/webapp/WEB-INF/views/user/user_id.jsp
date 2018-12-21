@@ -49,11 +49,13 @@
 	        <div class="col-sm-2" ></div>
 	        
 	        <div class="col-sm-3" ></div>
-	        <div class="col-sm-6" align="center"><br/>
+	        <div class="col-sm-6" align="center">
 		    	<input class="btn btn-primary" type="button" value="취소" onclick="history.go(-1)">
 		    	<input class="btn btn-primary " type="button" id="idCheck" value="확인">
 			</div>
-	        <div class="col-sm-3" ></div>
+	        <div class="col-sm-3" ><br/></div>
+	        <div class="col-sm-12"><br></div>
+	        
 	    </form>
 	</tbody>
 	   </div>     
