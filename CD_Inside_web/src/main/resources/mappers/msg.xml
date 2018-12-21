@@ -6,7 +6,6 @@
 <mapper namespace="com.sist.cd.mappers.msg">
 
     <sql id="baseCondition">
-  	  <where>
 	    	<choose>
 	    		<when test="'40'==search_div">
 	    		    hr.user_id like  #{search_word}||'%'
@@ -19,7 +18,6 @@
 	    		</when>		    		
 	    		<otherwise></otherwise>
 	    	</choose>
-		</where>
     </sql>
 
 	<!-- 등록 -->
@@ -188,9 +186,8 @@
 			SELECT HR.*                                  
 				  ,ROW_NUMBER() OVER(ORDER BY MSG_READ_YN DESC , REG_DT DESC ) AS RNUM       
  			  FROM MSG HR
-		   WHERE msg_recv_id = #{userId}
-		   AND msg_rdel_yn = 0		   
-		    <include refid="baseCondition"/>		      
+ 		    WHERE MSG_RDEL_YN = 0
+		      AND MSG_RECV_ID = #{userId}
  		  )T
  		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
  		    AND (#{page_size} * (#{page_num}-1)+#{page_size})
@@ -199,8 +196,8 @@
  		(
  		  SELECT COUNT(*) AS total_cnt   
  		    FROM MSG hr
- 		 WHERE msg_rdel_yn = 0
-		   AND msg_recv_id = #{userId}
+ 		    WHERE MSG_RDEL_YN = 0
+		      AND MSG_RECV_ID = #{userId}
  		)Y      
      </select>  
      
@@ -222,8 +219,8 @@
 			SELECT hr.*                                  
 				  ,ROW_NUMBER() OVER(ORDER BY MSG_READ_YN desc , REG_DT desc ) AS rnum       
  			  FROM MSG hr
-		   WHERE USER_ID = #{userId}
-		   AND msg_sdel_yn = 0 			  
+		    WHERE msg_sdel_yn = 0
+		      AND USER_ID = #{userId}
 		    <include refid="baseCondition"/>
  		  )T
  		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
@@ -235,6 +232,7 @@
  		    FROM MSG hr
 		    WHERE msg_sdel_yn = 0
 		      AND USER_ID = #{userId}
+ 		    <include refid="baseCondition"/>
  		)Y      
      </select>               	
 	    
