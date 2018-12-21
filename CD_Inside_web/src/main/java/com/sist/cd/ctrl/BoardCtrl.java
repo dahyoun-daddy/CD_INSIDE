@@ -185,7 +185,7 @@ public class BoardCtrl {
 	}
 	
 	 
-	@RequestMapping(value = "/blk.do")  
+	@RequestMapping(value = "/blk.do" ,method = RequestMethod.GET)  
 	public String do_cateretLK(@ModelAttribute BoardVO invo, Model model,HttpServletRequest req) throws EmptyResultDataAccessException, ClassNotFoundException, SQLException {
 
 		String page_num = (String) req.getParameter("page_num");
@@ -227,10 +227,10 @@ public class BoardCtrl {
 			log.info("totalCnt: " + totalCnt);
 		}
 		
-//		CodeVO codePage=new CodeVO();
-//		codePage.setCd_id("C_001");
-//		
-//		model.addAttribute("code_page",boardSvc.do_cateret(codePage));
+		CodeVO codeVO=new CodeVO();
+		codeVO.setCd_id("C_002");
+		
+		model.addAttribute("code_page",codeSvc.do_retrieve(codeVO));
 		
 		model.addAttribute("totalCnt", totalCnt);
 		model.addAttribute("list", list);
