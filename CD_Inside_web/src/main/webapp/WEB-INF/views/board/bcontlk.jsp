@@ -13,10 +13,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/cd/resources/css/scrollcomment.css" rel="stylesheet" type="text/css">
-<!-- 스타일 분리 -->
 
-<script type="text/javascript">
+<link href="/cd/resources/css/scrollcomment.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript"> 
+ 
+	$(function(){
+		$('#commentcont').keyup(function(){
+		bytesHandler(this);
+		});
+	});
+
+	function getTextLength(str) {
+		var len = 0;
+	
+		for (var i = 0; i < str.length; i++) {
+			if (escape(str.charAt(i)).length == 6) {
+				len++;
+			}
+			len++;
+		}
+		
+		return len;
+	}
+
+	function bytesHandler(obj){
+		var text = $(obj).val();
+		var area = getTextLength(text);
+		var bo = area + '/300 Byte';
+		$('p.bytes').text(bo);
+	}
 
 //수정버튼 눌렸을때
 $(document).on('click','#commentUpdate', function() {
@@ -131,13 +157,14 @@ $(document).on('click','#coomentDelete', function() {
   
 //댓글달기
 $(document).on('click','#commentadd', function() {
-	var cont = $("#commentcont").val();
-	var n = cont.length;
+	var cont = $("#commentcont").val().replace(/\n/g, '<br>');
 	
 	var regexp = /[A-Za-z0-9]{140}/g;
 	
-	if(n > 500){
-		alert('댓글수가 너무 많습니다. 500자 이하로 작성해주세요.');
+	var area = getTextLength(cont);
+	
+	if(area > 300){
+		alert('댓글수가 너무 많습니다. 300자 이하로 작성해주세요.');
 		return false;
 	}
 	
@@ -224,7 +251,7 @@ $(document).on('click','#commentadd', function() {
 $(document).on('click','#replyadd', function() {
 	var parent = $(this).parents(".container");
 	var commTextNum = $(parent).find(".commTextNum").val();
-	var cont   = $(parent).find("#commentReplyTextarea").val(); 
+	var cont   = $(parent).find("#commentReplyTextarea").val().replace(/\n/g, '<br>'); 
 	
 	if(cont.length == 0){
 		alert('내용을 입력해주세요.');
@@ -307,7 +334,7 @@ $(document).on('click','#replyadd', function() {
 					+		'</div>'
 					+		'</div>'
 					+		'</div>';
-					
+					  
 			if(nextClass=='replyDiv'){
 				$(next).prepend(str);
 			}else{
@@ -574,7 +601,7 @@ function pagingList(){
 		    				+				'</div>'
 		    				+			'</div>'
 		    				+			'<div class="p">'
-		    				+				'<p>'+value.commCont+'</p>'
+		    				+			'<p>'+value.commCont+'</p>'
 		    				+			'</div>'
 		    				+				'<img class="cursor" id="like" src="/cd/resources/img/like.jpg"'
 		    				+				'onmouseover="bigImg(this)" onmouseout="normalImg(this)"'
@@ -837,13 +864,13 @@ $(window).scroll(function(){
 		       <div style="float:right;"><b>+<c:out value="${list.bHit}"></c:out></b></div>
 		       
 		       <div class="hiddenbNum"><c:out value="${list.bNum}"></c:out></div>
-		       
+		        
            </div>  
            
               <div class="row" >
               <!-- float 속성에 따른 div의 겹침 현상 -->
                 <div style=”clear:both;”></div>
-                 <div class="bContbofrm">  <textarea style="background-color:#f9ffa9;" readonly="readonly" rows="20" cols="125"> <c:out value="${list.bCont}"></c:out>  </textarea></div> 
+                 <div class="bContbofrm">  <textarea style="resize: vertical; background-color:#f9ffa9;" readonly="readonly" rows="20" cols="125"> <c:out value="${list.bCont}"></c:out>  </textarea></div> 
 	     		  </div>  
 		 <div style=”clear:both;”></div>
 
@@ -887,6 +914,9 @@ $(window).scroll(function(){
 			<label for="comment">댓글</label>
 			<textarea id="commentcont" class="form-control" rows="3"
 				placeholder="댓글을 입력하세요." ></textarea>
+				<div>
+					<p class="bytes">0/300 Byte</p>
+				</div>
 		</div>
 		<button id="commentadd" class="btn btn-default">댓글달기</button>
 	</div>

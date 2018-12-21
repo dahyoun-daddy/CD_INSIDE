@@ -8,6 +8,10 @@
 	margin-bottom: 5px;
 	padding-left: 30px;
 }
+
+.bytes{
+	text-align: right;
+}
  
 .media_reply {
 	margin-bottom: 5px;
@@ -26,6 +30,10 @@
 
 .cursor {
 	cursor: pointer;
+}
+
+#commentReplyTextarea {
+	resize: none;
 }
 
 #commentReply {

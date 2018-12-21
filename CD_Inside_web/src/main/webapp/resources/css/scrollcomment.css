@@ -1,5 +1,17 @@
 @charset "UTF-8";
 
+#commentcont {
+	resize: none;
+}
+
+#commentReplyTextarea {
+	resize: none;
+}
+
+.bytes{
+	text-align: right;
+}
+
 .row-centered {
 	text-align: center;
 }
@@ -15,7 +27,8 @@
 .container{
 	margin-top: 30px;
 }
- 
+
+
 .media {
 	margin-bottom: 5px;
 	padding-left: 30px;
@@ -30,10 +43,6 @@
 	width: 18px;
 	height: 18px;
 	color: gray;
-}
-
-#commentcont {
-  resize: none; 
 }
 
 .cursor {
