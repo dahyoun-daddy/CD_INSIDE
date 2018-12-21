@@ -150,15 +150,14 @@
 						,ROW_NUMBER() OVER(ORDER BY b_num desc ) AS rnum
 						FROM board bo
 						<include refid="baseCondition"/>
-						WHERE b_cate = #{bCate}
 						)B
 				  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) AND (#{page_size} * (#{page_num}-1)+#{page_size})
 		     	 )X
 				NATURAL JOIN
 		(
 		SELECT COUNT(*) AS total_cnt
-		  FROM board
-		 WHERE b_cate = #{bCate}
+		  FROM board bo
+		 WHERE bo.b_cate = #{bCate}  
 		)Y
 	</select>
 	
@@ -174,7 +173,7 @@
 	    		    bo.b_title like '%'|| #{search_word}||'%'
 	    		</when>
 	    		<when test="'70'==search_div">
-	    		    bo.b_cont like '%'|| #{search_word}||'%'
+	    		    bo.b_cont || bo.b_cont like '%'|| #{search_word}||'%'
 	    		</when>		    		
 	    		<otherwise></otherwise>
 	    	</choose>
