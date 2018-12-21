@@ -47,7 +47,6 @@ public class MsgDAOTest {
 	private MockMvc mockMvc;
 	
 	
-	
 	@Autowired
 	private MsgDAO msgDao;
 	MsgVO  inVO1 = null;
@@ -86,32 +85,7 @@ public class MsgDAOTest {
 
 	}
 	
-//	@Ignore
-	@Test
-	public void delete() throws SQLException, ClassNotFoundException {
-		//--------------------------------------------
-		//0.1건 삭제 
-		//--------------------------------------------
-		msgDao.add(inVO4); 
-		msgDao.delete(inVO4); //됨
-		//		inVO1 = new MsgVO("400","보낸이","받는이","내용","2018-11-15","읽지않음");
-
-		//--------------------------------------------
-		//1.보낸쪽지 전부 삭제   ex) "보낸이가" 가 보낸 보낸쪽지 전부 삭제 
-		//--------------------------------------------
-		msgDao.deleteSAll("보낸이"); //됨 
-
-		//--------------------------------------------
-		//2.받은쪽지 전부 삭제   ex) "받는이2" 가 받은 받은쪽지 전부 삭제 
-		//--------------------------------------------
-		msgDao.deleteRAll("받는이");  //됨
-		
-		//--------------------------------------------
-		//3.안 읽은쪽지 전부 삭제   ex) "받는이3" 가 받은 받은쪽지 중 읽지않은 쪽지 전부 삭제 
-		//--------------------------------------------
-		msgDao.deleteN("받는이");  //됨		
-	}
-
+	
 //	@Ignore	
 	@Test
 	public void add() throws SQLException, ClassNotFoundException {
@@ -124,7 +98,6 @@ public class MsgDAOTest {
 		msgDao.add(inVO1); 
 		LOG.info("★★★inVO1" + inVO1);
 		
-//		inVO1 = new MsgVO("406","보낸이","받는이","내용","2018-11-15","읽지않음");
 
 	}	
 	
@@ -136,12 +109,12 @@ public class MsgDAOTest {
 		//--------------------------------------------
 		//0. 받은쪽지 전체 갯수
 		//--------------------------------------------
-		assertThat(msgDao.getAllCount("abc"),is(6)); //abc 기준, 받은쪽지 갯수
+		assertThat(msgDao.getAllCount("abcd"),is(0)); //abc 기준, 받은쪽지 갯수
 		
 		//--------------------------------------------
 		//1. 받은쪽지 중 안 읽은 쪽전체 갯수
 		//--------------------------------------------
-		assertThat(msgDao.getNCount("abc"),is(6)); //abc 기준, 안읽은쪽지 갯수 
+		assertThat(msgDao.getNCount("abcd"),is(0)); //abc 기준, 안읽은쪽지 갯수 
 
 	}	
 	
@@ -176,6 +149,9 @@ public class MsgDAOTest {
 //	@Ignore		
 	@Test
 	public void do_Rretrieve() throws SQLException, ClassNotFoundException {
+		//--------------------------------------------
+		//1. 받은 쪽지 목록 출력
+		//--------------------------------------------
 		List<MsgVO> list = msgDao.do_Rretrieve(inVO1);
 			LOG.info("do_retrieve_list:"+list);
 	}	
@@ -183,6 +159,9 @@ public class MsgDAOTest {
 //	@Ignore		
 	@Test
 	public void do_Sretrieve() throws SQLException, ClassNotFoundException {
+		//--------------------------------------------
+		//1. 보낸 쪽지 목록 출력
+		//--------------------------------------------
 		List<MsgVO> list = msgDao.do_Sretrieve(inVO1);
 			LOG.info("do_retrieve_list:"+list);
 	}	
