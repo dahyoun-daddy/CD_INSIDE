@@ -132,6 +132,7 @@
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
 								<td align="center"><c:out value="${userVo.no}"/></td>
 								<td align="center">
+								<div>
 									<a style="cursor:pointer; color: #BE81F7;" class="up"><c:out value="${userVo.userId}"/></a>
 								</td>
 								<td align="center"><c:out value="${userVo.userName}"/></td>

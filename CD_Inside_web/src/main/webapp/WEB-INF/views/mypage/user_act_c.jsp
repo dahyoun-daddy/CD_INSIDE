@@ -127,9 +127,8 @@
 						<c:forEach var="commentVo" items="${list}">
 							<tr>
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
-								<td style="display:none" align="center" class="boardNum"><c:out value="${commentVo.bNum}"/></td>
-								<td align="center">
-									<a class="up" style="cursor:pointer; color: #BE81F7"><c:out value="${commentVo.commCont}"/></a>
+								<td style="display:none" align="center" class="commNum"><c:out value="${commentVo.bNum}"/></td>
+								<td align="center" class="up"><div style="white-space: pre;"><a style="cursor:pointer; color: #BE81F7;"><c:out value="${commentVo.commCont}"/></a></div>
 								</td>
 								<td align="center" ><c:out value="${commentVo.regDt}"/></td>
 								<td style="display:none" align="center" ><c:out value="${commentVo.commTextNum}"/></td>
