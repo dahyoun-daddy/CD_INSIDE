@@ -130,10 +130,12 @@
 						<c:forEach var="userVo" items="${list}">
 							<tr>
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
-								<td align="center"><c:out value="${userVo.no}"></c:out></td>
-								<td align="center"><c:out value="${userVo.userId}"></c:out></td>
-								<td align="center"><c:out value="${userVo.userName}"></c:out></td>
-								<td align="center"><c:out value="${userVo.regDt}"></c:out></td>
+								<td align="center"><c:out value="${userVo.no}"/></td>
+								<td align="center">
+									<a style="cursor:pointer; color: #BE81F7;" class="up"><c:out value="${userVo.userId}"/></a>
+								</td>
+								<td align="center"><c:out value="${userVo.userName}"/></td>
+								<td align="center"><c:out value="${userVo.regDt}"/></td>
 							</tr>
 						</c:forEach>
 					</c:when>
@@ -194,10 +196,10 @@
     $(document).ready(function(){   
 		
     	
-    	$("#listTable>tbody").on("dblclick","tr",function(){
+    	$("#listTable>tbody").on("click",".up",function(){
 			var tr = $(this);
 			var td = tr.children();
-			var userId = td.eq(2).text();
+			var userId = tr.text();
 			console.log("2 userId="+userId);
 			
 			if(confirm(userId+"를 수정하시겠습니까?"))

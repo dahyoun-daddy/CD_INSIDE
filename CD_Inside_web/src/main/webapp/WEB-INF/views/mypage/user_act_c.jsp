@@ -128,8 +128,8 @@
 							<tr>
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
 								<td style="display:none" align="center" class="boardNum"><c:out value="${commentVo.bNum}"/></td>
-								<td align="center" class="up">
-									<a style="cursor:pointer; color: #BE81F7"><c:out value="${commentVo.commCont}"/></a>
+								<td align="center">
+									<a class="up" style="cursor:pointer; color: #BE81F7"><c:out value="${commentVo.commCont}"/></a>
 								</td>
 								<td align="center" ><c:out value="${commentVo.regDt}"/></td>
 								<td style="display:none" align="center" ><c:out value="${commentVo.commTextNum}"/></td>

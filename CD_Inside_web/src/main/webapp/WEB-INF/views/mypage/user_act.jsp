@@ -172,8 +172,8 @@
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
 								<td align="center" class="boardNum"><c:out value="${boardVo.bNum}"/></td>
 								<td align="center" ><c:out value="${boardVo.bCate}"/></td>
-								<td align="center" class="up">
-									<a style="cursor:pointer; color: #BE81F7"><c:out value="${boardVo.bTitle}"/></a>
+								<td align="center" >
+									<a class="up" style="cursor:pointer; color: #BE81F7"><c:out value="${boardVo.bTitle}"/></a>
 								</td>
 								<td align="center" ><c:out value="${boardVo.regDt}"/></td>
 								<td align="center" ><c:out value="${boardVo.bCount}"/></td>
