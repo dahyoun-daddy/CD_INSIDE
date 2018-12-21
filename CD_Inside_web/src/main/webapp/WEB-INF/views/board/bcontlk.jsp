@@ -48,7 +48,8 @@
 $(document).on('click','#commentUpdate', function() {
 	var parent = $(this).parents(".container");
 	var commentmeta = $(this).parents(".comment-meta");
-	var cont = $(parent).find("p").text();
+	
+	var cont = $(parent).find("p").html().replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
 	
 	console.log($(parent).find('.collapse').val());
 	
@@ -74,7 +75,7 @@ $(document).on('click','#commentUpdate', function() {
 $(document).on('click','#commentUpdateComplete', function() {
 	var parent = $(this).parents(".container");
 	var commTextNum = $(parent).find(".commTextNum").val();
-	var commCont = $(parent).find("#commentTextarea").val();
+	var commCont = $(parent).find("#commentTextarea").val().replace(/\n/g, '<br>');
 	var params = {
 			commTextNum : commTextNum,
 			commCont		  : commCont
@@ -99,7 +100,8 @@ $(document).on('click','#commentUpdateComplete', function() {
 $(document).on('click','#commentUpdateCancel', function() {
 	var parent = $(this).parents(".container");
 	var commTextNum = $(parent).find(".commTextNum").val();
-	var cont = $(parent).find("#commentTextarea").text();
+	var cont = $(parent).find("#commentTextarea").html().replace(/\n/g, '<br>');
+	
 	console.log(commTextNum);
 	console.log(cont);
 	$(parent).find("#commentUpdateComplete").remove();
