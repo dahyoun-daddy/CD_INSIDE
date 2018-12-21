@@ -112,10 +112,10 @@
 			<table id="listTable" class="table table-striped table-bordered table-hover ">
 			<thead class="" style="background-color: #BE81F7; color: #FFFFFF ;" >
 			    <tr>
-			        <th class=" col-lg-1" style="text-align: center" > 전체<br/><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAlls();" ></th> 
+			        <th class=" col-lg-1" style="text-align: center" > <br/><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAlls();" ></th> 
 					<th style="display:none" class="text-center col-lg-1" >게시판번호 본문이동</th>
-					<th class="text-center col-lg-6" >내용</th>
-					<th class="text-center col-lg-3" >작성일</th>
+					<th class="text-center col-lg-6"  style="font-size: 15pt">내용</th>
+					<th class="text-center col-lg-3"  style="font-size: 15pt">작성일</th>
 					<th style="display:none" class=" col-lg-1">댓글번호 삭제용</th>
 				</tr>
 			</thead>
@@ -128,13 +128,10 @@
 							<tr>
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
 								<td style="display:none" align="center" class="commNum"><c:out value="${commentVo.bNum}"/></td>
-								<td align="center" class="up"><div style="white-space: pre;"><a style="cursor:pointer; color: #BE81F7;"><c:out value="${commentVo.commCont}"/></a></div>
+								<td class="up"><div style="white-space: pre;"><a style="cursor:pointer; color: #BE81F7;"><c:out value="${commentVo.commCont}" escapeXml="false"/></a></div>
 								</td>
 								<td align="center" ><c:out value="${commentVo.regDt}"/></td>
 								<td style="display:none" align="center" ><c:out value="${commentVo.commTextNum}"/></td>
-<!-- 								<td align="center"> -->
-<!-- 									<a class="btn btn-default up" style="cursor:pointer ">이동</a> -->
-<!-- 								</td> -->
 							</tr>
 						</c:forEach>
 					</c:when>
