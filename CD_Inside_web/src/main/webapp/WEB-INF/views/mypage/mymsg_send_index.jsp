@@ -99,27 +99,22 @@
     <![endif]-->
     
   </head>
-  <body>
-	<!-- contents -------------------------------------------------------->
-	<div class="container">
-		<!-- Title영역 -->
-	
-	<!-- 마이페이지 공통------------------------------------------------------->
-		 <div class="container" style="padding-top:3%">
-	<thead>
+	<body>
+	 <div class="container" style="padding-top:3%">
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
-			<a >${sessionName}</a>님<br/>
-			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer" >&nbsp;&nbsp;${sessionMsg}</a>개
+			<b>${sessionName}</b>님<br/>
+			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer; color: #8000FF">&nbsp;&nbsp;<b>${sessionMsg}</b></a>개
 		</div>
-		<ul class="nav nav-pills col-sm-9" align="center" >
-		  <li role="presentation" ><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
-		  <li role="presentation" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
-		  <li role="presentation" class="active" ><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
-		  <li role="presentation"><a href="/cd/gallog/notebook_home.do" >갤로그 가기</a></li>
+		<ul class="nav nav-pills col-sm-9" align="center"  >
+	  <li role="presentation" ><a style=" color: #BE81F7" href="/cd/mypage/user_update.do">개인정보 수정</a></li>
+		  <li role="presentation" ><a style=" color: #BE81F7"  href="/cd/mypage/user_act.do">활동내역</a></li>
+		  <li role="presentation" class="active" ><a style="background-color: #BE81F7; color: #FFFFFF" href="/cd/msg/receiveIndex.do">쪽지함</a></li>
+		  <li role="presentation"><a><button type="button" class="btn btn-default" style="border:none; padding:0; background:none;" value="${sessionId}" id="gallog"><p style=" color: #BE81F7" class="text-primary">갤로그 가기</p></button></a></li>
+
 		<c:choose>
 			<c:when test="${sessionYn==1 }">
-		  <li role="presentation"><a href="/cd/mypage/user_list.do" >회원관리</a></li>
+		  <li role="presentation" ><a style="background-color: #BE81F7; color: #FFFFFF" href="/cd/mypage/user_list.do" >회원관리</a></li>
 			</c:when>
 		</c:choose>
 		</ul>
@@ -129,11 +124,12 @@
 	
 		<!-- 이동 버튼 영역------------------------------------------------------->
 		<div class="container" style="padding-top:3%">
-		<ul class="nav nav-pills col-sm-9">
-			<li role="presentation"><a href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
-			<li role="presentation"class="active"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
-		</ul>		
+	    	<ul class="nav nav-tabs">
+				<li role="presentation"><a style=" color: #BE81F7" href="<%=context%>/msg/receiveIndex.do">받은쪽지함</a></li>
+				<li role="presentation" class="active"><a href="<%=context%>/msg/sendIndex.do">보낸쪽지함</a></li>
+			</ul>		
 		</div>
+		
 		
 		<!--// 이동 버튼 영역----------------------------------------------------->
 		
@@ -194,12 +190,12 @@
 		style="position:relative; width=200px; text-overflow:ellipsis;overflow:hidden; cursor:hand" >
 			<nobr>
 			
-			<table id="listTable" class="table table-striped table-bordered table-hover"
+			<table id="listTable" class="table table-striped table-bordered table-hover "
 				style="table-layout :fixed">
-				<thead class="bg-primary">
+				<thead class="" style="background-color: #BE81F7; color: #FFFFFF ;" >			
 				    <tr>
 				        <th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1"><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAll();" ></th> 
-						<th class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
+						<th style="display: none" class="text-center col-xs-1 col-sm-1 col-md-1 col-lg-1">번호</th>
 						<th style="display: none" class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">보낸이</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
 						
@@ -214,7 +210,7 @@
 						<c:forEach var="msgVo" items="${list}">
 							<tr>
 							    <td class="text-center" onclick='event.cancelBubble=true;'><input type="checkbox" id="check" name="check"></td>								
-								<td class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.msgSeq}"></c:out></td>																							
+								<td style="display: none" class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.msgSeq}"></c:out></td>																							
 								<td style="display: none" class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.userId}"></c:out></td>																															
 								<td class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.msgRecvId}"></c:out></td>																															
 								

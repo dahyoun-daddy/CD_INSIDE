@@ -189,9 +189,9 @@
  		    WHERE MSG_RDEL_YN = 0
 		      AND MSG_RECV_ID = #{userId}
  		  )T
- 		  WHERE rnum BETWEEN (10 * (1-1)+1) 
- 		    AND (10 * (1-1)+10)
- 		)X    
+ 		  WHERE rnum BETWEEN (#{page_size} * (#{page_num}-1)+1) 
+ 		    AND (#{page_size} * (#{page_num}-1)+#{page_size})
+ 		)X       
  		NATURAL JOIN
  		(
  		  SELECT COUNT(*) AS total_cnt   
@@ -201,7 +201,7 @@
  		)Y      
      </select>  
      
-<select id="do_Sretrieve" 
+	<select id="do_Sretrieve" 
        parameterType="MsgVO"
        resultType="MsgVO"  >
  		SELECT X.*,Y.*
