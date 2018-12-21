@@ -98,8 +98,8 @@ public class MymsgCtrl {
 		HttpSession session = req.getSession(true);
 		String userId = (String) session.getAttribute("sessionId");
 		invo.setUserId(userId); //TODO 세션 받을곳
-		List<MsgVO> list = msgSvc.do_Rretrieve(invo);
-		log.info("list: " + list);
+
+
 		
 		session.setAttribute("sessionMsg", msgSvc.getNCount(userId));	
 		String page_num = (String) req.getParameter("page_num");
@@ -117,7 +117,9 @@ public class MymsgCtrl {
 		log.info("***page_size:" + invo.getPage_size());
 
 
-
+		List<MsgVO> list = msgSvc.do_Rretrieve(invo);
+		log.info("list: " + list);
+		
 		int total_cnt = 0;
 		if (null != list && list.size() > 0) {
 			total_cnt = list.get(0).getTotalCnt();
