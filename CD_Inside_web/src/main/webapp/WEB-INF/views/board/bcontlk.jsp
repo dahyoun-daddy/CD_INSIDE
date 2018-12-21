@@ -231,12 +231,14 @@ $(document).on('click','#replyadd', function() {
 		return false;
 	}
 	
+	var n = cont.length;
+	
+	var regexp = /[A-Za-z0-9]{140}/g;
+	
 	if(n > 500){
 		alert('댓글수가 너무 많습니다. 500자 이하로 작성해주세요.');
 		return false;
 	}
-	
-	var regexp = /[A-Za-z0-9]{140}/g;
 	
 	if(cont.match(regexp)){
 		alert('연속된영어및숫자140개는 입력하실수없습니다.')
@@ -648,7 +650,8 @@ window.onbeforeunload = function () {
 	  window.scrollTo(0, 0);
 }
 
-$(window).scroll(function(){ 
+$(window).scroll(function(){
+
 	if($(window).scrollTop() == $(document).height() - $(window).height()){
      	$(".fakeLoading").oLoader({
   		  backgroundColor: '255,255,255',
@@ -668,12 +671,9 @@ $(window).scroll(function(){
 </script>
  
 <body>
-<%=sessionYn %>
 	<div style="width:900px;" class="container">
 		<div style="padding-top : 40px;">
 		
-		
-
 			<c:choose>
 				<c:when test="${list.userId eq sessionId || sessionYn eq 1 }">
   <input style="float:right; " class="btn btn-default" type="button" id="update" value="수정" />

@@ -417,7 +417,6 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 </script>
  
 <body>
-<%=sessionYn %>
 	<div style="width:900px;" class="container">
 		<div style="padding-top : 40px;">
 		
