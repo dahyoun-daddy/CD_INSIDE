@@ -194,6 +194,11 @@ $(document).on('click','#commentadd', function() {
 	var cont = $("#commentcont").val();
 	var n = cont.length;
 	
+	if(n > 500){
+		alert('댓글수가 너무 많습니다. 500자 이하로 작성해주세요.');
+		return false;
+	}
+	
 	var regexp = /[A-Za-z0-9]{140}/g;
 	
 	if(cont.length == 0){
@@ -225,16 +230,19 @@ $(document).on('click','#replyadd', function() {
 	var parent = $(this).parents(".container");
 	var commTextNum = $(parent).find(".commTextNum").val();
 	var cont   = $(parent).find("#commentReplyTextarea").val(); 
+	var n = cont.length;
+	
+	if(n > 500){
+		alert('댓글수가 너무 많습니다. 500자 이하로 작성해주세요.');
+		return false;
+	}
 	
 	if(cont.length == 0){
 		alert('내용을 입력해주세요.');
 		return false;
 	}
-	
-	if(n.length = 500){
-		alert('댓글수가 너무 많습니다. 500자 이하로 작성해주세요.');
-		return false;
-	}
+	 
+
 	
 	var regexp = /[A-Za-z0-9]{140}/g;
 	
