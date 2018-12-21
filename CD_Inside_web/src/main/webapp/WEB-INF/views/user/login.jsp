@@ -16,7 +16,7 @@
 <title>:::로그인 페이지:::</title>
 </head>
 <body>
-
+    </style>
 	   <div class="container">
 	     <div class="page-header">
 	       <h1>Class D Inside 로그인</h1>
@@ -33,7 +33,7 @@
 		   		    <input type="password"  class="form-control" style="WIDTH: 300px" name="userPw1"  id="userPw1"  placeholder="비밀번호">
 		         </div>
 		         <div class="form-group input-sm" align="center" >
-		         	<input type="button" id="login" class="btn btn-primary" style="WIDTH: 300px" value="로그인">
+		         	<input type="button" id="login" class="btn btn-primary" style="WIDTH: 300px" value="로그인" >
 		         </div>
 		         <div style="height:100px">
 		    	<div class="col-sm-3"></div>
@@ -112,6 +112,6 @@
 	});
     
     </script>
-    
+
 </body>
 </html>

@@ -144,7 +144,7 @@ public class StringUtil {
 		     html.append("</li>");
 		    } else {
 		     html.append("<li>");
-		     html.append("<a href=\"javascript:" + scriptName + "('" + url + "'," + inx+ ");\" >" + inx + "</a> &nbsp;&nbsp; \n");
+		     html.append("<a style=\" color: #8000FF\" href=\"javascript:" + scriptName + "('" + url + "'," + inx+ ");\" >" + inx + "</a> &nbsp;&nbsp; \n");
 		     html.append("</li>");
 		    }
 		   }

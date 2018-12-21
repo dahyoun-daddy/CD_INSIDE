@@ -72,17 +72,17 @@
 	 <div class="container" style="padding-top:3%">
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
-			<a >${sessionName}</a>님<br/>
-			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer" >&nbsp;&nbsp;${sessionMsg}</a>개 
+			<b>${sessionName}</b>님<br/>
+			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer; color: #8000FF">&nbsp;&nbsp;<b>${sessionMsg}</b></a>개
 		</div>
-		<ul class="nav nav-pills col-sm-9" align="center" >
-		  <li role="presentation" ><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
-		  <li role="presentation" class="active" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
-		  <li role="presentation"><a href="/cd/msg/receiveIndex.do">쪽지함</a></li>
-		  <li role="presentation"><a><button type="button" class="btn btn-default" style="border:none; padding:0; background:none;" value="${sessionId}" id="gallog"><p class="text-primary">갤로그 가기</p></button></a></li>
+		<ul class="nav nav-pills col-sm-9" align="center"  >
+		  <li role="presentation" ><a style=" color: #BE81F7" href="/cd/mypage/user_update.do">개인정보 수정</a></li>
+		  <li role="presentation" class="active" ><a style="background-color: #BE81F7; color: #FFFFFF"  href="/cd/mypage/user_act.do">활동내역</a></li>
+		  <li role="presentation"><a style=" color: #BE81F7" href="/cd/msg/receiveIndex.do">쪽지함</a></li>
+		  <li role="presentation"><a><button type="button" class="btn btn-default" style="border:none; padding:0; background:none;" value="${sessionId}" id="gallog"><p style=" color: #BE81F7" class="text-primary">갤로그 가기</p></button></a></li>
 		<c:choose>
 			<c:when test="${sessionYn==1 }">
-		  <li role="presentation" ><a href="/cd/mypage/user_list.do" >회원관리</a></li>
+		  <li role="presentation" ><a style=" color: #BE81F7" href="/cd/mypage/user_list.do" >회원관리</a></li>
 			</c:when>
 		</c:choose>
 		</ul>
@@ -94,7 +94,7 @@
      	<div class="row">
 	         <div class="col-sm-12" >
 	         	<ul class="nav nav-tabs">
-					<li role="presentation"><a href="user_act.do">등록한 게시글</a></li>
+					<li role="presentation"><a style=" color: #BE81F7" href="user_act.do">등록한 게시글</a></li>
 					<li role="presentation" class="active"><a href="user_act_c.do">등록한 댓글</a></li>
 				</ul>
 
@@ -110,7 +110,7 @@
 	         </div>
 	         </div>
 			<table id="listTable" class="table table-striped table-bordered table-hover ">
-			<thead class="bg-primary">
+			<thead class="" style="background-color: #BE81F7; color: #FFFFFF ;" >
 			    <tr>
 			        <th class=" col-lg-1" style="text-align: center" > 전체<br/><input type="checkbox" id="checkAll" name="checkAll" onclick="checkAlls();" ></th> 
 					<th style="display:none" class="text-center col-lg-1" >게시판번호 본문이동</th>
@@ -129,7 +129,7 @@
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
 								<td style="display:none" align="center" class="boardNum"><c:out value="${commentVo.bNum}"/></td>
 								<td align="center" class="up">
-									<a style="cursor:pointer"><c:out value="${commentVo.commCont}"/></a>
+									<a style="cursor:pointer; color: #BE81F7"><c:out value="${commentVo.commCont}"/></a>
 								</td>
 								<td align="center" ><c:out value="${commentVo.regDt}"/></td>
 								<td style="display:none" align="center" ><c:out value="${commentVo.commTextNum}"/></td>

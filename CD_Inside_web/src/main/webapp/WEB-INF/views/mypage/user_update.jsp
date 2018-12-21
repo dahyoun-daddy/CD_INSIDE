@@ -28,32 +28,22 @@
     
 <title>:::마이페이지 개인정보 수정:::</title>
 </head>
-<script type="text/javascript">
-	function expireSession() { 
-		alert("타임아웃");
-		
-		window.location = "/cd/main/main.do"; 
-	} 
-	setTimeout('expireSession()', <%= request.getSession().getMaxInactiveInterval() * 5 %>);
-<%-- 	setTimeout('expireSession()', <%= null==session.getAttribute("sessionId") %>); --%>
-
-</script>
 <body>
 	 <div class="container" style="padding-top:3%">
 	<thead>
 	    <div class="col-sm-1" ></div>
 		<div class="col-sm-2" >
-			<a >${sessionName}</a>님<br/>
-			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer" >&nbsp;&nbsp;${sessionMsg}</a>개
+			<b>${sessionName}</b>님<br/>
+			안읽은 쪽지<a href="/cd/msg/receiveIndex.do" style="cursor:pointer; color: #8000FF">&nbsp;&nbsp;<b>${sessionMsg}</b></a>개
 		</div>
-		<ul class="nav nav-pills col-sm-9" align="center" >
-		  <li role="presentation" class="active"><a href="/cd/mypage/user_update.do">개인정보 수정</a></li>
-		  <li role="presentation" ><a href="/cd/mypage/user_act.do">활동내역</a></li>
-		  <li role="presentation"><a href="/cd/msg/receiveIndex.do" >쪽지함</a></li>
-		  <li role="presentation"><a><button type="button" class="btn btn-default" style="border:none; padding:0; background:none;" value="${sessionId}" id="gallog"><p class="text-primary">갤로그 가기</p></button></a></li>
+		<ul class="nav nav-pills col-sm-9" align="center"  >
+		  <li role="presentation" class="active" ><a style="background-color: #BE81F7; color: #FFFFFF" href="/cd/mypage/user_update.do">개인정보 수정</a></li>
+		  <li role="presentation"><a style=" color: #BE81F7" href="/cd/mypage/user_act.do">활동내역</a></li>
+		  <li role="presentation"><a style=" color: #BE81F7" href="/cd/msg/receiveIndex.do">쪽지함</a></li>
+		  <li role="presentation"><a><button type="button" class="btn btn-default" style="border:none; padding:0; background:none;" value="${sessionId}" id="gallog"><p style=" color: #BE81F7" class="text-primary">갤로그 가기</p></button></a></li>
 		<c:choose>
 			<c:when test="${sessionYn==1 }">
-		  <li role="presentation" ><a href="/cd/mypage/user_list.do" >회원관리</a></li>
+		  <li role="presentation" ><a style=" color: #BE81F7" href="/cd/mypage/user_list.do" >회원관리</a></li>
 			</c:when>
 		</c:choose>
 		</ul>
@@ -118,7 +108,6 @@
 		  		<input class ="form-control" type="text" id ="userEmail" name = "userEmail"
 		  		 value ="${userVo.userEmail }" style="WIDTH: 200pt" maxlength="20" placeholder="이메일을 입력하세요.">
 	        </div>
-
 	        
 	         <div class="col-sm-12" ><hr/></div>
 	         
