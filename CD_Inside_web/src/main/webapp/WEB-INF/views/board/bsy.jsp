@@ -190,8 +190,7 @@ right: -90px;
 		
 				<table id="listTable"
 					class="table table-striped table-bordered table-hover">
-					<form  name="frm" id="frm" action="/board.do" method="get" class="form-inline">
-				<input type="hidden" name="page_num" id="page_num">	 
+						 
 			  
 			
 					<thead class="bg-primary"> 
@@ -206,7 +205,8 @@ right: -90px;
 				</thead>
 				<tbody>
 							<!-- 메모장 출력 영역 -------------------------------------------------------------> 
-				
+				<form  name="frm" id="frm" action="/board.do" method="get" class="form-inline">
+				<input type="hidden" name="page_num" id="page_num">
 					<c:choose> 
 						<c:when test="${list.size()>0}">
 							<c:forEach var="boardVo" items="${list}">
@@ -257,8 +257,6 @@ right: -90px;
 	
 		<div class="form-inline text-center">
 			<%=StringUtil.renderPaging(totalCnt, oPageNum, oPageSize, bottomCount, "/cd/board/bsy.do", "search_page") %>
-			
-			
 		</div>
 	
 	
@@ -286,7 +284,7 @@ right: -90px;
 					</select>
 					<input type="text" name="search_word" id="search_word" value="${param.search_word}"  class="form-control input-sm" placeholder="검색어" style="height: 35px" />
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button type="button" class="btn btn-default btn-sm" style="height: 35px" onclick="javascript:doSearch1();">검색</button>
+					<button type="button" class="btn btn-default btn-sm" style="height: 35px" onclick="javascript:doSearch();">검색</button>
 				</div>					
 				<div class="col-xs-1"></div>
 			</form>
@@ -314,13 +312,6 @@ right: -90px;
 	   	 frm.action = "bsy.do";
 	   	 frm.submit();
     }
-    
-    function doSearch1(){
-	   	 var frm = document.frm;
-	   	 frm.page_num.value =1;
-	   	 frm.action = "bsy.do";
-	   	 frm.submit();
-   }
     
 	    function search_page(url,page_num){
 		   	 alert(url+":search_page:"+page_num);
