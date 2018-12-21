@@ -21,8 +21,7 @@
 
 ![image](https://user-images.githubusercontent.com/45251842/49421573-d811b780-f7d3-11e8-8cc8-00de4a9419bd.png)
 
-![image](https://user-images.githubusercontent.com/45251842/49421600-f5df1c80-f7d3-11e8-9895-a1493ca4e5af.png)
-
+![image](https://user-images.githubusercontent.com/45251842/50331916-cbb38b80-0543-11e9-95d6-c4ca12eedf56.png)
 ## Team
 
 팀명 CD_INSIDE(Class D Inside)
