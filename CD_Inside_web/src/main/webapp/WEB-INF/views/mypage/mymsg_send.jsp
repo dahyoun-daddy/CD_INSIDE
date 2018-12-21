@@ -54,7 +54,7 @@
 		  <div class="form-group">
 		    <label for="inputContent" class="col-sm-2 control-label">메시지 내용</label>
 		    <div class="col-sm-10">
-				<textarea name="msgCont" id="msgCont" rows="10" cols="40" maxlength="400" placeholder="내용을 입력하세요" onKeyUp="javascript:fnChkByte(this,'400')">${list.msgCont}</textarea>
+				<textarea style ="resize:none;" name="msgCont" id="msgCont" rows="10" cols="40" maxlength="400" placeholder="내용을 입력하세요" onKeyUp="javascript:fnChkByte(this,'400')">${list.msgCont}</textarea>
 				<span id="byteInfo">0</span>/400 Byte
 		    </div>
 		  </div>
