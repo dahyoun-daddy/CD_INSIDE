@@ -150,16 +150,16 @@
 	         </div>
 	         </div>
 			<table id="listTable" class="table table-striped table-bordered table-hover ">
-			<thead class="" style="background-color: #BE81F7; color: #FFFFFF ;" >
+			<thead class="" style="background-color: #BE81F7; color: #FFFFFF; height: 20px;" >
 			    <tr>
-			        <th class="col-lg-1" style="text-align: center">전체<br/>
+			        <th class="col-lg-1" style="text-align: center;"><br/>
 			        	<input type="checkbox" id="checkAll" name="checkAll" onclick="checkAlla();" >
 			        </th> 
-					<th class="text-center col-lg-1" >번호</th>
-					<th class="text-center col-lg-2" >게시판</th>
-					<th class="text-center col-lg-3" >제목</th>
-					<th class="text-center col-lg-3" >작성일</th>
-					<th class="text-center col-lg-2" >조회수</th>
+					<th class="text-center col-lg-1" style="font-size: 15pt" >번호</th>
+					<th class="text-center col-lg-2" style="font-size: 15pt" >게시판</th>
+					<th class="text-center col-lg-3" style="font-size: 15pt" >제목</th>
+					<th class="text-center col-lg-3" style="font-size: 15pt" >작성일</th>
+					<th class="text-center col-lg-2" style="font-size: 15pt" >조회수</th>
 				</tr>
 			</thead>
 			</div>
@@ -172,7 +172,7 @@
 							    <td align="center"><input type="checkbox" id="check" name="check"></td>
 								<td align="center" class="boardNum"><c:out value="${boardVo.bNum}"/></td>
 								<td align="center" ><c:out value="${boardVo.bCate}"/></td>
-								<td align="center" class="up">
+								<td class="up">
 									<a style="cursor:pointer; color: #BE81F7"><c:out value="${boardVo.bTitle}"/></a>
 								</td>
 								<td align="center" ><c:out value="${boardVo.regDt}"/></td>
