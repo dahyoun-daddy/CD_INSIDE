@@ -652,7 +652,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 		<div class="form-group">
 			<label for="comment">댓글</label>
 			<textarea id="commentcont" class="form-control" rows="3"
-				placeholder="댓글을 입력하세요." ></textarea>
+				placeholder="댓글을 입력하세요." maxlength="300"></textarea>
 				<div>
 					<p class="bytes">0/300 Byte</p>
 				</div>
@@ -738,7 +738,7 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
 						+				'<div class="bocollapse collapse" id="commentReplyadd' + value.commTextNum + '">'
 	    				+					'<div class="form-group">'
 	    				+						'<label for="comment">답글</label>'
-	    				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>'
+	    				+						'<textarea name="commentTextarea" id="commentReplyTextarea" class="form-control" rows="3" placeholder="댓글을 입력하세요." maxlength="300"></textarea>'
 	    				+					'</div>'
 	    				+					'<button id="replyadd" class="btn btn-default">답글달기</button>'
 	    				+				'</div>'
