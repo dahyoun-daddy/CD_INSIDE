@@ -75,13 +75,13 @@
 		<!-- 버튼 -->
 		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">
-		    <button type="submit" class="btn btn-default" id="do_delete" value="${msgVO.msgSeq}">삭제</button>	
 			<button type="submit" class="btn btn-default" onclick="back()">닫기</button>
 		  </div>
 		</div>
 		<!--// 버튼 -->  		  
 		</form>
 		<!--// 입력폼 -->
+
 	
 	    <script src="<%=context%>/resources/js/jquery.min.js"></script>
 	    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
@@ -93,35 +93,38 @@
 	    	window.history.back();
 	    }
 	    
-        function doDelete(msgSeq){ // 삭제
+        function doDelete(userId){ // 삭제
         	var frm = document.frm;
         	frm.msgSeq.value = msgSeq;
-        	frm.action = "delete.do";
+        	frm.action = "send.do";
         	frm.submit();
         }
-
-        
         
 	    $(document).ready(function(){
-	    	//alert("ready");
-	    	
-	    	$("#appendBtn").click(function(){ 
-	    		   var dlt = "<button type='button' id='do_delete'/>";
-	    		   var tag = "<input type='text' name='${msgVO.msgSeq}' id='${msgVO.msgSeq}'/>"
-	    		   $("body").append(dlt);
-	    		   $("body").append(tag);
-	    		});
-	    	
-	    		$(document).on("click","#do_delete",function(){ //삭제
-	    			var msgSeq = $(this).val();
-	    		   console.log("msgSeq:"+msgSeq);
-	    		   
-	    		   if(false==confirm("삭제하시겠습니까?"))return;
-	    		    
-	    		   doDelete(msgSeq);
-	    		   
-	    		 });//delete
-	    		 
+ 		    
+ 		    	$("resend").on("click",function(){
+ 		    		var reId = $(this).val();
+ 	 	    		alert("click"+reId);
+ 	    		   
+ 		    		
+ 		    		$.ajax({
+ 	      	            type:"GET",
+ 	      	            url:"/cd/msg/send.do", 
+ 	      	            dataType:"html",
+ 	      	            data:{
+ 	      	            	"reId": reId
+ 	      	            },
+ 	      	            success: function(data){//통신이 성공적으로 이루어 졌을때 받을 함수
+ 	      		         	location.href="/cd/msg/send.do?reId="+reId;
+ 	      	            },
+ 	      	            complete: function(data){//무조건 수행
+ 	      	             
+ 	      	            },
+ 	      	            error: function(xhr,status,error){
+ 	      	             
+ 	      	            }
+ 	      	         });
+ 		    	});
 
 		    		 	    	
 	    });//ready
