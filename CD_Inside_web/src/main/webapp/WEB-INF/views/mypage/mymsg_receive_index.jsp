@@ -153,31 +153,13 @@
 			<div class="text-left col-xs-10 col-sm-10 col-md-10 col-lg-10">
 			</div>
 					
-			<div class="text-right col-xs-10 col-sm-10 col-md-10 col-lg-10">		
+			<div class="text-left col-xs-10 col-sm-10 col-md-10 col-lg-10">		
 				<form action="#" class="form-inline">
 					<div class="form-group">
-					
-						<strong>받은쪽지함  <%=nCnt %> / <%=tCnt %></strong>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				
-						<div class="form-group">
-							<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
-						</div>
-							<select name="search_div" id="search_div" class="form-control input-sm">
-								<option value="">::전체::</option>
-								<option value="50" <%if(search_div.equals("50"))out.print("selected='selected'"); %> >보낸이</option>					
-								<option value="30" <%if(search_div.equals("30"))out.print("selected='selected'"); %> >내용</option>					
-								
-							</select>							
-						<input type="text" name="search_word" id="search_word" value="${param.search_word}" class="form-control input-sm" placeholder="쪽지검색"  />
-							
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		
-						<!-- 버튼 -->
-						<button type="button" class="btn btn-default btn-sm"
-							onclick="javascript:doSearch();">검색</button>
 						<button type="button" class="btn btn-default btn-sm" id="do_RDeleteMulti">삭제</button>	
-											
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
+						<strong>  안 읽은 쪽지 <%=nCnt %> / 전체 쪽지 <%=tCnt %></strong>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<br/><br/>					
 					</div>
 				</form>
@@ -287,7 +269,10 @@
      }
 
  	
- 	$(document).ready(function(){   
+ 	$(document).ready(function(){  
+ 		
+ 		
+ 	
  		
 		$("#do_RDeleteMulti").on("click",function(){
 			//alert("do_delete");

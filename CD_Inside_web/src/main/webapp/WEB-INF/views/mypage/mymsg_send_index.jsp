@@ -154,29 +154,11 @@
 			<div class="text-left col-xs-10 col-sm-10 col-md-10 col-lg-10">
 			</div>
 					
-			<div class="text-right col-xs-10 col-sm-10 col-md-10 col-lg-10">		
+			<div class="text-left col-xs-10 col-sm-10 col-md-10 col-lg-10">		
 				<form action="#" class="form-inline">
 					<div class="form-group">
-					
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				
-						<div class="form-group">
-							<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false)%>
-						</div>
-							<select name="search_div" id="search_div" class="form-control input-sm">
-								<option value="">::전체::</option>
-								<option value="40" <%if(search_div.equals("40"))out.print("selected='selected'"); %> >받는이</option>					
-								<option value="30" <%if(search_div.equals("30"))out.print("selected='selected'"); %> >내용</option>					
-								
-							</select>							
-						<input type="text" name="search_word" id="search_word" value="${param.search_word}" class="form-control input-sm" placeholder="쪽지검색" />
-							
-						 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		
-						<!-- 버튼 -->
-						<button type="button" class="btn btn-default btn-sm"
-							onclick="javascript:doSearch();">검색</button>
-						<button type="button" class="btn btn-default btn-sm" id="do_SDeleteMulti">삭제</button>						
+						<button type="button" class="btn btn-default btn-sm" id="do_SDeleteMulti">삭제</button>	
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
 						<br/><br/>					
 					</div>
 				</form>
@@ -199,9 +181,8 @@
 						<th style="display: none" class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">보낸이</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
 						
-						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
+						<th class="text-center col-xs-6 col-sm-6 col-md-6 col-lg-6">내용</th>
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
-						<th style="display: none" class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">수신여부</th>
 					</tr>
 				</thead>
 				<tbody>  
@@ -217,14 +198,13 @@
 								<td class="text-center"style="position:relative; width:200px; text-overflow:ellipsis; overflow:hidden; cursor:hand"><nobr><c:out value="${msgVo.msgCont}"></c:out></nobr></td>								
 
 								<td class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.regDt}"></c:out></td>																							
-								<td style="display: none" class="text-center" onclick='event.cancelBubble=true;'><c:out value="${msgVo.msgReadYn}"></c:out></td>
 								
 							</tr>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
 						<tr>
-						    <td class="text-center" colspan="99">받은 쪽지가 없습니다.</td>
+						    <td class="text-center" colspan="99">보낸 쪽지가 없습니다.</td>
 						</tr>					
 					</c:otherwise>
 				</c:choose>						
