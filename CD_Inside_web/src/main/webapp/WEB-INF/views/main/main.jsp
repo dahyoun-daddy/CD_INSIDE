@@ -54,7 +54,7 @@ a {
 }
 
 .boardText {
-	color:purple;
+	color:black;
 }
 
 .bCate {
