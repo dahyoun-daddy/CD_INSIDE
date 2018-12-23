@@ -96,5 +96,7 @@ public interface BoardSvc {
 	int do_hit(BoardVO boardVO) throws SQLException;
 
 	int cnt(BoardVO boardVO) throws SQLException, RuntimeException;
+
+	List<BoardVO> do_hitsy(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException;
 	
 }

@@ -72,6 +72,11 @@ public class BoardSvcImple implements BoardSvc {
 		return bd.do_hitretreive(boardVO);
 	}
 	
+	@Override
+	public List<BoardVO> do_hitsy(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		return bd.do_hitsy(boardVO);
+	}
+	
 	
 	@Override
 	public int do_code_getCount(BoardVO boardVO) throws SQLException {

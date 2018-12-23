@@ -42,6 +42,22 @@ public class BoardDAOImple implements BoardDAO{
 	}
 	
 	/**
+	 * 인기글조회
+	 */
+	@Override
+	public List<BoardVO> do_hitsy(BoardVO boardVO) throws ClassNotFoundException, SQLException, EmptyResultDataAccessException {
+		
+		String statement = NAME_SPACE+".do_hitsy";
+		log.debug("1.statement: "+statement);		
+		log.debug("2.param: "+boardVO);
+		List<BoardVO> list  = this.sqlSession.selectList(statement, boardVO);
+		log.debug("*****************************");
+		log.debug("3.list: "+list);
+		log.debug("*****************************");
+		return list;	
+	}
+	
+	/**
 	 * 쌍용게시글 작성
 	 */
 	@Override
