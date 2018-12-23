@@ -230,9 +230,9 @@
     		
 			 if(false==confirm("수정 하시겠습니까?"))return;
 			 
-	         alert($("#bTitle").val());
-	         alert($("#bCont").val());
-	         alert($("#bNum").val());
+// 	         alert($("#bTitle").val());
+// 	         alert($("#bCont").val());
+// 	         alert($("#bNum").val());
 			 
 		     $.ajax({
 		         type:"POST",

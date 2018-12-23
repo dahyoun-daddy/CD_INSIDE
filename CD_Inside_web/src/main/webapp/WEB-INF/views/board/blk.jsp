@@ -253,28 +253,26 @@ right: -90px;
 
 
 <!-- 검색영역 -->
-
-
-			<div class="row">
-			  <div class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<form action="#" >
-					<%-- <div >
-						<%=StringUtil.makeSelectBox(code_page, page_size, "page_size", false) %>
-					</div> --%>
-						<select name="search_div" id="search_div" >
-						    <option value="" >::전체::</option>
-							<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
-							<option value="20" <%if(search_div.equals("20"))out.print("selected='selected'"); %> >이름</option>					
-						</select>
-						<input type="text" name="search_word" id="search_word" value="${param.search_word}"  placeholder="검색어" />
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<button type="button" class="btn btn-default btn-sm" onclick="javascript:doSearch();">조회</button>
-						</form>
-					</div>					
-				<div></div>
-				<div></div> 
-			  </div>	  
-			</div> 
+		<div class="row">
+		  <div class="text-center col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<form action="#" class="form-inline">
+				<div class="col-xs-12"><hr/></div>
+				<div class="col-xs-1"></div>
+				<div class="form-group col-xs-10">
+					<select name="search_div" id="search_div" class="form-control input-sm" style="height: 35px" >
+					    <option value="" >::선택::</option>
+						<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
+						<option value="60" <%if(search_div.equals("60"))out.print("selected='selected'"); %> >제목</option>					
+						<option value="70" <%if(search_div.equals("70"))out.print("selected='selected'"); %> >내용</option>					
+					</select>
+					<input type="text" name="search_word" id="search_word" value="${param.search_word}"  class="form-control input-sm" placeholder="검색어" style="height: 35px" />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<!-- 					<button type="button" class="btn btn-default btn-sm" style="height: 35px" onclick="javascript:doSearch();">검색</button> -->
+				</div>					
+				<div class="col-xs-1"></div>
+			</form>
+		  </div>	 
+		</div> 
 			<!--// 검색영역----------------------------------------------------->
 
 

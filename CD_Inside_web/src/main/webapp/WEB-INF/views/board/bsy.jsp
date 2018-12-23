@@ -280,14 +280,14 @@ right: -90px;
 					    <option value="" >::선택::</option>
 						<option value="10" <%if(search_div.equals("10"))out.print("selected='selected'"); %> >ID</option>
 						<option value="60" <%if(search_div.equals("60"))out.print("selected='selected'"); %> >제목</option>					
-						<option value="70" <%if(search_div.equals("70"))out.print("selected='selected'"); %> >제목+내용</option>					
+						<option value="70" <%if(search_div.equals("70"))out.print("selected='selected'"); %> >내용</option>					
 					</select>
 					<input type="text" name="search_word" id="search_word" value="${param.search_word}"  class="form-control input-sm" placeholder="검색어" style="height: 35px" />
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button type="button" class="btn btn-default btn-sm" style="height: 35px" onclick="javascript:doSearch();">검색</button>
+<!-- 					<button type="button" class="btn btn-default btn-sm" style="height: 35px" onclick="javascript:doSearch();">검색</button> -->
 				</div>					
 				<div class="col-xs-1"></div>
-			</form>
+			</form> 
 		  </div>	
 		</div>
 			<!--// 검색영역----------------------------------------------------->
