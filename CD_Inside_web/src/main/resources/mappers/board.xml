@@ -144,7 +144,10 @@
 						B.mod_id as modId, 
 						B.mod_dt as modDt,
 						B.rnum AS no,
-						B.bcount as bCount     
+						B.bcount as bCount,
+						(SELECT COUNT (*)
+					       FROM COMM
+					      WHERE B_NUM = B.b_num) as commentNo      
 				  FROM (
 				  SELECT bo.*
 						,ROW_NUMBER() OVER(ORDER BY b_num desc ) AS rnum
