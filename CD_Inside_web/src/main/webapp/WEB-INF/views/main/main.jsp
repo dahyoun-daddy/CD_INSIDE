@@ -19,7 +19,7 @@
 
 .boardTitle { 
 	font-size: 25px;
-	color: blue;
+	color: purple;
 	margin-bottom: 30px;
 	border-bottom: black;
 } 
@@ -51,6 +51,14 @@ a:hover{
 
 a {
 	color: black;
+}
+
+.boardText {
+	color:purple;
+}
+
+.bCate {
+	color:orange;
 }
 
 .boardListText :hover {
