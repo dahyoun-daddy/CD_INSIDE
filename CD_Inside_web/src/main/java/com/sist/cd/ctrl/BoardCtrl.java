@@ -729,15 +729,19 @@ public class BoardCtrl {
 			throws EmptyResultDataAccessException, ClassNotFoundException, SQLException, JsonProcessingException {
 		log.info("commentVO:" + commentVO);
 		int flag = commentSvc.do_hit(commentVO);
-
+		commentVO = commentSvc.get(commentVO);
+		
+		
 		JSONObject object = new JSONObject();
 
 		if (flag > 0) {
 			object.put("flag", flag);
 			object.put("message", "추천 되었습니다.");
+			object.put("hit",commentVO.getCommHit());
 		} else {
 			object.put("flag", flag);
 			object.put("message", "이미 추천한 댓글입니다.");
+			object.put("hit",commentVO.getCommHit());
 		}
 		String jsonData = object.toJSONString();
 

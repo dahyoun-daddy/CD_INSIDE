@@ -120,6 +120,7 @@ $(document).on('click','#like', function() {
 		var parent = $(this).parents(".container");
 		var commTextNum = $(parent).find(".commTextNum").val();
 		var params = {
+				parent : parent, 
 				commTextNum : commTextNum
 		};
 		commentAjax(params,"do_hitComment.do");
@@ -421,9 +422,9 @@ function commentAjax(params,url){
         		console.log('추천');
 	         	if(data.flag=="1"){
 	         		alert(data.message);
-	         	 	var hitNum = $(parent).find(".hitNum").text();
-	         	 	hitNum ++; 
-	         	 	$(parent).find(".hitNum").text(hitNum);
+	         		var hit = data.hit;
+	         		alert(hit);
+	         	 	$(parent).find(".hitNum").html(hit);
 	         	}else{
 	         		alert(data.message);//이미 추천한 댓글입니다.
 	            }	
