@@ -314,7 +314,7 @@ right: -90px;
     }
     
 	    function search_page(url,page_num){
-		   	 alert(url+":search_page:"+page_num);
+// 		   	 alert(url+":search_page:"+page_num);
 		   	 var frm = document.frm;
 		   	 frm.page_num.value = page_num;
          	 console.log(frm.page_num.value);
@@ -372,7 +372,7 @@ right: -90px;
 			        	frm.bNum.value = bNum;
 			        	frm.action = "/cd/board/get.do";
 			        	//frm.action = "cnt.do";
-			        	alert('전송');
+// 			        	alert('전송');
 			        	
 			        	
 			        	
