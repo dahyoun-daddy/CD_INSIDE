@@ -182,7 +182,7 @@
 						<th  class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">보낸이</th>
 						<th style="display: none" class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">받는이</th>
 						
-						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">내용</th>
+						<th class="text-center col-xs-4 col-sm-4 col-md-4 col-lg-4">내용</th>
 						<th class="text-center col-xs-3 col-sm-3 col-md-3 col-lg-3">날짜</th>
 						<th class="text-center col-xs-2 col-sm-2 col-md-2 col-lg-2">수신여부</th>
 					</tr>
