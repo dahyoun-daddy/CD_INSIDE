@@ -903,10 +903,10 @@ $(window).scroll(function(){
 				<input type="hidden" name="bTitle" id="bTitle">
 				<input type="hidden" name="bCont" id="bCont">
 			</form>
-		      
+		       
 		     <div style=" color:black; font-size:20px;"  class="row" >
-		     <div id="bTitlebofrm" style="float:left;"> <b>제목 :<c:out value="${list.bTitle}"></c:out> </b></div>
-		     </div>
+		     <div id="bTitlebofrm" style="float:left;"><a id="result" href="<c:out value="${list.bTitle}"></c:out>"><b><c:out value="${list.bTitle}"></c:out></b></a></div>
+		     </div> 
 		     </div> 
 		     
 		    <div style="color:white; background-color:#BF00FF; border-top:3px solid black; padding:7px; " class="row" >
