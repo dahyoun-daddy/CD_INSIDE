@@ -921,7 +921,7 @@ $(window).scroll(function(){
               <div class="row" >
               <!-- float 속성에 따른 div의 겹침 현상 -->
                 <div style=”clear:both;”></div>
-                 <div class="bContbofrm">  <textarea style="resize: vertical; background-color:#f9ffa9;" readonly="readonly" rows="20" cols="125"> <c:out value="${list.bCont}"></c:out>  </textarea></div> 
+                 <div class="bContbofrm">  <textarea style="resize: vertical; background-color:#f9ffa9;" readonly="readonly" rows="20" cols="80"> <c:out value="${list.bCont}"></c:out>  </textarea></div> 
 	     		  </div>  
 		 <div style=”clear:both;”></div>
 
