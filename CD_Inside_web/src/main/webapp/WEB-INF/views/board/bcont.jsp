@@ -597,8 +597,8 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
               <div style="float:left;"><b>　<c:out value="${list.regDt}">　</c:out>　조회수: <c:out value="${list.bCount}"></c:out>　</b></div>
 		       <div style="float:right;"><b>+<c:out value="${list.bHit}"></c:out></b></div>
 		       
-<%-- 		       <div class="hiddenbNum"><c:out value="${list.bNum}"></c:out></div> --%>
-		       
+		       <div class="hiddenbNum hidden"><c:out value="${list.bNum}"></c:out></div>
+		        
            </div>  
            
               <div class="row" >
