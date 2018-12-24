@@ -178,9 +178,8 @@ right: -90px;
 				<% } else { %>
 				 <div class="row"> 
 		    		  <div class="wr">
-					   <div class="text-right col-xs-11 col-sm-11 col-md-11 col-lg-11"><button><a class="update" href="/cd/board/write.do">쓰기 </a></button></div>
 					  </div>
-					 </div>  
+					 </div>   
 				<% } %>	       
 			     
 			
