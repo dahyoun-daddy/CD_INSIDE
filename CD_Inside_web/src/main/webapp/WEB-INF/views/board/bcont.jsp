@@ -597,14 +597,14 @@ $(document).on('shown.bs.collapse', '.bocollapse', function (e) {
               <div style="float:left;"><b>　<c:out value="${list.regDt}">　</c:out>　조회수: <c:out value="${list.bCount}"></c:out>　</b></div>
 		       <div style="float:right;"><b>+<c:out value="${list.bHit}"></c:out></b></div>
 		       
-<%-- 		       <div class="hiddenbNum"><c:out value="${list.bNum}"></c:out></div> --%>
-		       
+		       <div class="hiddenbNum hidden"><c:out value="${list.bNum}"></c:out></div>
+		        
            </div>  
            
               <div class="row" >
               <!-- float 속성에 따른 div의 겹침 현상 -->
                 <div style=”clear:both;”></div>   
-	             <div class="bContbofrm">  <textarea style="resize: vertical; background-color:#f9ffa9;" readonly="readonly" rows="20" cols="125"> <c:out value="${list.bCont}"></c:out>  </textarea></div> 
+	             <div class="bContbofrm">  <textarea style="resize: vertical; background-color:#f9ffa9;" readonly="readonly" rows="20" cols="80"> <c:out value="${list.bCont}"></c:out>  </textarea></div> 
 	     		  </div>  
 		 <div style=”clear:both;”></div>
 
